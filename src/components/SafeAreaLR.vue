@@ -1,9 +1,14 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
+
+  defineProps<{
+    top?: boolean;
+    bottom?: boolean;
+  }>();
 </script>
 
 <template>
-  <UseScreenSafeArea left right>
+  <UseScreenSafeArea :bottom="bottom" :top="top" left right>
     <div class="padding">
       <div class="content">
         <slot />
