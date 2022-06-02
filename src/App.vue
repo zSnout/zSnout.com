@@ -1,15 +1,12 @@
 <script lang="ts" setup>
-  import { useDark } from "@vueuse/core";
   import { RouterView } from "vue-router";
-
-  Object.assign(window, { useDark });
 </script>
 
 <template>
   <RouterView />
 </template>
 
-<style>
+<style lang="scss">
   * {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
@@ -27,8 +24,12 @@
 
   body {
     margin: 0;
-    color: white;
-    background: #202124;
+    background: #f0f0f0;
+
+    .dark & {
+      color: white;
+      background-color: #202124;
+    }
   }
 
   #app {
