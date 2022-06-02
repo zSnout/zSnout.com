@@ -20,7 +20,7 @@
   }
 
   body {
-    padding: 0;
+    margin: 0;
     color: white;
     background: #202124;
   }
