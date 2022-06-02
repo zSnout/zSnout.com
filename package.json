@@ -10,6 +10,7 @@
   "dependencies": {
     "@vueuse/components": "^8.6.0",
     "@vueuse/core": "^8.6.0",
+    "sass": "^1.52.1",
     "vue": "^3.2.25",
     "vue-router": "^4.0.15"
   },
