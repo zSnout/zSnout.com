@@ -34,5 +34,5 @@ export const serviceWorker = useRegisterSW({
 
 const isDark = useDark();
 watchEffect(() => {
-  document.documentElement.classList.toggle("theme-dark", isDark.value);
+  document.documentElement.classList.toggle("dark", isDark.value);
 });
