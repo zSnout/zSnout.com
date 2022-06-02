@@ -11,6 +11,6 @@
 </script>
 
 <template>
-  <LogoWithNameDark v-if="invert !== isDark" />
+  <LogoWithNameDark v-if="invert === isDark" />
   <LogoWithNameLight v-else />
 </template>

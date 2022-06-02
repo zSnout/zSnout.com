@@ -16,7 +16,11 @@
   .padding {
     display: flex;
     justify-content: center;
-    padding: 0 12px;
+    padding: 0 2rem;
+
+    @media (max-width: 400px) {
+      padding: 0 1.5rem;
+    }
   }
 
   .content {
