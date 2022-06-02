@@ -10,7 +10,6 @@
   "dependencies": {
     "@vueuse/components": "^8.6.0",
     "@vueuse/core": "^8.6.0",
-    "sass": "^1.52.1",
     "vue": "^3.2.25",
     "vue-router": "^4.0.15"
   },
@@ -18,6 +17,7 @@
     "@vitejs/plugin-vue": "^2.3.3",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
+    "sass": "^1.52.1",
     "typescript": "^4.5.4",
     "vite": "^2.9.9",
     "vite-plugin-pwa": "^0.12.0",
