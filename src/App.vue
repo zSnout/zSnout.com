@@ -19,6 +19,12 @@
     -webkit-text-size-adjust: none;
   }
 
+  html,
+  body,
+  #app {
+    min-height: 100vh;
+  }
+
   body {
     margin: 0;
     color: white;
@@ -26,13 +32,8 @@
   }
 
   #app {
-    height: 100%;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
-  }
-
-  a {
-    color: aliceblue;
   }
 </style>
