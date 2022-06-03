@@ -1,8 +1,9 @@
-import { useDark } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
+import { useDark } from "./composables/useDark";
+import { useHoverable } from "./composables/useHoverable";
 
 const routes = import.meta.glob("./views/**/*.vue");
 
@@ -32,7 +33,10 @@ export const serviceWorker = useRegisterSW({
   onOfflineReady() {},
 });
 
-const isDark = useDark();
 watchEffect(() => {
-  document.documentElement.classList.toggle("dark", isDark.value);
+  document.documentElement.classList.toggle("dark", useDark.value);
+});
+
+watchEffect(() => {
+  document.documentElement.classList.toggle("hover", useHoverable.value);
 });
