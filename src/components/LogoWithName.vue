@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { useDark } from "../composables/useDark";
+  import { isDark } from "../composables/isDark";
   import LogoWithNameDark from "./LogoWithNameDark.vue";
   import LogoWithNameLight from "./LogoWithNameLight.vue";
 
@@ -7,6 +7,6 @@
 </script>
 
 <template>
-  <LogoWithNameDark v-if="invert !== useDark" />
+  <LogoWithNameDark v-if="invert !== isDark" />
   <LogoWithNameLight v-else />
 </template>
