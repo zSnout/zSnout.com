@@ -1,9 +1,10 @@
 <script lang="ts" setup>
   import DocumentDisplay from "../components/DocumentDisplay.vue";
+  import Title from "../components/Title.vue";
 </script>
 
 <template>
   <DocumentDisplay>
-    <h1>Welcome to zSnout. We're working on adding things...</h1>
+    <Title>Welcome to zSnout. We're working on adding things...</Title>
   </DocumentDisplay>
 </template>
