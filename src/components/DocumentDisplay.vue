@@ -7,7 +7,7 @@
   <Navigation :floating="false" />
 
   <div class="safe-area">
-    <SafeAreaLR>
+    <SafeAreaLR bottom>
       <slot />
     </SafeAreaLR>
   </div>
