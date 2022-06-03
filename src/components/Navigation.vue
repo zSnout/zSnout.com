@@ -18,7 +18,7 @@
   }
 
   export function useNavLink(link: Omit<NavLink, "id">) {
-    let item = { ...link, id: Math.random() };
+    let item: NavLink = reactive({ ...link, id: Math.random() });
 
     links.push(item);
     tryOnScopeDispose(() => removeItem(item));
@@ -32,10 +32,16 @@
   import { tryOnScopeDispose } from "@vueuse/core";
   import { reactive } from "vue";
   import { RouterLink } from "vue-router";
+  import { isDark } from "../composables/isDark";
   import LogoWithName from "./LogoWithName.vue";
   import SafeArea from "./SafeArea.vue";
+  import ThemeIcon from "./ThemeIcon.vue";
 
   defineProps<{ floating: boolean }>();
+
+  function switchColorScheme() {
+    isDark.value = !isDark.value;
+  }
 </script>
 
 <template>
@@ -58,6 +64,8 @@
               {{ item.title }}
             </button>
           </template>
+
+          <ThemeIcon class="theme" @click="switchColorScheme" />
         </div>
       </SafeArea>
     </UseScreenSafeArea>
