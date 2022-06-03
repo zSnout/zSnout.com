@@ -2,7 +2,7 @@ import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
-import { useDark } from "./composables/useDark";
+import { isDark } from "./composables/isDark";
 import { useHoverable } from "./composables/useHoverable";
 
 const routes = import.meta.glob("./views/**/*.vue");
@@ -34,7 +34,7 @@ export const serviceWorker = useRegisterSW({
 });
 
 watchEffect(() => {
-  document.documentElement.classList.toggle("dark", useDark.value);
+  document.documentElement.classList.toggle("dark", isDark.value);
 });
 
 watchEffect(() => {
