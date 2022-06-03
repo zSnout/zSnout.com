@@ -6,7 +6,7 @@
 <template>
   <Navigation :floating="false" />
 
-  <SafeArea>
+  <SafeArea bottom top>
     <slot />
   </SafeArea>
 </template>
