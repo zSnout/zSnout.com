@@ -3,5 +3,12 @@ import { computed } from "vue";
 import { usePrinting } from "./usePrinting";
 
 const isRawDark = useDark();
-const isDark = computed(() => isRawDark.value && !usePrinting.value);
-export { isDark as useDark };
+
+export const isDark = computed<boolean>({
+  get() {
+    return isRawDark.value && !usePrinting.value;
+  },
+  set(value) {
+    isRawDark.value = value;
+  },
+});
