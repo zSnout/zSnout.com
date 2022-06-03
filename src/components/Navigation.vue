@@ -31,6 +31,7 @@
   import { UseScreenSafeArea } from "@vueuse/components";
   import { tryOnScopeDispose } from "@vueuse/core";
   import { reactive } from "vue";
+  import { RouterLink } from "vue-router";
   import LogoWithName from "./LogoWithName.vue";
   import SafeAreaLR from "./SafeAreaLR.vue";
 
@@ -42,7 +43,9 @@
     <UseScreenSafeArea top>
       <SafeAreaLR>
         <div class="navbar">
-          <LogoWithName class="logo" invert />
+          <RouterLink class="logo-outer" to="/">
+            <LogoWithName class="logo" invert />
+          </RouterLink>
 
           <template v-for="item in links" :key="item.id">
             <button
@@ -77,22 +80,38 @@
   .navbar {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
     height: 3.5rem;
     padding: 0.75rem 0;
   }
 
+  .logo-outer {
+    margin-right: auto;
+  }
+
   .logo {
     height: 2rem;
-    margin-right: auto;
 
     &:hover {
       cursor: pointer;
       filter: drop-shadow(1px 1px 2px #0008);
 
       .dark & {
-        filter: drop-shadow(1px 1px 2px #fff);
+        filter: drop-shadow(1px 1px 2px #000);
       }
+    }
+  }
+
+  .nav-item {
+    padding: 0 0.5em;
+    color: inherit;
+    font-size: 1rem;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+    appearance: none;
+
+    .hover &:hover {
+      text-decoration: underline;
     }
   }
 
