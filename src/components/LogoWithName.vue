@@ -1,16 +1,12 @@
 <script lang="ts" setup>
-  import { useDark } from "@vueuse/core";
+  import { useDark } from "../composables/useDark";
   import LogoWithNameDark from "./LogoWithNameDark.vue";
   import LogoWithNameLight from "./LogoWithNameLight.vue";
-
-  const isDark = useDark();
-  LogoWithNameDark;
-  LogoWithNameLight;
 
   withDefaults(defineProps<{ invert?: boolean }>(), { invert: false });
 </script>
 
 <template>
-  <LogoWithNameDark v-if="invert === isDark" />
+  <LogoWithNameDark v-if="invert !== useDark" />
   <LogoWithNameLight v-else />
 </template>
