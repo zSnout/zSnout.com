@@ -6,36 +6,14 @@
 <template>
   <Navigation :floating="false" />
 
-  <div class="safe-area">
-    <SafeArea :class="$style.document" bottom keep-height top>
-      <slot />
-    </SafeArea>
-  </div>
+  <SafeArea>
+    <slot />
+  </SafeArea>
 </template>
 
-<style lang="scss">
-  #app {
-    display: flex;
-    flex-direction: column;
-  }
-</style>
-
 <style lang="scss" scoped>
-  .safe-area {
+  :global(#app) {
     display: flex;
-    flex: 1;
     flex-direction: column;
-  }
-</style>
-
-<style lang="scss" module>
-  .document > {
-    :first-child {
-      margin-top: 0;
-    }
-
-    :last-child {
-      margin-bottom: 0;
-    }
   }
 </style>
