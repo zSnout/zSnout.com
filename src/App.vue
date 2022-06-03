@@ -7,7 +7,9 @@
 </template>
 
 <style lang="scss">
-  * {
+  *,
+  ::before,
+  ::after {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
