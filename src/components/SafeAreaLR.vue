@@ -9,7 +9,7 @@
 
 <template>
   <UseScreenSafeArea :bottom="bottom" :top="top" left right>
-    <div class="padding">
+    <div :class="{ padding: true, bottom }">
       <div class="content">
         <slot />
       </div>
@@ -30,5 +30,9 @@
 
   .content {
     width: min(1000px, 100%);
+  }
+
+  .bottom {
+    padding-bottom: 2rem;
   }
 </style>
