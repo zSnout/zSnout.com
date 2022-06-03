@@ -33,7 +33,7 @@
   import { reactive } from "vue";
   import { RouterLink } from "vue-router";
   import LogoWithName from "./LogoWithName.vue";
-  import SafeAreaLR from "./SafeAreaLR.vue";
+  import SafeArea from "./SafeArea.vue";
 
   defineProps<{ floating: boolean }>();
 </script>
@@ -41,7 +41,7 @@
 <template>
   <nav class="navigation">
     <UseScreenSafeArea top>
-      <SafeAreaLR>
+      <SafeArea>
         <div class="navbar">
           <RouterLink class="logo-outer" to="/">
             <LogoWithName class="logo" invert />
@@ -59,7 +59,7 @@
             </button>
           </template>
         </div>
-      </SafeAreaLR>
+      </SafeArea>
     </UseScreenSafeArea>
   </nav>
 </template>
