@@ -1,48 +1,31 @@
 <script lang="ts" setup>
-  import { UseScreenSafeArea } from "@vueuse/components";
-
   defineProps<{
+    minHeight?: string;
     top?: boolean;
     bottom?: boolean;
-    keepHeight?: boolean;
   }>();
 </script>
 
 <template>
-  <UseScreenSafeArea
-    :class="{ 'keep-height': keepHeight }"
-    class="safe-area"
-    :bottom="bottom"
-    left
-    right
-  >
-    <div :class="{ bottom, top, 'keep-height': keepHeight }" class="padding">
+  <div class="safe-area">
+    <div :class="{ top, bottom }" class="padding">
       <div class="content" v-bind="$attrs">
         <slot />
       </div>
     </div>
-  </UseScreenSafeArea>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  .safe-area.keep-height {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .keep-height {
-    flex: 1;
+  .safe-area {
+    padding-right: env(safe-area-inset-right, 0);
+    padding-left: env(safe-area-inset-left, 0);
   }
 
   .padding {
     display: flex;
     justify-content: center;
     padding: 0 2rem;
-
-    @media (max-width: 400px) {
-      padding: 0 1.5rem;
-    }
   }
 
   .top {
