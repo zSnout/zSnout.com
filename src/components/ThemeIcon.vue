@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { isDark } from "../composables/useDark";
+  import { isDark } from "../composables/isDark";
 
   withDefaults(defineProps<{ invert?: boolean }>(), { invert: false });
 </script>
