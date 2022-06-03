@@ -52,5 +52,13 @@
 
   .content {
     width: min(1000px, 100%);
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
   }
 </style>
