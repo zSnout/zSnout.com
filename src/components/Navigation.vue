@@ -68,12 +68,10 @@
   .navigation {
     position: sticky;
     top: 0;
-    background-color: #c5d8da;
-    border-bottom: 1px solid #066567;
+    border-bottom: 1px solid #3c3c3c1f;
 
     .dark & {
-      background-color: #345558;
-      border-bottom-color: #72a8aa;
+      border-bottom-color: #5454547a;
     }
   }
 
