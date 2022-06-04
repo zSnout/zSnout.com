@@ -26,12 +26,17 @@
   ::before,
   ::after {
     box-sizing: border-box;
+    color: black;
     transition: var(--transitions);
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: none;
+
+    .dark & {
+      color: white;
+    }
   }
 
   html,
@@ -42,10 +47,9 @@
 
   body {
     margin: 0;
-    background: #f0f0f0;
+    background-color: #f0f0f0;
 
     .dark & {
-      color: white;
       background-color: #202124;
     }
   }
