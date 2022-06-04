@@ -36,6 +36,7 @@
   import LogoWithName from "./Logo.vue";
   import SafeArea from "./SafeArea.vue";
   import ThemeIcon from "./ThemeIcon.vue";
+  import GithubIcon from "./GithubIcon.vue";
 
   defineProps<{ floating: boolean }>();
 
@@ -65,7 +66,15 @@
             </button>
           </template>
 
-          <ThemeIcon class="theme" @click="switchColorScheme" />
+          <ThemeIcon class="icon" @click="switchColorScheme" />
+
+          <a
+            class="icon"
+            href="https://github.com/zsnout/zsnout-next"
+            target="_blank"
+          >
+            <GithubIcon class="icon" />
+          </a>
         </div>
       </SafeArea>
     </UseScreenSafeArea>
@@ -119,6 +128,14 @@
     .hover &:hover {
       text-decoration: underline;
     }
+  }
+
+  .navbar > .icon {
+    margin-left: 0.5em;
+  }
+
+  svg.icon {
+    height: 100%;
   }
 
   @media screen and (max-width: 400px) {
