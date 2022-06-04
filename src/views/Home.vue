@@ -1,10 +1,21 @@
 <script lang="ts" setup>
+  import Card from "../components/Card.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
+  import SearchableGrid from "../components/SearchableGrid.vue";
   import Title from "../components/Title.vue";
 </script>
 
 <template>
   <DocumentDisplay>
-    <Title>Welcome to zSnout. We're working on adding things...</Title>
+    <Title>Welcome to zSnout!</Title>
+
+    <SearchableGrid>
+      <Card
+        description="We're not sure why you'd go to the 404 page, but here's a link if you need it."
+        keywords="not found error page"
+        title="404 page"
+        to="/404"
+      />
+    </SearchableGrid>
   </DocumentDisplay>
 </template>
