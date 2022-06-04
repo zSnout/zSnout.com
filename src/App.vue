@@ -55,4 +55,17 @@
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
   }
+
+  a {
+    color: #008383;
+    text-decoration: none;
+
+    .hover &:hover {
+      text-decoration: underline;
+    }
+
+    .dark & {
+      color: #42b8b8;
+    }
+  }
 </style>
