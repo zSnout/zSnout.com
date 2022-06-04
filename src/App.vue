@@ -44,6 +44,7 @@
 
   body {
     margin: 0;
+    line-height: 1.5;
     background-color: #f0f0f0;
 
     .dark & {
@@ -55,7 +56,6 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
-    background-color: inherit;
   }
 
   a {
