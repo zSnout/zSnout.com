@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { isDark } from "../composables/isDark";
-  import LogoWithNameDark from "./LogoWithNameDark.vue";
-  import LogoWithNameLight from "./LogoWithNameLight.vue";
+  import LogoWithNameDark from "./LogoDark.vue";
+  import LogoWithNameLight from "./LogoLight.vue";
 
   withDefaults(defineProps<{ invert?: boolean }>(), { invert: false });
 </script>
