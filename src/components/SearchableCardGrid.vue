@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { useMutationObserver, VueInstance } from "@vueuse/core";
-  import { onMounted, ref, useCssModule, watch, watchEffect } from "vue";
+  import { onMounted, ref, useCssModule, watchEffect } from "vue";
+  import CardGrid from "./CardGrid.vue";
   import Field from "./Field.vue";
-  import Grid from "./Grid.vue";
 
   const field = ref("");
   const grid = ref<VueInstance>();
@@ -40,9 +40,9 @@
 <template>
   <Field v-model="field" placeholder="Type to search zSnout..." />
 
-  <Grid ref="grid">
+  <CardGrid ref="grid">
     <slot />
-  </Grid>
+  </CardGrid>
 </template>
 
 <style lang="scss" module>
