@@ -29,7 +29,8 @@
 <style scoped>
   .field {
     display: block;
-    margin-bottom: 0.5rem;
+    width: 100%;
+    margin-bottom: 1.33rem;
     font-size: 1rem;
   }
 </style>
