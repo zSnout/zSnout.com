@@ -5,17 +5,27 @@
   defineProps<{
     title: string | Ref<string>;
     description: string | Ref<string>;
+    keywords?: string;
     to?: string;
   }>();
 </script>
 
 <template>
-  <Link v-if="to" class="card second-layer hoverline focusline" :to="to">
+  <Link
+    v-if="to"
+    class="card second-layer hoverline focusline"
+    :data-keywords="keywords"
+    :to="to"
+  >
     <p class="title">{{ title }}</p>
     <p class="description">{{ description }}</p>
   </Link>
 
-  <div v-else class="card second-layer hoverline focusline">
+  <div
+    v-else
+    class="card second-layer hoverline focusline"
+    :data-keywords="keywords"
+  >
     <p class="title">{{ title }}</p>
     <p class="description">{{ description }}</p>
   </div>
