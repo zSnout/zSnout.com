@@ -1,0 +1,61 @@
+name: Bug report
+description: Create a report to help us improve
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Tell us what you see!
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: To reproduce
+      description:
+        Steps to reproduce the behavior. Include screenshots if applicable.
+      placeholder: |
+        - Go to ...
+        - Click on ...
+        - Scroll down to ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description:
+        A clear and concise description of what you expected to happen.
+    validations:
+      required: true
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: What browsers are you seeing the problem on?
+      description: If this is a server-side bug, check Node.JS.
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Microsoft Edge
+        - Node.JS
+        - Other
+  - type: dropdown
+    id: devices
+    attributes:
+      label: What operating systems are you seeing the problem on?
+      multiple: true
+      options:
+        - MacOS
+        - Windows
+        - Linux
+        - iOS / iPadOS
+        - Android
+        - Other
