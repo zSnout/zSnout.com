@@ -1,5 +1,6 @@
 <template>
   <svg
+    class="icon"
     aria-hidden="true"
     focusable="false"
     viewBox="0 0 24 24"
@@ -10,3 +11,10 @@
     ></path>
   </svg>
 </template>
+
+<style scoped>
+  .icon {
+    user-select: none;
+    fill: currentColor;
+  }
+</style>
