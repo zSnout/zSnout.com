@@ -1,12 +1,12 @@
 import { useDark } from "@vueuse/core";
 import { computed } from "vue";
-import { usePrinting } from "./usePrinting";
+import { isPrinting } from "./isPrinting";
 
 const isRawDark = useDark();
 
 export const isDark = computed<boolean>({
   get() {
-    return isRawDark.value && !usePrinting.value;
+    return isRawDark.value && !isPrinting.value;
   },
   set(value) {
     isRawDark.value = value;

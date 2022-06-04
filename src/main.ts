@@ -3,7 +3,7 @@ import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
-import { useHoverable } from "./composables/useHoverable";
+import { isHoverable } from "./composables/isHoverable";
 
 const routes = import.meta.glob("./views/**/*.vue");
 
@@ -38,5 +38,5 @@ watchEffect(() => {
 });
 
 watchEffect(() => {
-  document.documentElement.classList.toggle("hover", useHoverable.value);
+  document.documentElement.classList.toggle("hover", isHoverable.value);
 });
