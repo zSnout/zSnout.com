@@ -33,7 +33,7 @@
   import { reactive } from "vue";
   import { RouterLink } from "vue-router";
   import { isDark } from "../composables/isDark";
-  import LogoWithName from "./LogoWithName.vue";
+  import LogoWithName from "./Logo.vue";
   import SafeArea from "./SafeArea.vue";
   import ThemeIcon from "./ThemeIcon.vue";
 
