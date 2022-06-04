@@ -3,13 +3,14 @@
     minHeight?: string;
     top?: boolean;
     bottom?: boolean;
+    flex?: boolean;
   }>();
 </script>
 
 <template>
   <div class="safe-area">
-    <div :class="{ top, bottom }" class="padding">
-      <div class="content" v-bind="$attrs">
+    <div class="padding">
+      <div :class="{ top, bottom, flex }" class="content">
         <slot />
       </div>
     </div>
@@ -52,6 +53,7 @@
 
   .content {
     width: min(1000px, 100%);
+    min-height: v-bind(minHeight);
 
     > :first-child {
       margin-top: 0;
@@ -60,5 +62,12 @@
     > :last-child {
       margin-bottom: 0;
     }
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 </style>
