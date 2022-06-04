@@ -72,4 +72,28 @@
       color: #42b8b8;
     }
   }
+
+  .second-layer {
+    padding: 0.5rem 0.75rem;
+    background-color: white;
+    border: 0 solid #0665ab;
+    border-radius: 0.5rem;
+    box-shadow: 0 3px 6px 1px #ddd;
+
+    &.outline {
+      border-width: 1px;
+      outline: none;
+    }
+
+    .dark & {
+      background-color: #2f2f2f;
+      border-color: #2c8d8d;
+      box-shadow: 0 3px 6px 1px #1a1a1a;
+    }
+
+    .hover &.focusline:focus {
+      border-width: 1px;
+      outline: none;
+    }
+  }
 </style>
