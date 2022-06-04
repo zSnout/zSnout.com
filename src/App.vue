@@ -86,6 +86,7 @@
   .outline,
   .hoverline,
   .focusline {
+    border: none;
     border-radius: 0.25rem;
   }
 
