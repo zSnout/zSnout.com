@@ -3,10 +3,7 @@
   import { onMounted } from "vue";
   import { RouterView } from "vue-router";
 
-  const colorable =
-    "color background-color border-left-color\
- border-right-color border-bottom-color border-top-color\
- outline-color shadow box-shadow text-shadow";
+  const colorable = "color background-color shadow box-shadow text-shadow";
 
   const transitions = useCssVar("--transitions", document.documentElement, {
     initialValue: "none",
@@ -64,7 +61,7 @@
     color: #008383;
     text-decoration: none;
 
-    .hover &:hover {
+    :where(.hover) &:where(:hover) {
       text-decoration: underline;
     }
 
@@ -76,24 +73,30 @@
   .second-layer {
     padding: 0.5rem 0.75rem;
     background-color: white;
-    border: 0 solid #0665ab;
     border-radius: 0.5rem;
     box-shadow: 0 3px 6px 1px #ddd;
 
-    &.outline {
-      border-width: 1px;
-      outline: none;
-    }
-
     .dark & {
       background-color: #2f2f2f;
-      border-color: #2c8d8d;
       box-shadow: 0 3px 6px 1px #1a1a1a;
     }
+  }
 
-    .hover &.focusline:focus {
-      border-width: 1px;
-      outline: none;
-    }
+  .outline,
+  .hoverline,
+  .focusline {
+    border-radius: 0.5rem;
+  }
+
+  .outline,
+  .hover .hoverline:hover,
+  .hover .focusline:focus {
+    outline: 1px solid #0665ab;
+  }
+
+  .dark .outline,
+  .dark.hover .hoverline:hover,
+  .dark.hover .focusline:focus {
+    outline-color: #2c8d8d;
   }
 </style>
