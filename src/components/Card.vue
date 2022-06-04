@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .card {
     display: block;
     text-decoration: none;
@@ -46,6 +46,11 @@
 
   .description {
     margin: 0;
+    color: #666;
     font-size: 0.9em;
+
+    .dark & {
+      color: #aaa;
+    }
   }
 </style>
