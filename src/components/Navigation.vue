@@ -86,11 +86,10 @@
     position: sticky;
     top: 0;
     z-index: 3;
-    background-color: inherit;
-    border-bottom: 1px solid #3c3c3c1f;
+    background-color: #f0f0f0;
 
     .dark & {
-      border-bottom-color: #5454547a;
+      background-color: #202124;
     }
 
     @supports (backdrop-filter: blur(8px)) {
