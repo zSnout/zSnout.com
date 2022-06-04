@@ -46,7 +46,7 @@
 </script>
 
 <template>
-  <nav class="navigation">
+  <nav class="nav-root">
     <UseScreenSafeArea top>
       <SafeArea>
         <div class="navbar">
@@ -82,13 +82,25 @@
 </template>
 
 <style lang="scss" scoped>
-  .navigation {
+  .nav-root {
     position: sticky;
     top: 0;
+    z-index: 3;
+    background-color: inherit;
     border-bottom: 1px solid #3c3c3c1f;
 
     .dark & {
       border-bottom-color: #5454547a;
+    }
+
+    @supports (backdrop-filter: blur(8px)) {
+      background-color: #f0f0f080;
+      border-bottom: none;
+      backdrop-filter: blur(8px);
+
+      .dark & {
+        background-color: #20212480;
+      }
     }
   }
 
