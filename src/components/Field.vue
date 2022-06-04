@@ -26,11 +26,17 @@
   />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .field {
     display: block;
     width: 100%;
     margin-bottom: 1.33rem;
     font-size: 1rem;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
   }
 </style>
