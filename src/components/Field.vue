@@ -19,10 +19,17 @@
 <template>
   <input
     v-model="value"
-    class="second-layer focusline"
+    class="second-layer field focusline"
     :autocomplete="autocomplete ?? 'off'"
     :placeholder="placeholder"
     :type="type ?? 'text'"
-    style="display: block"
   />
 </template>
+
+<style scoped>
+  .field {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+</style>
