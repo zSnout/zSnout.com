@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useCssVar } from "@vueuse/core";
-  import { onMounted, ref } from "vue";
+  import { onMounted } from "vue";
   import { RouterView } from "vue-router";
 
   const colorable =
