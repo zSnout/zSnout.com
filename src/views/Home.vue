@@ -11,6 +11,13 @@
 
     <SearchableCardGrid>
       <Card
+        description="It's like a random number generator, but it generates the same number every time."
+        keywords="random numbers passkey password"
+        title="Same Number Generator"
+        to="/same-number-generator"
+      />
+
+      <Card
         description="We're not sure why you'd go to the 404 page, but here's a link if you need it."
         keywords="not found error page"
         title="404 page"
