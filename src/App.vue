@@ -74,7 +74,7 @@
   .second-layer {
     padding: 0.5rem 0.75rem;
     background-color: white;
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
     box-shadow: 0 3px 6px 1px #ddd;
 
     .dark & {
@@ -86,7 +86,7 @@
   .outline,
   .hoverline,
   .focusline {
-    border-radius: 0.5rem;
+    border-radius: 0.25rem;
   }
 
   .outline,
