@@ -27,6 +27,11 @@
   }
 
   function onKeyDown(event: KeyboardEvent) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancel();
+    }
+
     const buttonEl = unrefElement(buttons);
     if (!buttonEl) return;
 
@@ -34,14 +39,14 @@
 
     if (key !== "Tab" || event.metaKey || event.ctrlKey || event.altKey) return;
 
+    const els = tabbable(buttonEl);
+    const allEls = tabbable(document.documentElement);
     const path = event.composedPath();
     const target = path
       .filter((e): e is HTMLElement => e instanceof HTMLElement)
-      .find((el) => el.tagName === "BUTTON" || el.tagName === "INPUT");
+      .find((el) => allEls.includes(el));
 
-    const els = tabbable(buttonEl);
-
-    if (!target) {
+    if (!target || !els.includes(target)) {
       els[0]?.focus();
       event.preventDefault();
     } else if (target === els[0] && event.shiftKey) {
@@ -53,18 +58,13 @@
     }
   }
 
-  useEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      event.preventDefault();
-      cancel();
-    }
-  });
+  useEventListener("keydown", onKeyDown);
 </script>
 
 <template>
   <Teleport to="#app">
     <div :class="{ open }" class="wrapper" @click="cancel">
-      <div ref="dialog" class="modal second-layer" @keydown="onKeyDown">
+      <div ref="dialog" class="modal second-layer">
         <div class="content">
           <slot />
         </div>
