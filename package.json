@@ -10,8 +10,8 @@
   "dependencies": {
     "@vueuse/components": "^8.6.0",
     "@vueuse/core": "^8.6.0",
-    "@vueuse/integrations": "^8.6.0",
     "disable-scroll": "^0.6.0",
+    "focus-trap": "^6.9.3",
     "random-seed": "^0.3.0",
     "tabbable": "^5.3.3",
     "vue": "^3.2.25",
