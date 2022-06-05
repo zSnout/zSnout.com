@@ -6,13 +6,17 @@ export function useFocusTrap(
   element: MaybeElementRef,
   enabled: boolean | Ref<boolean> = true
 ) {
-  const trap = vueuseFocusTrap(element, { allowOutsideClick: true });
+  const trap = vueuseFocusTrap(element, { immediate: unref(enabled) });
 
   watchEffect(() => {
-    if (unref(enabled)) {
+    unref(element);
+
+    if (unref(enabled) && unref(element)) {
       trap.activate();
+      console.log("activating");
     } else {
       trap.deactivate();
+      console.log("deactivating");
     }
   });
 
