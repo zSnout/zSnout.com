@@ -83,8 +83,12 @@
     }
 
     .second-layer {
-      background-color: transparent;
+      background-color: #f0f0f0;
       box-shadow: none;
+
+      .dark & {
+        background-color: #202124;
+      }
     }
   }
 
@@ -98,7 +102,7 @@
   .outline,
   .hover .hoverline:hover,
   .hover .focusline:focus {
-    outline: 1px solid #0665ab;
+    outline: 1px solid #066567;
   }
 
   .dark .outline,
