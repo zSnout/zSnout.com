@@ -1,5 +1,9 @@
+<script lang="ts" setup>
+  defineProps<{ cancel?: boolean }>();
+</script>
+
 <template>
-  <button class="button hoverline second-layer">
+  <button :class="{ cancel }" class="button hoverline second-layer">
     <slot />
   </button>
 </template>
