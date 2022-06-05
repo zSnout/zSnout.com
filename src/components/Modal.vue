@@ -1,6 +1,5 @@
 <script lang="ts" setup>
   import { MaybeElement, unrefElement, useEventListener } from "@vueuse/core";
-  import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
   import { tabbable } from "tabbable";
   import { ref, toRef } from "vue";
   import { useDisableScroll } from "../composables/useDisableScroll";
