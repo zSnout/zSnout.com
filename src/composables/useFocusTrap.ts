@@ -1,5 +1,5 @@
-import { MaybeElementRef, tryOnScopeDispose, unrefElement } from "@vueuse/core";
-import { useFocusTrap as vueuseFocusTrap } from "@vueuse/integrations";
+import { MaybeElementRef, tryOnScopeDispose } from "@vueuse/core";
+import { useFocusTrap as vueuseFocusTrap } from "@vueuse/integrations/useFocusTrap";
 import { Ref, unref, watchEffect } from "vue";
 
 export function useFocusTrap(
