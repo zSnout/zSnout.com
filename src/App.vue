@@ -81,6 +81,11 @@
       background-color: #2f2f2f;
       box-shadow: 0 3px 6px 1px #1a1a1a;
     }
+
+    .second-layer {
+      background-color: transparent;
+      box-shadow: none;
+    }
   }
 
   .outline,
