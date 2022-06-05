@@ -25,7 +25,7 @@
 
 <template>
   <DocumentDisplay center>
-    <div class="fields">
+    <form class="fields">
       <NumericField v-model="min" placeholder="Minimum" />
       <NumericField v-model="max" placeholder="Maximum" />
       <Field
@@ -35,7 +35,7 @@
         type="password"
       />
       <Button class="wide" @click="inst++">Generate another number...</Button>
-    </div>
+    </form>
 
     <p class="result">Here's a number: {{ number }}</p>
   </DocumentDisplay>
