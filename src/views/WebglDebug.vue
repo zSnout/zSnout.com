@@ -32,5 +32,16 @@
 <template>
   <FullscreenDisplay>
     <canvas ref="canvas" />
+
+    <template #options>
+      <p><strong>What is this?</strong></p>
+
+      <p>
+        This is a WebGL debug page. The left side should be a yellow bar, the
+        right a green bar, the top blue, and the bottom red. A gradient should
+        be contained within these with a bottom-left corner of blue, a top-left
+        of mint, a top-right of yellow, and a bottom-right of magenta.
+      </p>
+    </template>
   </FullscreenDisplay>
 </template>
