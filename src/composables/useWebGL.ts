@@ -57,8 +57,7 @@ in vec2 _pos;
 out vec2 pos;
 
 void main() {
-  gl_Position = vec4(_pos, 0, 1);
-  pos = _pos / vec2(2, 2) + vec2(0.5, 0.5);
+  gl_Position = vec4(pos = _pos, 0, 1);
 }`;
 
 export interface WebGLOptions {
@@ -108,7 +107,7 @@ export function useWebGL(
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
       gl.bufferData(
         gl.ARRAY_BUFFER,
-        new Float32Array([1, 1, -1, 1, 1, -1, -1, 1, 1, -1, -1, -1]),
+        new Float32Array([1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0]),
         gl.STATIC_DRAW
       );
       gl.vertexAttribPointer(posAttrLocation, 2, gl.FLOAT, false, 0, 0);
@@ -116,7 +115,12 @@ export function useWebGL(
       function render() {
         gl.clearColor(0, 0, 0, 0);
         gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.viewport(
+          -canvas.width,
+          -canvas.height,
+          2 * canvas.width,
+          2 * canvas.height
+        );
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       }
 
