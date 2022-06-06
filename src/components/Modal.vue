@@ -111,7 +111,7 @@
 
     &.open {
       z-index: 4;
-      background-color: #0008;
+      background-color: #0006;
       visibility: visible;
     }
   }
