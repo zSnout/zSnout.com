@@ -1,3 +1,7 @@
+<script lang="ts" setup>
+  defineProps<{ space?: number }>();
+</script>
+
 <template>
   <div class="stack">
     <slot />
@@ -8,7 +12,7 @@
   .stack {
     display: flex;
     flex-direction: column;
-    gap: 0.75em;
+    gap: v-bind("`${space || 0.5}em`");
     text-align: center;
   }
 </style>

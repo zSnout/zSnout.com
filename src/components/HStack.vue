@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-  defineProps<{ equal?: boolean; wraps?: boolean }>();
+  defineProps<{
+    space?: number;
+    stretch?: boolean;
+    wraps?: boolean;
+  }>();
 </script>
 
 <template>
@@ -13,11 +17,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: v-bind("wraps ? 'wrap' : 'invalid'");
-    gap: 0.75em;
+    gap: v-bind("`${space || 0.5}em`");
     text-align: center;
 
     > :deep(*) {
-      flex: v-bind("equal ? '1' : 'invalid'");
+      flex: v-bind("stretch ? '1' : 'invalid'");
     }
   }
 </style>
