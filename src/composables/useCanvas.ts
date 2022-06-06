@@ -1,8 +1,14 @@
 import { MaybeElementRef, unrefElement, useElementSize } from "@vueuse/core";
-import { watchEffect } from "vue";
+import { Ref, watchEffect } from "vue";
+
+export interface CanvasSize {
+  width: Ref<number>;
+  height: Ref<number>;
+}
 
 export interface CanvasInfo {
   canvas: HTMLCanvasElement;
+  size: CanvasSize;
   onResize(hook: () => void): void;
 }
 
@@ -25,6 +31,7 @@ export function useCanvas(canvas: MaybeElementRef) {
         resolve({
           canvas: el,
           onResize: (hook) => onResize.push(hook),
+          size: { width, height },
         });
       }
     });

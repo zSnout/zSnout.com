@@ -88,7 +88,7 @@ export function useWebGL(
 
   return new Promise<WebGLProgram>((resolve) => {
     watchEffect(async () => {
-      const { canvas, onResize } = await useCanvas(canvasRef);
+      const { canvas, onResize, size } = await useCanvas(canvasRef);
 
       const gl = canvas.getContext("webgl2", {
         preserveDrawingBuffer: opts?.preserveDrawingBuffer,
@@ -137,6 +137,7 @@ export function useWebGL(
         onResize,
         program,
         render,
+        size,
         useUniform(name, type, value) {
           const location = gl.getUniformLocation(program, name);
           if (!location) return;
