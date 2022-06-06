@@ -89,6 +89,7 @@
 
   .options {
     height: 2em;
+    overflow: visible;
     cursor: pointer;
     filter: drop-shadow(1px 1px 2px #0008);
     transition: var(--transitions), transform 0.3s;
@@ -100,6 +101,12 @@
 
     .hover &:hover {
       transform: rotate(45deg);
+    }
+
+    :deep(path) {
+      stroke: black;
+      stroke-width: 1em;
+      paint-order: stroke fill markers;
     }
   }
 
