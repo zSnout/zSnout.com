@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-  import { NumericLike, useNumericLike } from "../composables/useNumericLike";
-
-  const { size } = defineProps<{ size?: NumericLike }>();
+  const { size } = defineProps<{ size?: number | string }>();
 </script>
 
 <template>
-  <div v-for=" in useNumericLike(size) ?? 1" class="spacer" />
+  <div v-for="() in +(size ?? 1)" class="spacer" />
 </template>
 
 <style scoped>
