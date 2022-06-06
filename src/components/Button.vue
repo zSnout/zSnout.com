@@ -3,7 +3,11 @@
 </script>
 
 <template>
-  <button :class="{ cancel }" class="button hoverline second-layer">
+  <button
+    :class="{ cancel }"
+    class="button hoverline second-layer"
+    type="button"
+  >
     <slot />
   </button>
 </template>
