@@ -5,7 +5,7 @@
 <template>
   <button
     :class="{ cancel }"
-    class="button hoverline second-layer"
+    class="button hoverline focusline second-layer"
     type="button"
   >
     <slot />
