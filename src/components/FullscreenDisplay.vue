@@ -107,7 +107,7 @@
 
     :deep(path) {
       stroke: black;
-      stroke-width: 12px;
+      stroke-width: 1.25em;
       paint-order: stroke fill markers;
     }
   }
