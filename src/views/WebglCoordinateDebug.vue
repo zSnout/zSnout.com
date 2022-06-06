@@ -52,10 +52,12 @@
       <p><strong>What is this?</strong></p>
 
       <p>
-        This is a WebGL debug page. The left side should be a yellow bar, the
-        right a green bar, the top blue, and the bottom red. A gradient should
-        be contained within these with a bottom-left corner of blue, a top-left
-        of mint, a top-right of yellow, and a bottom-right of magenta.
+        This is a WebGL debug page. In the center of the screen, there should be
+        a gradient with a bottom-left corner of blue, a top-left of mint, a
+        top-right of yellow, and a bottom-right of magenta. The black lines mark
+        a grid on unit squares. If there is space around the gradient, it should
+        have a left padding of yellow, a right padding of green, a top padding
+        of blue, and a bottom padding of red.
       </p>
     </template>
   </FullscreenDisplay>
