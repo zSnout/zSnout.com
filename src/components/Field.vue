@@ -38,9 +38,5 @@
       margin: 0;
       -webkit-appearance: none;
     }
-
-    .stack > & {
-      margin-bottom: 0;
-    }
   }
 </style>
