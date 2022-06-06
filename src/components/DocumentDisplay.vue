@@ -20,7 +20,7 @@
 </script>
 
 <template>
-  <Navigation ref="navbar" :floating="false" />
+  <Navigation ref="navbar" />
 
   <SafeArea
     :flex="center"

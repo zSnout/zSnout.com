@@ -38,8 +38,6 @@
   import ThemeIcon from "./ThemeIcon.vue";
   import GithubIcon from "./GithubIcon.vue";
 
-  defineProps<{ floating: boolean }>();
-
   function switchColorScheme() {
     isDark.value = !isDark.value;
   }
