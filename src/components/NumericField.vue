@@ -17,7 +17,7 @@
   watch(value, (val) => {
     const numeric = parseFloat(val);
 
-    if (Number.isSafeInteger(numeric)) {
+    if (Number.isFinite(numeric)) {
       emit("update:modelValue", numeric);
     }
   });
