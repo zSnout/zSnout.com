@@ -18,8 +18,11 @@
     gap: v-bind("`${space ?? 0.5}em`");
 
     > :deep(*) {
-      margin: 0;
       text-align: v-bind("center ? 'center' : 'invalid'");
+    }
+
+    &.stack > :deep(*) {
+      margin: 0;
     }
   }
 </style>

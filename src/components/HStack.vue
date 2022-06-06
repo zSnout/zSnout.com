@@ -21,8 +21,11 @@
 
     > :deep(*) {
       flex: v-bind("stretch ? '1' : 'invalid'");
-      margin: 0;
       text-align: v-bind("stretch ? 'center' : 'invalid'");
+    }
+
+    &.stack > :deep(*) {
+      margin: 0;
     }
   }
 </style>
