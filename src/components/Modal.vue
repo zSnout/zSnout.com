@@ -4,6 +4,9 @@
   import { Ref, ref, toRef } from "vue";
   import { useDisableScroll } from "../composables/useDisableScroll";
   import Button from "./Button.vue";
+  import VStack from "./VStack.vue";
+  import HStack from "./HStack.vue";
+  import Spacer from "./Spacer.vue";
 
   const props = defineProps<{ open: boolean | { value: boolean } }>();
   const open = toRef(props, "open") as Ref<boolean>;
@@ -67,17 +70,17 @@
 <template>
   <Teleport to="#app">
     <div :class="{ open }" class="wrapper" @click="cancel">
-      <div ref="dialog" class="modal second-layer">
-        <div class="content">
-          <slot />
-        </div>
+      <VStack ref="dialog" class="modal second-layer">
+        <slot />
 
-        <div ref="buttons" class="buttons">
+        <Spacer />
+
+        <HStack ref="buttons" :space="0.75">
           <slot name="buttons">
             <Button cancel>OK</Button>
           </slot>
-        </div>
-      </div>
+        </HStack>
+      </VStack>
     </div>
   </Teleport>
 </template>
@@ -116,32 +119,18 @@
   .modal {
     position: relative;
     top: 2em;
-    display: flex;
-    flex-direction: column;
     min-width: min(500px, 100%);
     max-width: 100%;
     min-height: min(300px, 100%);
     max-height: 100%;
-    padding: 0.5em;
+    padding: 0.75em;
     overflow: auto;
-    transition: var(--transitions), top 0.3s;
-
-    .buttons {
-      display: flex;
-      gap: 0.5em;
-      margin-top: auto;
-
-      > :deep(button) {
-        flex: 1;
-      }
-    }
+    opacity: 0;
+    transition: var(--transitions), opacity 0.3s, top 0.3s;
 
     .open & {
       top: 0;
+      opacity: 1;
     }
-  }
-
-  .content {
-    padding: 0.25em;
   }
 </style>
