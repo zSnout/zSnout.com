@@ -115,7 +115,7 @@
   .logo {
     height: 2rem;
 
-    &:hover {
+    .hover &:hover {
       cursor: pointer;
       filter: drop-shadow(1px 1px 2px #0008);
 
