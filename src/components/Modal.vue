@@ -1,18 +1,20 @@
 <script lang="ts" setup>
   import { MaybeElement, unrefElement, useEventListener } from "@vueuse/core";
   import { tabbable } from "tabbable";
-  import { ref, toRef } from "vue";
+  import { Ref, ref, toRef } from "vue";
   import { useDisableScroll } from "../composables/useDisableScroll";
   import Button from "./Button.vue";
 
-  const props = defineProps<{ open: boolean }>();
-  const open = toRef(props, "open");
+  const props = defineProps<{ open: boolean | { value: boolean } }>();
+  const open = toRef(props, "open") as Ref<boolean>;
   const buttons = ref<MaybeElement>();
   const dialog = ref<HTMLElement>();
 
   useDisableScroll(document.scrollingElement as HTMLElement | null, open);
 
   function cancel(event?: Event) {
+    if (!open.value) return;
+
     if (event && event.target !== event.currentTarget) {
       return;
     }
@@ -26,6 +28,8 @@
   }
 
   function onKeyDown(event: KeyboardEvent) {
+    if (!open.value) return;
+
     if (event.key === "Escape") {
       event.preventDefault();
       cancel();
