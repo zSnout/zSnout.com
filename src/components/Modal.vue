@@ -102,6 +102,7 @@
     padding-left: calc(env(safe-area-inset-left, 0) + var(--padding));
     background-color: transparent;
     visibility: hidden;
+    cursor: pointer;
     transition: var(--transitions), visibility 0.3s, z-index 0.3s;
     --padding: 2rem;
 
@@ -125,6 +126,7 @@
     max-height: 100%;
     padding: 0.75em;
     overflow: auto;
+    cursor: initial;
     opacity: 0;
     transition: var(--transitions), opacity 0.3s, top 0.3s;
 
