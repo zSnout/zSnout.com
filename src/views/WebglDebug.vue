@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-  import { MaybeElement } from "@vueuse/core";
-  import { ref } from "vue";
+  import { MaybeElement, useInterval } from "@vueuse/core";
+  import { computed, ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import { useWebGL } from "../composables/useWebGL";
 
@@ -9,10 +9,14 @@
     canvas,
     `
     precision highp float;
+
     in vec2 pos;
     out vec4 color;
+
+    uniform float left;
+
     void main() {
-      if (pos.x < 0.01) {
+      if (pos.x < left) {
         color = vec4(1, 1, 0, 1);
       } else if (pos.y < 0.01) {
         color = vec4(1, 0, 0, 1);
@@ -25,7 +29,10 @@
       }
     }`
   ).then((gl) => {
-    gl.render();
+    const count = useInterval(10, { immediate: true });
+    const left = computed(() => (count.value / 1000) % 1);
+
+    gl.useUniform("left", "f", left);
   });
 </script>
 
