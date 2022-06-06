@@ -43,6 +43,8 @@
 
         <Button @click="inst++">Generate another number...</Button>
 
+        <Spacer />
+
         <p class="result">Here's a number: {{ number }}</p>
       </VStack>
     </form>
