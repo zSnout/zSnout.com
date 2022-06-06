@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { MaybeElement, unrefElement, useEventListener } from "@vueuse/core";
   import { tabbable } from "tabbable";
-  import { Ref, ref, toRef } from "vue";
+  import { Ref, ref, toRef, unref, watchEffect } from "vue";
   import { useDisableScroll } from "../composables/useDisableScroll";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
@@ -38,14 +38,14 @@
       cancel();
     }
 
-    const buttonEl = unrefElement(buttons);
-    if (!buttonEl) return;
+    const dialogEl = unrefElement(dialog);
+    if (!dialogEl) return;
 
     const { key } = event;
 
     if (key !== "Tab" || event.metaKey || event.ctrlKey || event.altKey) return;
 
-    const els = tabbable(buttonEl);
+    const els = tabbable(dialogEl);
     const allEls = tabbable(document.documentElement);
     const path = event.composedPath();
     const target = path
@@ -63,6 +63,18 @@
       event.preventDefault();
     }
   }
+
+  watchEffect(() => {
+    if (unref(open)) {
+      setTimeout(() => {
+        const dialogEl = unrefElement(dialog);
+        if (!dialogEl) return;
+
+        const els = tabbable(dialogEl);
+        els[0]?.focus();
+      }, 100);
+    }
+  });
 
   useEventListener("keydown", onKeyDown);
 </script>
