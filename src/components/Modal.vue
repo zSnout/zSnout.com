@@ -133,8 +133,7 @@
   .modal {
     position: relative;
     top: 2em;
-    min-width: min(500px, 100%);
-    max-width: 100%;
+    max-width: min(500px, 100%);
     min-height: min(300px, 100%);
     max-height: 100%;
     padding: 0.75em;
