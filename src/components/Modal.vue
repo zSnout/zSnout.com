@@ -4,9 +4,9 @@
   import { Ref, ref, toRef } from "vue";
   import { useDisableScroll } from "../composables/useDisableScroll";
   import Button from "./Button.vue";
-  import VStack from "./VStack.vue";
   import HStack from "./HStack.vue";
   import Spacer from "./Spacer.vue";
+  import VStack from "./VStack.vue";
 
   const props = defineProps<{ open: boolean | { value: boolean } }>();
   const open = toRef(props, "open") as Ref<boolean>;
