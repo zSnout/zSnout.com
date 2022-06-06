@@ -9,6 +9,7 @@
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
   import Spacer from "./Spacer.vue";
+  import LogoLight from "./LogoLight.vue";
 
   defineProps<{ options?: boolean }>();
 
@@ -20,12 +21,17 @@
     <SafeArea>
       <HStack class="padding">
         <RouterLink to="/">
-          <LogoDark class="logo" invert />
+          <LogoLight class="logo" invert />
         </RouterLink>
 
         <Spacer />
 
-        <OptionsIcon class="options" role="button" @click="open = !open" />
+        <OptionsIcon
+          v-if="$slots.options"
+          class="options"
+          role="button"
+          @click="open = !open"
+        />
       </HStack>
     </SafeArea>
   </UseScreenSafeArea>
@@ -74,7 +80,8 @@
     }
 
     :deep(g > path:not(:first-child)) {
-      stroke: white;
+      fill: white;
+      stroke: black;
       stroke-width: 0.2em;
       paint-order: stroke fill markers;
     }
