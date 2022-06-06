@@ -21,11 +21,11 @@
 
 <template>
   <Navigation ref="navbar">
-    <template #options>
+    <template #options v-if="$slots.options">
       <slot name="options" />
     </template>
 
-    <template #buttons>
+    <template #buttons v-if="$slots.buttons">
       <slot name="buttons" />
     </template>
   </Navigation>
