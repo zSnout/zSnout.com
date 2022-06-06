@@ -110,4 +110,9 @@
   .dark.hover .focusline:focus {
     outline-color: #2c8d8d;
   }
+
+  canvas {
+    touch-action: none;
+    user-zoom: none;
+  }
 </style>
