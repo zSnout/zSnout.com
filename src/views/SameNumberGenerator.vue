@@ -5,6 +5,9 @@
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import Field from "../components/Field.vue";
   import NumericField from "../components/NumericField.vue";
+  import HStack from "../components/HStack.vue";
+  import VStack from "../components/VStack.vue";
+  import Spacer from "../components/Spacer.vue";
 
   const min = ref(1);
   const max = ref(10);
@@ -26,43 +29,35 @@
 <template>
   <DocumentDisplay center>
     <form class="fields">
-      <NumericField v-model="min" placeholder="Minimum" />
-      <NumericField v-model="max" placeholder="Maximum" />
-      <Field
-        v-model="passkey"
-        class="wide"
-        placeholder="Optional passkey..."
-        type="password"
-      />
-      <Button class="wide" @click="inst++">Generate another number...</Button>
-    </form>
+      <VStack center>
+        <HStack stretch>
+          <NumericField v-model="min" placeholder="Minimum" />
+          <NumericField v-model="max" placeholder="Maximum" />
+        </HStack>
 
-    <p class="result">Here's a number: {{ number }}</p>
+        <Field
+          v-model="passkey"
+          placeholder="Optional passkey..."
+          type="password"
+        />
+
+        <Button @click="inst++">Generate another number...</Button>
+
+        <p class="result">Here's a number: {{ number }}</p>
+      </VStack>
+    </form>
   </DocumentDisplay>
 </template>
 
 <style lang="scss" scoped>
   .fields {
-    display: grid;
-    grid-template-columns: repeat(2, min(250px, 50% - 0.25em));
-    gap: 0.5em;
     max-width: 500px;
     margin-bottom: 0.5em;
-    font-weight: bold;
-    font-size: 1.5em;
-
-    input {
-      margin-bottom: 0;
-      text-align: center;
-    }
-  }
-
-  .wide {
-    grid-column: 1 / 3;
-    font-size: 0.75em;
+    font-size: 1.25em;
   }
 
   .result {
-    font-size: 1.5em;
+    font-weight: bold;
+    font-size: 1.5rem;
   }
 </style>
