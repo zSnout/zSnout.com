@@ -30,27 +30,31 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
   import { tryOnScopeDispose } from "@vueuse/core";
-  import { reactive } from "vue";
+  import { reactive, ref } from "vue";
   import { RouterLink } from "vue-router";
   import { isDark } from "../composables/isDark";
+  import GithubIcon from "./GithubIcon.vue";
   import LogoWithName from "./Logo.vue";
   import SafeArea from "./SafeArea.vue";
   import ThemeIcon from "./ThemeIcon.vue";
-  import GithubIcon from "./GithubIcon.vue";
+  import OptionsIcon from "./OptionsIcon.vue";
+  import Modal from "./Modal.vue";
+  import HStack from "./HStack.vue";
+  import Spacer from "./Spacer.vue";
 
-  function switchColorScheme() {
-    isDark.value = !isDark.value;
-  }
+  const open = ref(false);
 </script>
 
 <template>
   <nav class="nav-root">
     <UseScreenSafeArea top>
       <SafeArea>
-        <div class="navbar">
+        <HStack class="navbar">
           <RouterLink class="logo-outer" to="/">
             <LogoWithName class="logo" invert />
           </RouterLink>
+
+          <Spacer />
 
           <template v-for="item in links" :key="item.id">
             <button
@@ -64,7 +68,16 @@
             </button>
           </template>
 
-          <ThemeIcon class="icon" @click="switchColorScheme" />
+          <Spacer />
+
+          <OptionsIcon
+            v-if="$slots.options"
+            class="options"
+            role="button"
+            @click="open = !open"
+          />
+
+          <ThemeIcon class="icon" @click="isDark = !isDark" />
 
           <a
             class="icon"
@@ -73,9 +86,17 @@
           >
             <GithubIcon class="icon" />
           </a>
-        </div>
+        </HStack>
       </SafeArea>
     </UseScreenSafeArea>
+
+    <Modal :open="open">
+      <slot name="options" />
+
+      <template #buttons>
+        <Button cancel @click="open = !open">OK</Button>
+      </template>
+    </Modal>
   </nav>
 </template>
 
@@ -102,8 +123,6 @@
   }
 
   .navbar {
-    display: flex;
-    flex-direction: row;
     height: 3.5rem;
     padding: 0.75rem 0;
   }
@@ -137,10 +156,6 @@
     .hover &:hover {
       text-decoration: underline;
     }
-  }
-
-  .navbar > .icon {
-    margin-left: 0.5em;
   }
 
   svg.icon {

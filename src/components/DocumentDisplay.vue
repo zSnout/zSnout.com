@@ -20,7 +20,11 @@
 </script>
 
 <template>
-  <Navigation ref="navbar" />
+  <Navigation ref="navbar">
+    <template #options>
+      <slot name="options" />
+    </template>
+  </Navigation>
 
   <SafeArea
     :flex="center"
