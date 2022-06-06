@@ -24,6 +24,10 @@
     <template #options>
       <slot name="options" />
     </template>
+
+    <template #buttons>
+      <slot name="buttons" />
+    </template>
   </Navigation>
 
   <SafeArea

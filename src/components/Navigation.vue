@@ -41,6 +41,7 @@
   import Modal from "./Modal.vue";
   import HStack from "./HStack.vue";
   import Spacer from "./Spacer.vue";
+  import Button from "./Button.vue";
 
   const open = ref(false);
 </script>
@@ -95,6 +96,8 @@
 
       <template #buttons>
         <Button cancel @click="open = !open">OK</Button>
+
+        <slot name="buttons" />
       </template>
     </Modal>
   </nav>

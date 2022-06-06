@@ -41,6 +41,8 @@
 
     <template #buttons>
       <Button cancel @click="open = !open">OK</Button>
+
+      <slot name="buttons" />
     </template>
   </Modal>
 
