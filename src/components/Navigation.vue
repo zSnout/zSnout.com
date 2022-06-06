@@ -120,7 +120,7 @@
       filter: drop-shadow(1px 1px 2px #0008);
 
       .dark & {
-        filter: drop-shadow(1px 1px 2px #000);
+        filter: drop-shadow(1px 1px 2px #fffc);
       }
     }
   }
