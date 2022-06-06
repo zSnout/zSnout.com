@@ -56,8 +56,6 @@ export function normalize(
     }
   });
 
-  watchEffect(() => console.log(coords.value));
-
   return reactive({
     xStart: computed(() => coords.value.xStart),
     xEnd: computed(() => coords.value.xEnd),
