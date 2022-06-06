@@ -3,7 +3,7 @@
 <template>
   <svg
     class="icon"
-    viewBox="0 0 478.703 478.703"
+    viewBox="-49.0238012048 -49.0238012048 527.7268012048 527.7268012048"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -38,6 +38,10 @@
 
 <style scoped>
   .icon {
+    cursor: pointer;
     fill: currentColor;
+    stroke: white;
+    stroke-width: 0.5em;
+    stroke-linecap: round;
   }
 </style>
