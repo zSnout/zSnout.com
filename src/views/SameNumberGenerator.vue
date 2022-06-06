@@ -12,12 +12,12 @@
   const min = ref(1);
   const max = ref(10);
   const inst = ref(0);
-  const passkey = ref("");
+  const password = ref("");
 
   const gen = computed(() => {
     const minSeed = create("" + min.value).intBetween(0, 0xffffff);
     const maxSeed = create("" + max.value).intBetween(0, 0xffffff);
-    return create(passkey.value + minSeed * maxSeed);
+    return create(password.value + minSeed * maxSeed);
   });
 
   const number = computed(() => {
@@ -36,8 +36,8 @@
         </HStack>
 
         <Field
-          v-model="passkey"
-          placeholder="Optional passkey..."
+          v-model="password"
+          placeholder="Optional password..."
           type="password"
         />
 
