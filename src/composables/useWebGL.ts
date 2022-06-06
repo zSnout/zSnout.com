@@ -1,9 +1,4 @@
-import {
-  MaybeElementRef,
-  MaybeRef,
-  tryOnScopeDispose,
-  useIntervalFn,
-} from "@vueuse/core";
+import { MaybeElementRef, MaybeRef, tryOnScopeDispose } from "@vueuse/core";
 import { unref, watchEffect } from "vue";
 import { CanvasInfo, useCanvas } from "./useCanvas";
 
