@@ -1,5 +1,11 @@
-import { MaybeElementRef, unrefElement, useElementSize } from "@vueuse/core";
-import { watchEffect } from "vue";
+import {
+  MaybeElementRef,
+  MaybeRef,
+  tryOnScopeDispose,
+  useIntervalFn,
+} from "@vueuse/core";
+import { unref, watchEffect } from "vue";
+import { CanvasInfo, useCanvas } from "./useCanvas";
 
 export function useShader(
   gl: WebGL2RenderingContext,
@@ -60,44 +66,20 @@ void main() {
   pos = _pos / vec2(2, 2) + vec2(0.5, 0.5);
 }`;
 
-interface WebGLOptions {
+export interface WebGLOptions {
   preserveDrawingBuffer?: boolean;
 }
 
-interface CanvasInfo {
-  canvas: HTMLCanvasElement;
-  onResize(hook: () => void): void;
-}
-
-interface WebGLProgram extends CanvasInfo {
+export interface WebGLProgram extends CanvasInfo {
   gl: WebGL2RenderingContext;
   program: globalThis.WebGLProgram;
   render(): void;
-}
 
-export function useCanvas(canvas: MaybeElementRef) {
-  return new Promise<CanvasInfo>((resolve) => {
-    watchEffect(() => {
-      const el = unrefElement(canvas);
-
-      if (el instanceof HTMLCanvasElement) {
-        const { width, height } = useElementSize(el);
-
-        const onResize: (() => void)[] = [];
-
-        watchEffect(() => {
-          el.width = width.value;
-          el.height = height.value;
-          onResize.forEach((hook) => hook());
-        });
-
-        resolve({
-          canvas: el,
-          onResize: (hook) => onResize.push(hook),
-        });
-      }
-    });
-  });
+  useUniform(
+    name: string,
+    type: "f" | "i",
+    value: MaybeRef<number | number[]>
+  ): void;
 }
 
 export function useWebGL(
@@ -105,6 +87,9 @@ export function useWebGL(
   shader: string,
   opts?: WebGLOptions
 ) {
+  let onDispose: (() => void)[] = [];
+  tryOnScopeDispose(() => onDispose.forEach((hook) => hook()));
+
   return new Promise<WebGLProgram>((resolve) => {
     watchEffect(async () => {
       const { canvas, onResize } = await useCanvas(canvasRef);
@@ -139,9 +124,40 @@ export function useWebGL(
         gl.drawArrays(gl.TRIANGLES, 0, 6);
       }
 
+      let rerender = false;
+      const interval = setInterval(() => {
+        if (rerender) {
+          rerender = false;
+          render();
+        }
+      });
+      onDispose.push(() => clearInterval(interval));
+
       onResize(render);
 
-      resolve({ canvas, gl, onResize, program, render });
+      resolve({
+        canvas,
+        gl,
+        onResize,
+        program,
+        render,
+        useUniform(name, type, value) {
+          const location = gl.getUniformLocation(program, name);
+          if (!location) return;
+
+          const stop = watchEffect(() => {
+            let val = unref(value);
+            if (typeof val === "number") val = [val];
+            if (val.length < 1 || val.length > 4) return;
+
+            gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
+
+            rerender = true;
+          });
+
+          onDispose.push(stop);
+        },
+      });
     });
   });
 }
