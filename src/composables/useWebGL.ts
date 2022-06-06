@@ -68,6 +68,7 @@ void main() {
 
 export interface WebGLOptions {
   preserveDrawingBuffer?: boolean;
+  vertShader?: string;
 }
 
 export interface WebGLProgram extends CanvasInfo {
@@ -102,7 +103,7 @@ export function useWebGL(
         throw new Error("An error occurred while initializing the context.");
       }
 
-      const program = useProgram(gl, vertShader, shader);
+      const program = useProgram(gl, opts?.vertShader ?? vertShader, shader);
       gl.useProgram(program);
 
       const posAttrLocation = gl.getAttribLocation(program, "_pos");
