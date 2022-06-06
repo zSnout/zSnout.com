@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-  defineProps<{ space?: number }>();
+  defineProps<{
+    center?: boolean;
+    space?: number;
+  }>();
 </script>
 
 <template>
@@ -12,7 +15,10 @@
   .stack {
     display: flex;
     flex-direction: column;
-    gap: v-bind("`${space || 0.5}em`");
-    text-align: center;
+    gap: v-bind("`${space ?? 0.5}em`");
+
+    > :deep(*) {
+      text-align: v-bind("center ? 'center' : 'invalid'");
+    }
   }
 </style>

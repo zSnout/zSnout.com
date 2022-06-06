@@ -17,11 +17,11 @@
     display: flex;
     flex-direction: row;
     flex-wrap: v-bind("wraps ? 'wrap' : 'invalid'");
-    gap: v-bind("`${space || 0.5}em`");
-    text-align: center;
+    gap: v-bind("`${space ?? 0.5}em`");
 
     > :deep(*) {
       flex: v-bind("stretch ? '1' : 'invalid'");
+      text-align: v-bind("stretch ? 'center' : 'invalid'");
     }
   }
 </style>
