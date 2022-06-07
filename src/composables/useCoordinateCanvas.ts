@@ -1,5 +1,5 @@
 import { MaybeElementRef, MaybeRef } from "@vueuse/core";
-import { computed, reactive } from "vue";
+import { computed, reactive, resolveComponent } from "vue";
 import { CanvasSize } from "./useCanvas";
 import { map } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
@@ -30,14 +30,19 @@ export function mouseToCoords(
   size: CanvasSize,
   x: MaybeRef<number>,
   y: MaybeRef<number>
-) {
+): Coordinates {
   const coords = normalize(bounds, size);
 
-  return computed(() => {
+  const mouse = computed(() => {
     return {
       x: map(0, size.width.value, coords.xStart, coords.xEnd, x),
       y: map(0, size.width.value, coords.yStart, coords.yEnd, y),
     };
+  });
+
+  return reactive({
+    x: computed(() => mouse.value.x.value),
+    y: computed(() => mouse.value.y.value),
   });
 }
 
