@@ -15,6 +15,8 @@ export function map(
   value = value;
 
   return (
-    ((value - inputStart) / (inputEnd - inputStart)) * (outputEnd - outputStart)
+    ((value - inputStart) * (outputEnd - outputStart)) /
+      (inputEnd - inputStart) +
+    outputStart
   );
 }
