@@ -1,30 +1,49 @@
-import { MaybeElementRef } from "@vueuse/core";
-import { computed, reactive, watchEffect } from "vue";
+import { MaybeElementRef, MaybeRef } from "@vueuse/core";
+import { computed, reactive } from "vue";
 import { CanvasSize } from "./useCanvas";
+import { map } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
 
 export interface CoordinateCanvasOptions
   extends Omit<WebGLOptions, "vertShader"> {
-  coordinates: Coordinates;
+  bounds: Bounds;
 }
 
-export interface Coordinates {
+export interface Bounds {
   xStart: number;
   xEnd: number;
   yStart: number;
   yEnd: number;
 }
 
-export interface CoordinateCanvas extends WebGLProgram {
-  coordinates: Coordinates;
+export interface Coordinates {
+  x: number;
+  y: number;
 }
 
-export function normalize(
-  coordinates: Coordinates,
-  size: CanvasSize
-): Coordinates {
-  const coords = computed<Coordinates>(() => {
-    const { xStart, xEnd, yStart, yEnd } = coordinates;
+export interface CoordinateCanvas extends WebGLProgram {
+  bounds: Bounds;
+}
+
+export function mouseToCoords(
+  bounds: Bounds,
+  size: CanvasSize,
+  x: MaybeRef<number>,
+  y: MaybeRef<number>
+) {
+  const coords = normalize(bounds, size);
+
+  return computed(() => {
+    return {
+      x: map(0, size.width.value, coords.xStart, coords.xEnd, x),
+      y: map(0, size.width.value, coords.yStart, coords.yEnd, y),
+    };
+  });
+}
+
+export function normalize(bounds: Bounds, size: CanvasSize): Bounds {
+  const coords = computed<Bounds>(() => {
+    const { xStart, xEnd, yStart, yEnd } = bounds;
     const xCenter = xStart + xEnd;
     const yCenter = yStart + yEnd;
     const xRange = (xEnd - xStart) / 2;
@@ -69,8 +88,8 @@ export async function useCoordinateCanvas(
   shader: string,
   opts?: CoordinateCanvasOptions
 ): Promise<CoordinateCanvas> {
-  const coordinates = reactive(
-    opts?.coordinates ?? {
+  const bounds = reactive(
+    opts?.bounds ?? {
       xStart: -2,
       xEnd: 2,
       yStart: -2,
@@ -96,7 +115,7 @@ void main() {
     vertShader,
   });
 
-  const coords = normalize(coordinates, program.size);
+  const coords = normalize(bounds, program.size);
   const offset = computed(() => [coords.xStart, coords.yStart]);
   const scale = computed(() => [
     coords.xEnd - coords.xStart,
@@ -106,5 +125,5 @@ void main() {
   program.useUniform("offset", "f", offset);
   program.useUniform("scale", "f", scale);
 
-  return Object.assign(program, { coordinates });
+  return Object.assign(program, { bounds });
 }
