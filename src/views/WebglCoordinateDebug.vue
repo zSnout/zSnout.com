@@ -19,6 +19,10 @@
     uniform float yEnd;
     uniform float x;
     uniform float y;
+    uniform float xs;
+    uniform float xe;
+    uniform float ys;
+    uniform float ye;
 
     void main() {
       vec2 z;
@@ -30,15 +34,16 @@
 
         if (z.x * z.x + z.y * z.y > 4.0) {
           color = vec4(float(i) / 100.0, float(i) / 100.0, float(i) / 100.0, 1);
-          // return;
         }
       }
 
-      if (xStart < pos.x && pos.x < xEnd && yStart < pos.y && pos.y < yEnd) {
+      if (xs < pos.x && pos.x < xe && ys < pos.y && pos.y < ye) {
+        color = vec4(color.x, color.y, 1, 1);
+      } else if (xStart < pos.x && pos.x < xEnd && yStart < pos.y && pos.y < yEnd) {
         color = vec4(1, color.yz, 1);
       }
 
-      if (abs(x - pos.x) < 0.1 && abs(y - pos.y) < 0.1) {
+      if (abs(x - pos.x) < (xEnd - xStart) / 100.0 && abs(y - pos.y) < (yEnd - yStart) / 100.0) {
         color = vec4(color.zz, 1, 1);
       }
     }`
