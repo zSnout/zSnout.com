@@ -1,4 +1,4 @@
-import { MaybeElementRef, MaybeRef, tryOnScopeDispose } from "@vueuse/core";
+import { MaybeElementRef, MaybeRef } from "@vueuse/core";
 import { unref, watchEffect } from "vue";
 import { CanvasInfo, useCanvas } from "./useCanvas";
 
@@ -77,84 +77,79 @@ export interface WebGLProgram extends CanvasInfo {
   ): void;
 }
 
-export function useWebGL(
+export async function useWebGL(
   canvasRef: MaybeElementRef,
   shader: string,
   opts?: WebGLOptions
-) {
-  return new Promise<WebGLProgram>((resolve) => {
-    watchEffect(async () => {
-      const data = await useCanvas(canvasRef);
-      const { canvas, onResize, onDispose } = data;
+): Promise<WebGLProgram> {
+  const data = await useCanvas(canvasRef);
+  const { canvas, onResize, onDispose } = data;
 
-      const gl = canvas.getContext("webgl2", {
-        preserveDrawingBuffer: opts?.preserveDrawingBuffer,
-      })!;
+  const gl = canvas.getContext("webgl2", {
+    preserveDrawingBuffer: opts?.preserveDrawingBuffer,
+  })!;
 
-      if (!gl) {
-        throw new Error("An error occurred while initializing the context.");
-      }
+  if (!gl) {
+    throw new Error("An error occurred while initializing the context.");
+  }
 
-      const program = useProgram(gl, opts?.vertShader ?? vertShader, shader);
-      gl.useProgram(program);
+  const program = useProgram(gl, opts?.vertShader ?? vertShader, shader);
+  gl.useProgram(program);
 
-      const posAttrLocation = gl.getAttribLocation(program, "_pos");
-      gl.enableVertexAttribArray(posAttrLocation);
+  const posAttrLocation = gl.getAttribLocation(program, "_pos");
+  gl.enableVertexAttribArray(posAttrLocation);
 
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array([1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0]),
-        gl.STATIC_DRAW
-      );
-      gl.vertexAttribPointer(posAttrLocation, 2, gl.FLOAT, false, 0, 0);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0]),
+    gl.STATIC_DRAW
+  );
+  gl.vertexAttribPointer(posAttrLocation, 2, gl.FLOAT, false, 0, 0);
 
-      function render() {
-        gl.clearColor(0, 0, 0, 0);
-        gl.clear(gl.COLOR_BUFFER_BIT);
-        gl.viewport(
-          -canvas.width,
-          -canvas.height,
-          2 * canvas.width,
-          2 * canvas.height
-        );
-        gl.drawArrays(gl.TRIANGLES, 0, 6);
-      }
+  function render() {
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.viewport(
+      -canvas.width,
+      -canvas.height,
+      2 * canvas.width,
+      2 * canvas.height
+    );
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+  }
 
-      let rerender = false;
-      const interval = setInterval(() => {
-        if (rerender) {
-          rerender = false;
-          render();
-        }
+  let rerender = false;
+  const interval = setInterval(() => {
+    if (rerender) {
+      rerender = false;
+      render();
+    }
+  });
+  onDispose(() => clearInterval(interval));
+
+  onResize(render);
+
+  return Object.assign<CanvasInfo, Omit<WebGLProgram, keyof CanvasInfo>>(data, {
+    gl,
+    program,
+    render,
+    useUniform(name, type, value) {
+      const location = gl.getUniformLocation(program, name);
+      if (!location) return;
+
+      const stop = watchEffect(() => {
+        let val = unref(value);
+        if (typeof val === "number") val = [val];
+        if (val.length < 1 || val.length > 4) return;
+
+        gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
+
+        rerender = true;
       });
-      onDispose(() => clearInterval(interval));
 
-      onResize(render);
-
-      resolve({
-        ...data,
-        gl,
-        program,
-        render,
-        useUniform(name, type, value) {
-          const location = gl.getUniformLocation(program, name);
-          if (!location) return;
-
-          const stop = watchEffect(() => {
-            let val = unref(value);
-            if (typeof val === "number") val = [val];
-            if (val.length < 1 || val.length > 4) return;
-
-            gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
-
-            rerender = true;
-          });
-
-          onDispose(stop);
-        },
-      });
-    });
+      onDispose(stop);
+    },
   });
 }
