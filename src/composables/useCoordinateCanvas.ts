@@ -36,7 +36,7 @@ export function mouseToCoords(
   const mouse = computed(() => {
     return {
       x: map(0, size.width.value, coords.xStart, coords.xEnd, unref(x)),
-      y: map(0, size.width.value, coords.yStart, coords.yEnd, unref(y)),
+      y: map(size.height.value, 0, coords.yStart, coords.yEnd, unref(y)),
     };
   });
 
