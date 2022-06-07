@@ -32,7 +32,7 @@
 
   <SafeArea
     :flex="center"
-    :min-height="`calc(100vh - ${navHeight}px)`"
+    :min-height="`calc(var(--app-height) - ${navHeight}px)`"
     bottom
     top
   >

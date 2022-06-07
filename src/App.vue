@@ -36,10 +36,13 @@
     }
   }
 
-  html,
   body,
   #app {
-    min-height: 100vh;
+    min-height: var(--app-height);
+  }
+
+  html {
+    height: var(--app-height);
   }
 
   body {

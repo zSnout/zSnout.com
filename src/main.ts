@@ -1,3 +1,9 @@
+import {
+  useCssVar,
+  useElementSize,
+  useResizeObserver,
+  useWindowSize,
+} from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory } from "vue-router";
@@ -40,3 +46,7 @@ watchEffect(() => {
 watchEffect(() => {
   document.documentElement.classList.toggle("hover", isHoverable.value);
 });
+
+const { height } = useWindowSize();
+const cssVar = useCssVar("--app-height");
+watchEffect(() => (cssVar.value = height.value + "px"));
