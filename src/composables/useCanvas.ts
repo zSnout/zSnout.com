@@ -33,8 +33,8 @@ export function useCanvas(canvas: MaybeElementRef) {
         if (typeof stop === "function") onDispose.push(stop);
 
         const resizer = watchEffect(() => {
-          el.width = width.value;
-          el.height = height.value;
+          el.width = width.value * devicePixelRatio;
+          el.height = height.value * devicePixelRatio;
           onResize.forEach((hook) => hook());
         });
 
