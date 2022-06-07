@@ -82,12 +82,10 @@ export function useWebGL(
   shader: string,
   opts?: WebGLOptions
 ) {
-  let onDispose: (() => void)[] = [];
-  tryOnScopeDispose(() => onDispose.forEach((hook) => hook()));
-
   return new Promise<WebGLProgram>((resolve) => {
     watchEffect(async () => {
-      const { canvas, onResize, size } = await useCanvas(canvasRef);
+      const data = await useCanvas(canvasRef);
+      const { canvas, onResize, onDispose } = data;
 
       const gl = canvas.getContext("webgl2", {
         preserveDrawingBuffer: opts?.preserveDrawingBuffer,
@@ -131,17 +129,15 @@ export function useWebGL(
           render();
         }
       });
-      onDispose.push(() => clearInterval(interval));
+      onDispose(() => clearInterval(interval));
 
       onResize(render);
 
       resolve({
-        canvas,
+        ...data,
         gl,
-        onResize,
         program,
         render,
-        size,
         useUniform(name, type, value) {
           const location = gl.getUniformLocation(program, name);
           if (!location) return;
@@ -156,7 +152,7 @@ export function useWebGL(
             rerender = true;
           });
 
-          onDispose.push(stop);
+          onDispose(stop);
         },
       });
     });
