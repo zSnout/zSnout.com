@@ -17,6 +17,8 @@
     uniform float xEnd;
     uniform float yStart;
     uniform float yEnd;
+    uniform float x;
+    uniform float y;
 
     void main() {
       vec2 z;
@@ -34,7 +36,10 @@
 
       if (xStart < pos.x && pos.x < xEnd && yStart < pos.y && pos.y < yEnd) {
         color = vec4(1, color.yz, 1);
-        return;
+      }
+
+      if (abs(x - pos.x) < 0.1 && abs(y - pos.y) < 0.1) {
+        color = vec4(color.zz, 1, 1);
       }
     }`
   );

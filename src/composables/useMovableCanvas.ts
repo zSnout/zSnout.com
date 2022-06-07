@@ -3,7 +3,6 @@ import { ref } from "vue";
 import {
   CoordinateCanvasOptions,
   mouseToCoords,
-  normalize,
   useCoordinateCanvas,
 } from "./useCoordinateCanvas";
 
@@ -19,11 +18,15 @@ export async function useMovableCanvas(
   const b = ref(0);
   const c = ref(0);
   const d = ref(0);
+  const e = ref(0);
+  const f = ref(0);
 
   useUniform("xStart", "f", a);
   useUniform("xEnd", "f", b);
   useUniform("yStart", "f", c);
   useUniform("yEnd", "f", d);
+  useUniform("x", "f", e);
+  useUniform("y", "f", f);
 
   onDispose(
     useEventListener(canvas, "mousemove", (event: MouseEvent) => {
@@ -39,6 +42,8 @@ export async function useMovableCanvas(
       b.value = xEnd + (x - xEnd) / 10;
       c.value = yStart + (y - yStart) / 10;
       d.value = yEnd + (y - yEnd) / 10;
+      e.value = x;
+      f.value = y;
     })
   );
 
