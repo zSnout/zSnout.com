@@ -73,7 +73,6 @@
 
           <OptionsIcon
             v-if="$slots.options"
-            class="options"
             role="button"
             @click="open = !open"
           />

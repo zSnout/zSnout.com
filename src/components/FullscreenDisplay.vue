@@ -101,10 +101,6 @@
       height: 1.5em;
     }
 
-    .hover &:hover {
-      transform: rotate(45deg);
-    }
-
     :deep(path) {
       stroke: black;
       stroke-width: 1.25em;

@@ -3,7 +3,7 @@
 <template>
   <svg
     class="icon"
-    viewBox="-49.0238012048 -49.0238012048 527.7268012048 527.7268012048"
+    viewBox="0 0 478.703 478.703"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
@@ -36,12 +36,17 @@
   </svg>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .icon {
+    transform: scale(0.83);
     cursor: pointer;
     fill: currentColor;
     stroke: white;
     stroke-width: 0.5em;
     stroke-linecap: round;
+
+    .hover &:hover {
+      transform: scale(0.83) rotate(45deg);
+    }
   }
 </style>
