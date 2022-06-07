@@ -39,7 +39,9 @@
 
       if (xs < pos.x && pos.x < xe && ys < pos.y && pos.y < ye) {
         color = vec4(color.x, color.y, 1, 1);
-      } else if (xStart < pos.x && pos.x < xEnd && yStart < pos.y && pos.y < yEnd) {
+      }
+
+      if (xStart < pos.x && pos.x < xEnd && yStart < pos.y && pos.y < yEnd) {
         color = vec4(1, color.yz, 1);
       }
 

@@ -1,5 +1,5 @@
 import { MaybeElementRef, MaybeRef } from "@vueuse/core";
-import { computed, reactive, resolveComponent, unref } from "vue";
+import { computed, reactive, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
 import { map } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";

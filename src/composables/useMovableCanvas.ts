@@ -20,6 +20,10 @@ export async function useMovableCanvas(
   const d = ref(0);
   const e = ref(0);
   const f = ref(0);
+  const g = ref(0);
+  const h = ref(0);
+  const i = ref(0);
+  const j = ref(0);
 
   useUniform("xStart", "f", a);
   useUniform("xEnd", "f", b);
@@ -27,6 +31,10 @@ export async function useMovableCanvas(
   useUniform("yEnd", "f", d);
   useUniform("x", "f", e);
   useUniform("y", "f", f);
+  useUniform("xs", "f", g);
+  useUniform("xe", "f", h);
+  useUniform("ys", "f", i);
+  useUniform("ye", "f", j);
 
   onDispose(
     useEventListener(canvas, "mousemove", (event: MouseEvent) => {
@@ -44,6 +52,11 @@ export async function useMovableCanvas(
       d.value = yEnd + (y - yEnd) / 10;
       e.value = x;
       f.value = y;
+
+      g.value = xStart;
+      h.value = xEnd;
+      i.value = yStart;
+      j.value = yEnd;
     })
   );
 
