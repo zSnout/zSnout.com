@@ -4,10 +4,10 @@
   import Button from "../components/Button.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import Field from "../components/Field.vue";
-  import NumericField from "../components/NumericField.vue";
   import HStack from "../components/HStack.vue";
-  import VStack from "../components/VStack.vue";
+  import NumericField from "../components/NumericField.vue";
   import Spacer from "../components/Spacer.vue";
+  import VStack from "../components/VStack.vue";
 
   const min = ref(1);
   const max = ref(10);
