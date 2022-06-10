@@ -40,8 +40,7 @@ export interface CoordinateCanvas extends WebGLProgram {
 export function pointerToCoords(
   bounds: BoundsLike,
   size: CanvasSize,
-  x: MaybeRef<number>,
-  y: MaybeRef<number>
+  pointer: CoordinatesLike
 ): Coordinates {
   const coords = normalize(bounds, size);
 
@@ -49,8 +48,8 @@ export function pointerToCoords(
   // screen whereas browsers set the minimum y value at the top of the screen.
 
   return {
-    x: useMap(0, size.width, coords.xStart, coords.xEnd, x),
-    y: useMap(size.height, 0, coords.yStart, coords.yEnd, y),
+    x: useMap(0, size.width, coords.xStart, coords.xEnd, pointer.x),
+    y: useMap(size.height, 0, coords.yStart, coords.yEnd, pointer.y),
   };
 }
 
@@ -161,7 +160,7 @@ export async function useCoordinateCanvas(
     program.useUniform("bounds.yEnd", "f", bounds.yEnd);
 
     const pointer = usePointer();
-    const cursor = pointerToCoords(bounds, program.size, pointer.x, pointer.y);
+    const cursor = pointerToCoords(bounds, program.size, pointer);
 
     program.useUniform("pointer.x", "f", cursor.x);
     program.useUniform("pointer.y", "f", cursor.y);
