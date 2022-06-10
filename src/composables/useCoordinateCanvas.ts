@@ -45,9 +45,12 @@ export function mouseToCoords(
 ): Coordinates {
   const coords = normalize(bounds, size);
 
+  // Y coordinates are inverted because we run yStart from the bottom of the
+  // screen whereas browsers set the minimum y value at the top of the screen.
+
   return {
     x: useMap(0, size.width, coords.xStart, coords.xEnd, x),
-    y: useMap(0, size.height, coords.yStart, coords.yEnd, y),
+    y: useMap(size.height, 0, coords.yStart, coords.yEnd, y),
   };
 }
 
@@ -100,9 +103,9 @@ export async function useCoordinateCanvas(
 ): Promise<CoordinateCanvas> {
   const bounds: Bounds = {
     xStart: ref(opts?.bounds?.xStart ?? -2),
-    xEnd: ref(opts?.bounds?.xStart ?? 2),
-    yStart: ref(opts?.bounds?.xStart ?? -2),
-    yEnd: ref(opts?.bounds?.xStart ?? 2),
+    xEnd: ref(opts?.bounds?.xEnd ?? 2),
+    yStart: ref(opts?.bounds?.yStart ?? -2),
+    yEnd: ref(opts?.bounds?.yEnd ?? 2),
   };
 
   const vertShader = `
