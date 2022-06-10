@@ -1,10 +1,34 @@
-import { MaybeElementRef, useEventListener } from "@vueuse/core";
-import { ref } from "vue";
+import { MaybeElementRef, useEventListener, usePointer } from "@vueuse/core";
+import { watch } from "fs";
+import { computed, ref, unref } from "vue";
 import {
+  Bounds,
+  BoundsLike,
   CoordinateCanvasOptions,
-  mouseToCoords,
+  CoordinatesLike,
+  pointerToCoords,
   useCoordinateCanvas,
 } from "./useCoordinateCanvas";
+
+export function getZoomRegion(
+  bounds: BoundsLike,
+  cursor: CoordinatesLike
+): Bounds {
+  return {
+    xStart: computed(
+      () => unref(bounds.xStart) + (unref(cursor.x) - unref(bounds.xStart)) / 10
+    ),
+    xEnd: computed(
+      () => unref(bounds.xEnd) + (unref(cursor.x) - unref(bounds.xEnd)) / 10
+    ),
+    yStart: computed(
+      () => unref(bounds.yStart) + (unref(cursor.y) - unref(bounds.yStart)) / 10
+    ),
+    yEnd: computed(
+      () => unref(bounds.yEnd) + (unref(cursor.y) - unref(bounds.yEnd)) / 10
+    ),
+  };
+}
 
 export async function useMovableCanvas(
   canvasRef: MaybeElementRef,
@@ -14,51 +38,16 @@ export async function useMovableCanvas(
   const data = await useCoordinateCanvas(canvasRef, shader, opts);
   const { canvas, bounds, onDispose, size, useUniform } = data;
 
-  const a = ref(0);
-  const b = ref(0);
-  const c = ref(0);
-  const d = ref(0);
-  const e = ref(0);
-  const f = ref(0);
-  const g = ref(0);
-  const h = ref(0);
-  const i = ref(0);
-  const j = ref(0);
+  const pointer = usePointer();
+  const lastPointer = { x: ref(pointer.x.value), y: ref(pointer.y.value) };
+  const zoom = getZoomRegion(bounds, pointerToCoords(bounds, size, pointer));
 
-  useUniform("xStart", "f", a);
-  useUniform("xEnd", "f", b);
-  useUniform("yStart", "f", c);
-  useUniform("yEnd", "f", d);
-  useUniform("x", "f", e);
-  useUniform("y", "f", f);
-  useUniform("xs", "f", g);
-  useUniform("xe", "f", h);
-  useUniform("ys", "f", i);
-  useUniform("ye", "f", j);
-
-  onDispose(
-    useEventListener(canvas, "mousemove", (event: MouseEvent) => {
-      event.preventDefault();
-
-      mouseX.value = event.offsetX;
-      mouseY.value = event.offsetY;
-
-      const { xStart, xEnd, yStart, yEnd } = bounds;
-      const { x, y } = coords;
-
-      a.value = xStart + (x - xStart) / 10;
-      b.value = xEnd + (x - xEnd) / 10;
-      c.value = yStart + (y - yStart) / 10;
-      d.value = yEnd + (y - yEnd) / 10;
-      e.value = x;
-      f.value = y;
-
-      g.value = xStart;
-      h.value = xEnd;
-      i.value = yStart;
-      j.value = yEnd;
-    })
-  );
+  if (opts?.uniforms !== false) {
+    useUniform("zoomRegion.xStart", "f", zoom.xStart);
+    useUniform("zoomRegion.xEnd", "f", zoom.xEnd);
+    useUniform("zoomRegion.yStart", "f", zoom.yStart);
+    useUniform("zoomRegion.yEnd", "f", zoom.yEnd);
+  }
 
   onDispose(
     useEventListener(
@@ -67,98 +56,68 @@ export async function useMovableCanvas(
       (event: WheelEvent) => {
         event.preventDefault();
 
-        mouseX.value = event.offsetX;
-        mouseY.value = event.offsetY;
+        pointer.x.value = event.offsetX;
+        pointer.y.value = event.offsetY;
 
-        const { xStart, xEnd, yStart, yEnd } = bounds;
-        const { x, y } = coords;
+        const {
+          xStart: { value: xStart },
+          xEnd: { value: xEnd },
+          yStart: { value: yStart },
+          yEnd: { value: yEnd },
+        } = zoom;
 
-        bounds.xStart = xStart + (x - xStart) / 10;
-        bounds.xEnd = xEnd + (x - xEnd) / 10;
-        bounds.yStart = yStart + (y - yStart) / 10;
-        bounds.yEnd = yEnd + (y - yEnd) / 10;
-
-        // event.preventDefault();
-
-        // mouseX.value = event.offsetX;
-        // mouseY.value = event.offsetY;
-
-        // const strength =
-        //   -Math.sqrt(Math.abs(event.deltaY)) * Math.sign(event.deltaY);
-
-        // const { xStart, xEnd, yStart, yEnd } = bounds;
-        // const { x, y } = coords;
-
-        // let xAdj = ((xEnd - xStart) * strength) / 100;
-        // let yAdj = ((yEnd - yStart) * strength) / 100;
-
-        // bounds.xStart += xAdj;
-        // bounds.xEnd -= xAdj;
-        // bounds.yStart += yAdj;
-        // bounds.yEnd -= yAdj;
-
-        // const xCenter = (xStart + xEnd) / 2;
-        // const yCenter = (yStart + yEnd) / 2;
-
-        // xAdj = ((x - xCenter) * strength) / 200;
-        // yAdj = ((y - yCenter) * strength) / 200;
-
-        // bounds.xStart += xAdj;
-        // bounds.xEnd += xAdj;
-        // bounds.yStart += yAdj;
-        // bounds.yEnd += yAdj;
-
-        // console.log({ ...bounds });
+        bounds.xStart.value = xStart;
+        bounds.xEnd.value = xEnd;
+        bounds.yStart.value = yStart;
+        bounds.yEnd.value = yEnd;
       },
       { passive: false }
     )
   );
 
-  const lastMouseX = ref(NaN);
-  const lastMouseY = ref(NaN);
-  const mouseX = ref(NaN);
-  const mouseY = ref(NaN);
-
-  const lastCoords = mouseToCoords(bounds, size, lastMouseX, lastMouseY);
-  const coords = mouseToCoords(bounds, size, mouseX, mouseY);
+  const coords = pointerToCoords(bounds, size, pointer);
+  const lastCoords = pointerToCoords(bounds, size, lastPointer);
 
   onDispose(
     useEventListener(canvas, "pointermove", (event: MouseEvent) => {
       event.preventDefault();
 
-      if (Number.isNaN(lastMouseX.value) || Number.isNaN(lastMouseY.value)) {
+      if (
+        Number.isNaN(lastPointer.x.value) ||
+        Number.isNaN(lastPointer.y.value)
+      ) {
         return;
       }
 
-      mouseX.value = event.offsetX;
-      mouseY.value = event.offsetY;
+      pointer.x.value = event.offsetX;
+      pointer.y.value = event.offsetY;
 
-      const x = (coords.x - lastCoords.x) / 2;
-      const y = coords.y - lastCoords.y;
+      const x = coords.x.value - lastCoords.x.value;
+      const y = coords.y.value - lastCoords.y.value;
 
-      bounds.xStart -= x;
-      bounds.xEnd -= x;
-      bounds.yStart -= y;
-      bounds.yEnd -= y;
+      bounds.xStart.value -= x;
+      bounds.xEnd.value -= x;
+      bounds.yStart.value -= y;
+      bounds.yEnd.value -= y;
 
-      lastMouseX.value = event.offsetX;
-      lastMouseY.value = event.offsetY;
+      lastPointer.x.value = pointer.x.value;
+      lastPointer.y.value = pointer.y.value;
     })
   );
 
   onDispose(
     useEventListener(canvas, "pointerdown", (event: PointerEvent) => {
       canvas.setPointerCapture(event.pointerId);
-      lastMouseX.value = event.offsetX;
-      lastMouseY.value = event.offsetY;
+      lastPointer.x.value = event.offsetX;
+      lastPointer.y.value = event.offsetY;
     })
   );
 
   onDispose(
     useEventListener("pointerup", (event: PointerEvent) => {
       canvas.releasePointerCapture(event.pointerId);
-      lastMouseX.value = NaN;
-      lastMouseY.value = NaN;
+      lastPointer.x.value = NaN;
+      lastPointer.y.value = NaN;
     })
   );
 
