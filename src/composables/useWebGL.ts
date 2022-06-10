@@ -10,7 +10,10 @@ export function useShader(
   const shader = gl.createShader(gl[`${type}_SHADER`]);
   if (!shader) throw new Error("An error occurred while compiling a shader.");
 
-  gl.shaderSource(shader, "#version 300 es\n" + source.trim());
+  gl.shaderSource(
+    shader,
+    "#version 300 es\nprecision highp float;\n" + source.trim()
+  );
   gl.compileShader(shader);
 
   if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
@@ -52,7 +55,6 @@ export function useProgram(
 }
 
 const vertShader = `
-precision highp float;
 in vec2 _pos;
 out vec2 pos;
 
