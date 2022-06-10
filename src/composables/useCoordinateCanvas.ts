@@ -1,11 +1,10 @@
-import { MaybeElementRef, MaybeRef } from "@vueuse/core";
+import { MaybeElementRef, MaybeRef, useMouse, usePointer } from "@vueuse/core";
 import { computed, reactive, ref, Ref, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
 import { map, useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
 
-export interface CoordinateCanvasOptions
-  extends Omit<WebGLOptions, "vertShader"> {
+export interface CoordinateCanvasOptions extends WebGLOptions {
   bounds: BoundsLike;
 }
 
@@ -37,7 +36,7 @@ export interface CoordinateCanvas extends WebGLProgram {
   bounds: Bounds;
 }
 
-export function mouseToCoords(
+export function pointerToCoords(
   bounds: BoundsLike,
   size: CanvasSize,
   x: MaybeRef<number>,
@@ -96,6 +95,32 @@ export function normalize(bounds: BoundsLike, size: CanvasSize): Bounds {
   };
 }
 
+const structs = `
+struct Bounds {
+  float xStart;
+  float xEnd;
+  float yStart;
+  float yEnd;
+};
+
+struct Coordinates {
+  float x;
+  float y;
+};
+`;
+
+const vertShader = `
+in vec2 _pos;
+out vec2 pos;
+
+uniform vec2 offset;
+uniform vec2 scale;
+
+void main() {
+  gl_Position = vec4(_pos, 0, 1);
+  pos = _pos * scale + offset;
+}`;
+
 export async function useCoordinateCanvas(
   canvasRef: MaybeElementRef,
   shader: string,
@@ -108,22 +133,9 @@ export async function useCoordinateCanvas(
     yEnd: ref(opts?.bounds?.yEnd ?? 2),
   };
 
-  const vertShader = `
-precision highp float;
-in vec2 _pos;
-out vec2 pos;
-
-uniform vec2 offset;
-uniform vec2 scale;
-
-void main() {
-  gl_Position = vec4(_pos, 0, 1);
-  pos = _pos * scale + offset;
-}`;
-
-  const program = await useWebGL(canvasRef, shader, {
+  const program = await useWebGL(canvasRef, structs + shader, {
     ...opts,
-    vertShader,
+    vertShader: structs + (opts?.vertShader ?? vertShader),
   });
 
   const coords = normalize(bounds, program.size);
@@ -140,6 +152,17 @@ void main() {
 
   program.useUniform("offset", "f", offset);
   program.useUniform("scale", "f", scale);
+
+  program.useUniform("bounds.xStart", "f", bounds.xStart);
+  program.useUniform("bounds.xEnd", "f", bounds.xEnd);
+  program.useUniform("bounds.yStart", "f", bounds.yStart);
+  program.useUniform("bounds.yEnd", "f", bounds.yEnd);
+
+  const pointer = usePointer();
+  const cursor = pointerToCoords(bounds, program.size, pointer.x, pointer.y);
+
+  program.useUniform("pointer.x", "f", cursor.x);
+  program.useUniform("pointer.y", "f", cursor.y);
 
   return Object.assign(program, { bounds });
 }
