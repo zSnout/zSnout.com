@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { MaybeElement, useInterval } from "@vueuse/core";
   import { computed, ref } from "vue";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useWebGL } from "../composables/useWebGL";
+  import FullscreenDisplay from "../../../components/FullscreenDisplay.vue";
+  import { useWebGL } from "../../../composables/useWebGL";
 
   const canvas = ref<MaybeElement>();
   useWebGL(

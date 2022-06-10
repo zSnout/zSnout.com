@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { MaybeElement } from "@vueuse/core";
   import { ref } from "vue";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useMovableCanvas } from "../composables/useMovableCanvas";
+  import FullscreenDisplay from "../../../components/FullscreenDisplay.vue";
+  import { useMovableCanvas } from "../../../composables/useMovableCanvas";
 
   const canvas = ref<MaybeElement>();
   useMovableCanvas(
