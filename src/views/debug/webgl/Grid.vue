@@ -8,8 +8,6 @@
   useMovableCanvas(
     canvas,
     `
-    precision highp float;
-
     in vec2 pos;
     out vec4 color;
 
