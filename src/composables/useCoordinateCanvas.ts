@@ -5,7 +5,7 @@ import { useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
 
 export interface CoordinateCanvasOptions extends WebGLOptions {
-  bounds: BoundsLike;
+  bounds?: BoundsLike;
   uniforms?: boolean;
 }
 
