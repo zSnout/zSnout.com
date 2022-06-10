@@ -1,11 +1,12 @@
-import { MaybeElementRef, MaybeRef, useMouse, usePointer } from "@vueuse/core";
-import { computed, reactive, ref, Ref, unref } from "vue";
+import { MaybeElementRef, MaybeRef, usePointer } from "@vueuse/core";
+import { computed, ref, Ref, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
-import { map, useMap } from "./useMap";
+import { useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
 
 export interface CoordinateCanvasOptions extends WebGLOptions {
   bounds: BoundsLike;
+  uniforms?: boolean;
 }
 
 export interface Bounds {
@@ -153,16 +154,18 @@ export async function useCoordinateCanvas(
   program.useUniform("offset", "f", offset);
   program.useUniform("scale", "f", scale);
 
-  program.useUniform("bounds.xStart", "f", bounds.xStart);
-  program.useUniform("bounds.xEnd", "f", bounds.xEnd);
-  program.useUniform("bounds.yStart", "f", bounds.yStart);
-  program.useUniform("bounds.yEnd", "f", bounds.yEnd);
+  if (opts?.uniforms !== false) {
+    program.useUniform("bounds.xStart", "f", bounds.xStart);
+    program.useUniform("bounds.xEnd", "f", bounds.xEnd);
+    program.useUniform("bounds.yStart", "f", bounds.yStart);
+    program.useUniform("bounds.yEnd", "f", bounds.yEnd);
 
-  const pointer = usePointer();
-  const cursor = pointerToCoords(bounds, program.size, pointer.x, pointer.y);
+    const pointer = usePointer();
+    const cursor = pointerToCoords(bounds, program.size, pointer.x, pointer.y);
 
-  program.useUniform("pointer.x", "f", cursor.x);
-  program.useUniform("pointer.y", "f", cursor.y);
+    program.useUniform("pointer.x", "f", cursor.x);
+    program.useUniform("pointer.y", "f", cursor.y);
+  }
 
   return Object.assign(program, { bounds });
 }
