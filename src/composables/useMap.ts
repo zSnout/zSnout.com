@@ -15,7 +15,7 @@ export function map(
   );
 }
 
-export function useRef(
+export function useMap(
   inputStart: MaybeRef<number>,
   inputEnd: MaybeRef<number>,
   outputStart: MaybeRef<number>,
