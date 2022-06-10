@@ -1,24 +1,36 @@
 import { MaybeElementRef, MaybeRef } from "@vueuse/core";
-import { computed, reactive, unref } from "vue";
+import { computed, reactive, ref, Ref, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
-import { map } from "./useMap";
+import { map, useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
 
 export interface CoordinateCanvasOptions
   extends Omit<WebGLOptions, "vertShader"> {
-  bounds: Bounds;
+  bounds: BoundsLike;
 }
 
 export interface Bounds {
-  xStart: number;
-  xEnd: number;
-  yStart: number;
-  yEnd: number;
+  xStart: Ref<number>;
+  xEnd: Ref<number>;
+  yStart: Ref<number>;
+  yEnd: Ref<number>;
+}
+
+export interface BoundsLike {
+  xStart: MaybeRef<number>;
+  xEnd: MaybeRef<number>;
+  yStart: MaybeRef<number>;
+  yEnd: MaybeRef<number>;
 }
 
 export interface Coordinates {
-  x: number;
-  y: number;
+  x: Ref<number>;
+  y: Ref<number>;
+}
+
+export interface CoordinatesLike {
+  x: MaybeRef<number>;
+  y: MaybeRef<number>;
 }
 
 export interface CoordinateCanvas extends WebGLProgram {
@@ -26,33 +38,26 @@ export interface CoordinateCanvas extends WebGLProgram {
 }
 
 export function mouseToCoords(
-  bounds: Bounds,
+  bounds: BoundsLike,
   size: CanvasSize,
   x: MaybeRef<number>,
   y: MaybeRef<number>
 ): Coordinates {
   const coords = normalize(bounds, size);
 
-  const mouse = computed(() => {
-    return {
-      x: map(0, size.width.value, coords.xStart, coords.xEnd, unref(x)),
-      y: map(size.height.value, 0, coords.yStart, coords.yEnd, unref(y)),
-    };
-  });
-
-  return reactive({
-    x: computed(() => mouse.value.x),
-    y: computed(() => mouse.value.y),
-  });
+  return {
+    x: useMap(0, size.width, coords.xStart, coords.xEnd, x),
+    y: useMap(0, size.height, coords.yStart, coords.yEnd, y),
+  };
 }
 
-export function normalize(bounds: Bounds, size: CanvasSize): Bounds {
-  const coords = computed<Bounds>(() => {
+export function normalize(bounds: BoundsLike, size: CanvasSize): Bounds {
+  const coords = computed<BoundsLike>(() => {
     const { xStart, xEnd, yStart, yEnd } = bounds;
-    const xCenter = xStart + xEnd;
-    const yCenter = yStart + yEnd;
-    const xRange = (xEnd - xStart) / 2;
-    const yRange = (yEnd - yStart) / 2;
+    const xCenter = unref(xStart) + unref(xEnd);
+    const yCenter = unref(yStart) + unref(yEnd);
+    const xRange = (unref(xEnd) - unref(xStart)) / 2;
+    const yRange = (unref(yEnd) - unref(yStart)) / 2;
 
     let {
       width: { value: width },
@@ -80,12 +85,12 @@ export function normalize(bounds: Bounds, size: CanvasSize): Bounds {
     }
   });
 
-  return reactive({
-    xStart: computed(() => coords.value.xStart),
-    xEnd: computed(() => coords.value.xEnd),
-    yStart: computed(() => coords.value.yStart),
-    yEnd: computed(() => coords.value.yEnd),
-  });
+  return {
+    xStart: computed(() => unref(coords.value.xStart)),
+    xEnd: computed(() => unref(coords.value.xEnd)),
+    yStart: computed(() => unref(coords.value.yStart)),
+    yEnd: computed(() => unref(coords.value.yEnd)),
+  };
 }
 
 export async function useCoordinateCanvas(
@@ -93,14 +98,12 @@ export async function useCoordinateCanvas(
   shader: string,
   opts?: CoordinateCanvasOptions
 ): Promise<CoordinateCanvas> {
-  const bounds = reactive(
-    opts?.bounds ?? {
-      xStart: -2,
-      xEnd: 2,
-      yStart: -2,
-      yEnd: 2,
-    }
-  );
+  const bounds: Bounds = {
+    xStart: ref(opts?.bounds?.xStart ?? -2),
+    xEnd: ref(opts?.bounds?.xStart ?? 2),
+    yStart: ref(opts?.bounds?.xStart ?? -2),
+    yEnd: ref(opts?.bounds?.xStart ?? 2),
+  };
 
   const vertShader = `
 precision highp float;
@@ -121,10 +124,15 @@ void main() {
   });
 
   const coords = normalize(bounds, program.size);
-  const offset = computed(() => [coords.xStart, coords.yStart]);
+
+  const offset = computed<[number, number]>(() => [
+    coords.xStart.value,
+    coords.yStart.value,
+  ]);
+
   const scale = computed(() => [
-    coords.xEnd - coords.xStart,
-    coords.yEnd - coords.yStart,
+    coords.xEnd.value - coords.xStart.value,
+    coords.yEnd.value - coords.yStart.value,
   ]);
 
   program.useUniform("offset", "f", offset);
