@@ -52,8 +52,12 @@ export function useNumericOption(name: string, initial?: number) {
   });
 }
 
-export function syncNumericOption(name: string, ref: Ref<number>) {
-  const stop = syncRef(useNumericOption(name, ref.value), ref);
+export function syncNumericOption(
+  name: string,
+  ref: Ref<number>,
+  direction?: "ltr" | "rtl" | "both"
+) {
+  const stop = syncRef(useNumericOption(name, ref.value), ref, { direction });
   tryOnScopeDispose(stop);
 
   return stop;
