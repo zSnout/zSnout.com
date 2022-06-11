@@ -4,7 +4,7 @@ import {
   useEventListener,
   usePointer,
 } from "@vueuse/core";
-import { computed, ref, unref } from "vue";
+import { computed, ref, toRef, unref } from "vue";
 import {
   Bounds,
   BoundsLike,
@@ -13,6 +13,8 @@ import {
   pointerToCoords,
   useCoordinateCanvas,
 } from "./useCoordinateCanvas";
+import { syncNumericOption } from "./useOption";
+import { useRound } from "./useRound";
 
 export function getZoomRegion(
   bounds: BoundsLike,
@@ -147,6 +149,15 @@ export async function useMovableCanvas(
       lastPointer.y.value = NaN;
     })
   );
+
+  function sync(param: keyof typeof bounds) {
+    onDispose(syncNumericOption(param, useRound(toRef(bounds, param))));
+  }
+
+  sync("xStart");
+  sync("xEnd");
+  sync("yStart");
+  sync("yEnd");
 
   return data;
 }
