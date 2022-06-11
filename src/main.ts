@@ -50,3 +50,7 @@ watchEffect(() => {
 const { height } = useWindowSize();
 const cssVar = useCssVar("--app-height");
 watchEffect(() => (cssVar.value = height.value + "px"));
+
+if (typeof Object.hasOwn !== "function") {
+  Object.hasOwn = Object.prototype.hasOwnProperty.call;
+}
