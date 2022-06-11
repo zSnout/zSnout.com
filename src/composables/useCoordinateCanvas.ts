@@ -8,7 +8,6 @@ import { computed, ref, Ref, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
 import { useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
-import "../composables/useRouteOption";
 
 export interface CoordinateCanvasOptions extends WebGLOptions {
   bounds?: BoundsLike;
