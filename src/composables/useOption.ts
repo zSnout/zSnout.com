@@ -57,7 +57,10 @@ export function syncNumericOption(
   ref: Ref<number>,
   direction?: "ltr" | "rtl" | "both"
 ) {
-  const stop = syncRef(useNumericOption(name, ref.value), ref, { direction });
+  const option = useNumericOption(name, ref.value);
+  ref.value = option.value;
+
+  const stop = syncRef(option, ref, { direction });
   tryOnScopeDispose(stop);
 
   return stop;
