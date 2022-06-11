@@ -3,6 +3,7 @@
   import { ref } from "vue";
   import FullscreenDisplay from "../../../components/FullscreenDisplay.vue";
   import { useMovableCanvas } from "../../../composables/useMovableCanvas";
+  import useRect from "../../../composables/useRect.glsl?raw";
 
   const canvas = ref<MaybeElement>();
   useMovableCanvas(
@@ -13,10 +14,9 @@
 
     uniform Bounds bounds;
     uniform Coordinates pointer;
-    uniform float xs;
-    uniform float xe;
-    uniform float ys;
-    uniform float ye;
+    uniform Bounds zoomRegion;
+
+    ${useRect}
 
     void main() {
       vec2 z;
@@ -31,13 +31,8 @@
         }
       }
 
-      if (xs < pos.x && pos.x < xe && ys < pos.y && pos.y < ye) {
-        color = vec4(color.x, color.y, color.z + 0.2, 1);
-      }
-
-      if (bounds.xStart < pos.x && pos.x < bounds.xEnd && bounds.yStart < pos.y && pos.y < bounds.yEnd) {
-        color = vec4(color.x + 0.2, color.yz, 1);
-      }
+      useRect(zoomRegion, 0.0, 0.0, 0.2);
+      useRect(bounds, 0.2, 0.0, 0.0);
 
       if (abs(pointer.x - pos.x) < (bounds.xEnd - bounds.xStart) / 100.0 && abs(pointer.y - pos.y) < (bounds.yEnd - bounds.yStart) / 100.0) {
         color = vec4(color.zz, color.z + 0.2, 1);
