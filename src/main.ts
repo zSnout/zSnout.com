@@ -54,5 +54,3 @@ watchEffect(() => (cssVar.value = height.value + "px"));
 if (typeof Object.hasOwn !== "function") {
   Object.hasOwn = Object.prototype.hasOwnProperty.call;
 }
-
-globalThis.trim = String.raw;
