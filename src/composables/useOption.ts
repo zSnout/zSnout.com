@@ -53,5 +53,8 @@ export function useNumericOption(name: string, initial?: number) {
 }
 
 export function syncNumericOption(name: string, ref: Ref<number>) {
-  tryOnScopeDispose(syncRef(useNumericOption(name, ref.value), ref));
+  const stop = syncRef(useNumericOption(name, ref.value), ref);
+  tryOnScopeDispose(stop);
+
+  return stop;
 }
