@@ -35,24 +35,27 @@ export interface CoordinatesLike {
 
 export interface CoordinateCanvas extends WebGLProgram {
   bounds: Bounds;
+  offset: Offset;
+  scale: Scale;
 }
 
 export interface Offset extends Coordinates {}
 export interface Scale extends Coordinates {}
 
 export function pointerToCoords(
-  bounds: BoundsLike,
-  size: CanvasSize,
+  offset: Offset,
+  scale: Scale,
   pointer: CoordinatesLike
 ): Coordinates {
-  const coords = normalize(bounds, size);
-
   // Y coordinates are inverted because we run yStart from the bottom of the
   // screen whereas browsers set the minimum y value at the top of the screen.
 
+  const x = useMap(0, window.innerWidth, 0, 1, pointer.x);
+  const y = useMap(window.innerHeight, 0, 0, 1, pointer.y);
+
   return {
-    x: useMap(0, size.width, coords.xStart, coords.xEnd, pointer.x),
-    y: useMap(size.height, 0, coords.yStart, coords.yEnd, pointer.y),
+    x: computed(() => x.value * scale.x.value + offset.x.value),
+    y: computed(() => y.value * scale.y.value + offset.y.value),
   };
 }
 
@@ -61,7 +64,12 @@ export function useAdjusters(bounds: BoundsLike, size: CanvasSize) {
 
   return {
     offset: {
-      x: ref(bounds.xStart),
+      x: computed(
+        () =>
+          (unref(bounds.xStart) -
+            (unref(bounds.xEnd) - unref(bounds.xStart)) / 2) /
+          2
+      ),
       y: ref(bounds.yStart),
     } as Offset,
     scale: {
@@ -172,11 +180,11 @@ export async function useCoordinateCanvas(
     program.useUniform("bounds.yEnd", "f", bounds.yEnd);
 
     const pointer = usePointer();
-    const cursor = pointerToCoords(bounds, program.size, pointer);
+    const cursor = pointerToCoords(offset, scale, pointer);
 
     program.useUniform("pointer.x", "f", cursor.x);
     program.useUniform("pointer.y", "f", cursor.y);
   }
 
-  return Object.assign(program, { bounds });
+  return Object.assign(program, { bounds, offset, scale });
 }
