@@ -1,8 +1,14 @@
-import { MaybeElementRef, MaybeRef, usePointer } from "@vueuse/core";
+import {
+  MaybeElementRef,
+  MaybeRef,
+  usePointer,
+  useWindowSize,
+} from "@vueuse/core";
 import { computed, ref, Ref, unref } from "vue";
 import { CanvasSize } from "./useCanvas";
 import { useMap } from "./useMap";
 import { useWebGL, WebGLOptions, WebGLProgram } from "./useWebGL";
+import "../composables/useRouteOption";
 
 export interface CoordinateCanvasOptions extends WebGLOptions {
   bounds?: BoundsLike;
@@ -47,11 +53,13 @@ export function pointerToCoords(
   scale: Scale,
   pointer: CoordinatesLike
 ): Coordinates {
+  const window = useWindowSize();
+
   // Y coordinates are inverted because we run yStart from the bottom of the
   // screen whereas browsers set the minimum y value at the top of the screen.
 
-  const x = useMap(0, window.innerWidth, 0, 1, pointer.x);
-  const y = useMap(window.innerHeight, 0, 0, 1, pointer.y);
+  const x = useMap(0, window.width, 0, 1, pointer.x);
+  const y = useMap(window.height, 0, 0, 1, pointer.y);
 
   return {
     x: computed(() => x.value * scale.x.value + offset.x.value),
@@ -60,17 +68,32 @@ export function pointerToCoords(
 }
 
 export function useAdjusters(bounds: BoundsLike, size: CanvasSize) {
+  const window = useWindowSize();
   bounds = normalize(bounds, size);
+
+  const offset = computed(() => {
+    const xStart = unref(bounds.xStart);
+    const xEnd = unref(bounds.xEnd);
+    const yStart = unref(bounds.yStart);
+    const yEnd = unref(bounds.yEnd);
+
+    if (window.width.value > window.height.value) {
+      return {
+        x: (xStart - (xEnd - xStart) / 2) / 2,
+        y: yStart,
+      };
+    } else {
+      return {
+        x: xStart,
+        y: (yStart - (yEnd - yStart) / 2) / 2,
+      };
+    }
+  });
 
   return {
     offset: {
-      x: computed(
-        () =>
-          (unref(bounds.xStart) -
-            (unref(bounds.xEnd) - unref(bounds.xStart)) / 2) /
-          2
-      ),
-      y: ref(bounds.yStart),
+      x: computed(() => offset.value.x),
+      y: computed(() => offset.value.y),
     } as Offset,
     scale: {
       x: computed(() => unref(bounds.xEnd) - unref(bounds.xStart)),
@@ -173,7 +196,7 @@ export async function useCoordinateCanvas(
   program.useUniform("offset", "f", useVec2(offset));
   program.useUniform("scale", "f", useVec2(scale));
 
-  if (opts?.uniforms !== false) {
+  if (opts?.uniforms === true) {
     program.useUniform("bounds.xStart", "f", bounds.xStart);
     program.useUniform("bounds.xEnd", "f", bounds.xEnd);
     program.useUniform("bounds.yStart", "f", bounds.yStart);
