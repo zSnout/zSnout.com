@@ -52,15 +52,11 @@ export function useNumericOption(name: string, initial?: number) {
   });
 }
 
-export function syncNumericOption(
-  name: string,
-  ref: Ref<number>,
-  direction?: "ltr" | "rtl" | "both"
-) {
+export function syncNumericOption(name: string, ref: Ref<number>) {
   const option = useNumericOption(name, ref.value);
   ref.value = option.value;
 
-  const stop = syncRef(option, ref, { direction });
+  const stop = syncRef(option, ref, { direction: "rtl" });
   tryOnScopeDispose(stop);
 
   return stop;
