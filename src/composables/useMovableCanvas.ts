@@ -1,5 +1,4 @@
 import { MaybeElementRef, useEventListener, usePointer } from "@vueuse/core";
-import { watch } from "fs";
 import { computed, ref, unref } from "vue";
 import {
   Bounds,
@@ -36,11 +35,11 @@ export async function useMovableCanvas(
   opts?: CoordinateCanvasOptions
 ) {
   const data = await useCoordinateCanvas(canvasRef, shader, opts);
-  const { canvas, bounds, onDispose, size, useUniform } = data;
+  const { canvas, bounds, offset, onDispose, scale, useUniform } = data;
 
   const pointer = usePointer();
-  const lastPointer = { x: ref(pointer.x.value), y: ref(pointer.y.value) };
-  const zoom = getZoomRegion(bounds, pointerToCoords(bounds, size, pointer));
+  const lastPointer = { x: ref(NaN), y: ref(NaN) };
+  const zoom = getZoomRegion(bounds, pointerToCoords(offset, scale, pointer));
 
   if (opts?.uniforms !== false) {
     useUniform("zoomRegion.xStart", "f", zoom.xStart);
@@ -75,8 +74,8 @@ export async function useMovableCanvas(
     )
   );
 
-  const coords = pointerToCoords(bounds, size, pointer);
-  const lastCoords = pointerToCoords(bounds, size, lastPointer);
+  const coords = pointerToCoords(offset, scale, pointer);
+  const lastCoords = pointerToCoords(offset, scale, lastPointer);
 
   onDispose(
     useEventListener(canvas, "pointermove", (event: MouseEvent) => {
