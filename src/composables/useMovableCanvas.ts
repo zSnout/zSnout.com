@@ -1,4 +1,9 @@
-import { MaybeElementRef, useEventListener, usePointer } from "@vueuse/core";
+import {
+  MaybeElementRef,
+  MaybeRef,
+  useEventListener,
+  usePointer,
+} from "@vueuse/core";
 import { computed, ref, unref } from "vue";
 import {
   Bounds,
@@ -11,20 +16,29 @@ import {
 
 export function getZoomRegion(
   bounds: BoundsLike,
-  cursor: CoordinatesLike
+  cursor: CoordinatesLike,
+  sign: MaybeRef<number>
 ): Bounds {
   return {
     xStart: computed(
-      () => unref(bounds.xStart) + (unref(cursor.x) - unref(bounds.xStart)) / 10
+      () =>
+        unref(bounds.xStart) +
+        (unref(sign) * (unref(cursor.x) - unref(bounds.xStart))) / 10
     ),
     xEnd: computed(
-      () => unref(bounds.xEnd) + (unref(cursor.x) - unref(bounds.xEnd)) / 10
+      () =>
+        unref(bounds.xEnd) +
+        (unref(sign) * (unref(cursor.x) - unref(bounds.xEnd))) / 10
     ),
     yStart: computed(
-      () => unref(bounds.yStart) + (unref(cursor.y) - unref(bounds.yStart)) / 10
+      () =>
+        unref(bounds.yStart) +
+        (unref(sign) * (unref(cursor.y) - unref(bounds.yStart))) / 10
     ),
     yEnd: computed(
-      () => unref(bounds.yEnd) + (unref(cursor.y) - unref(bounds.yEnd)) / 10
+      () =>
+        unref(bounds.yEnd) +
+        (unref(sign) * (unref(cursor.y) - unref(bounds.yEnd))) / 10
     ),
   };
 }
@@ -39,9 +53,21 @@ export async function useMovableCanvas(
 
   const pointer = usePointer();
   const lastPointer = { x: ref(NaN), y: ref(NaN) };
-  const zoom = getZoomRegion(bounds, pointerToCoords(offset, scale, pointer));
+  const strength = ref(0);
 
-  if (opts?.uniforms !== false) {
+  const zoom = getZoomRegion(
+    bounds,
+    pointerToCoords(offset, scale, pointer),
+    strength
+  );
+
+  if (opts?.uniforms === true) {
+    const zoom = getZoomRegion(
+      bounds,
+      pointerToCoords(offset, scale, pointer),
+      1
+    );
+
     useUniform("zoomRegion.xStart", "f", zoom.xStart);
     useUniform("zoomRegion.xEnd", "f", zoom.xEnd);
     useUniform("zoomRegion.yStart", "f", zoom.yStart);
@@ -57,6 +83,8 @@ export async function useMovableCanvas(
 
         pointer.x.value = event.offsetX;
         pointer.y.value = event.offsetY;
+        strength.value =
+          (Math.sqrt(Math.abs(event.deltaY)) * -Math.sign(event.deltaY)) / 10;
 
         const {
           xStart: { value: xStart },
