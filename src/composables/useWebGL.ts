@@ -111,6 +111,7 @@ export async function useWebGL(
   gl.vertexAttribPointer(posAttrLocation, 2, gl.FLOAT, false, 0, 0);
 
   function render() {
+    if (gl.isContextLost()) return;
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.viewport(
@@ -129,29 +130,37 @@ export async function useWebGL(
       render();
     }
   });
-  onDispose(() => clearInterval(interval));
 
+  onDispose(() => clearInterval(interval));
   onResize(render);
+
+  function useUniform(
+    name: string,
+    type: "f" | "i",
+    value: MaybeRef<number | number[]>
+  ) {
+    if (gl.isContextLost()) return;
+    const location = gl.getUniformLocation(program, name);
+    if (!location) return;
+
+    const stop = watchEffect(() => {
+      let val = unref(value);
+      if (gl.isContextLost()) return;
+      if (typeof val === "number") val = [val];
+      if (val.length < 1 || val.length > 4) return;
+
+      gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
+
+      rerender = true;
+    });
+
+    onDispose(stop);
+  }
 
   return Object.assign<CanvasInfo, Omit<WebGLProgram, keyof CanvasInfo>>(data, {
     gl,
     program,
     render,
-    useUniform(name, type, value) {
-      const location = gl.getUniformLocation(program, name);
-      if (!location) return;
-
-      const stop = watchEffect(() => {
-        let val = unref(value);
-        if (typeof val === "number") val = [val];
-        if (val.length < 1 || val.length > 4) return;
-
-        gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
-
-        rerender = true;
-      });
-
-      onDispose(stop);
-    },
+    useUniform,
   });
 }
