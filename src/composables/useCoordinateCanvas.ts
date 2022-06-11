@@ -37,6 +37,9 @@ export interface CoordinateCanvas extends WebGLProgram {
   bounds: Bounds;
 }
 
+export interface Offset extends Coordinates {}
+export interface Scale extends Coordinates {}
+
 export function pointerToCoords(
   bounds: BoundsLike,
   size: CanvasSize,
@@ -53,8 +56,27 @@ export function pointerToCoords(
   };
 }
 
+export function useAdjusters(bounds: BoundsLike, size: CanvasSize) {
+  bounds = normalize(bounds, size);
+
+  return {
+    offset: {
+      x: ref(bounds.xStart),
+      y: ref(bounds.yStart),
+    } as Offset,
+    scale: {
+      x: computed(() => unref(bounds.xEnd) - unref(bounds.xStart)),
+      y: computed(() => unref(bounds.yEnd) - unref(bounds.yStart)),
+    } as Scale,
+  };
+}
+
+export function useVec2(coords: CoordinatesLike): Ref<[number, number]> {
+  return computed(() => [unref(coords.x), unref(coords.y)]);
+}
+
 export function normalize(bounds: BoundsLike, size: CanvasSize): Bounds {
-  const coords = computed<BoundsLike>(() => {
+  const newBounds = computed<BoundsLike>(() => {
     const { xStart, xEnd, yStart, yEnd } = bounds;
     const xCenter = unref(xStart) + unref(xEnd);
     const yCenter = unref(yStart) + unref(yEnd);
@@ -88,10 +110,10 @@ export function normalize(bounds: BoundsLike, size: CanvasSize): Bounds {
   });
 
   return {
-    xStart: computed(() => unref(coords.value.xStart)),
-    xEnd: computed(() => unref(coords.value.xEnd)),
-    yStart: computed(() => unref(coords.value.yStart)),
-    yEnd: computed(() => unref(coords.value.yEnd)),
+    xStart: computed(() => unref(newBounds.value.xStart)),
+    xEnd: computed(() => unref(newBounds.value.xEnd)),
+    yStart: computed(() => unref(newBounds.value.yStart)),
+    yEnd: computed(() => unref(newBounds.value.yEnd)),
   };
 }
 
@@ -138,20 +160,10 @@ export async function useCoordinateCanvas(
     vertShader: structs + (opts?.vertShader ?? vertShader),
   });
 
-  const coords = normalize(bounds, program.size);
+  const { offset, scale } = useAdjusters(bounds, program.size);
 
-  const offset = computed<[number, number]>(() => [
-    coords.xStart.value,
-    coords.yStart.value,
-  ]);
-
-  const scale = computed(() => [
-    coords.xEnd.value - coords.xStart.value,
-    coords.yEnd.value - coords.yStart.value,
-  ]);
-
-  program.useUniform("offset", "f", offset);
-  program.useUniform("scale", "f", scale);
+  program.useUniform("offset", "f", useVec2(offset));
+  program.useUniform("scale", "f", useVec2(scale));
 
   if (opts?.uniforms !== false) {
     program.useUniform("bounds.xStart", "f", bounds.xStart);
