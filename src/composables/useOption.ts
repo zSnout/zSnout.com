@@ -1,5 +1,11 @@
 import { computed } from "@vue/reactivity";
-import { MaybeRef, syncRef, syncRefs, useUrlSearchParams } from "@vueuse/core";
+import {
+  MaybeRef,
+  syncRef,
+  syncRefs,
+  tryOnScopeDispose,
+  useUrlSearchParams,
+} from "@vueuse/core";
 import {
   toRef,
   unref,
@@ -47,5 +53,5 @@ export function useNumericOption(name: string, initial?: number) {
 }
 
 export function syncNumericOption(name: string, ref: Ref<number>) {
-  syncRef(useNumericOption(name, ref.value), ref);
+  tryOnScopeDispose(syncRef(useNumericOption(name, ref.value), ref));
 }
