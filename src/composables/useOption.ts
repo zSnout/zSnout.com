@@ -39,6 +39,16 @@ export function useOption(name: string, initial?: string) {
   });
 }
 
+export function syncOption(name: string, ref: Ref<string>) {
+  const option = useOption(name, ref.value);
+  ref.value = option.value;
+
+  const stop = syncRef(option, ref, { direction: "rtl" });
+  tryOnScopeDispose(stop);
+
+  return stop;
+}
+
 export function useNumericOption(name: string, initial?: number) {
   const option = useOption(name, "" + initial);
 
