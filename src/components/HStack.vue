@@ -18,6 +18,7 @@
     flex-direction: row;
     flex-wrap: v-bind("wraps ? 'wrap' : 'invalid'");
     gap: v-bind("`${space ?? 0.5}em`");
+    align-items: center;
 
     > :deep(*) {
       flex: v-bind("stretch ? '1' : 'invalid'");
