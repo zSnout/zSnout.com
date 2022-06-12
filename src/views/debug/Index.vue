@@ -1,0 +1,35 @@
+<script lang="ts" setup>
+  import Card from "../../components/Card.vue";
+  import DocumentDisplay from "../../components/DocumentDisplay.vue";
+  import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
+  import Title from "../../components/Title.vue";
+</script>
+
+<template>
+  <DocumentDisplay>
+    <Title>Debug Pages</Title>
+
+    <SearchableCardGrid>
+      <Card
+        description="Moves a yellow bar across the screen in a test of using Vue's refs with WebGL uniforms."
+        keywords="webgl animations"
+        title="Reactive Uniforms"
+        to="/debug/webgl/uniforms"
+      />
+
+      <Card
+        description="Contains a gradient and reacts to changes in location and scale. Tests canvas direction."
+        keywords="webgl canvas direction"
+        title="XY Plane and Gradient"
+        to="/debug/webgl/grid"
+      />
+
+      <Card
+        description="A grayscale Mandelbrot Set with boxes showing the current bounds, next zoom bounds, and pointer location."
+        keywords="webgl fractals"
+        title="Mandelbrot Set"
+        to="/debug/webgl/mandelbrot"
+      />
+    </SearchableCardGrid>
+  </DocumentDisplay>
+</template>
