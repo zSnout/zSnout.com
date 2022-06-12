@@ -106,8 +106,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: var(--app-width);
+    height: var(--app-height);
     padding: var(--padding);
     padding-top: calc(env(safe-area-inset-top, 0) + var(--padding));
     padding-right: calc(env(safe-area-inset-right, 0) + var(--padding));
@@ -133,9 +133,8 @@
   .modal {
     position: relative;
     top: 2em;
-    max-width: min(500px, 100%);
+    min-width: min(500px, 100%);
     min-height: min(300px, 100%);
-    max-height: 100%;
     padding: 0.75em;
     overflow: auto;
     cursor: initial;
