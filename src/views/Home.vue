@@ -23,6 +23,13 @@
         title="404 page"
         to="/404"
       />
+
+      <Card
+        description="A collection of pages used to debug and test interfaces such as the canvas APIs."
+        keywords="webgl canvas"
+        title="Debug Pages"
+        to="/debug"
+      />
     </SearchableCardGrid>
   </DocumentDisplay>
 </template>
