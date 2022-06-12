@@ -1,15 +1,14 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
-  import { RouterLink } from "vue-router";
-  import LogoDark from "./LogoDark.vue";
-  import SafeArea from "./SafeArea.vue";
-  import Modal from "./Modal.vue";
   import { ref } from "vue";
-  import OptionsIcon from "./OptionsIcon.vue";
+  import { RouterLink } from "vue-router";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
-  import Spacer from "./Spacer.vue";
   import LogoLight from "./LogoLight.vue";
+  import Modal from "./Modal.vue";
+  import OptionsIcon from "./OptionsIcon.vue";
+  import SafeArea from "./SafeArea.vue";
+  import Spacer from "./Spacer.vue";
 
   defineProps<{ options?: boolean }>();
 
@@ -28,7 +27,7 @@
 
         <OptionsIcon
           v-if="$slots.options"
-          class="options"
+          class="options fullscreen"
           role="button"
           @click="open = !open"
         />
@@ -61,6 +60,7 @@
 
   .padding {
     padding-top: 0.75em;
+    overflow: hidden;
 
     @media screen and (max-width: 400px) {
       padding-top: 0.5em;
