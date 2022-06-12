@@ -4,12 +4,16 @@
   </h1>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .title {
-    padding: 0.5em;
-    padding-top: 0;
+    padding: 0 0.5em 0.3em 0.5em;
+    color: #13474b;
     font-weight: 900;
-    letter-spacing: -0.25px;
+    letter-spacing: 0.25px;
     border-bottom: 2px solid currentColor;
+
+    .dark & {
+      color: #a3d5d6;
+    }
   }
 </style>
