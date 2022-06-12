@@ -24,6 +24,9 @@
   ::after {
     box-sizing: border-box;
     color: black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
     transition: var(--transitions);
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -55,12 +58,6 @@
     }
   }
 
-  #app {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-      sans-serif;
-  }
-
   a {
     color: #008383;
     text-decoration: none;
@@ -72,6 +69,15 @@
     .dark & {
       color: #42b8b8;
     }
+  }
+
+  a,
+  button {
+    touch-action: none;
+  }
+
+  canvas {
+    touch-action: none;
   }
 
   .second-layer {
@@ -112,10 +118,5 @@
   .dark.hover .hoverline:hover,
   .dark.hover .focusline:focus {
     outline-color: #2c8d8d;
-  }
-
-  canvas {
-    touch-action: none;
-    user-zoom: none;
   }
 </style>
