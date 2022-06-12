@@ -47,9 +47,13 @@ watchEffect(() => {
   document.documentElement.classList.toggle("hover", isHoverable.value);
 });
 
-const { height } = useWindowSize();
-const cssVar = useCssVar("--app-height");
-watchEffect(() => (cssVar.value = height.value + "px"));
+const { width, height } = useWindowSize();
+
+const appWidth = useCssVar("--app-width");
+watchEffect(() => (appWidth.value = width.value + "px"));
+
+const appHeight = useCssVar("--app-height");
+watchEffect(() => (appHeight.value = height.value + "px"));
 
 if (typeof Object.hasOwn !== "function") {
   Object.hasOwn = Object.prototype.hasOwnProperty.call;
