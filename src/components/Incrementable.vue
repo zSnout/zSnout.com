@@ -38,6 +38,7 @@
 <style scoped>
   .label {
     flex: 1;
+    align-self: center;
     text-align: center;
   }
 </style>
