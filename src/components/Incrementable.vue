@@ -17,6 +17,10 @@
 
   const model = ref(modelValue);
   watch(model, (value) => emit("update:modelValue", value));
+
+  function onClick({ target }: Event) {
+    (target as HTMLElement).querySelector("input")?.focus();
+  }
 </script>
 
 <template>
@@ -25,7 +29,7 @@
       <MinusIcon />
     </IconButton>
 
-    <p class="label">
+    <p class="label" @click="onClick">
       <slot>{{ model }}</slot>
     </p>
 
