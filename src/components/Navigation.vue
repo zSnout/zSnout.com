@@ -108,14 +108,15 @@
     top: 0;
     z-index: 3;
     background-color: #f0f0f0;
+    border-bottom: 1px solid #3c3c3c1f;
 
     .dark & {
       background-color: #202124;
+      border-bottom-color: #5454547a;
     }
 
     @supports (backdrop-filter: blur(8px)) {
       background-color: #f0f0f080;
-      border-bottom: none;
       backdrop-filter: blur(8px);
 
       .dark & {
@@ -135,14 +136,14 @@
 
   .logo {
     height: 2rem;
+    cursor: pointer;
 
     .hover &:hover {
-      cursor: pointer;
       filter: drop-shadow(1px 1px 2px #0008);
+    }
 
-      .dark & {
-        filter: drop-shadow(1px 1px 2px #fffc);
-      }
+    .dark.hover &:hover {
+      filter: drop-shadow(1px 1px 2px #fffc);
     }
   }
 
