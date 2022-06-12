@@ -28,7 +28,7 @@
         description="A collection of pages used to debug and test interfaces such as the canvas APIs."
         keywords="webgl canvas"
         title="Debug Pages"
-        to="/debug"
+        to="/debug/"
       />
     </SearchableCardGrid>
   </DocumentDisplay>
