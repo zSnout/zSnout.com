@@ -80,7 +80,7 @@
 </script>
 
 <template>
-  <Teleport to="#app">
+  <Teleport to="body">
     <div :class="{ open }" class="wrapper" @click="cancel">
       <VStack ref="dialog" class="modal second-layer">
         <slot />
