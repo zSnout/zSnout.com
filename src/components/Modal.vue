@@ -82,7 +82,7 @@
 <template>
   <Teleport to="body">
     <div :class="{ open }" class="wrapper" @click="cancel">
-      <VStack ref="dialog" class="modal second-layer">
+      <VStack ref="dialog" class="modal second-layer" :space="0.75">
         <slot />
 
         <Spacer />
