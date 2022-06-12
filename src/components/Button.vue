@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-  defineProps<{ cancel?: boolean }>();
+  defineProps<{
+    cancel?: boolean;
+    center?: boolean;
+  }>();
 </script>
 
 <template>
   <button
-    :class="{ cancel }"
+    :class="{ cancel, center }"
     class="button hoverline focusline second-layer"
     type="button"
   >
@@ -12,10 +15,16 @@
   </button>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .button {
     display: block;
     font-size: inherit;
     cursor: pointer;
+
+    &.center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 </style>
