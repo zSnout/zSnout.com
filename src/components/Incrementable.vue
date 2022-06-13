@@ -1,22 +1,24 @@
 <script lang="ts" setup>
-  import { ref, watch } from "vue";
   import HStack from "./HStack.vue";
   import IconButton from "./IconButton.vue";
   import MinusIcon from "./MinusIcon.vue";
   import PlusIcon from "./PlusIcon.vue";
 
-  const { modelValue } = defineProps<{
-    modelValue: number;
-    decrement?(value: number): number;
-    increment?(value: number): number;
-  }>();
+  const props = withDefaults(
+    defineProps<{
+      modelValue: number;
+      decrement?(value: number): number;
+      increment?(value: number): number;
+    }>(),
+    {
+      decrement: (value: number) => value - 1,
+      increment: (value: number) => value + 1,
+    }
+  );
 
-  const emit = defineEmits<{
+  defineEmits<{
     (event: "update:modelValue", modelValue: number): void;
   }>();
-
-  const model = ref(modelValue);
-  watch(model, (value) => emit("update:modelValue", value));
 
   function onClick({ target }: Event) {
     (target as HTMLElement).querySelector("input")?.focus();
@@ -25,15 +27,19 @@
 
 <template>
   <HStack>
-    <IconButton @click="model = decrement?.(model) ?? model - 1">
+    <IconButton
+      @click="$emit('update:modelValue', decrement(props.modelValue))"
+    >
       <MinusIcon />
     </IconButton>
 
     <p class="label" @click="onClick">
-      <slot>{{ model }}</slot>
+      <slot>{{ modelValue }}</slot>
     </p>
 
-    <IconButton @click="model = increment?.(model) ?? model + 1">
+    <IconButton
+      @click="$emit('update:modelValue', increment(props.modelValue))"
+    >
       <PlusIcon />
     </IconButton>
   </HStack>
