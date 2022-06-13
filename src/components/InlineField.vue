@@ -20,6 +20,7 @@
     class="field"
     :autocomplete="autocomplete ?? 'off'"
     :placeholder="placeholder"
+    :style="{ width: modelValue.length + 2 + 'ch' }"
     :type="type ?? 'text'"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target!.value)"
