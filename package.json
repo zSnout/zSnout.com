@@ -15,7 +15,7 @@
     "random-seed": "^0.3.0",
     "tabbable": "^5.3.3",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.15"
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@types/random-seed": "^0.3.3",
