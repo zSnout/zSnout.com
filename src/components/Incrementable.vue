@@ -4,7 +4,7 @@
   import MinusIcon from "./MinusIcon.vue";
   import PlusIcon from "./PlusIcon.vue";
 
-  const props = withDefaults(
+  withDefaults(
     defineProps<{
       modelValue: number;
       decrement?(value: number): number;
@@ -27,9 +27,7 @@
 
 <template>
   <HStack>
-    <IconButton
-      @click="$emit('update:modelValue', decrement(props.modelValue))"
-    >
+    <IconButton @click="$emit('update:modelValue', decrement(modelValue))">
       <MinusIcon />
     </IconButton>
 
@@ -37,9 +35,7 @@
       <slot>{{ modelValue }}</slot>
     </p>
 
-    <IconButton
-      @click="$emit('update:modelValue', increment(props.modelValue))"
-    >
+    <IconButton @click="$emit('update:modelValue', increment(modelValue))">
       <PlusIcon />
     </IconButton>
   </HStack>
