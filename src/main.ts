@@ -58,3 +58,19 @@ watchEffect(() => (appHeight.value = height.value + "px"));
 if (typeof Object.hasOwn !== "function") {
   Object.hasOwn = Object.prototype.hasOwnProperty.call;
 }
+
+window.addEventListener("keydown", (event) => {
+  if (
+    navigator.userAgent.includes("Mac") &&
+    event.key === "," &&
+    event.metaKey &&
+    !event.shiftKey &&
+    !event.ctrlKey &&
+    !event.altKey
+  ) {
+    event.preventDefault();
+
+    const svg = document.querySelector("svg.icon.options") as SVGElement;
+    svg?.dispatchEvent(new MouseEvent("click"));
+  }
+});
