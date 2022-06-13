@@ -14,18 +14,18 @@
     "disable-scroll": "^0.6.0",
     "random-seed": "^0.3.0",
     "tabbable": "^5.3.3",
-    "vue": "^3.2.25",
-    "vue-router": "^4.0.15"
+    "vue": "^3.2.37",
+    "vue-router": "^4.0.16"
   },
   "devDependencies": {
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
-    "sass": "^1.52.2",
+    "sass": "^1.52.3",
     "typescript": "^4.7.3",
-    "vite": "^2.9.9",
+    "vite": "^2.9.12",
     "vite-plugin-pwa": "^0.12.0",
-    "vue-tsc": "^0.36.1"
+    "vue-tsc": "^0.37.3"
   }
 }
