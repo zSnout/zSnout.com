@@ -130,7 +130,7 @@
       z = {{EQ}};
 
       if (length(z) > limit) {
-        color.rgb = vec3(float(i) / float(detail));
+        color = vec4(palette(float(i) * 0.01), 1);
         return;
       }
     }
