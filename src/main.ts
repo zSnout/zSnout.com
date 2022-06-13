@@ -74,3 +74,9 @@ window.addEventListener("keydown", (event) => {
     svg?.dispatchEvent(new MouseEvent("click"));
   }
 });
+
+declare global {
+  interface EventTarget {
+    value: string;
+  }
+}
