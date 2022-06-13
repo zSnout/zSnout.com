@@ -14,7 +14,7 @@
     "disable-scroll": "^0.6.0",
     "random-seed": "^0.3.0",
     "tabbable": "^5.3.3",
-    "vue": "^3.2.25",
+    "vue": "^3.2.37",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
