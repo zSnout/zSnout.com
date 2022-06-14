@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-  import { toRef, watch } from "vue";
-
-  const props = defineProps<{
+  defineProps<{
     modelValue: string;
     type?: string;
     autocomplete?: string;
