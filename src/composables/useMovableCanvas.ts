@@ -13,7 +13,7 @@ import {
   pointerToCoords,
   useCoordinateCanvas,
 } from "./useCoordinateCanvas";
-import { syncNumericOption } from "./useOption";
+import { syncOption } from "./useOption";
 import { useRound } from "./useRound";
 
 export function getZoomRegion(
@@ -151,7 +151,7 @@ export async function useMovableCanvas(
   );
 
   function sync(param: keyof typeof bounds) {
-    onDispose(syncNumericOption(param, useRound(toRef(bounds, param))));
+    onDispose(syncOption(param, useRound(toRef(bounds, param))));
   }
 
   sync("xStart");

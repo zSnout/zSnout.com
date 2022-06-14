@@ -1,20 +1,6 @@
 import { computed } from "@vue/reactivity";
-import {
-  MaybeRef,
-  syncRef,
-  syncRefs,
-  tryOnScopeDispose,
-  useUrlSearchParams,
-} from "@vueuse/core";
-import {
-  toRef,
-  unref,
-  WritableComputedRef,
-  Ref,
-  watchEffect,
-  watch,
-} from "vue";
-import { useRoute } from "vue-router";
+import { syncRef, tryOnScopeDispose, useUrlSearchParams } from "@vueuse/core";
+import { Ref, WritableComputedRef } from "vue";
 
 const params = useUrlSearchParams("history");
 
@@ -24,49 +10,39 @@ export interface Options {
   boolean: boolean;
 }
 
-export function useOption(name: string, initial?: string) {
+export function useOption(
+  name: string,
+  initial: number
+): WritableComputedRef<number>;
+export function useOption(
+  name: string,
+  initial?: string
+): WritableComputedRef<string>;
+export function useOption(
+  name: string,
+  initial?: string | number
+): WritableComputedRef<string | number>;
+export function useOption(name: string, initial?: string | number) {
   if (params[name] === undefined && initial !== undefined) {
-    params[name] = initial;
+    params[name] = "" + initial;
   }
 
-  return computed<string>({
+  return computed<string | number>({
     get() {
+      if (typeof initial === "number") return +params[name];
       return "" + params[name];
     },
     set(value) {
-      params[name] = value;
+      params[name] = "" + value;
     },
   });
 }
 
-export function syncOption(name: string, ref: Ref<string>) {
+export function syncOption(name: string, ref: Ref<string> | Ref<number>) {
   const option = useOption(name, ref.value);
   ref.value = option.value;
 
-  const stop = syncRef(option, ref, { direction: "rtl" });
-  tryOnScopeDispose(stop);
-
-  return stop;
-}
-
-export function useNumericOption(name: string, initial?: number) {
-  const option = useOption(name, "" + initial);
-
-  return computed<number>({
-    get() {
-      return parseFloat(option.value);
-    },
-    set(value) {
-      option.value = "" + value;
-    },
-  });
-}
-
-export function syncNumericOption(name: string, ref: Ref<number>) {
-  const option = useNumericOption(name, ref.value);
-  ref.value = option.value;
-
-  const stop = syncRef(option, ref, { direction: "rtl" });
+  const stop = syncRef<Ref<number | string>>(option, ref, { direction: "rtl" });
   tryOnScopeDispose(stop);
 
   return stop;
