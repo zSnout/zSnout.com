@@ -11,6 +11,13 @@
 
     <SearchableCardGrid>
       <Card
+        description="View amazing fractal images and interact with them live on your computer."
+        keywords="fractals math mandelbrot set"
+        title="Fractal Explorer"
+        to="/fractal-explorer"
+      />
+
+      <Card
         description="It's like a random number generator, but it generates the same number every time."
         keywords="random numbers passkey password"
         title="Same Number Generator"
