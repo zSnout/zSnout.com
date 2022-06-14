@@ -16,6 +16,7 @@ export interface CanvasInfo {
   size: CanvasSize;
   onDispose(hook: () => void): void;
   onResize(hook: () => void): void;
+  dispose(): void;
 }
 
 export function useCanvas(canvas: MaybeElementRef) {
@@ -23,30 +24,34 @@ export function useCanvas(canvas: MaybeElementRef) {
   tryOnScopeDispose(() => onDispose.forEach((hook) => hook()));
 
   return new Promise<CanvasInfo>((resolve) => {
-    const stop = watchEffect(() => {
-      const el = unrefElement(canvas);
+    onDispose.push(
+      watchEffect(() => {
+        const el = unrefElement(canvas);
 
-      if (el instanceof HTMLCanvasElement) {
-        const { width, height } = useElementSize(el);
+        if (el instanceof HTMLCanvasElement) {
+          const { width, height } = useElementSize(el);
+          const onResize: (() => void)[] = [];
 
-        const onResize: (() => void)[] = [];
-        if (typeof stop === "function") onDispose.push(stop);
+          onDispose.push(
+            watchEffect(() => {
+              el.width = width.value * devicePixelRatio;
+              el.height = height.value * devicePixelRatio;
+              onResize.forEach((hook) => hook());
+            })
+          );
 
-        const resizer = watchEffect(() => {
-          el.width = width.value * devicePixelRatio;
-          el.height = height.value * devicePixelRatio;
-          onResize.forEach((hook) => hook());
-        });
-
-        onDispose.push(resizer);
-
-        resolve({
-          canvas: el,
-          onDispose: (hook) => onDispose.push(hook),
-          onResize: (hook) => onResize.push(hook),
-          size: { width, height },
-        });
-      }
-    });
+          resolve({
+            canvas: el,
+            onDispose: (hook) => onDispose.push(hook),
+            onResize: (hook) => onResize.push(hook),
+            size: { width, height },
+            dispose() {
+              onDispose.forEach((hook) => hook());
+              onDispose.splice(0, onDispose.length);
+            },
+          });
+        }
+      })
+    );
   });
 }
