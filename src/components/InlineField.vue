@@ -11,8 +11,6 @@
   defineEmits<{
     (event: "update:modelValue", modelValue: string): void;
   }>();
-
-  watch(toRef(props, "modelValue"), console.log);
 </script>
 
 <template>
