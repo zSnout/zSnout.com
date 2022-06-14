@@ -151,15 +151,19 @@
   `;
 
   const canvas = ref<MaybeElement>();
-  const reload = () => router.go(0);
 
-  useMovableCanvas(canvas, shader.replace("{{EQ}}", glsl(equation.value))).then(
-    (gl) => {
+  function reload() {
+    useMovableCanvas(
+      canvas,
+      shader.replace("{{EQ}}", glsl(equation.value))
+    ).then((gl) => {
       gl.useUniform("detail", "i", detail);
       gl.useUniform("limit", "f", limit);
       gl.useUniform("colorOffset", "f", colorOffset);
-    }
-  );
+    });
+  }
+
+  reload();
 </script>
 
 <template>
