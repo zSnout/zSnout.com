@@ -119,4 +119,9 @@
   .dark.hover .focusline:focus {
     outline-color: #2c8d8d;
   }
+
+  .second-layer hr {
+    border: 0;
+    border-bottom: 1px solid white;
+  }
 </style>

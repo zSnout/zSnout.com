@@ -8,10 +8,14 @@
   import InlineNumericField from "../components/InlineNumericField.vue";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
-  import { syncNumericOption, syncOption } from "../composables/useOption";
+  import { syncOption } from "../composables/useOption";
+  import Labeled from "../components/Labeled.vue";
+  import Field from "../components/Field.vue";
+  import Button from "../components/Button.vue";
+  import { router } from "../main";
 
   const detail = useClamp(100, 5, Infinity);
-  syncNumericOption("detail", detail);
+  syncOption("detail", detail);
 
   function decrementDetail(value: number) {
     if (value <= 10) {
@@ -38,7 +42,7 @@
   }
 
   const limit = useClamp(2, 0.1, Infinity);
-  syncNumericOption("limit", limit);
+  syncOption("limit", limit);
 
   function decrementLimit(value: number) {
     if (value <= 2) {
@@ -56,12 +60,22 @@
     }
   }
 
+  const theme = ref<"rainbow">("rainbow");
+  syncOption("theme", theme);
+
+  const colorOffset = ref(0);
+  syncOption("colorOffset", colorOffset);
+
+  const equation = ref("z^2+c");
+  syncOption("equation", equation);
+
   const shader = trim`
   in vec2 pos;
   out vec4 color;
 
   uniform int detail;
   uniform float limit;
+  uniform float colorOffset;
   float pi = 3.1415926535;
 
   vec3 hsl2rgb(vec3 c) {
@@ -71,12 +85,12 @@
   }
 
   vec3 palette(float t) {
-    float hue = mod(2.0 * t, 1.0);
+    float hue = mod(2.0 * t + colorOffset, 1.0);
     return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
   }
 
   vec3 newtonPalette(float t) {
-    float hue = t / pi;
+    float hue = mod(t / pi + colorOffset, 1.0);
     return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
   }
 
@@ -137,18 +151,14 @@
   }
   `;
 
-  const theme = ref<"rainbow">("rainbow");
-  syncOption("theme", theme);
-
-  const equation = ref("z^2+c");
-  syncOption("equation", equation);
-
   const canvas = ref<MaybeElement>();
+  const reload = () => router.go(0);
 
   useMovableCanvas(canvas, shader.replace("{{EQ}}", glsl(equation.value))).then(
     (gl) => {
       gl.useUniform("detail", "i", detail);
       gl.useUniform("limit", "f", limit);
+      gl.useUniform("colorOffset", "f", colorOffset);
     }
   );
 </script>
@@ -160,25 +170,32 @@
         v-model="detail"
         :decrement="decrementDetail"
         :increment="incrementDetail"
-      >
-        Detail Level:
-        <InlineNumericField v-model="detail" />
-      </Incrementable>
+        label="Detail Level:"
+      />
 
       <Incrementable
         v-model="limit"
         :decrement="decrementLimit"
         :increment="incrementLimit"
-      >
-        Fractal Size:
-        <InlineNumericField v-model="limit" />
-      </Incrementable>
+        label="Fractal Size:"
+      />
 
-      <HStack stretch>
+      <hr />
+
+      <Labeled label="Theme:">
         <Dropdown v-model="theme">
           <option value="rainbow">Rainbow</option>
         </Dropdown>
-      </HStack>
+      </Labeled>
+
+      <Labeled label="Equation:">
+        <Field v-model="equation" />
+        <Button style="white-space: pre" @click="reload">Apply Equation</Button>
+      </Labeled>
+
+      <Labeled label="Color Offset:">
+        <InlineNumericField v-model="colorOffset" type="range" />
+      </Labeled>
     </template>
 
     <canvas ref="canvas" />
