@@ -3,12 +3,14 @@
   import IconButton from "./IconButton.vue";
   import MinusIcon from "./MinusIcon.vue";
   import PlusIcon from "./PlusIcon.vue";
+  import InlineNumericField from "./InlineNumericField.vue";
 
   withDefaults(
     defineProps<{
       modelValue: number;
       decrement?(value: number): number;
       increment?(value: number): number;
+      label?: string;
     }>(),
     {
       decrement: (value: number) => value - 1,
@@ -32,7 +34,11 @@
     </IconButton>
 
     <p class="label" @click="onClick">
-      <slot>{{ modelValue }}</slot>
+      {{ label }}
+      <InlineNumericField
+        :model-value="modelValue"
+        @update:model-value="$emit('update:modelValue', $event)"
+      />
     </p>
 
     <IconButton @click="$emit('update:modelValue', increment(modelValue))">
