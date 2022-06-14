@@ -31,27 +31,27 @@ export function useProgram(
   vertShader: string,
   fragShader: string
 ) {
-  let program = gl.createProgram();
+  const program = gl.createProgram();
 
   if (!program) {
-    throw new Error("An error occurred while creating a WebGL program.");
+    throw new Error("An error occurred while creating the WebGL program.");
   }
 
-  let vert = useShader(gl, "VERTEX", vertShader);
-  let frag = useShader(gl, "FRAGMENT", fragShader);
+  const vert = useShader(gl, "VERTEX", vertShader);
+  const frag = useShader(gl, "FRAGMENT", fragShader);
 
   gl.attachShader(program, vert);
   gl.attachShader(program, frag);
   gl.linkProgram(program);
 
   if (gl.getProgramParameter(program, gl.LINK_STATUS)) {
-    return program;
+    return { program, vertex: vert, fragment: frag };
   }
 
   console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 
-  throw new Error("An error occurred while creating a WebGL program.");
+  throw new Error("An error occurred while creating the WebGL program.");
 }
 
 const vertShader = `
@@ -71,6 +71,7 @@ export interface WebGLProgram extends CanvasInfo {
   gl: WebGL2RenderingContext;
   program: globalThis.WebGLProgram;
   render(): void;
+  destroy(): void;
 
   useUniform(
     name: string,
@@ -95,8 +96,16 @@ export async function useWebGL(
     throw new Error("An error occurred while initializing the context.");
   }
 
-  const program = useProgram(gl, opts?.vertShader ?? vertShader, shader);
+  const { program, vertex, fragment } = useProgram(
+    gl,
+    opts?.vertShader ?? vertShader,
+    shader
+  );
+
   gl.useProgram(program);
+  onDispose(() => gl.deleteProgram(program));
+  onDispose(() => gl.deleteShader(vertex));
+  onDispose(() => gl.deleteShader(fragment));
 
   const posAttrLocation = gl.getAttribLocation(program, "_pos");
   gl.enableVertexAttribArray(posAttrLocation);
@@ -109,6 +118,8 @@ export async function useWebGL(
     gl.STATIC_DRAW
   );
   gl.vertexAttribPointer(posAttrLocation, 2, gl.FLOAT, false, 0, 0);
+
+  onDispose(() => gl.deleteBuffer(buf));
 
   function render() {
     if (gl.isContextLost()) return;
@@ -123,10 +134,10 @@ export async function useWebGL(
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
-  let rerender = false;
+  let shouldRerender = false;
   const interval = setInterval(() => {
-    if (rerender) {
-      rerender = false;
+    if (shouldRerender) {
+      shouldRerender = false;
       render();
     }
   });
@@ -143,18 +154,18 @@ export async function useWebGL(
     const location = gl.getUniformLocation(program, name);
     if (!location) return;
 
-    const stop = watchEffect(() => {
-      let val = unref(value);
-      if (gl.isContextLost()) return;
-      if (typeof val === "number") val = [val];
-      if (val.length < 1 || val.length > 4) return;
+    onDispose(
+      watchEffect(() => {
+        let val = unref(value);
+        if (gl.isContextLost()) return;
+        if (typeof val === "number") val = [val];
+        if (val.length < 1 || val.length > 4) return;
 
-      gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
+        gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
 
-      rerender = true;
-    });
-
-    onDispose(stop);
+        shouldRerender = true;
+      })
+    );
   }
 
   return Object.assign<CanvasInfo, Omit<WebGLProgram, keyof CanvasInfo>>(data, {
@@ -162,5 +173,9 @@ export async function useWebGL(
     program,
     render,
     useUniform,
+    destroy() {
+      data.dispose();
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+    },
   });
 }
