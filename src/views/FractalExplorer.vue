@@ -1,17 +1,16 @@
 <script lang="ts" setup>
   import { MaybeElement, useClamp } from "@vueuse/core";
   import { ref } from "vue";
+  import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
+  import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import HStack from "../components/HStack.vue";
   import Incrementable from "../components/Incrementable.vue";
   import InlineNumericField from "../components/InlineNumericField.vue";
+  import Labeled from "../components/Labeled.vue";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
-  import Labeled from "../components/Labeled.vue";
-  import Field from "../components/Field.vue";
-  import Button from "../components/Button.vue";
   import { router } from "../main";
 
   const detail = useClamp(100, 5, Infinity);
