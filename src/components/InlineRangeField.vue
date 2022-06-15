@@ -50,10 +50,8 @@
     border: 0;
     outline: none;
 
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      margin: 0;
-      -webkit-appearance: none;
+    &:focus {
+      outline: none;
     }
   }
 </style>
