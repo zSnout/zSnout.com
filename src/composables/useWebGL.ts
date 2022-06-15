@@ -8,7 +8,10 @@ export function useShader(
   source: string
 ) {
   const shader = gl.createShader(gl[`${type}_SHADER`]);
-  if (!shader) throw new Error("An error occurred while compiling a shader.");
+
+  if (!shader) {
+    throw new Error("An error occurred while initializing a shader.");
+  }
 
   gl.shaderSource(
     shader,
@@ -34,7 +37,7 @@ export function useProgram(
   const program = gl.createProgram();
 
   if (!program) {
-    throw new Error("An error occurred while creating the WebGL program.");
+    throw new Error("An error occurred while initializing a WebGL program.");
   }
 
   const vert = useShader(gl, "VERTEX", vertShader);
@@ -51,7 +54,7 @@ export function useProgram(
   console.log(gl.getProgramInfoLog(program));
   gl.deleteProgram(program);
 
-  throw new Error("An error occurred while creating the WebGL program.");
+  throw new Error("An error occurred while creating a WebGL program.");
 }
 
 const vertShader = `
@@ -175,7 +178,6 @@ export async function useWebGL(
     useUniform,
     destroy() {
       data.dispose();
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
     },
   });
 }
