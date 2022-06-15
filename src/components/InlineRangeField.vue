@@ -45,13 +45,22 @@
 <style lang="scss" scoped>
   .field {
     width: 100%;
+    height: 0.75em;
     font-size: inherit;
-    background-color: transparent;
-    border: 0;
+    background: #d0d0d0;
+    border-radius: 0.375em;
     outline: none;
+    opacity: 0.7;
+    transition: var(--transitions), opacity 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
 
-    &:focus {
-      outline: none;
+    .dark & {
+      background: #151515;
+    }
+
+    .hover &:hover {
+      opacity: 1;
     }
   }
 </style>
