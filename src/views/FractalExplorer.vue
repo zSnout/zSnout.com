@@ -1,17 +1,18 @@
 <script lang="ts" setup>
   import { MaybeElement, useClamp } from "@vueuse/core";
-  import { ref } from "vue";
+  import { Ref, ref, watchEffect } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import Incrementable from "../components/Incrementable.vue";
-  import InlineNumericField from "../components/InlineNumericField.vue";
+  import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
+  import { Bounds } from "../composables/useCoordinateCanvas";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
-  import { router } from "../main";
+  import InlineNumericField from "../components/InlineNumericField.vue";
 
   const detail = useClamp(100, 5, Infinity);
   syncOption("detail", detail);
@@ -152,7 +153,13 @@
 
   const canvas = ref<MaybeElement>();
 
+  let destroy: (() => void) | undefined;
+
+  let resetPosition = ref<() => void>();
+
   function reload() {
+    destroy?.();
+
     useMovableCanvas(
       canvas,
       shader.replace("{{EQ}}", glsl(equation.value))
@@ -160,6 +167,15 @@
       gl.useUniform("detail", "i", detail);
       gl.useUniform("limit", "f", limit);
       gl.useUniform("colorOffset", "f", colorOffset);
+
+      destroy = gl.destroy;
+
+      resetPosition.value = () => {
+        gl.bounds.xStart.value = -2;
+        gl.bounds.xEnd.value = 2;
+        gl.bounds.yStart.value = -2;
+        gl.bounds.yEnd.value = 2;
+      };
     });
   }
 
@@ -183,7 +199,10 @@
         label="Fractal Size:"
       />
 
-      <hr />
+      <Labeled label="Equation:">
+        <Field v-model="equation" />
+        <Button style="white-space: pre" @click="reload">Apply Equation</Button>
+      </Labeled>
 
       <Labeled label="Theme:">
         <Dropdown v-model="theme">
@@ -191,14 +210,15 @@
         </Dropdown>
       </Labeled>
 
-      <Labeled label="Equation:">
-        <Field v-model="equation" />
-        <Button style="white-space: pre" @click="reload">Apply Equation</Button>
-      </Labeled>
-
       <Labeled label="Color Offset:">
-        <InlineNumericField v-model="colorOffset" type="range" />
+        <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
       </Labeled>
+    </template>
+
+    <template #buttons>
+      <Button v-if="resetPosition" @click="resetPosition">
+        Reset Position
+      </Button>
     </template>
 
     <canvas ref="canvas" />
