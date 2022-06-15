@@ -11,6 +11,10 @@
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
+  import HStack from "../components/HStack.vue";
+  import Spacer from "../components/Spacer.vue";
+  import InlineCheckboxField from "../components/InlineCheckboxField.vue";
+  import { computed } from "@vue/reactivity";
 
   const detail = useClamp(100, 5, Infinity);
   syncOption("detail", detail);
@@ -58,6 +62,9 @@
     }
   }
 
+  const equation = ref("z^2+c");
+  syncOption("equation", equation);
+
   const theme = ref<"rainbow">("rainbow");
   syncOption("theme", theme);
 
@@ -67,8 +74,17 @@
   const colorRepetition = ref(1);
   syncOption("colorRepetition", colorRepetition);
 
-  const equation = ref("z^2+c");
-  syncOption("equation", equation);
+  const modA = ref(false);
+  syncOption("modA", modA);
+
+  const modB = ref(false);
+  syncOption("modB", modB);
+
+  const modC = ref(false);
+  syncOption("modC", modC);
+
+  const modD = ref(false);
+  syncOption("modD", modD);
 
   const shader = trim`
   in vec2 pos;
@@ -78,6 +94,7 @@
   uniform float limit;
   uniform float colorOffset;
   uniform float colorRepetition;
+  uniform bvec4 modifiers;
   float pi = 3.1415926535;
 
   vec3 hsl2rgb(vec3 c) {
@@ -89,6 +106,7 @@
   vec3 palette(float t) {
     float hue = mod(2.0 * colorRepetition * t + colorOffset, 1.0);
     vec3 hsl = vec3(1.0 - hue, 1, 0.5);
+    if (modifiers[0]) hsl.x = sin(hsl.x * pi);
     return hsl2rgb(hsl);
   }
 
@@ -171,6 +189,11 @@
       gl.useUniform("limit", "f", limit);
       gl.useUniform("colorOffset", "f", colorOffset);
       gl.useUniform("colorRepetition", "f", colorRepetition);
+      gl.useUniform(
+        "modifiers",
+        "f",
+        computed(() => [+modA.value, +modB.value, +modC.value, +modD.value])
+      );
 
       destroy = gl.destroy;
 
@@ -226,6 +249,14 @@
           step="any"
         />
       </Labeled>
+
+      <HStack>
+        <p>Modifiers:</p>
+        <Spacer />
+        <Labeled label="A:">
+          <InlineCheckboxField v-model="modA" />
+        </Labeled>
+      </HStack>
     </template>
 
     <template #buttons>
