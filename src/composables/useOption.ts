@@ -10,39 +10,42 @@ export interface Options {
   boolean: boolean;
 }
 
-export function useOption(
-  name: string,
-  initial: number
-): WritableComputedRef<number>;
-export function useOption(
-  name: string,
-  initial?: string
-): WritableComputedRef<string>;
-export function useOption(
-  name: string,
-  initial?: string | number
-): WritableComputedRef<string | number>;
-export function useOption(name: string, initial?: string | number) {
-  if (params[name] === undefined && initial !== undefined) {
+export function useOption(name: string, initial?: string | number | boolean) {
+  if (typeof initial === "boolean") {
+    if (initial) params[name] = "";
+    else delete params[name];
+  } else if (params[name] === undefined && initial !== undefined) {
     params[name] = "" + initial;
   }
 
-  return computed<string | number>({
+  return computed<string | number | boolean>({
     get() {
+      if (typeof initial === "boolean") return params[name] !== undefined;
       if (typeof initial === "number") return +params[name];
       return "" + params[name];
     },
     set(value) {
+      if (typeof value === "boolean") {
+        if (value) params[name] = "";
+        else delete params[name];
+      }
+
       params[name] = "" + value;
     },
   });
 }
 
-export function syncOption(name: string, ref: Ref<string> | Ref<number>) {
+export function syncOption(
+  name: string,
+  ref: Ref<string> | Ref<number> | Ref<boolean>
+) {
   const option = useOption(name, ref.value);
   ref.value = option.value;
 
-  const stop = syncRef<Ref<number | string>>(option, ref, { direction: "rtl" });
+  const stop = syncRef<Ref<string | number | boolean>>(option, ref, {
+    direction: "rtl",
+  });
+
   tryOnScopeDispose(stop);
 
   return stop;
