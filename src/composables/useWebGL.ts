@@ -160,7 +160,6 @@ export async function useWebGL(
     onDispose(
       watchEffect(() => {
         let val = unref(value);
-        if (gl.isContextLost()) return;
         if (typeof val === "number") val = [val];
         if (val.length < 1 || val.length > 4) return;
 
