@@ -13,6 +13,7 @@
     "@vueuse/integrations": "^8.6.0",
     "disable-scroll": "^0.6.0",
     "random-seed": "^0.3.0",
+    "rangetouch": "^2.0.1",
     "tabbable": "^5.3.3",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16"
