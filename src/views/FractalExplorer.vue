@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { MaybeElement, useClamp } from "@vueuse/core";
-  import { Ref, ref, watchEffect } from "vue";
+  import { ref } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
@@ -8,11 +8,9 @@
   import Incrementable from "../components/Incrementable.vue";
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
-  import { Bounds } from "../composables/useCoordinateCanvas";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
-  import InlineNumericField from "../components/InlineNumericField.vue";
 
   const detail = useClamp(100, 5, Infinity);
   syncOption("detail", detail);
@@ -90,7 +88,8 @@
 
   vec3 palette(float t) {
     float hue = mod(2.0 * colorRepetition * t + colorOffset, 1.0);
-    return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
+    vec3 hsl = vec3(1.0 - hue, 1, 0.5);
+    return hsl2rgb(hsl);
   }
 
   vec3 newtonPalette(float t) {
