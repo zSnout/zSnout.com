@@ -77,6 +77,7 @@ window.addEventListener("keydown", (event) => {
 
 declare global {
   interface EventTarget {
+    checked: boolean;
     value: string;
   }
 }
