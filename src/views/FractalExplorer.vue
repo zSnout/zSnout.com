@@ -66,6 +66,9 @@
   const colorOffset = ref(0);
   syncOption("colorOffset", colorOffset);
 
+  const colorRepetition = ref(1);
+  syncOption("colorRepetition", colorRepetition);
+
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
@@ -76,6 +79,7 @@
   uniform int detail;
   uniform float limit;
   uniform float colorOffset;
+  uniform float colorRepetition;
   float pi = 3.1415926535;
 
   vec3 hsl2rgb(vec3 c) {
@@ -85,12 +89,12 @@
   }
 
   vec3 palette(float t) {
-    float hue = mod(2.0 * t + colorOffset, 1.0);
+    float hue = mod(2.0 * colorRepetition * t + colorOffset, 1.0);
     return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
   }
 
   vec3 newtonPalette(float t) {
-    float hue = mod(t / pi + colorOffset, 1.0);
+    float hue = mod(t * colorRepetition / pi + colorOffset, 1.0);
     return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
   }
 
@@ -167,6 +171,7 @@
       gl.useUniform("detail", "i", detail);
       gl.useUniform("limit", "f", limit);
       gl.useUniform("colorOffset", "f", colorOffset);
+      gl.useUniform("colorRepetition", "f", colorRepetition);
 
       destroy = gl.destroy;
 
@@ -212,6 +217,15 @@
 
       <Labeled label="Color Offset:">
         <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
+      </Labeled>
+
+      <Labeled label="Color Repetition:">
+        <InlineRangeField
+          v-model="colorRepetition"
+          :max="10"
+          :min="-10"
+          step="any"
+        />
       </Labeled>
     </template>
 
