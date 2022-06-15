@@ -16,6 +16,9 @@
   <input
     class="field"
     :autocomplete="autocomplete ?? 'off'"
+    :max="max"
+    :min="min"
+    :step="step"
     :value="modelValue"
     type="range"
     @input="$emit('update:modelValue', +$event.target!.value)"
