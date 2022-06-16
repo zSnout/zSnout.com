@@ -1,6 +1,6 @@
 import { computed } from "@vue/reactivity";
 import { syncRef, tryOnScopeDispose, useUrlSearchParams } from "@vueuse/core";
-import { Ref, WritableComputedRef } from "vue";
+import { Ref } from "vue";
 
 const params = useUrlSearchParams("history");
 
@@ -11,23 +11,24 @@ export interface Options {
 }
 
 export function useOption(name: string, initial?: string | number | boolean) {
-  if (typeof initial === "boolean") {
-    if (initial) params[name] = "";
-    else delete params[name];
-  } else if (params[name] === undefined && initial !== undefined) {
-    params[name] = "" + initial;
+  if (params[name] === undefined && initial !== undefined) {
+    if (typeof initial === "boolean") {
+      if (initial) params[name] = "";
+      else delete params[name];
+    } else params[name] = "" + initial;
   }
 
   return computed<string | number | boolean>({
     get() {
-      if (typeof initial === "boolean") return params[name] !== undefined;
+      if (typeof initial === "boolean") return params[name] === "true";
       if (typeof initial === "number") return +params[name];
       return "" + params[name];
     },
     set(value) {
       if (typeof value === "boolean") {
-        if (value) params[name] = "";
+        if (value) params[name] = "true";
         else delete params[name];
+        return;
       }
 
       params[name] = "" + value;
