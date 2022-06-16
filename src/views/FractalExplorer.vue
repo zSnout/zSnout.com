@@ -111,7 +111,8 @@
   }
 
   vec3 newtonPalette(float t) {
-    float hue = mod(t * colorRepetition / pi + colorOffset, 1.0);
+    float hue = mod(t / pi, 1.0) * spectrum;
+    hue = mod(hue + colorOffset, 1.0);
     return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
   }
 
@@ -155,7 +156,7 @@
   }
 
   void main() {
-    vec2 z, pz, ppz, nz, c = pos;
+    vec2 pz, ppz, nz, c = pos, z = pos;
     vec3 sz;
 
     for (int i = 0; i < detail; i++) {
@@ -163,15 +164,18 @@
       pz = z;
       z = {{EQ}};
 
-      if (length(z) > limit) {
-        if (theme == 1) {
-          color = vec4(palette(float(i) * 0.01), 1);
-        } else {
-          color = vec4(newtonPalette(float(i) * 0.01), 1);
-        }
-
+      if (theme == 1 && length(z) > limit) {
+        color = vec4(palette(float(i) * 0.01), 1);
         return;
       }
+
+      if (darkness && theme == 2) nz += z;
+    }
+
+    if (theme == 2) {
+      if (darkness) z = nz;
+      color = vec4(newtonPalette(atan(z.y / z.x)), 1);
+      return;
     }
 
     color = vec4(0, 0, 0, 1);
@@ -246,7 +250,7 @@
         <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
       </Labeled>
 
-      <Labeled label="Color Repetition:">
+      <Labeled v-if="theme != 'newton'" label="Color Repetition:">
         <InlineRangeField
           v-model="colorRepetition"
           :max="10"
@@ -259,7 +263,7 @@
         <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
       </Labeled>
 
-      <Labeled label="Darkness Effect?">
+      <Labeled :label="theme == 'newton' ? '3D Effect?' : 'Darkness Effect?'">
         <InlineCheckboxField v-model="darkness" />
       </Labeled>
     </template>
