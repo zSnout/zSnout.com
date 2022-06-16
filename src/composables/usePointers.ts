@@ -5,9 +5,30 @@ export function useActivePointers() {
   const down = reactive(new Map<number, UsePointerState>());
 
   useEventListener("pointerdown", (event) => {
-    down.set(event.pointerId, {
-      ...event,
-      pointerType: (event.pointerType as any) || null,
+    const {
+      height,
+      pointerId,
+      pointerType,
+      pressure,
+      tiltX,
+      tiltY,
+      twist,
+      width,
+      x,
+      y,
+    } = event;
+
+    down.set(pointerId, {
+      height,
+      pointerId,
+      pointerType: (pointerType as any) || null,
+      pressure,
+      tiltX,
+      tiltY,
+      twist,
+      width,
+      x,
+      y,
     });
   });
 
