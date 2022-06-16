@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { computed } from "@vue/reactivity";
   import { MaybeElement, useClamp } from "@vueuse/core";
   import { ref } from "vue";
   import Button from "../components/Button.vue";
@@ -62,8 +63,11 @@
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
-  const theme = ref<"rainbow">("rainbow");
+  const theme = ref<"rainbow" | "newton">("rainbow");
   syncOption("theme", theme);
+
+  const themeIntMap = { rainbow: 1, newton: 2 };
+  const themeInt = computed(() => themeIntMap[theme.value]);
 
   const colorOffset = ref(0);
   syncOption("colorOffset", colorOffset);
@@ -83,6 +87,7 @@
 
   uniform int detail;
   uniform float limit;
+  uniform int theme;
   uniform float colorOffset;
   uniform float colorRepetition;
   uniform float spectrum;
@@ -152,7 +157,6 @@
   void main() {
     vec2 z, pz, ppz, nz, c = pos;
     vec3 sz;
-    color = vec4(0, 0, 0, 1);
 
     for (int i = 0; i < detail; i++) {
       ppz = pz;
@@ -160,10 +164,17 @@
       z = {{EQ}};
 
       if (length(z) > limit) {
-        color = vec4(palette(float(i) * 0.01), 1);
+        if (theme == 1) {
+          color = vec4(palette(float(i) * 0.01), 1);
+        } else {
+          color = vec4(newtonPalette(float(i) * 0.01), 1);
+        }
+
         return;
       }
     }
+
+    color = vec4(0, 0, 0, 1);
   }
   `;
 
@@ -182,6 +193,7 @@
     ).then((gl) => {
       gl.useUniform("detail", "i", detail);
       gl.useUniform("limit", "f", limit);
+      gl.useUniform("theme", "i", themeInt);
       gl.useUniform("colorOffset", "f", colorOffset);
       gl.useUniform("colorRepetition", "f", colorRepetition);
       gl.useUniform("spectrum", "f", spectrum);
@@ -226,6 +238,7 @@
       <Labeled label="Theme:">
         <Dropdown v-model="theme">
           <option value="rainbow">Rainbow</option>
+          <option value="newton">Newton</option>
         </Dropdown>
       </Labeled>
 

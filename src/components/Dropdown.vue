@@ -1,20 +1,19 @@
 <script lang="ts" setup>
-  import { ref, watch } from "vue";
-
-  const { modelValue } = defineProps<{
+  defineProps<{
     modelValue: string;
   }>();
 
-  const emit = defineEmits<{
+  defineEmits<{
     (event: "update:modelValue", modelValue: string): void;
   }>();
-
-  const value = ref(modelValue);
-  watch(value, (val) => emit("update:modelValue", val));
 </script>
 
 <template>
-  <select class="field focusline second-layer">
+  <select
+    class="field focusline second-layer"
+    :value="$props.modelValue"
+    @change="$emit('update:modelValue', $event.target!.value)"
+  >
     <slot />
   </select>
 </template>
