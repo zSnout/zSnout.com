@@ -1,20 +1,20 @@
 <script lang="ts" setup>
+  import { computed } from "@vue/reactivity";
   import { MaybeElement, useClamp } from "@vueuse/core";
   import { ref } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
+  import HStack from "../components/HStack.vue";
   import Incrementable from "../components/Incrementable.vue";
+  import InlineCheckboxField from "../components/InlineCheckboxField.vue";
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
+  import Spacer from "../components/Spacer.vue";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
-  import HStack from "../components/HStack.vue";
-  import Spacer from "../components/Spacer.vue";
-  import InlineCheckboxField from "../components/InlineCheckboxField.vue";
-  import { computed } from "@vue/reactivity";
 
   const detail = useClamp(100, 5, Infinity);
   syncOption("detail", detail);
@@ -83,9 +83,6 @@
   const modC = ref(false);
   syncOption("modC", modC);
 
-  const modD = ref(false);
-  syncOption("modD", modD);
-
   const shader = trim`
   in vec2 pos;
   out vec4 color;
@@ -94,7 +91,7 @@
   uniform float limit;
   uniform float colorOffset;
   uniform float colorRepetition;
-  uniform bvec4 modifiers;
+  uniform bvec3 modifiers;
   float pi = 3.1415926535;
 
   vec3 hsl2rgb(vec3 c) {
@@ -104,9 +101,14 @@
   }
 
   vec3 palette(float t) {
-    float hue = mod(2.0 * colorRepetition * t + colorOffset, 1.0);
+    float hue = mod(2.0 * colorRepetition * t, 1.0);
     vec3 hsl = vec3(1.0 - hue, 1, 0.5);
-    if (modifiers[0]) hsl.x = sin(hsl.x * pi);
+
+    if (modifiers[0]) hsl.x = hsl.x / 2.0;
+    if (modifiers[1]) hsl.x = hsl.x / 4.0;
+    if (modifiers[2]) hsl.z = mod(2.0 * t, 1.0);
+
+    hsl.x = mod(hsl.x + colorOffset, 1.0);
     return hsl2rgb(hsl);
   }
 
@@ -192,7 +194,7 @@
       gl.useUniform(
         "modifiers",
         "f",
-        computed(() => [+modA.value, +modB.value, +modC.value, +modD.value])
+        computed(() => [+modA.value, +modB.value, +modC.value])
       );
 
       destroy = gl.destroy;
@@ -252,9 +254,23 @@
 
       <HStack>
         <p>Modifiers:</p>
+
         <Spacer />
+
         <Labeled label="A:">
           <InlineCheckboxField v-model="modA" />
+        </Labeled>
+
+        <Spacer />
+
+        <Labeled label="B:">
+          <InlineCheckboxField v-model="modB" />
+        </Labeled>
+
+        <Spacer />
+
+        <Labeled label="C:">
+          <InlineCheckboxField v-model="modC" />
         </Labeled>
       </HStack>
     </template>
