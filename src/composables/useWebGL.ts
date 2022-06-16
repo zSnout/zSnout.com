@@ -79,7 +79,7 @@ export interface WebGLProgram extends CanvasInfo {
   useUniform(
     name: string,
     type: "f" | "i",
-    value: MaybeRef<number | number[]>
+    value: MaybeRef<number | boolean | number[] | boolean[]>
   ): void;
 }
 
@@ -151,7 +151,7 @@ export async function useWebGL(
   function useUniform(
     name: string,
     type: "f" | "i",
-    value: MaybeRef<number | number[]>
+    value: MaybeRef<number | boolean | number[] | boolean[]>
   ) {
     if (gl.isContextLost()) return;
     const location = gl.getUniformLocation(program, name);
@@ -161,9 +161,13 @@ export async function useWebGL(
       watchEffect(() => {
         let val = unref(value);
         if (typeof val === "number") val = [val];
+        if (typeof val === "boolean") val = [val];
         if (val.length < 1 || val.length > 4) return;
 
-        gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](location, val);
+        gl[`uniform${val.length as 1 | 2 | 3 | 4}${type}v`](
+          location,
+          val.map((e) => (e === true ? 1 : e === false ? 0 : e))
+        );
 
         shouldRerender = true;
       })
