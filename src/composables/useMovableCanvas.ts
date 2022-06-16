@@ -1,8 +1,10 @@
 import {
+  computedWithControl,
   MaybeElementRef,
   MaybeRef,
   useEventListener,
   usePointer,
+  UsePointerState,
 } from "@vueuse/core";
 import { computed, ref, toRef, unref } from "vue";
 import {
@@ -14,6 +16,7 @@ import {
   useCoordinateCanvas,
 } from "./useCoordinateCanvas";
 import { syncOption } from "./useOption";
+import { useActivePointers } from "./usePointers";
 import { useRound } from "./useRound";
 
 export function getZoomRegion(
@@ -107,9 +110,58 @@ export async function useMovableCanvas(
   const coords = pointerToCoords(offset, scale, pointer);
   const lastCoords = pointerToCoords(offset, scale, lastPointer);
 
+  const touchA = { x: ref(NaN), y: ref(NaN) };
+  const touchB = { x: ref(NaN), y: ref(NaN) };
+
   onDispose(
-    useEventListener(canvas, "pointermove", (event: MouseEvent) => {
+    useEventListener(canvas, "pointermove", (event: PointerEvent) => {
       event.preventDefault();
+
+      if (
+        isMultiTouch.value &&
+        !isNaN(touchA.x.value) &&
+        !isNaN(touchB.x.value)
+      ) {
+        const oldDist = Math.hypot(
+          touchB.x.value - touchA.x.value,
+          touchB.y.value - touchA.y.value
+        );
+
+        touchA.x.value = isMultiTouch.value[0].x;
+        touchA.y.value = isMultiTouch.value[0].y;
+        touchB.x.value = isMultiTouch.value[1].x;
+        touchB.y.value = isMultiTouch.value[1].y;
+
+        const newDist = Math.hypot(
+          touchB.x.value - touchA.x.value,
+          touchB.y.value - touchA.y.value
+        );
+
+        pointer.x.value = (touchA.x.value + touchB.x.value) / 2;
+        pointer.y.value = (touchA.y.value + touchB.y.value) / 2;
+        strength.value = newDist >= oldDist ? 0.4 : -0.4;
+
+        const {
+          xStart: { value: xStart },
+          xEnd: { value: xEnd },
+          yStart: { value: yStart },
+          yEnd: { value: yEnd },
+        } = zoom;
+
+        bounds.xStart.value = xStart;
+        bounds.xEnd.value = xEnd;
+        bounds.yStart.value = yStart;
+        bounds.yEnd.value = yEnd;
+
+        return;
+      } else if (isMultiTouch.value) {
+        touchA.x.value = isMultiTouch.value[0].x;
+        touchA.y.value = isMultiTouch.value[0].y;
+        touchB.x.value = isMultiTouch.value[1].x;
+        touchB.y.value = isMultiTouch.value[1].y;
+
+        return;
+      }
 
       if (
         Number.isNaN(lastPointer.x.value) ||
@@ -149,6 +201,16 @@ export async function useMovableCanvas(
       lastPointer.y.value = NaN;
     })
   );
+
+  const pointers = useActivePointers();
+
+  const isMultiTouch = computed(() => {
+    const touch = [...pointers.values()].filter(
+      (e) => e.pointerType == "touch"
+    );
+
+    if (touch.length === 2) return touch;
+  });
 
   function sync(param: keyof typeof bounds) {
     onDispose(syncOption(param, useRound(toRef(bounds, param))));

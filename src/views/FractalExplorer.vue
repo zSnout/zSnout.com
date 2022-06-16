@@ -1,17 +1,14 @@
 <script lang="ts" setup>
-  import { computed } from "@vue/reactivity";
   import { MaybeElement, useClamp } from "@vueuse/core";
   import { ref } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import HStack from "../components/HStack.vue";
   import Incrementable from "../components/Incrementable.vue";
   import InlineCheckboxField from "../components/InlineCheckboxField.vue";
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
-  import Spacer from "../components/Spacer.vue";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";

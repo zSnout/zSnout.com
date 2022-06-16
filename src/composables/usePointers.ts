@@ -4,6 +4,36 @@ import { reactive } from "vue";
 export function useActivePointers() {
   const down = reactive(new Map<number, UsePointerState>());
 
+  useEventListener("pointermove", (event) => {
+    const {
+      height,
+      pointerId,
+      pointerType,
+      pressure,
+      tiltX,
+      tiltY,
+      twist,
+      width,
+      x,
+      y,
+    } = event;
+
+    if (!down.has(pointerId)) return;
+
+    down.set(pointerId, {
+      height,
+      pointerId,
+      pointerType: (pointerType as any) || null,
+      pressure,
+      tiltX,
+      tiltY,
+      twist,
+      width,
+      x,
+      y,
+    });
+  });
+
   useEventListener("pointerdown", (event) => {
     const {
       height,
