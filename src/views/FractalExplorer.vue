@@ -74,14 +74,11 @@
   const colorRepetition = ref(1);
   syncOption("colorRepetition", colorRepetition);
 
-  const modA = ref(false);
-  syncOption("modA", modA);
+  const spectrum = ref(1);
+  syncOption("spectrum", spectrum);
 
-  const modB = ref(false);
-  syncOption("modB", modB);
-
-  const modC = ref(false);
-  syncOption("modC", modC);
+  const darkness = ref(false);
+  syncOption("darkness", darkness);
 
   const shader = trim`
   in vec2 pos;
@@ -91,7 +88,8 @@
   uniform float limit;
   uniform float colorOffset;
   uniform float colorRepetition;
-  uniform bvec3 modifiers;
+  uniform float spectrum;
+  uniform bool darkness;
   float pi = 3.1415926535;
 
   vec3 hsl2rgb(vec3 c) {
@@ -102,13 +100,11 @@
 
   vec3 palette(float t) {
     float hue = mod(2.0 * colorRepetition * t, 1.0);
-    vec3 hsl = vec3(1.0 - hue, 1, 0.5);
+    vec3 hsl = vec3(1.0 - hue * spectrum, 1, 0.5);
 
-    if (modifiers[0]) hsl.x = hsl.x / 2.0;
-    if (modifiers[1]) hsl.x = hsl.x / 4.0;
-    if (modifiers[2]) hsl.z = mod(2.0 * t, 1.0);
-
+    if (darkness) hsl.z = mod(2.0 * t, 1.0);
     hsl.x = mod(hsl.x + colorOffset, 1.0);
+
     return hsl2rgb(hsl);
   }
 
@@ -191,11 +187,8 @@
       gl.useUniform("limit", "f", limit);
       gl.useUniform("colorOffset", "f", colorOffset);
       gl.useUniform("colorRepetition", "f", colorRepetition);
-      gl.useUniform(
-        "modifiers",
-        "f",
-        computed(() => [+modA.value, +modB.value, +modC.value])
-      );
+      gl.useUniform("spectrum", "f", spectrum);
+      gl.useUniform("darkness", "f", darkness);
 
       destroy = gl.destroy;
 
@@ -252,27 +245,13 @@
         />
       </Labeled>
 
-      <HStack>
-        <p>Modifiers:</p>
+      <Labeled label="Color Spectrum:">
+        <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
+      </Labeled>
 
-        <Spacer />
-
-        <Labeled label="A:">
-          <InlineCheckboxField v-model="modA" />
-        </Labeled>
-
-        <Spacer />
-
-        <Labeled label="B:">
-          <InlineCheckboxField v-model="modB" />
-        </Labeled>
-
-        <Spacer />
-
-        <Labeled label="C:">
-          <InlineCheckboxField v-model="modC" />
-        </Labeled>
-      </HStack>
+      <Labeled label="Darkness Effect?">
+        <InlineCheckboxField v-model="darkness" />
+      </Labeled>
     </template>
 
     <template #buttons>
