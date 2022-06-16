@@ -1,8 +1,6 @@
 import { useEventListener, UsePointerState } from "@vueuse/core";
 import { reactive } from "vue";
 
-useEventListener("pointerdown", () => {});
-
 export function useActivePointers() {
   const down = reactive(new Map<number, UsePointerState>());
 
@@ -20,4 +18,6 @@ export function useActivePointers() {
   useEventListener("pointercancel", (event) => {
     down.delete(event.pointerId);
   });
+
+  return down;
 }
