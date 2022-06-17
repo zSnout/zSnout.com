@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-  import { computed } from "@vue/reactivity";
   import { MaybeElement, useClamp } from "@vueuse/core";
-  import { ref, watchEffect } from "vue";
+  import { computed, ref, unref, watchEffect } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
@@ -10,7 +9,6 @@
   import InlineCheckboxField from "../components/InlineCheckboxField.vue";
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
-  import { useDisplay } from "../composables/useDisplay";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
@@ -241,9 +239,34 @@
   }
   `;
 
-  const canvas = ref<MaybeElement>();
+  const indicatorType = ref<"zoomLevel" | "position">("zoomLevel");
+  syncOption("indicator", indicatorType);
+
+  function nextIndicator() {
+    indicatorType.value =
+      {
+        zoomLevel: "position" as const,
+        position: "zoomLevel" as const,
+      }[indicatorType.value] || "position";
+  }
+
   const zoomLevel = useRound(ref(1), 100);
-  const zoomLevelOut = useDisplay(zoomLevel);
+  const posX = useRound(ref(0));
+  const posY = useRound(ref(0));
+
+  const indicator = computed(() => {
+    unref(posX);
+    unref(posY);
+    unref(zoomLevel);
+
+    if (indicatorType.value === "position") {
+      return `Position: (${posX.value}, ${posY.value})`;
+    }
+
+    return `Zoom Level: ${zoomLevel.value.toLocaleString()}`;
+  });
+
+  const canvas = ref<MaybeElement>();
 
   let destroy: (() => void) | undefined;
   let resetPosition = ref<() => void>();
@@ -267,6 +290,8 @@
       gl.onDispose(
         watchEffect(() => {
           zoomLevel.value = 4 / (gl.bounds.xEnd.value - gl.bounds.xStart.value);
+          posX.value = (gl.bounds.xEnd.value + gl.bounds.xStart.value) / 2;
+          posY.value = (gl.bounds.yEnd.value + gl.bounds.yStart.value) / 2;
         })
       );
 
@@ -351,7 +376,9 @@
       </Button>
     </template>
 
-    <template #indicator>Zoom Level: {{ zoomLevelOut }}</template>
+    <template #indicator>
+      <div style="cursor: pointer" @click="nextIndicator">{{ indicator }}</div>
+    </template>
 
     <canvas ref="canvas" />
   </FullscreenDisplay>
