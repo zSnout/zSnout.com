@@ -35,6 +35,14 @@
     </SafeArea>
   </UseScreenSafeArea>
 
+  <UseScreenSafeArea v-if="$slots.indicator" class="indicator" bottom>
+    <SafeArea>
+      <HStack class="padding">
+        <slot name="indicator" />
+      </HStack>
+    </SafeArea>
+  </UseScreenSafeArea>
+
   <Modal :open="open">
     <slot name="options" />
 
@@ -55,15 +63,37 @@
     position: fixed;
     top: 0;
     z-index: 3;
-    width: 100vw;
+    width: var(--app-width);
+
+    .padding {
+      padding-top: 0.75em;
+      overflow: hidden;
+
+      @media screen and (max-width: 400px) {
+        padding-top: 0.5em;
+      }
+    }
   }
 
-  .padding {
-    padding-top: 0.75em;
-    overflow: hidden;
+  .indicator {
+    position: fixed;
+    bottom: 0;
+    z-index: 3;
+    width: var(--app-width);
 
-    @media screen and (max-width: 400px) {
-      padding-top: 0.5em;
+    .padding {
+      padding-bottom: 0.75rem;
+      overflow: visible;
+      color: white;
+      font-weight: bold;
+      font-size: 2em;
+      text-shadow: black 1px 1px, black -1px 1px, black 1px -1px,
+        black -1px -1px, black 1px 1px 6px;
+
+      @media screen and (max-width: 400px) {
+        padding-bottom: 0.5rem;
+        font-size: 1.5em;
+      }
     }
   }
 
@@ -113,7 +143,7 @@
     top: 0;
     left: 0;
     z-index: 1;
-    width: 100vw;
+    width: var(--app-width);
     height: var(--app-height);
 
     > :deep(canvas) {
