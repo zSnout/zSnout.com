@@ -37,6 +37,10 @@
   body,
   svg,
   svg *,
+  a,
+  button,
+  input,
+  select,
   .text-color {
     color: black;
 
