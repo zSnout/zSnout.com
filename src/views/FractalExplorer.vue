@@ -14,7 +14,7 @@
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
 
-  const detail = useClamp(100, 5, Infinity);
+  const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
 
   function decrementDetail(value: number) {
@@ -72,8 +72,8 @@
   const colorOffset = ref(0);
   syncOption("colorOffset", colorOffset);
 
-  const colorRepetition = ref(1);
-  syncOption("colorRepetition", colorRepetition);
+  const repetition = ref(1);
+  syncOption("repetition", repetition);
 
   const spectrum = ref(1);
   syncOption("spectrum", spectrum);
@@ -96,10 +96,11 @@
   uniform float limit;
   uniform int theme;
   uniform float colorOffset;
-  uniform float colorRepetition;
+  uniform float repetition;
   uniform float spectrum;
   uniform bool darkness;
   uniform bool split;
+
   float pi = 3.1415926535;
 
   vec3 rgb2hsv(vec3 c) {
@@ -119,7 +120,7 @@
   }
 
   vec3 simplePalette(int i) {
-    float hue = mod(0.02 * colorRepetition * float(i), 1.0);
+    float hue = mod(0.02 * repetition * float(i), 1.0);
     vec3 hsv = vec3(1.0 - hue * spectrum, 1, 1);
 
     if (darkness) hsv.z = mod(0.02 * float(i), 1.0);
@@ -129,7 +130,7 @@
   }
 
   vec3 gradientPalette(vec3 sz, int i) {
-    sz = abs(sz) / float(i) * colorRepetition;
+    sz = abs(sz) / float(i) * repetition;
 
     vec3 hsv = rgb2hsv(sin(abs(sz * 5.0)) * 0.45 + 0.5);
     vec3 rgb = hsv2rgb(vec3(hsv.x * spectrum + colorOffset, hsv.yz));
@@ -139,7 +140,7 @@
   }
 
   vec3 rotationPalette(float t, int i) {
-    float hue = mod(2.0 * t / pi * colorRepetition, 1.0);
+    float hue = mod(2.0 * t / pi * repetition, 1.0);
 
     vec3 rgb = hsv2rgb(vec3(1.0 - hue * spectrum + colorOffset, 1, 1));
     if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
@@ -148,7 +149,7 @@
   }
 
   vec3 newtonPalette(float t) {
-    float hue = mod(t / pi * colorRepetition, 1.0) * spectrum;
+    float hue = mod(t / pi * repetition, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
     return hsv2rgb(vec3(1.0 - hue, 1, 1));
   }
@@ -162,10 +163,6 @@
 
   vec2 sqr(vec2 a) {
     return vec2(a.x * a.x - a.y * a.y, 2.0 * a.x * a.y);
-  }
-
-  vec2 rawsqr(vec2 a) {
-    return a * a;
   }
 
   vec2 mult(vec2 a, vec2 b) {
@@ -259,7 +256,7 @@
       gl.useUniform("limit", "f", limit);
       gl.useUniform("theme", "i", themeInt);
       gl.useUniform("colorOffset", "f", colorOffset);
-      gl.useUniform("colorRepetition", "f", colorRepetition);
+      gl.useUniform("repetition", "f", repetition);
       gl.useUniform("spectrum", "f", spectrum);
       gl.useUniform("darkness", "f", darkness);
       gl.useUniform("split", "f", split);
@@ -314,12 +311,7 @@
       </Labeled>
 
       <Labeled label="Color Repetition:">
-        <InlineRangeField
-          v-model="colorRepetition"
-          :max="theme === 'gradient' ? 5 : 10"
-          :min="theme === 'gradient' ? 0 : -10"
-          step="any"
-        />
+        <InlineRangeField v-model="repetition" :max="10" :min="0" step="any" />
       </Labeled>
 
       <Labeled label="Color Spectrum:">
@@ -331,8 +323,14 @@
       </Labeled>
 
       <Labeled
-        v-if="theme === 'gradient' || theme === 'rotation'"
-        :label="theme === 'rotation' ? 'Alternate Split?' : 'Split Effect?'"
+        v-if="theme !== 'newton'"
+        :label="
+          theme === 'simple'
+            ? 'Mimic Newton\'s Method?'
+            : theme === 'rotation'
+            ? 'Alternate Split?'
+            : 'Split Effect?'
+        "
       >
         <InlineCheckboxField v-model="split" />
       </Labeled>
