@@ -12,7 +12,7 @@ export default defineConfig({
       name: "remove-trim",
       transform(code, id) {
         if (process.env.NODE_ENV === "development")
-          return code.replace(/trim`/g, "`");
+          return code.replace(/trim\s*`/g, "`");
 
         if (jsfile.test(id)) {
           return code.replace(/trim\s*(`[^`]*`)/g, (match) => {
