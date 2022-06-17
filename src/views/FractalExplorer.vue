@@ -63,10 +63,10 @@
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
-  const theme = ref<"simple" | "gradient" | "newton">("simple");
+  const theme = ref<"simple" | "gradient" | "rotation" | "newton">("simple");
   syncOption("theme", theme);
 
-  const themeIntMap = { simple: 1, gradient: 2, newton: 3 };
+  const themeIntMap = { simple: 1, gradient: 2, rotation: 3, newton: 4 };
   const themeInt = computed(() => themeIntMap[theme.value]);
 
   const colorOffset = ref(0);
@@ -138,6 +138,15 @@
     return rgb;
   }
 
+  vec3 rotationPalette(float t, int i) {
+    float hue = mod(t / pi * colorRepetition, 1.0);
+
+    vec3 rgb = hsv2rgb(vec3(hue * spectrum + colorOffset, 1, 1));
+    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+
+    return rgb;
+  }
+
   vec3 newtonPalette(float t) {
     float hue = mod(t / pi, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
@@ -186,7 +195,7 @@
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (theme == 1 || theme == 3) z = pos;
+    if (theme == 1 || theme == 4) z = pos;
 
     int iter = 0;
     for (int i = 0; i < detail; i++) {
@@ -195,14 +204,17 @@
       z = {{EQ}};
       iter++;
 
-      if (theme == 1 && length(z) > limit) {
-        color = vec4(simplePalette(iter), 1);
-        return;
-      }
-
-      if (theme == 2 && length(z) > limit) {
-        color = vec4(gradientPalette(sz, iter), 1);
-        return;
+      if (length(z) > limit) {
+        if (theme == 1) {
+          color = vec4(simplePalette(iter), 1);
+          return;
+        } else if (theme == 2) {
+          color = vec4(gradientPalette(sz, iter), 1);
+          return;
+        } else if (theme == 3) {
+          color = vec4(rotationPalette(atan(sz.x, sz.y), iter), 1);
+          return;
+        }
       }
 
       nz += z;
@@ -210,14 +222,20 @@
       sz.y += dot(z - pz, z - pz);
       sz.z += dot(z - ppz, z - ppz);
 
-      if (split) {
+      if (split || theme == 3 && !split) {
         sz += sign(vec3(float(z), float(pz), float(ppz)));
+      }
+
+      if (theme == 3 && split) {
+        sz -= sign(vec3(float(z), float(pz), float(ppz)));
       }
     }
 
     if (theme == 2) {
       color = vec4(gradientPalette(sz, iter), 1);
     } else if (theme == 3) {
+      color = vec4(rotationPalette(atan(sz.y / sz.x), iter), 1);
+    } else if (theme == 4) {
       if (darkness) z = nz;
       color = vec4(newtonPalette(atan(z.y / z.x)), 1);
     } else color = vec4(0, 0, 0, 1);
@@ -286,6 +304,7 @@
         <Dropdown v-model="theme">
           <option value="simple">Simple</option>
           <option value="gradient">Gradient</option>
+          <option value="rotation">Rotation</option>
           <option value="newton">Newton's Method</option>
         </Dropdown>
       </Labeled>
@@ -311,7 +330,10 @@
         <InlineCheckboxField v-model="darkness" />
       </Labeled>
 
-      <Labeled v-if="theme === 'gradient'" label="Split Effect?">
+      <Labeled
+        v-if="theme === 'gradient' || theme === 'rotation'"
+        :label="theme === 'rotation' ? 'Alternate Split?' : 'Split Effect?'"
+      >
         <InlineCheckboxField v-model="split" />
       </Labeled>
     </template>
