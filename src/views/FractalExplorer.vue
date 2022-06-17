@@ -139,16 +139,16 @@
   }
 
   vec3 rotationPalette(float t, int i) {
-    float hue = mod(t / pi * colorRepetition, 1.0);
+    float hue = mod(2.0 * t / pi * colorRepetition, 1.0);
 
-    vec3 rgb = hsv2rgb(vec3(hue * spectrum + colorOffset, 1, 1));
+    vec3 rgb = hsv2rgb(vec3(1.0 - hue * spectrum + colorOffset, 1, 1));
     if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
 
     return rgb;
   }
 
   vec3 newtonPalette(float t) {
-    float hue = mod(t / pi, 1.0) * spectrum;
+    float hue = mod(t / pi * colorRepetition, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
     return hsv2rgb(vec3(1.0 - hue, 1, 1));
   }
@@ -195,7 +195,7 @@
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (theme == 1 || theme == 4) z = pos;
+    if (theme == 4 || theme == 1 && split) z = pos;
 
     int iter = 0;
     for (int i = 0; i < detail; i++) {
@@ -222,11 +222,11 @@
       sz.y += dot(z - pz, z - pz);
       sz.z += dot(z - ppz, z - ppz);
 
-      if (split || theme == 3 && !split) {
+      if (split) {
         sz += sign(vec3(float(z), float(pz), float(ppz)));
       }
 
-      if (theme == 3 && split) {
+      if (theme == 3 && !split) {
         sz -= sign(vec3(float(z), float(pz), float(ppz)));
       }
     }
@@ -234,7 +234,7 @@
     if (theme == 2) {
       color = vec4(gradientPalette(sz, iter), 1);
     } else if (theme == 3) {
-      color = vec4(rotationPalette(atan(sz.y / sz.x), iter), 1);
+      color = vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1);
     } else if (theme == 4) {
       if (darkness) z = nz;
       color = vec4(newtonPalette(atan(z.y / z.x)), 1);
@@ -313,7 +313,7 @@
         <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
       </Labeled>
 
-      <Labeled v-if="theme != 'newton'" label="Color Repetition:">
+      <Labeled label="Color Repetition:">
         <InlineRangeField
           v-model="colorRepetition"
           :max="theme === 'gradient' ? 5 : 10"
