@@ -297,8 +297,8 @@
       <Labeled v-if="theme != 'newton'" label="Color Repetition:">
         <InlineRangeField
           v-model="colorRepetition"
-          :max="10"
-          :min="-10"
+          :max="theme === 'gradient' ? 5 : 10"
+          :min="theme === 'gradient' ? 0 : -10"
           step="any"
         />
       </Labeled>
