@@ -17,7 +17,7 @@
     :data-keywords="keywords"
     :to="to"
   >
-    <p class="title">{{ title }}</p>
+    <p class="title text-color">{{ title }}</p>
     <p class="description">{{ description }}</p>
   </Link>
 

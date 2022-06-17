@@ -23,7 +23,6 @@
   ::before,
   ::after {
     box-sizing: border-box;
-    color: black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
@@ -33,6 +32,13 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: none;
+  }
+
+  body,
+  svg,
+  svg *,
+  .text-color {
+    color: black;
 
     .dark & {
       color: white;
