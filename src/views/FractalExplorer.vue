@@ -63,10 +63,10 @@
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
-  const theme = ref<"rainbow" | "newton">("rainbow");
+  const theme = ref<"simple" | "gradient" | "newton">("simple");
   syncOption("theme", theme);
 
-  const themeIntMap = { rainbow: 1, newton: 2 };
+  const themeIntMap = { simple: 1, gradient: 2, newton: 3 };
   const themeInt = computed(() => themeIntMap[theme.value]);
 
   const colorOffset = ref(0);
@@ -81,6 +81,13 @@
   const darkness = ref(false);
   syncOption("darkness", darkness);
 
+  const split = ref(false);
+  syncOption("split", split);
+
+  // Some shader code was modified from these sources:
+  // https://github.com/NSGolova/FractalSoundWeb
+  // https://stackoverflow.com/a/17897228
+
   const shader = trim`
   in vec2 pos;
   out vec4 color;
@@ -92,35 +99,56 @@
   uniform float colorRepetition;
   uniform float spectrum;
   uniform bool darkness;
+  uniform bool split;
   float pi = 3.1415926535;
 
-  vec3 hsl2rgb(vec3 c) {
-    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+  vec3 rgb2hsv(vec3 c) {
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
 
-    return c.z + c.y * (rgb - 0.5) * (1.0 - abs(2.0 * c.z - 1.0));
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
   }
 
-  vec3 palette(float t) {
-    float hue = mod(2.0 * colorRepetition * t, 1.0);
-    vec3 hsl = vec3(1.0 - hue * spectrum, 1, 0.5);
+  vec3 hsv2rgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+  }
 
-    if (darkness) hsl.z = mod(2.0 * t, 1.0);
-    hsl.x = mod(hsl.x + colorOffset, 1.0);
+  vec3 simplePalette(int i) {
+    float hue = mod(0.02 * colorRepetition * float(i), 1.0);
+    vec3 hsv = vec3(1.0 - hue * spectrum, 1, 1);
 
-    return hsl2rgb(hsl);
+    if (darkness) hsv.z = mod(0.02 * float(i), 1.0);
+    hsv.x = mod(hsv.x + colorOffset, 1.0);
+
+    return hsv2rgb(hsv);
+  }
+
+  vec3 gradientPalette(vec3 sz, int i) {
+    sz = abs(sz) / float(i) * colorRepetition;
+
+    vec3 hsv = rgb2hsv(sin(abs(sz * 5.0)) * 0.45 + 0.5);
+    vec3 rgb = hsv2rgb(vec3(hsv.x * spectrum + colorOffset, hsv.yz));
+    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+
+    return rgb;
   }
 
   vec3 newtonPalette(float t) {
     float hue = mod(t / pi, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
-    return hsl2rgb(vec3(1.0 - hue, 1.0, 0.5));
+    return hsv2rgb(vec3(1.0 - hue, 1, 1));
   }
 
   vec2 cube(vec2 a) {
     float x2 = a.x * a.x;
     float y2 = a.y * a.y;
     float d = x2 - y2;
-    return vec2(a.x * (d - y2 - y2), a.y * (x2 + x2 + d));
+    return vec2(a.x * (d - y2 - y2), a.y * (d + x2 + x2));
   }
 
   vec2 sqr(vec2 a) {
@@ -144,8 +172,7 @@
 
   vec2 power(vec2 a, vec2 b) {
     int count = int(b.x);
-    if (count <= 1)
-      return a;
+    if (count <= 1) return a;
 
     vec2 result = a;
     for (int i = 1; i < count; i++) {
@@ -156,29 +183,44 @@
   }
 
   void main() {
-    vec2 pz, ppz, nz, c = pos, z = pos;
+    vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
+    if (theme == 1 || theme == 3) z = pos;
+
+    int iter = 0;
     for (int i = 0; i < detail; i++) {
       ppz = pz;
       pz = z;
       z = {{EQ}};
+      iter++;
 
       if (theme == 1 && length(z) > limit) {
-        color = vec4(palette(float(i) * 0.01), 1);
+        color = vec4(simplePalette(iter), 1);
         return;
       }
 
-      if (darkness && theme == 2) nz += z;
+      if (theme == 2 && length(z) > limit) {
+        color = vec4(gradientPalette(sz, iter), 1);
+        return;
+      }
+
+      nz += z;
+      sz.x += dot(z - pz, pz - ppz);
+      sz.y += dot(z - pz, z - pz);
+      sz.z += dot(z - ppz, z - ppz);
+
+      if (split) {
+        sz += sign(vec3(float(z), float(pz), float(ppz)));
+      }
     }
 
     if (theme == 2) {
+      color = vec4(gradientPalette(sz, iter), 1);
+    } else if (theme == 3) {
       if (darkness) z = nz;
       color = vec4(newtonPalette(atan(z.y / z.x)), 1);
-      return;
-    }
-
-    color = vec4(0, 0, 0, 1);
+    } else color = vec4(0, 0, 0, 1);
   }
   `;
 
@@ -202,6 +244,7 @@
       gl.useUniform("colorRepetition", "f", colorRepetition);
       gl.useUniform("spectrum", "f", spectrum);
       gl.useUniform("darkness", "f", darkness);
+      gl.useUniform("split", "f", split);
 
       destroy = gl.destroy;
 
@@ -241,8 +284,9 @@
 
       <Labeled label="Theme:">
         <Dropdown v-model="theme">
-          <option value="rainbow">Rainbow</option>
-          <option value="newton">Newton</option>
+          <option value="simple">Simple</option>
+          <option value="gradient">Gradient</option>
+          <option value="newton">Newton's Method</option>
         </Dropdown>
       </Labeled>
 
@@ -263,8 +307,12 @@
         <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
       </Labeled>
 
-      <Labeled :label="theme == 'newton' ? '3D Effect?' : 'Darkness Effect?'">
+      <Labeled :label="theme === 'newton' ? '3D Effect?' : 'Darkness Effect?'">
         <InlineCheckboxField v-model="darkness" />
+      </Labeled>
+
+      <Labeled v-if="theme === 'gradient'" label="Split Effect?">
+        <InlineCheckboxField v-model="split" />
       </Labeled>
     </template>
 
