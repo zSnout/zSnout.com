@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { computed } from "@vue/reactivity";
   import { MaybeElement, useClamp } from "@vueuse/core";
-  import { ref } from "vue";
+  import { ref, watchEffect } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
@@ -10,9 +10,11 @@
   import InlineCheckboxField from "../components/InlineCheckboxField.vue";
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
+  import { useDisplay } from "../composables/useDisplay";
   import { glsl } from "../composables/useGlsl";
   import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
+  import { useRound } from "../composables/useRound";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
@@ -240,9 +242,10 @@
   `;
 
   const canvas = ref<MaybeElement>();
+  const zoomLevel = useRound(ref(1), 100);
+  const zoomLevelOut = useDisplay(zoomLevel);
 
   let destroy: (() => void) | undefined;
-
   let resetPosition = ref<() => void>();
 
   function reload() {
@@ -261,7 +264,11 @@
       gl.useUniform("darkness", "f", darkness);
       gl.useUniform("split", "f", split);
 
-      destroy = gl.destroy;
+      gl.onDispose(
+        watchEffect(() => {
+          zoomLevel.value = 4 / (gl.bounds.xEnd.value - gl.bounds.xStart.value);
+        })
+      );
 
       resetPosition.value = () => {
         gl.bounds.xStart.value = -2;
@@ -269,6 +276,8 @@
         gl.bounds.yStart.value = -2;
         gl.bounds.yEnd.value = 2;
       };
+
+      destroy = gl.destroy;
     });
   }
 
@@ -341,6 +350,8 @@
         Reset Position
       </Button>
     </template>
+
+    <template #indicator>Zoom Level: {{ zoomLevelOut }}</template>
 
     <canvas ref="canvas" />
   </FullscreenDisplay>
