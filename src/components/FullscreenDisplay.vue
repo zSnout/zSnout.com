@@ -86,14 +86,13 @@
       overflow: visible;
       color: white;
       font-weight: bold;
-      font-size: 2rem;
+      font-size: 1.5rem;
       text-shadow: black 1px 1px, black -1px 1px, black 1px -1px,
         black -1px -1px, black 1px 1px 6px;
       user-select: none;
 
       @media screen and (max-width: 400px) {
         padding-bottom: 0.5rem;
-        font-size: 1.5rem;
       }
     }
   }
