@@ -63,10 +63,20 @@
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
-  const theme = ref<"simple" | "gradient" | "rotation" | "newton">("simple");
+  const theme = ref<"simple" | "gradient" | "rotation" | "newton" | "trig">(
+    "simple"
+  );
+
   syncOption("theme", theme);
 
-  const themeIntMap = { simple: 1, gradient: 2, rotation: 3, newton: 4 };
+  const themeIntMap = {
+    simple: 1,
+    gradient: 2,
+    rotation: 3,
+    newton: 4,
+    trig: 5,
+  };
+
   const themeInt = computed(() => themeIntMap[theme.value]);
 
   const colorOffset = ref(0);
@@ -84,6 +94,9 @@
   const split = ref(false);
   syncOption("split", split);
 
+  const altColors = ref(false);
+  syncOption("altColors", altColors);
+
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
@@ -100,6 +113,7 @@
   uniform float spectrum;
   uniform bool darkness;
   uniform bool split;
+  uniform bool altColors;
 
   float pi = 3.1415926535;
 
@@ -148,10 +162,41 @@
     return rgb;
   }
 
-  vec3 newtonPalette(float t) {
+  vec3 newtonPalette(float t, int i) {
     float hue = mod(t / pi * repetition, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
-    return hsv2rgb(vec3(1.0 - hue, 1, 1));
+
+    vec3 rgb = hsv2rgb(vec3(1.0 - hue, 1, 1));
+    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+
+    return rgb;
+  }
+
+  vec3 trigPalette(int i) {
+    float t = float(i) * 0.1 * repetition;
+
+    float n1, n2;
+    if (split) {
+      n1 = 1.0 / sin(t) * 0.5 + 0.5;
+      n2 = 1.0 / tan(t) * 0.5 + 0.5;
+    } else {
+      n1 = sin(t) * 0.5 + 0.5;
+      n2 = cos(t) * 0.5 + 0.5;
+    }
+
+    vec3 rgb;
+    if (altColors) {
+      rgb = vec3(n2, n1, n2);
+    } else {
+      rgb = vec3(n1, n2, split ? 0.5 : 1.0);
+    }
+
+    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+
+    vec3 hsv = rgb2hsv(rgb);
+    hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
+
+    return hsv2rgb(hsv);
   }
 
   vec2 cube(vec2 a) {
@@ -211,8 +256,13 @@
         } else if (theme == 3) {
           color = vec4(rotationPalette(atan(sz.x, sz.y), iter), 1);
           return;
+        } else if (theme == 5) {
+          color = vec4(trigPalette(iter), 1);
+          return;
         }
       }
+
+      if (theme == 4 && length(nz) > limit) iter--;
 
       nz += z;
       sz.x += dot(z - pz, pz - ppz);
@@ -233,8 +283,8 @@
     } else if (theme == 3) {
       color = vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1);
     } else if (theme == 4) {
-      if (darkness) z = nz;
-      color = vec4(newtonPalette(atan(z.y / z.x)), 1);
+      if (altColors) z = nz;
+      color = vec4(newtonPalette(atan(z.y / z.x), iter), 1);
     } else color = vec4(0, 0, 0, 1);
   }
   `;
@@ -284,8 +334,9 @@
       gl.useUniform("colorOffset", "f", colorOffset);
       gl.useUniform("repetition", "f", repetition);
       gl.useUniform("spectrum", "f", spectrum);
-      gl.useUniform("darkness", "f", darkness);
-      gl.useUniform("split", "f", split);
+      gl.useUniform("darkness", "i", darkness);
+      gl.useUniform("split", "i", split);
+      gl.useUniform("altColors", "i", altColors);
 
       gl.onDispose(
         watchEffect(() => {
@@ -336,6 +387,7 @@
           <option value="simple">Simple</option>
           <option value="gradient">Gradient</option>
           <option value="rotation">Rotation</option>
+          <option value="trig">Trigonometric</option>
           <option value="newton">Newton's Method</option>
         </Dropdown>
       </Labeled>
@@ -352,7 +404,7 @@
         <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
       </Labeled>
 
-      <Labeled :label="theme === 'newton' ? '3D Effect?' : 'Darkness Effect?'">
+      <Labeled label="Darkness Effect?">
         <InlineCheckboxField v-model="darkness" />
       </Labeled>
 
@@ -363,10 +415,19 @@
             ? 'Mimic Newton\'s Method?'
             : theme === 'rotation'
             ? 'Alternate Split?'
+            : theme === 'trig'
+            ? 'Alternate Trig Functions?'
             : 'Split Effect?'
         "
       >
         <InlineCheckboxField v-model="split" />
+      </Labeled>
+
+      <Labeled
+        v-if="theme === 'newton' || theme === 'trig'"
+        :label="theme === 'newton' ? '3D Effect?' : 'Alternate Coloring?'"
+      >
+        <InlineCheckboxField v-model="altColors" />
       </Labeled>
     </template>
 
