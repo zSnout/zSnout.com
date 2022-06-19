@@ -63,9 +63,9 @@
   const equation = ref("z^2+c");
   syncOption("equation", equation);
 
-  const theme = ref<"simple" | "gradient" | "rotation" | "newton" | "trig">(
-    "simple"
-  );
+  const theme = ref<
+    "simple" | "gradient" | "rotation" | "newton" | "trig" | "exp"
+  >("simple");
 
   syncOption("theme", theme);
 
@@ -75,6 +75,7 @@
     rotation: 3,
     newton: 4,
     trig: 5,
+    exp: 6,
   };
 
   const themeInt = computed(() => themeIntMap[theme.value]);
@@ -199,6 +200,36 @@
     return hsv2rgb(hsv);
   }
 
+  vec3 expPalette(int i) {
+    float t = float(i) * 0.1 * repetition;
+
+    float n1, n2;
+    if (split) {
+      n1 = 1.0 / log(t);
+      n2 = 1.0 / exp(t);
+    } else {
+      n1 = log(t);
+      n2 = exp(t);
+    }
+
+    n1 = mod(n1, 1.0);
+    n2 = mod(n2, 1.0);
+
+    vec3 rgb;
+    if (altColors) {
+      rgb = vec3(n2, n1, n2);
+    } else {
+      rgb = vec3(n1, n2, split ? 0.5 : 1.0);
+    }
+
+    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+
+    vec3 hsv = rgb2hsv(rgb);
+    hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
+
+    return hsv2rgb(hsv);
+  }
+
   vec2 cube(vec2 a) {
     float x2 = a.x * a.x;
     float y2 = a.y * a.y;
@@ -258,6 +289,9 @@
           return;
         } else if (theme == 5) {
           color = vec4(trigPalette(iter), 1);
+          return;
+        } else if (theme == 6) {
+          color = vec4(expPalette(iter), 1);
           return;
         }
       }
@@ -388,6 +422,7 @@
           <option value="gradient">Gradient</option>
           <option value="rotation">Rotation</option>
           <option value="trig">Trigonometric</option>
+          <option value="exp">Exponential</option>
           <option value="newton">Newton's Method</option>
         </Dropdown>
       </Labeled>
@@ -417,6 +452,8 @@
             ? 'Alternate Split?'
             : theme === 'trig'
             ? 'Alternate Trig Functions?'
+            : theme === 'exp'
+            ? 'Invert Exponentials?'
             : 'Split Effect?'
         "
       >
@@ -424,7 +461,7 @@
       </Labeled>
 
       <Labeled
-        v-if="theme === 'newton' || theme === 'trig'"
+        v-if="theme === 'newton' || theme === 'trig' || theme === 'exp'"
         :label="theme === 'newton' ? '3D Effect?' : 'Alternate Coloring?'"
       >
         <InlineCheckboxField v-model="altColors" />
