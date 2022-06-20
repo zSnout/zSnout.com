@@ -16,7 +16,8 @@
     "rangetouch": "^2.0.1",
     "tabbable": "^5.3.3",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue-router": "^4.0.16",
+    "vue3-ace-editor": "^2.2.2"
   },
   "devDependencies": {
     "@types/random-seed": "^0.3.3",
