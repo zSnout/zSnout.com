@@ -25,6 +25,13 @@
       />
 
       <Card
+        description="A leap of leopards (look it up) appear and fill your device's screen."
+        keywords="images"
+        title="Leopards"
+        to="/leopards"
+      />
+
+      <Card
         description="We're not sure why you'd go to the 404 page, but here's a link if you need it."
         keywords="not found error page"
         title="404 page"
