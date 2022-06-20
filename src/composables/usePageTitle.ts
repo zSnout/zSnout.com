@@ -3,10 +3,14 @@ import { isRef, watchEffect } from "vue";
 
 const docTitle = useTitle();
 
-export function usePageTitle(title: MaybeRef<string>) {
+export function usePageTitle(title: MaybeRef<string | undefined>) {
   if (isRef(title)) {
-    tryOnScopeDispose(watchEffect(() => (docTitle.value = title.value)));
+    tryOnScopeDispose(
+      watchEffect(() => {
+        docTitle.value = title.value ? `${title.value} | zSnout` : "zSnout";
+      })
+    );
   } else {
-    docTitle.value = `${title} | zSnout`;
+    docTitle.value = title ? `${title} | zSnout` : "zSnout";
   }
 }
