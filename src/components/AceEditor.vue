@@ -40,9 +40,8 @@
 </script>
 
 <template>
-  <div class="ace-outer">
+  <div :class="{ readonly }" class="ace-outer">
     <VAceEditor
-      :class="{ readonly }"
       class="ace-editor"
       :mode="mode"
       :options="{ showGutter: false, tabSize: 2 }"
@@ -68,7 +67,7 @@
     }
   }
 
-  .readonly.ace-editor :deep() .ace_cursor-layer {
+  .readonly .ace-editor :deep() .ace_cursor-layer {
     display: none;
   }
 
