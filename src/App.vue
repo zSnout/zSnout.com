@@ -23,9 +23,6 @@
   ::before,
   ::after {
     box-sizing: border-box;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
-      sans-serif;
     transition: var(--transitions);
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
@@ -43,6 +40,9 @@
   select,
   .text-color {
     color: black;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+      sans-serif;
 
     .dark & {
       color: white;
