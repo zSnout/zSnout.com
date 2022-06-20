@@ -9,7 +9,6 @@
   }
 
   const images = [
-    "https://bdocodex.com/items/ui_artwork/ic_01956.png",
     "https://cdn.picpng.com/leopard/leopard-transparent-23628.png",
     "https://cdn.shopify.com/s/files/1/1371/3415/products/leopard-cub-jungle-animals-wall-decal-sticker_60e9d319-14fc-493e-875a-d1a0726eef74_grande.png?v=1475787809",
     "https://d2kq0urxkarztv.cloudfront.net/603c5eae96120b0098166fe9/3051484/upload-0da66621-dda7-4e47-a3e6-2482e13ed8d0.png?e=webp&nll=true&cX=35&cY=63&cW=376&cH=469",
