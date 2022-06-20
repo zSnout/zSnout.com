@@ -43,7 +43,7 @@
     }
   });
 
-  usePageTitle("Leopard");
+  usePageTitle("Leopards");
 </script>
 
 <template>
