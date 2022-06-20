@@ -1,7 +1,12 @@
 import { useCssVar, useWindowSize } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  onBeforeRouteUpdate,
+  RouteRecordRaw,
+} from "vue-router";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
@@ -15,14 +20,47 @@ export const router = createRouter({
       path: path
         .slice(7, -4)
         .replace(/(Index|Home)$/, "")
-        .replace(/\/[A-Z]/g, (char) => char.toLowerCase())
-        .replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`),
+        .replace(/\/[A-Z]/g, (char) => char.toLocaleLowerCase())
+        .replace(/[A-Z]/g, (char) => `-${char.toLocaleLowerCase()}`),
       component: module,
     }))
     .concat([
       { path: "/:path(.*)", component: routes["./views/404.vue"] },
       { path: "/leopard", redirect: "/leopards" },
     ]),
+});
+
+function simpleTitle(path: string) {
+  return path
+    .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
+    .replace(/^./, (match) => match.toLocaleUpperCase())
+    .replace(/Webgl/g, "WebGL")
+    .replace(/Ai/g, "AI");
+}
+
+function titleOf(path: string, deep = false): string {
+  if (path.endsWith("/")) {
+    return titleOf(path.slice(0, -1)) + " Pages";
+  } else if (path.includes("/")) {
+    const split = path.split("/").reverse();
+
+    if (deep) {
+      return split.map((dir) => titleOf(dir)).join(" ");
+    } else {
+      // prettier-ignore
+      return `${titleOf(split[0])} | ${titleOf(split.slice(1).join("/"), true)}`;
+    }
+  } else return simpleTitle(path);
+}
+
+router.beforeEach(({ path }, _, next) => {
+  if (path === "/") {
+    document.title = "zSnout";
+  } else {
+    document.title = titleOf(path.slice(1)) + " | zSnout";
+  }
+
+  next();
 });
 
 export const app = createApp(App);
