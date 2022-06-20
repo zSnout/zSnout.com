@@ -147,8 +147,8 @@
     height: var(--app-height);
 
     > :deep(canvas) {
-      width: 100%;
-      height: 100%;
+      width: var(--app-width);
+      height: var(--app-height);
     }
   }
 </style>
