@@ -6,7 +6,7 @@
   import HStack from "../../components/HStack.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
   import Labeled from "../../components/Labeled.vue";
-  import StorymaticEditor from "../../components/StorymaticEditor.vue";
+  import Storymatic3Editor from "../../components/Storymatic3Editor.vue";
 
   const value = ref("");
   const placeholder = ref("placeholder");
@@ -16,7 +16,7 @@
 
 <template>
   <FullscreenDisplay>
-    <StorymaticEditor
+    <Storymatic3Editor
       v-model="value"
       class="editor"
       :placeholder="placeholder"
