@@ -1,8 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
 
-declare function trim(source: TemplateStringsArray): string;
-
 declare module "rangetouch" {
   export interface RangeTouchOptions {
     addCSS?: boolean;
@@ -25,3 +23,17 @@ declare module "rangetouch" {
 
   export default RangeTouch;
 }
+
+declare module "ace-builds" {
+  export function define(
+    module: string,
+    deps: string[],
+    factory: (require: any, exports: any) => void
+  ): void;
+}
+
+declare global {
+  function trim(source: TemplateStringsArray): string;
+}
+
+export {};
