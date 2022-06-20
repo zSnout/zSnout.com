@@ -1,12 +1,7 @@
-import {
-  useCssVar,
-  useElementSize,
-  useResizeObserver,
-  useWindowSize,
-} from "@vueuse/core";
+import { useCssVar, useWindowSize } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
@@ -16,7 +11,7 @@ const routes = import.meta.glob("./views/**/*.vue");
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: Object.entries(routes)
-    .map(([path, module]) => ({
+    .map<RouteRecordRaw>(([path, module]) => ({
       path: path
         .slice(7, -4)
         .replace(/(Index|Home)$/, "")
@@ -24,7 +19,10 @@ export const router = createRouter({
         .replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`),
       component: module,
     }))
-    .concat({ path: "/:path(.*)", component: routes["./views/404.vue"] }),
+    .concat([
+      { path: "/:path(.*)", component: routes["./views/404.vue"] },
+      { path: "/leopard", redirect: "/leopards" },
+    ]),
 });
 
 export const app = createApp(App);
@@ -47,7 +45,7 @@ watchEffect(() => {
   document.documentElement.classList.toggle("hover", isHoverable.value);
 });
 
-const { width, height } = useWindowSize();
+export const { width, height } = useWindowSize();
 
 const appWidth = useCssVar("--app-width");
 watchEffect(() => (appWidth.value = width.value + "px"));
