@@ -3,6 +3,7 @@
   import type { Ace } from "ace-builds";
   import "ace-builds/src-noconflict/theme-cobalt";
   import { VAceEditor } from "vue3-ace-editor";
+  import { showOptions } from "../main";
 
   const props = defineProps<{
     modelValue?: string;
@@ -31,7 +32,7 @@
     editor.commands.addCommand({
       name: "options",
       bindKey: { win: "Ctrl-,", mac: "Command-," },
-      exec: () => {},
+      exec: showOptions,
     });
 
     emit("init", editor);
