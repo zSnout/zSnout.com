@@ -95,19 +95,23 @@ if (typeof Object.hasOwn !== "function") {
   Object.hasOwn = Object.prototype.hasOwnProperty.call;
 }
 
+export function showOptions() {
+  document
+    .querySelector("svg.icon.options")
+    ?.dispatchEvent(new MouseEvent("click"));
+}
+
 window.addEventListener("keydown", (event) => {
   if (
-    navigator.userAgent.includes("Mac") &&
     event.key === "," &&
-    event.metaKey &&
     !event.shiftKey &&
-    !event.ctrlKey &&
-    !event.altKey
+    !event.altKey &&
+    (navigator.userAgent.includes("Mac")
+      ? event.metaKey && !event.ctrlKey
+      : event.ctrlKey && !event.metaKey)
   ) {
     event.preventDefault();
-
-    const svg = document.querySelector("svg.icon.options") as SVGElement;
-    svg?.dispatchEvent(new MouseEvent("click"));
+    showOptions();
   }
 });
 
