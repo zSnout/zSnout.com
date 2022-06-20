@@ -3,9 +3,9 @@
 
 declare module "ace-builds" {
   export function define(
-    arg0: string,
-    arg1: string[],
-    arg2: (require: any, exports: any) => void
+    module: string,
+    deps: string[],
+    factory: (require: any, exports: any) => void
   ): void;
 }
 
