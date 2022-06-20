@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-  import { useTitle } from "@vueuse/core";
   import { CSSProperties, reactive } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { usePageTitle } from "../composables/usePageTitle";
   import { useResolved } from "../composables/useResolved";
 
   interface Image extends CSSProperties {
@@ -42,8 +40,6 @@
       });
     }
   });
-
-  usePageTitle("Leopards");
 </script>
 
 <template>
