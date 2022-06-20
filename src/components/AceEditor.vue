@@ -43,8 +43,7 @@
   <div :class="{ readonly }" class="ace-outer">
     <VAceEditor
       class="ace-editor"
-      :mode="mode"
-      :options="{ showGutter: false, tabSize: 2 }"
+      :options="{ showGutter: false, tabSize: 2, mode: `ace/mode/${mode}` }"
       :placeholder="placeholder"
       :print-margin="false"
       :readonly="readonly"
