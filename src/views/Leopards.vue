@@ -28,7 +28,6 @@
   });
 
   const loaded = useResolved(images);
-
   const urls = reactive<Image[]>([]);
 
   setInterval(() => {
