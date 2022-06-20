@@ -1,12 +1,12 @@
 <script lang="ts" setup>
   import { ref } from "vue";
-  import AceEditor from "../../components/AceEditor.vue";
   import Button from "../../components/Button.vue";
-  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import Field from "../../components/Field.vue";
+  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
-  import Labeled from "../../components/Labeled.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
+  import Labeled from "../../components/Labeled.vue";
+  import StorymaticEditor from "../../components/StorymaticEditor.vue";
 
   const value = ref("");
   const placeholder = ref("placeholder");
@@ -16,7 +16,7 @@
 
 <template>
   <FullscreenDisplay>
-    <AceEditor
+    <StorymaticEditor
       v-model="value"
       class="editor"
       :placeholder="placeholder"
