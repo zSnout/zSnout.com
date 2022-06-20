@@ -1,9 +1,6 @@
 <script lang="ts" setup>
   import { RouterLink } from "vue-router";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
-  import { usePageTitle } from "../composables/usePageTitle";
-
-  usePageTitle("Oops, 404");
 </script>
 
 <template>
