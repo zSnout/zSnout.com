@@ -11,6 +11,13 @@
 
     <SearchableCardGrid>
       <Card
+        description="Creates a code editor using Ace and tests the ability to use dynamic refs and options."
+        keywords="code"
+        title="Ace Editor"
+        to="/debug/code-editor"
+      />
+
+      <Card
         description="Moves a yellow bar across the screen in a test of using Vue's refs with WebGL uniforms."
         keywords="webgl animations"
         title="Reactive Uniforms"
