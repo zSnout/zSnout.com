@@ -7,7 +7,11 @@
 </script>
 
 <template>
-  <div class="stack">
+  <div
+    :class="{ stretch, wraps }"
+    class="stack"
+    :style="{ gap: `${space ?? 0.5}em` }"
+  >
     <slot />
   </div>
 </template>
@@ -16,13 +20,15 @@
   .stack {
     display: flex;
     flex-direction: row;
-    flex-wrap: v-bind("wraps ? 'wrap' : 'invalid'");
-    gap: v-bind("`${space ?? 0.5}em`");
     width: 100%;
 
-    > :deep(*) {
-      flex: v-bind("stretch ? '1' : 'invalid'");
-      text-align: v-bind("stretch ? 'center' : 'invalid'");
+    &.wraps {
+      flex-wrap: wrap;
+    }
+
+    &.stretch > :deep(*) {
+      flex: 1;
+      text-align: center;
     }
 
     // We specify .stack twice to fix specificity issues.

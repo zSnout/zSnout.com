@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <div class="stack">
+  <div :class="{ center }" class="stack" :style="{ gap: `${space ?? 0.5}em` }">
     <slot />
   </div>
 </template>
@@ -15,10 +15,9 @@
   .stack {
     display: flex;
     flex-direction: column;
-    gap: v-bind("`${space ?? 0.5}em`");
 
-    > :deep(*) {
-      text-align: v-bind("center ? 'center' : 'invalid'");
+    &.center > :deep(*) {
+      text-align: center;
     }
 
     &.stack > :deep(*) {
