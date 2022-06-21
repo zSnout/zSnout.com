@@ -6,6 +6,7 @@
     modelValue?: string;
     readonly?: boolean;
     placeholder?: string;
+    round?: boolean;
   }>();
 
   defineEmits<{
@@ -116,6 +117,7 @@
     :modelValue="modelValue"
     :placeholder="placeholder ?? 'Write a story...'"
     :readonly="readonly"
+    :round="round"
     mode="storymatic"
     @init="$emit('init', $event)"
     @save="$emit('save', $event)"
