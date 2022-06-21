@@ -4,7 +4,10 @@
   import Navigation from "./Navigation.vue";
   import SafeArea from "./SafeArea.vue";
 
-  defineProps<{ center?: boolean }>();
+  defineProps<{
+    center?: boolean;
+    explicitHeight?: boolean;
+  }>();
 
   const navbar = ref<MaybeElement>();
   const navHeight = ref(58);
@@ -31,6 +34,7 @@
   </Navigation>
 
   <SafeArea
+    :explicit-height="explicitHeight"
     :flex="center"
     :min-height="`calc(var(--app-height) - ${navHeight}px)`"
     bottom

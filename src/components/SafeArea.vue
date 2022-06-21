@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   defineProps<{
+    explicitHeight?: boolean;
     minHeight?: string;
     top?: boolean;
     bottom?: boolean;
@@ -10,7 +11,7 @@
 <template>
   <div class="safe-area">
     <div class="padding">
-      <div :class="{ top, bottom, flex }" class="content">
+      <div :class="{ top, bottom, flex, explicitHeight }" class="content">
         <slot />
       </div>
     </div>
@@ -54,6 +55,10 @@
   .content {
     width: min(1000px, 100%);
     min-height: v-bind(minHeight);
+
+    &.explicitHeight {
+      height: v-bind(minHeight);
+    }
 
     > :first-child {
       margin-top: 0;
