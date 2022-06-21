@@ -10,6 +10,7 @@
     readonly?: boolean;
     placeholder?: string;
     mode?: string;
+    round?: boolean;
   }>();
 
   const emit = defineEmits<{
@@ -40,7 +41,7 @@
 </script>
 
 <template>
-  <div :class="{ readonly }" class="ace-outer">
+  <div :class="{ readonly, round }" class="ace-outer">
     <VAceEditor
       class="ace-editor"
       :options="{ showGutter: false, tabSize: 2, mode: `ace/mode/${mode}` }"
@@ -63,6 +64,11 @@
 
     .dark & {
       background-color: #193549;
+    }
+
+    &.round {
+      overflow: hidden;
+      border-radius: 0.25rem;
     }
   }
 
