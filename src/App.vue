@@ -121,12 +121,21 @@
   .outline,
   .hover .hoverline:hover,
   .hover .focusline:focus {
-    outline: 1px solid #066567;
+    &.second-layer {
+      padding: calc(0.5rem - 1px) calc(0.75rem - 1px);
+      border: 1px solid #066567;
+      outline: none;
+    }
+
+    &:not(.second-layer) {
+      outline: 1px solid #066567;
+    }
   }
 
   .dark .outline,
   .dark.hover .hoverline:hover,
   .dark.hover .focusline:focus {
+    border-color: #2c8d8d;
     outline-color: #2c8d8d;
   }
 </style>
