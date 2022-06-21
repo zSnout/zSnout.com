@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   defineProps<{
     modelValue: string;
+    disabled?: boolean;
   }>();
 
   defineEmits<{
@@ -11,6 +12,7 @@
 <template>
   <select
     class="field focusline second-layer"
+    :disabled="disabled"
     :value="$props.modelValue"
     @change="$emit('update:modelValue', $event.target!.value)"
   >
