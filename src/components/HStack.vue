@@ -25,6 +25,7 @@
       text-align: v-bind("stretch ? 'center' : 'invalid'");
     }
 
+    // We specify .stack twice to fix specificity issues.
     &.stack > :deep(*) {
       margin: 0;
     }
