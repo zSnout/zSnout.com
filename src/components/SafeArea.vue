@@ -2,6 +2,7 @@
   defineProps<{
     explicitHeight?: boolean;
     minHeight?: string;
+    maxWidth?: boolean;
     top?: boolean;
     bottom?: boolean;
     flex?: boolean;
@@ -11,7 +12,10 @@
 <template>
   <div class="safe-area">
     <div class="padding">
-      <div :class="{ top, bottom, flex, explicitHeight }" class="content">
+      <div
+        :class="{ bottom, explicitHeight, flex, maxWidth, top }"
+        class="content"
+      >
         <slot />
       </div>
     </div>
@@ -53,8 +57,12 @@
   }
 
   .content {
-    width: min(1000px, 100%);
+    width: 100%;
     min-height: v-bind(minHeight);
+
+    &:not(.maxWidth) {
+      width: min(1000px, 100%);
+    }
 
     &.explicitHeight {
       height: v-bind(minHeight);

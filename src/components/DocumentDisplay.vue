@@ -7,6 +7,7 @@
   defineProps<{
     center?: boolean;
     explicitHeight?: boolean;
+    maxWidth?: boolean;
   }>();
 
   const navbar = ref<MaybeElement>();
@@ -36,6 +37,7 @@
   <SafeArea
     :explicit-height="explicitHeight"
     :flex="center"
+    :max-width="maxWidth"
     :min-height="`calc(var(--app-height) - ${navHeight}px)`"
     bottom
     top
