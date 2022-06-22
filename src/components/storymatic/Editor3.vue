@@ -16,13 +16,13 @@
   }>();
 
   ace.define(
-    "ace/mode/storymatic",
+    "ace/mode/storymatic3",
     ["require", "exports"],
     function (require, exports) {
       const oop = require("ace/lib/oop");
       const TextMode = require("ace/mode/text").Mode;
       const StorymaticHighlightRules =
-        require("ace/mode/storymatic_highlight_rules").SMHighlightRules;
+        require("ace/mode/storymatic3_highlight_rules").SMHighlightRules;
 
       const Mode = function (this: any) {
         this.HighlightRules = StorymaticHighlightRules;
@@ -35,7 +35,7 @@
   );
 
   ace.define(
-    "ace/mode/storymatic_highlight_rules",
+    "ace/mode/storymatic3_highlight_rules",
     ["require", "exports"],
     function (require, exports) {
       const oop = require("ace/lib/oop");
@@ -118,7 +118,7 @@
     :placeholder="placeholder ?? 'Write a story...'"
     :readonly="readonly"
     :round="round"
-    mode="storymatic"
+    mode="storymatic3"
     @init="$emit('init', $event)"
     @save="$emit('save', $event)"
     @update:model-value="$emit('update:modelValue', $event)"
