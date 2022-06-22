@@ -5,7 +5,7 @@ String.prototype.realMatchAll = function (regex) {
 /* Action
  * command: {name: string, arg: string, expr: Expression, code: string, parsed: Action[]}
  * variable: {name: string, mode: string, value: string}
- * mode: =, @=, +=, -=, *=, /=, %=m
+ * mode: =, @=, +=, -=, *=, /=, %=
  * print: {text: string}
  * code: {code: string}
  * parsed: {code: Action[]}
