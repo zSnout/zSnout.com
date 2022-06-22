@@ -3,7 +3,11 @@ import { computed } from "vue";
 
 const location = useBrowserLocation();
 
-export function useLocationHash() {
+export function useLocationHash(initial?: string) {
+  if (typeof initial === "string") {
+    globalThis.location.hash = encodeURIComponent(initial);
+  }
+
   return computed<string>({
     get() {
       return decodeURIComponent(location.value.hash?.slice(1) || "");
