@@ -2,7 +2,7 @@
 
 <template>
   <svg
-    class="icon"
+    class="icon options"
     viewBox="0 0 478.703 478.703"
     xmlns="http://www.w3.org/2000/svg"
   >
