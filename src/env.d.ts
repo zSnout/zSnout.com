@@ -27,8 +27,13 @@ declare module "rangetouch" {
 declare module "ace-builds" {
   export function define(
     module: string,
+    factory: (require: (dep: string) => any, exports: any) => void
+  ): void;
+
+  export function define(
+    module: string,
     deps: string[],
-    factory: (require: any, exports: any) => void
+    factory: (require: (dep: string) => any, exports: any) => void
   ): void;
 }
 
