@@ -710,6 +710,8 @@ Storymatic.parseExpr = {
     return done;
   },
   varnums: function (text) {
+    var match;
+
     for (var i = 0; i < text.length; i++) {
       if (
         typeof text[i] == "string" &&
