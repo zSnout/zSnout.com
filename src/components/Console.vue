@@ -5,11 +5,14 @@
       options: Record<string, string>
     ): Promise<string>;
 
-    field(placeholder: string | undefined, required: true): Promise<string>;
-    field(
+    prompt(placeholder: string | undefined, required: true): Promise<string>;
+    prompt(
       placeholder?: string,
       required?: boolean
     ): Promise<string | undefined>;
+
+    key(key: string): Promise<void>;
+    bindKey(key: string, callback: () => void): void;
 
     user(message?: any, ...optionalParams: any[]): void;
   }
@@ -18,6 +21,7 @@
     console: Console;
     messages: Message[];
     field: Ref<string>;
+    onKey(key: string): void;
     onSelect(id: number, item: string): void;
     onSubmit(field: string | undefined): void;
     placeholder: Ref<string | undefined>;
@@ -26,6 +30,15 @@
   export function useCompleteConsole(): CompleteConsole {
     const console: Console = {
       ...globalThis.console,
+      bindKey(key, callback) {
+        onKey.push((_key) => {
+          if (key === _key) {
+            callback();
+          }
+
+          return true;
+        });
+      },
       clear() {
         messages.length = 0;
       },
@@ -38,7 +51,28 @@
             : message,
         });
       },
-      field(_placeholder, required): any {
+      key(key) {
+        return new Promise((resolve) => {
+          onKey.push((_key) => {
+            if (key === _key) {
+              resolve();
+              return;
+            }
+
+            return true;
+          });
+        });
+      },
+      log(message, ...optionalParams) {
+        messages.push({
+          type: "log",
+          id: Math.random(),
+          content: optionalParams.length
+            ? [message, ...optionalParams]
+            : message,
+        });
+      },
+      prompt(_placeholder, required): any {
         placeholder.value = _placeholder;
 
         return new Promise<string | undefined>((resolve) => {
@@ -49,15 +83,6 @@
               } else return true;
             });
           } else onSubmit.push(resolve);
-        });
-      },
-      log(message, ...optionalParams) {
-        messages.push({
-          type: "log",
-          id: Math.random(),
-          content: optionalParams.length
-            ? [message, ...optionalParams]
-            : message,
         });
       },
       select(label, options) {
@@ -103,11 +128,20 @@
 
     const onSubmit: ((value: string | undefined) => true | void)[] = [];
 
+    const onKey: ((key: string) => true | void)[] = [];
+
     return {
       console,
       field,
       messages,
       placeholder,
+      onKey(key) {
+        onKey.splice(
+          0,
+          onKey.length,
+          ...onKey.filter((resolve) => resolve(key))
+        );
+      },
       onSelect(id, item) {
         onSelect[id]?.(item);
         delete onSelect[id];
@@ -149,17 +183,18 @@
   export type Message = TextMessage | SelectMessage;
 
   const props = defineProps<{
-    messages: Message[];
     field: string;
+    messages: Message[];
     placeholder?: string;
     stretch?: boolean;
   }>();
 
   const emit = defineEmits<{
-    (event: "update:messages", value: Message[]): void;
-    (event: "update:field", value: string): void;
+    (event: "key", key: string): void;
     (event: "select", id: number, item: string): void;
     (event: "submit", field: string | undefined): void;
+    (event: "update:field", value: string): void;
+    (event: "update:messages", value: Message[]): void;
   }>();
 
   function submit() {
@@ -219,6 +254,7 @@
           class="field"
           :model-value="field || ''"
           :placeholder="placeholder"
+          @keydown="$emit('key', $event.key)"
           @update:model-value="$emit('update:field', $event)"
         />
 
