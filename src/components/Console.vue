@@ -26,6 +26,9 @@
   export function useCompleteConsole(): CompleteConsole {
     const console: Console = {
       ...globalThis.console,
+      clear() {
+        messages.length = 0;
+      },
       error(message, ...optionalParams) {
         messages.push({
           type: "error",
