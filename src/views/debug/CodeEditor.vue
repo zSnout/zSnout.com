@@ -1,8 +1,9 @@
 <script lang="ts" setup>
   import { ref } from "vue";
   import Button from "../../components/Button.vue";
+  import Console, { useCompleteConsole } from "../../components/Console.vue";
+  import DocumentDisplay from "../../components/DocumentDisplay.vue";
   import Field from "../../components/Field.vue";
-  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
   import Labeled from "../../components/Labeled.vue";
@@ -11,22 +12,33 @@
   const value = ref("");
   const placeholder = ref("placeholder");
   const readonly = ref(false);
-  const alert = window.alert;
+
+  const console = useCompleteConsole();
+  const { field, placeholder: _placeholder } = console;
 </script>
 
 <template>
-  <FullscreenDisplay>
-    <Storymatic3Editor
-      v-model="value"
-      class="editor"
-      :placeholder="placeholder"
-      :readonly="readonly"
-      @save="alert"
-    />
+  <DocumentDisplay explicit-height max-width>
+    <HStack :space="0.75" style="height: 100%">
+      <Storymatic3Editor
+        v-model="value"
+        :placeholder="placeholder"
+        :readonly="readonly"
+        round
+        style="flex: 1"
+        @save="console.console.error"
+      />
 
-    <template #indicator>
-      {{ value }}
-    </template>
+      <Console
+        v-model:field="field"
+        v-model:messages="console.messages"
+        :placeholder="_placeholder"
+        stretch
+        style="width: min(50%, 400px)"
+        @select="console.onSelect"
+        @submit="console.onSubmit"
+      />
+    </HStack>
 
     <template #options>
       <HStack :space="0.75" stretch>
@@ -53,15 +65,5 @@
         <InlineCheckboxField v-model="readonly" />
       </Labeled>
     </template>
-  </FullscreenDisplay>
+  </DocumentDisplay>
 </template>
-
-<style scoped>
-  .editor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: var(--app-width);
-    height: var(--app-height);
-  }
-</style>
