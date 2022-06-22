@@ -7,7 +7,7 @@
   import HStack from "../../components/HStack.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
   import Labeled from "../../components/Labeled.vue";
-  import LegacyStorymaticEditor from "../../components/LegacyStorymaticEditor.vue";
+  import Editor3 from "../../components/storymatic/Editor3.vue";
 
   const value = ref("");
   const placeholder = ref("placeholder");
@@ -20,7 +20,7 @@
 <template>
   <DocumentDisplay explicit-height max-width>
     <HStack :space="0.75" style="height: 100%">
-      <LegacyStorymaticEditor
+      <Editor3
         v-model="value"
         :placeholder="placeholder"
         :readonly="readonly"

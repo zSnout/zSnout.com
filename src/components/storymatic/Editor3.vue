@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import ace from "ace-builds";
-  import AceEditor from "./AceEditor.vue";
+  import AceEditor from "../AceEditor.vue";
 
   defineProps<{
     modelValue?: string;
@@ -19,12 +19,12 @@
     "ace/mode/storymatic",
     ["require", "exports"],
     function (require, exports) {
-      let oop = require("ace/lib/oop");
-      let TextMode = require("ace/mode/text").Mode;
-      let StorymaticHighlightRules =
+      const oop = require("ace/lib/oop");
+      const TextMode = require("ace/mode/text").Mode;
+      const StorymaticHighlightRules =
         require("ace/mode/storymatic_highlight_rules").SMHighlightRules;
 
-      let Mode = function (this: any) {
+      const Mode = function (this: any) {
         this.HighlightRules = StorymaticHighlightRules;
         this.lineCommentStart = "#";
       };
@@ -38,10 +38,10 @@
     "ace/mode/storymatic_highlight_rules",
     ["require", "exports"],
     function (require, exports) {
-      let oop = require("ace/lib/oop");
-      let { TextHighlightRules } = require("ace/mode/text_highlight_rules");
-      let SMHighlightRules = function (this: any) {
-        let dq = [
+      const oop = require("ace/lib/oop");
+      const { TextHighlightRules } = require("ace/mode/text_highlight_rules");
+      const SMHighlightRules = function (this: any) {
+        const dq = [
           { token: "constant.language.escape", regex: /\\./ },
           { token: "string", regex: /"/, next: "start" },
           { token: "paren", regex: /\|/, next: "start" },
@@ -54,7 +54,7 @@
             { token: "comment.line", regex: /^\s*#.*$/ },
             {
               token: "storage.type.function",
-              regex: /\b(?:function|func|def|let)\b/,
+              regex: /\b(?:function|func|def|const)\b/,
             },
             {
               token: "keyword",
