@@ -21,18 +21,24 @@
     console: Console;
     messages: Message[];
     field: Ref<string>;
-    onKey(key: string): void;
+    onKey(key: string, prevent: () => void): void;
     onSelect(id: number, item: string): void;
     onSubmit(field: string | undefined): void;
     placeholder: Ref<string | undefined>;
   }
 
+  /** The number of inputs currently being used. */
+  let inputting = 0;
+
   export function useCompleteConsole(): CompleteConsole {
     const console: Console = {
       ...globalThis.console,
       bindKey(key, callback) {
-        onKey.push((_key) => {
+        onKey.push((_key, prevent) => {
+          if (inputting) return true;
+
           if (key === _key) {
+            prevent();
             callback();
           }
 
@@ -53,8 +59,11 @@
       },
       key(key) {
         return new Promise((resolve) => {
-          onKey.push((_key) => {
+          onKey.push((_key, prevent) => {
+            if (inputting) return true;
+
             if (key === _key) {
+              prevent();
               resolve();
               return;
             }
@@ -128,18 +137,18 @@
 
     const onSubmit: ((value: string | undefined) => true | void)[] = [];
 
-    const onKey: ((key: string) => true | void)[] = [];
+    const onKey: ((key: string, prevent: () => void) => true | void)[] = [];
 
     return {
       console,
       field,
       messages,
       placeholder,
-      onKey(key) {
+      onKey(key, prevent) {
         onKey.splice(
           0,
           onKey.length,
-          ...onKey.filter((resolve) => resolve(key))
+          ...onKey.filter((resolve) => resolve(key, prevent))
         );
       },
       onSelect(id, item) {
@@ -190,7 +199,7 @@
   }>();
 
   const emit = defineEmits<{
-    (event: "key", key: string): void;
+    (event: "key", key: string, prevent: () => void): void;
     (event: "select", id: number, item: string): void;
     (event: "submit", field: string | undefined): void;
     (event: "update:field", value: string): void;
@@ -254,7 +263,7 @@
           class="field"
           :model-value="field || ''"
           :placeholder="placeholder"
-          @keydown="$emit('key', $event.key)"
+          @keydown="$emit('key', $event.key, () => $event.preventDefault())"
           @update:model-value="$emit('update:field', $event)"
         />
 
