@@ -206,7 +206,7 @@
     (event: "update:messages", value: Message[]): void;
   }>();
 
-  function submit() {
+  function onSubmit() {
     if (props.field) {
       const message: Message = {
         type: "user",
@@ -218,6 +218,17 @@
 
     emit("update:field", "");
     emit("submit", props.field ? props.field : undefined);
+  }
+
+  function onSubmitButton(event: Event) {
+    let prevented = false;
+    emit("key", "Enter", () => (prevented = true));
+
+    if (prevented) {
+      event.preventDefault();
+    } else {
+      onSubmit();
+    }
   }
 </script>
 
@@ -257,7 +268,7 @@
       </p>
     </template>
 
-    <form class="form" style="margin-top: auto" @submit.prevent="submit">
+    <form class="form" style="margin-top: auto" @submit.prevent="onSubmit">
       <HStack :space="0.75">
         <Field
           class="field"
@@ -267,7 +278,7 @@
           @update:model-value="$emit('update:field', $event)"
         />
 
-        <Button @click="submit">✔</Button>
+        <Button @click="onSubmitButton">✔</Button>
       </HStack>
     </form>
   </VStack>
