@@ -4,7 +4,7 @@ export class Storymatic {
   variables: any;
   parsed: any;
   commands: {};
-  mergeWith(text: any, callback: any): void;
+  mergeWith(text: any, callback?: any): void;
   getVariable(name: any): any;
   setVariable(name: any, value: any): void;
   calc(code: any): string;
@@ -17,16 +17,16 @@ export class Storymatic {
     code: any,
     parsed: any,
     next: any,
-    callback: any
+    callback?: any
   ): void;
-  runCode(code: any, callback: any): void;
-  runParsed(code: any, callback: any): void;
-  runVariable(name: any, mode: any, value: any, callback: any): any;
-  print(text: any, callback: any): void;
+  runCode(code: any, callback?: any): void;
+  runParsed(code: any, callback?: any): void;
+  runVariable(name: any, mode: any, value: any, callback?: any): any;
+  print(text: any, callback?: any): void;
   parseText(text: any): any;
-  run(actions: any, callback: any): void;
-  start(callback: any): void;
-  context(callback: any): void;
+  run(actions: any, callback?: any): void;
+  start(callback?: any): void;
+  context(callback?: any): void;
 }
 
 export namespace Storymatic {
@@ -70,17 +70,17 @@ export namespace Storymatic {
   }
 
   function expr(text: any): any;
-  function tooltip(text: any, callback: any): any;
-  function write(text: any, callback: any): any;
-  function print(text: any, callback: any): any;
-  function image(src: any, callback: any): any;
-  function line(callback: any): any;
-  function clear(callback: any): any;
-  function type(text: any, time: any, callback: any): any;
-  function input(text: any, callback: any): any;
-  function choice(text: any, choices: any, callback: any): void;
+  function tooltip(text: any, callback?: any): any;
+  function write(text: any, callback?: any): any;
+  function print(text: any, callback?: any): any;
+  function image(src: any, callback?: any): any;
+  function line(callback?: any): any;
+  function clear(callback?: any): any;
+  function type(text: any, time: any, callback?: any): any;
+  function input(text: any, callback?: any): any;
+  function choice(text: any, choices: any, callback?: any): void;
   const waitingFor: any[];
-  function waitFor(key: any, once: any, callback: any): void;
+  function waitFor(key: any, once: any, callback?: any): void;
 
   namespace imports {
     export namespace time {
@@ -90,7 +90,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function wait(
@@ -99,7 +99,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function wait_ms(
@@ -108,7 +108,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
     }
 
@@ -119,7 +119,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function choice(
@@ -128,7 +128,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function input_1(
@@ -137,7 +137,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export { input_1 as input };
@@ -148,7 +148,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function number(
@@ -157,7 +157,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function bind_once(
@@ -166,7 +166,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function bind_forever(
@@ -175,7 +175,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       export function unbind(
@@ -184,7 +184,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
     }
 
@@ -195,7 +195,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export { nowait_1 as nowait };
@@ -206,7 +206,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function typewrite(
@@ -215,7 +215,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function typewrite_ms(
@@ -224,7 +224,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function line(
@@ -233,7 +233,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function clear(
@@ -242,7 +242,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function center(
@@ -251,7 +251,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function tooltip(
@@ -260,7 +260,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
     }
 
@@ -271,7 +271,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         ognext: any,
-        callback: any
+        callback?: any
       ): any;
 
       export { _if as if };
@@ -282,7 +282,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function repeat(
@@ -291,7 +291,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function _while(
@@ -300,7 +300,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export { _while as while };
@@ -311,7 +311,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export { _for as for };
@@ -322,7 +322,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function run(
@@ -331,7 +331,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export function _switch(
@@ -340,7 +340,7 @@ export namespace Storymatic {
         code: any,
         cases: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       export { _switch as switch };
@@ -353,7 +353,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function newline(
@@ -362,7 +362,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function empty(
@@ -371,7 +371,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function substr(
@@ -380,7 +380,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function substring(
@@ -389,7 +389,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function char(
@@ -398,7 +398,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function switch_char(
@@ -407,7 +407,7 @@ export namespace Storymatic {
         code: any,
         cases: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function lowercase(
@@ -416,7 +416,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function uppercase(
@@ -425,7 +425,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function replace(
@@ -434,7 +434,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
     }
 
@@ -445,7 +445,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function floor(
@@ -454,7 +454,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
 
       function ceil(
@@ -463,7 +463,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): any;
     }
 
@@ -476,7 +476,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function load(
@@ -485,7 +485,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function save(
@@ -494,7 +494,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
 
       function reset(
@@ -503,7 +503,7 @@ export namespace Storymatic {
         code: any,
         parsed: any,
         next: any,
-        callback: any
+        callback?: any
       ): void;
     }
   }
