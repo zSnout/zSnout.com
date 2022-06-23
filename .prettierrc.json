@@ -15,7 +15,7 @@
     "^v-model$",
     "^v-model:",
     "^:?class$",
-    "^:",
+    "^:(?!data-)",
     "$DEFAULT",
     "^:?data-",
     "^@",
