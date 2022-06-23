@@ -83,6 +83,8 @@
         });
       },
       log(message, ...optionalParams) {
+        window.console.log(message, ...optionalParams);
+
         messages.push({
           type: "log",
           id: Math.random(),
@@ -184,7 +186,7 @@
 
 <script lang="ts" setup>
   import { MaybeElement, unrefElement } from "@vueuse/core";
-  import { reactive, ref, Ref } from "vue";
+  import { reactive, ref, Ref, watch } from "vue";
   import Button from "./Button.vue";
   import Dropdown from "./Dropdown.vue";
   import Field from "./Field.vue";
@@ -251,11 +253,15 @@
 
   const fieldEl = ref<MaybeElement>();
   (props.messages as any).focus = () => unrefElement(fieldEl)?.focus();
+
+  // Workaround because Vue has some weird errors if you use `$props.messages`
+  // or `messages` instead of passing a seperate reactive object here.
+  const msgs = props.messages;
 </script>
 
 <template>
   <VStack :class="{ stretch }" class="console">
-    <template v-for="item in messages" :key="item.id">
+    <template v-for="item in msgs" :key="item.id">
       <MaybeLabeled
         v-if="item.type === 'select'"
         class="log"
@@ -284,7 +290,7 @@
         {{ item.content.join(" ") }}
       </p>
 
-      <p v-else :class="item.type === 'log' ? '' : item.type" class="log">
+      <p v-else :class="item.type" class="log">
         {{ item.content }}
       </p>
     </template>
