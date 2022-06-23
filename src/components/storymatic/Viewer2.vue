@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { useTypewrite } from "../../composables/useTypewrite";
   import Console, { useCompleteConsole } from "../Console.vue";
   import { useNavLink } from "../Navigation.vue";
   import { Storymatic } from "./runner2.js";
@@ -46,21 +47,10 @@
   };
 
   Storymatic.type = (text, time, callback) => {
-    let index = 0;
-    const el = document.createElement("p");
-
-    if (text.length > 0) {
-      const interval = setInterval(() => {
-        el.textContent += text[index++] || "";
-
-        if (index >= text.length) {
-          clearInterval(interval);
-          callback?.();
-        }
-      }, time / text.length / 1000);
-    } else callback?.();
+    const { el, done } = useTypewrite(text, time);
 
     console.log(el);
+    done.then(callback);
   };
 
   Storymatic.input = async (text, callback) => {
@@ -103,6 +93,8 @@
           });
         });
       });
+
+      Object.assign(window, { prev });
     },
   });
 </script>
