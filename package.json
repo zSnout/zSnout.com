@@ -16,6 +16,7 @@
     "hoodmane-pyodide": "^0.20.0-m",
     "random-seed": "^0.3.0",
     "rangetouch": "^2.0.1",
+    "storymatic": "^2.0.84",
     "tabbable": "^5.3.3",
     "vue": "^3.2.37",
     "vue-router": "^4.0.16",
