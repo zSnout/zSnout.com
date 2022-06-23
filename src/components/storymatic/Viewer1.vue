@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import { loadPyodide } from "hoodmane-pyodide";
+  import { PyodideSymbol } from "../../composables/symbols";
   import Console, { useCompleteConsole } from "../Console.vue";
   import { useNavLink } from "../Navigation.vue";
   import runner from "./runner1.py?raw";
@@ -9,12 +10,14 @@
   const { console, field, messages, onKey, onSelect, onSubmit, placeholder } =
     useCompleteConsole();
 
-  const pyodide = loadPyodide({
-    stderr: (e) => console.error(e),
-    stdout: (e) => console.log(e),
-    stdin: () => prompt() || "",
-    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.20.0/full/",
-  });
+  if (!window[PyodideSymbol]) {
+    window[PyodideSymbol] = loadPyodide({
+      stderr: (e) => console.error(e),
+      stdout: (e) => console.log(e),
+      stdin: () => prompt() || "",
+      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.20.0/full/",
+    });
+  }
 
   useNavLink({
     title: "Execute",
@@ -24,7 +27,7 @@
       placeholder.value = "";
       Object.assign(window, { prompt: console.prompt });
 
-      const py = await pyodide;
+      const py = await window[PyodideSymbol];
 
       py.runPythonAsync(
         `${runner}\nawait story(\n"""\n${props.code}\n""").run()`
