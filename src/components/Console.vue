@@ -99,10 +99,15 @@
           if (required) {
             onSubmit.push((value) => {
               if (value) {
+                placeholder.value = "";
                 resolve(value);
               } else return true;
             });
-          } else onSubmit.push(resolve);
+          } else
+            onSubmit.push((value) => {
+              placeholder.value = "";
+              resolve(value);
+            });
         });
       },
       select(label, options) {
