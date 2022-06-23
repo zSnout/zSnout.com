@@ -21,7 +21,7 @@ String.prototype.realMatchAll = function (regex) {
  * and, or: {values: Expression[]}
  */
 
-export class Storymatic {
+class Storymatic {
   constructor(story, callback) {
     story = Storymatic.parse(story);
 
@@ -1649,3 +1649,5 @@ actions.setLocal = function (keyVals, callback) {
 
   if (typeof callback == "function") callback("");
 };
+
+export { Storymatic };
