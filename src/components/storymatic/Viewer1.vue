@@ -1,6 +1,10 @@
 <script lang="ts" setup>
   import { loadPyodide } from "hoodmane-pyodide";
-  import { PyodideSymbol } from "../../composables/symbols";
+  import {
+    PyodideStderrSymbol,
+    PyodideStdoutSymbol,
+    PyodideSymbol,
+  } from "../../composables/symbols";
   import Console, { useCompleteConsole } from "../Console.vue";
   import { useNavLink } from "../Navigation.vue";
   import runner from "./runner1.py?raw";
@@ -10,10 +14,13 @@
   const { console, field, messages, onKey, onSelect, onSubmit, placeholder } =
     useCompleteConsole();
 
+  window[PyodideStderrSymbol] = console.error;
+  window[PyodideStdoutSymbol] = console.log;
+
   if (!window[PyodideSymbol]) {
     window[PyodideSymbol] = loadPyodide({
-      stderr: (e) => console.error(e),
-      stdout: (e) => console.log(e),
+      stderr: (e) => window[PyodideStderrSymbol](e),
+      stdout: (e) => window[PyodideStdoutSymbol](e),
       stdin: () => prompt() || "",
       indexURL: "https://cdn.jsdelivr.net/pyodide/v0.20.0/full/",
     });
