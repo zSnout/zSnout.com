@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { loadPyodide } from "hoodmane-pyodide/pyodide";
+  import { loadPyodide } from "hoodmane-pyodide";
   import Console, { useCompleteConsole } from "../Console.vue";
   import { useNavLink } from "../Navigation.vue";
   import runner from "./runner1.py?raw";
