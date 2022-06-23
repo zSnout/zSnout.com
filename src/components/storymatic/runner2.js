@@ -238,7 +238,7 @@ class Storymatic {
     if (typeof code == "string") result = this.expr(code);
     else result = this.calc(code);
 
-    if (result === true || result.toUpperCase() == "TRUE") return true;
+    if (String(result).toUpperCase() == "TRUE") return true;
     else return false;
   }
 
@@ -885,7 +885,7 @@ Storymatic.choice = (text, choices, callback) => {
     var answer = prompt(text + "\nChoose From: " + choices.join(","));
 
     if (choices.indexOf(answer) == -1) return ask();
-    else return answer;
+    else return choices.indexOf(answer);
   }
 
   typeof callback == "function" ? callback(ask()) : null;
