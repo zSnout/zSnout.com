@@ -1,6 +1,7 @@
+from asyncio import sleep
+from js import prompt
 import re
 from random import randint
-from js import prompt, wait
 
 # Four uses of story.ask():
   # ask(question,option 1,option 2,...) returns the key of the option selected.
@@ -45,7 +46,7 @@ class story:
       print("")
       print(question)
       while True:
-        a = await prompt("  Enter Yes or No:", True)
+        a = await prompt("Enter Yes or No:", True)
         if a.lower() == "yes":
           return True
         elif a.lower() == "no":
@@ -56,7 +57,7 @@ class story:
       elif type(answers[0]) is str: # For ask(question,answer as str)
         print("")
         print(question)
-        a = await prompt("  Answer:", True)
+        a = await prompt("Answer:", True)
         b = answers[0]
         if a.lower() == b.lower():
           return True
@@ -68,7 +69,7 @@ class story:
       print("  %s: %s" %(z,answers[z]))
     boolean = True
     while boolean:
-      answer = await prompt("    Enter a key:", True)
+      answer = await prompt("Enter a key:", True)
       try:
         int(answer,10)
       except:
@@ -82,7 +83,7 @@ class story:
     print(question)
 
     async def ite():
-      a = await prompt("  Enter a number:", True)
+      a = await prompt("Enter a number:", True)
       try:
         float(a)
       except:
@@ -104,7 +105,7 @@ class story:
     print(question)
 
     async def ite():
-      a = await prompt("  Enter some text:", True)
+      a = await prompt("Enter some text:", True)
       if a == "":
         return await ite()
 
@@ -277,7 +278,7 @@ class story:
     regex = r"^@(?:sleep|wait|timeout) +(10|[1-9]|[0-9]?\.[1-9]|[0-9]?\.[0-9][1-9])$"
     match = re.match(regex,code)
     if match:
-      await wait(float(match.group(1)))
+      await sleep(float(match.group(1)))
 
     return False
   def runVarChange(self,code):
