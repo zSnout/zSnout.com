@@ -1,6 +1,13 @@
 /// <reference types="vite/client" />
 /// <reference types="vite-plugin-pwa/client" />
 
+import { loadPyodide } from "hoodmane-pyodide";
+import {
+  PyodideStderrSymbol,
+  PyodideStdoutSymbol,
+  PyodideSymbol,
+} from "./composables/symbols";
+
 declare module "rangetouch" {
   export interface RangeTouchOptions {
     addCSS?: boolean;
@@ -39,6 +46,12 @@ declare module "ace-builds" {
 
 declare global {
   function trim(source: TemplateStringsArray): string;
+
+  declare interface Window {
+    [PyodideStderrSymbol](msg: string): void;
+    [PyodideStdoutSymbol](msg: string): void;
+    [PyodideSymbol]: ReturnType<typeof loadPyodide>;
+  }
 }
 
 export {};
