@@ -1,0 +1,66 @@
+<script lang="ts" setup>
+  import DocumentDisplay from "../../components/DocumentDisplay.vue";
+  import HStack from "../../components/HStack.vue";
+  import JSONViewer from "../../components/JSONViewer.vue";
+  import Editor2 from "../../components/storymatic/Editor2.vue";
+  import { useLocationHash } from "../../composables/useLocationHash";
+  import Compiler2 from "../../components/storymatic/Compiler2.vue";
+
+  const code = useLocationHash(`$money = 500
+$eggs = 0
+$name = (no name)
+
+@start
+  $name = @input What is your name?
+  @run market
+
+@market
+  $name, you have $$$money and $eggs dozen eggs.
+  @menu What would you like to buy?
+    Eggs
+      @eggs
+    Go Back
+      @pass
+  @market
+
+@eggs
+  $egg = @number How many dozen eggs do you want to buy?
+  $eggprice @= 6 * $egg
+  $egg dozen eggs will cost $$$eggprice.
+  @menu Are you sure you want to buy them?
+    @option Yes
+      @if $money > $eggprice
+        $money -= $eggprice
+        $eggs += $egg
+      @elseif $money = $eggprice
+        You have just enough money for these eggs.
+        $money -= $eggprice
+        $eggs += $egg
+      @else
+        You don't have enough money for these eggs!
+    @option No
+      Okay, let's go back to the store.`);
+</script>
+
+<template>
+  <DocumentDisplay center explicit-height max-width>
+    <HStack
+      class="stack"
+      :space="0.75"
+      stretch
+      style="height: 100%; justify-content: center"
+    >
+      <Editor2 v-model="code" round style="max-width: 800px" />
+
+      <Compiler2 :code="code" round style="max-width: 800px" />
+    </HStack>
+  </DocumentDisplay>
+</template>
+
+<style scoped>
+  @media screen and (max-width: 850px) {
+    .stack.stack {
+      flex-direction: column;
+    }
+  }
+</style>
