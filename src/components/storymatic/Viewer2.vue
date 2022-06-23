@@ -64,7 +64,7 @@
     // about object prototypes and their spread behaviors.
 
     const answer = await console.select(text, { ...choices });
-    callback?.(choices[answer]);
+    callback?.(answer);
   };
 
   Storymatic.waitFor = async (key, once, callback) => {
