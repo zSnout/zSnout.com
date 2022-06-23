@@ -11,8 +11,7 @@
 $eggprice = 6
 
 start
-  @if $name = (no name)
-    $name = @input What is your name?
+  $name = @input What is your name?
   @run market
 
 market
