@@ -4,7 +4,7 @@ import { computed } from "vue";
 const location = useBrowserLocation();
 
 export function useLocationHash(initial?: string) {
-  if (typeof initial === "string") {
+  if (typeof initial === "string" && !globalThis.location.href.slice(1)) {
     globalThis.location.hash = encodeURIComponent(initial);
   }
 
