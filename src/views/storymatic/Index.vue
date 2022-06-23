@@ -13,19 +13,19 @@
       <Card
         description="Use our custom programming language to create your own text adventures."
         title="V1 Editor"
-        to="/storymatic/v1"
+        to="/storymatic/v1-editor"
       />
 
       <Card
         description="Experiment with the second edition of the Storymatic language."
         title="V2 Editor"
-        to="/storymatic/v2"
+        to="/storymatic/v2-editor"
       />
 
       <Card
         description="Create your own stories using the third version of Storymatic."
         title="V3 Editor"
-        to="/storymatic/v3"
+        to="/storymatic/v3-editor"
       />
     </SearchableCardGrid>
   </DocumentDisplay>
