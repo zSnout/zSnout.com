@@ -10,17 +10,6 @@
   const { console, field, messages, onKey, onSelect, onSubmit, placeholder } =
     useCompleteConsole();
 
-  const lines: string[] = [];
-
-  let isDisposed = false;
-  onScopeDispose(() => (isDisposed = true));
-
-  (async () => {
-    while (!isDisposed) {
-      lines.push((await console.prompt()) || "");
-    }
-  })();
-
   const pyodide = loadPyodide({
     stderr: console.error,
     stdout: console.log,
