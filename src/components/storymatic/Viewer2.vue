@@ -59,9 +59,8 @@
   };
 
   Storymatic.choice = async (text, choices, callback) => {
-    // Here, `choices` is an array, but spreading an array gives an object and
-    // prevents other weird behaviors. TS doesn't like it, but it doesn't know
-    // about object prototypes and their spread behaviors.
+    // Spreading `choices`, an array, gives an object with
+    // array indices as keys and its items as values.
 
     const answer = await console.select(text, { ...choices });
     callback?.(answer);
