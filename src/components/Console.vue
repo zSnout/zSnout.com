@@ -120,6 +120,8 @@
           type: "select",
         });
 
+        setTimeout(console.focus);
+
         return new Promise((resolve) => {
           onSelect[id] = resolve;
         });
@@ -190,6 +192,7 @@
   import Field from "./Field.vue";
   import HStack from "./HStack.vue";
   import MaybeLabeled from "./MaybeLabeled.vue";
+  import Node from "./Node.vue";
   import VStack from "./VStack.vue";
 
   export interface TextMessage {
@@ -249,16 +252,22 @@
     }
   }
 
-  const fieldEl = ref<MaybeElement>();
-  (props.messages as any).focus = () => unrefElement(fieldEl)?.focus();
+  const consoleEl = ref<MaybeElement>();
+  (props.messages as any).focus = () => {
+    unrefElement(consoleEl)
+      ?.querySelector<HTMLElement>("select:not([disabled]), input")
+      ?.focus();
+  };
 
   // Workaround because Vue has some weird errors if you use `$props.messages`
   // or `messages` instead of passing a seperate reactive object here.
   const msgs = props.messages;
+
+  const isNode = (x: any): x is globalThis.Node => x instanceof globalThis.Node;
 </script>
 
 <template>
-  <VStack :class="{ stretch }" class="console">
+  <VStack ref="consoleEl" :class="{ stretch }" class="console">
     <template v-for="item in msgs" :key="item.id">
       <MaybeLabeled
         v-if="item.type === 'select'"
@@ -286,6 +295,10 @@
 
       <p v-else-if="Array.isArray(item.content)" class="log">
         {{ item.content.join(" ") }}
+      </p>
+
+      <p v-else-if="isNode(item.content)" class="log">
+        <Node :node="item.content" />
       </p>
 
       <p v-else :class="item.type" class="log">
@@ -326,6 +339,10 @@
 
   .log {
     padding: 0 0.75rem;
+
+    > :deep(*) {
+      margin: 0;
+    }
   }
 
   label.log,
