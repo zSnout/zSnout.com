@@ -64,7 +64,6 @@
       },
       focus() {
         (messages as any).focus?.();
-        console.log((messages as any).focus);
       },
       key(key) {
         return new Promise((resolve) => {
