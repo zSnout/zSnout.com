@@ -1,5 +1,11 @@
 <script lang="ts">
   export interface Console extends globalThis.Console {
+    bindKey(key: string, callback: () => void): void;
+
+    focus(): void;
+
+    key(key: string): Promise<void>;
+
     select(
       label: string | undefined,
       options: Record<string, string>
@@ -10,9 +16,6 @@
       placeholder?: string,
       required?: boolean
     ): Promise<string | undefined>;
-
-    key(key: string): Promise<void>;
-    bindKey(key: string, callback: () => void): void;
 
     user(message?: any, ...optionalParams: any[]): void;
   }
@@ -34,6 +37,8 @@
     const console: Console = {
       ...globalThis.console,
       bindKey(key, callback) {
+        console.focus();
+
         onKey.push((_key, prevent) => {
           if (inputting) return true;
 
@@ -57,8 +62,14 @@
             : message,
         });
       },
+      focus() {
+        (messages as any).focus?.();
+        console.log((messages as any).focus);
+      },
       key(key) {
         return new Promise((resolve) => {
+          console.focus();
+
           onKey.push((_key, prevent) => {
             if (inputting) return true;
 
@@ -83,6 +94,7 @@
       },
       prompt(_placeholder, required): any {
         placeholder.value = _placeholder;
+        console.focus();
 
         return new Promise<string | undefined>((resolve) => {
           if (required) {
@@ -167,6 +179,7 @@
 </script>
 
 <script lang="ts" setup>
+  import { MaybeElement, unrefElement } from "@vueuse/core";
   import { reactive, ref, Ref } from "vue";
   import Button from "./Button.vue";
   import Dropdown from "./Dropdown.vue";
@@ -213,6 +226,7 @@
         id: Math.random(),
         content: props.field,
       };
+
       emit("update:messages", props.messages.concat(message));
     }
 
@@ -230,6 +244,9 @@
       onSubmit();
     }
   }
+
+  const fieldEl = ref<MaybeElement>();
+  (props.messages as any).focus = () => unrefElement(fieldEl)?.focus();
 </script>
 
 <template>
@@ -271,8 +288,9 @@
     <form class="form" style="margin-top: auto" @submit.prevent="onSubmit">
       <HStack :space="0.75">
         <Field
+          ref="fieldEl"
           class="field"
-          :model-value="field || ''"
+          :model-value="field ? field : ''"
           :placeholder="placeholder"
           @keydown="$emit('key', $event.key, () => $event.preventDefault())"
           @update:model-value="$emit('update:field', $event)"
