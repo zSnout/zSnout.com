@@ -11,15 +11,21 @@
 
     <SearchableCardGrid>
       <Card
-        description="Use our Python-based language to create your own text adventures."
+        description="Use our custom programming language to create your own text adventures."
         title="V1 Editor"
         to="/storymatic/v1"
       />
 
       <Card
-        description="Experiment with the first JavaScript edition of the Storymatic language."
+        description="Experiment with the second edition of the Storymatic language."
         title="V2 Editor"
         to="/storymatic/v2"
+      />
+
+      <Card
+        description="Create your own stories using the third version of Storymatic."
+        title="V3 Editor"
+        to="/storymatic/v3"
       />
     </SearchableCardGrid>
   </DocumentDisplay>
