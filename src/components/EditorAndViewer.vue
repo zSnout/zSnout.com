@@ -1,14 +1,8 @@
 <script lang="ts" setup>
-  import { useLocationHash } from "../composables/useLocationHash";
   import DocumentDisplay from "./DocumentDisplay.vue";
   import HStack from "./HStack.vue";
 
-  const { initial } = defineProps<{
-    initial?: string;
-    dualEditor?: boolean;
-  }>();
-
-  const code = useLocationHash(initial);
+  defineProps<{ dualEditor?: boolean }>();
 </script>
 
 <template>
@@ -19,7 +13,7 @@
       :space="0.75"
       style="height: 100%; justify-content: center"
     >
-      <slot :code="code" />
+      <slot />
     </HStack>
   </DocumentDisplay>
 </template>
