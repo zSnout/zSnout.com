@@ -1,10 +1,9 @@
 <script lang="ts">
   export interface Console extends globalThis.Console {
     bindKey(key: string, callback: () => void): void;
-
     focus(): void;
-
     key(key: string): Promise<void>;
+    line(): void;
 
     select(
       label: string | undefined,
@@ -80,6 +79,12 @@
 
             return true;
           });
+        });
+      },
+      line() {
+        messages.push({
+          type: "line",
+          id: Math.random(),
         });
       },
       log(message, ...optionalParams) {
@@ -201,6 +206,11 @@
     content: any;
   }
 
+  export interface LineMessage {
+    type: "line";
+    id: number;
+  }
+
   export interface SelectMessage {
     type: "select";
     id: number;
@@ -209,7 +219,7 @@
     label?: string;
   }
 
-  export type Message = TextMessage | SelectMessage;
+  export type Message = TextMessage | LineMessage | SelectMessage;
 
   const props = defineProps<{
     field: string;
@@ -293,6 +303,8 @@
         </Dropdown>
       </MaybeLabeled>
 
+      <hr v-else-if="item.type === 'line'" class="log" />
+
       <p v-else-if="Array.isArray(item.content)" class="log">
         {{ item.content.join(" ") }}
       </p>
@@ -345,9 +357,17 @@
     }
   }
 
+  hr.log,
   label.log,
   select.log {
     padding-right: 0;
+  }
+
+  hr.log.log {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    border-width: 0;
+    border-bottom-width: 1px;
   }
 
   .field,

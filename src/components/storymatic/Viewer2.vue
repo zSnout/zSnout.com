@@ -37,7 +37,7 @@
   };
 
   Storymatic.line = (callback) => {
-    console.log(document.createElement("hr"));
+    console.line();
     callback?.();
   };
 
