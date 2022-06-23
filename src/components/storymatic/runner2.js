@@ -936,7 +936,7 @@ Storymatic.imports.input = {
       this.parseText(arg),
       options.map((e) => this.parseText(e.arg)),
       (index) => {
-        this.run(options[index], () => {
+        this.run(options[index].parsed, () => {
           this.run(next, callback);
         });
       }
