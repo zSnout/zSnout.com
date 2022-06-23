@@ -4,6 +4,7 @@
   interface NavLink {
     id: number;
     title: string;
+    onEnter?: boolean;
     description?: string;
     action?(): void;
     secondaryAction?(): void;
@@ -25,11 +26,25 @@
 
     return item;
   }
+
+  useEventListener("keydown", (event) => {
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey &&
+      !event.altKey &&
+      (navigator.userAgent.includes("Mac")
+        ? event.metaKey && !event.ctrlKey
+        : event.ctrlKey && !event.metaKey)
+    ) {
+      event.preventDefault();
+      links.forEach((link) => link.onEnter && link.action?.());
+    }
+  });
 </script>
 
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
-  import { tryOnScopeDispose } from "@vueuse/core";
+  import { tryOnScopeDispose, useEventListener } from "@vueuse/core";
   import { reactive, ref } from "vue";
   import { RouterLink } from "vue-router";
   import { isDark } from "../composables/isDark";
