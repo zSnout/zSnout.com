@@ -83,8 +83,6 @@
         });
       },
       log(message, ...optionalParams) {
-        window.console.log(message, ...optionalParams);
-
         messages.push({
           type: "log",
           id: Math.random(),
