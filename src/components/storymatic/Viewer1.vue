@@ -1,8 +1,7 @@
 <script lang="ts" setup>
+  import { loadPyodide } from "hoodmane-pyodide/pyodide";
   import Console, { useCompleteConsole } from "../Console.vue";
   import { useNavLink } from "../Navigation.vue";
-  import { loadPyodide } from "pyodide/pyodide";
-  import { onScopeDispose } from "vue";
   import runner from "./runner1.py?raw";
 
   const props = defineProps<{ code: string }>();
