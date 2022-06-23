@@ -19,10 +19,6 @@
 
       <Viewer1 class="viewer" :code="code" />
     </HStack>
-
-    <template #options>
-      
-    </template>
   </DocumentDisplay>
 </template>
 
