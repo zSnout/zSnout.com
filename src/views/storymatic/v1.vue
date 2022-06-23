@@ -8,7 +8,7 @@
   const code = useLocationHash(`@global $money = 500
 @global $eggs = 0
 @global $name = (no name)
-$eggprice = 6 <-- Try changing this value!
+$eggprice = 6
 
 start
   @if $name = (no name)
@@ -16,7 +16,7 @@ start
   @run market
 
 market
-  You have $$money and $eggs dozen eggs.
+  $name, you have $$money and $eggs dozen eggs.
   @menu What would you like to buy?
     Eggs
       @context

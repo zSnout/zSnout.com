@@ -10,8 +10,9 @@
     useCompleteConsole();
 
   const pyodide = loadPyodide({
-    stderr: console.error,
-    stdout: console.log,
+    stderr: (e) => console.error(e),
+    stdout: (e) => console.log(e),
+    stdin: () => prompt() || "",
     indexURL: "https://cdn.jsdelivr.net/pyodide/v0.20.0/full/",
   });
 
@@ -21,36 +22,13 @@
     async action() {
       console.clear();
       placeholder.value = "";
+      Object.assign(window, { prompt: console.prompt });
 
       const py = await pyodide;
 
-      py.globals.set("code", props.code);
-
-      Object.assign(window, {
-        async prompt(placeholder: string, required: boolean) {
-          return console.prompt(placeholder, required);
-        },
-        wait(time = 1) {
-          return new Promise((resolve) => {
-            setTimeout(resolve, time * 1000);
-          });
-        },
-      });
-
-      py.globals.set(
-        "prompt",
-        async (placeholder: string, required: boolean) => {
-          return console.prompt(placeholder, required);
-        }
+      py.runPythonAsync(
+        `${runner}\nawait story(\n"""\n${props.code}\n""").run()`
       );
-
-      py.globals.set("wait", (time = 1) => {
-        return new Promise((resolve) => {
-          setTimeout(resolve, time * 1000);
-        });
-      });
-
-      py.runPythonAsync(runner + `\nawait story(code).run()`);
     },
   });
 </script>

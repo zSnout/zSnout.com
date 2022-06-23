@@ -186,7 +186,7 @@
 
 <script lang="ts" setup>
   import { MaybeElement, unrefElement } from "@vueuse/core";
-  import { reactive, ref, Ref, watch } from "vue";
+  import { reactive, ref, Ref } from "vue";
   import Button from "./Button.vue";
   import Dropdown from "./Dropdown.vue";
   import Field from "./Field.vue";
