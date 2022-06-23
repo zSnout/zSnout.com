@@ -24,6 +24,14 @@ export default defineConfig({
         }
       },
     },
+    {
+      name: "fix-storymatic",
+      transform(code, id) {
+        if (jsfile.test(id)) {
+          return code.replace(/_Storymatic/g, "Storymatic");
+        }
+      },
+    },
     VitePWA(),
   ],
 });
