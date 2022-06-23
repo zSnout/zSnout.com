@@ -51,7 +51,7 @@
         });
       },
       clear() {
-        messages.length = 0;
+        messages.splice(0, messages.length);
       },
       error(message, ...optionalParams) {
         messages.push({
