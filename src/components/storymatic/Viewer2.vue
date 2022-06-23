@@ -87,12 +87,15 @@
     }
   };
 
+  let prev: Storymatic | undefined;
   useNavLink({
     title: "Execute",
     onEnter: true,
     action() {
       console.clear();
-      new Storymatic(props.code, (story) => {
+      if (prev) prev.stopped = true;
+
+      prev = new Storymatic(props.code, (story) => {
         Storymatic.waitingFor.splice(0, Storymatic.waitingFor.length);
         Storymatic.tooltip("", () => {
           Storymatic.clear(() => {

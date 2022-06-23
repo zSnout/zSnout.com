@@ -29,6 +29,7 @@ class Storymatic {
     this.variables = story.variables;
     this.parsed = JSON.parse(JSON.stringify(story));
     this.commands = {};
+    this.stopped = false;
 
     var add = (name, argName, codeblockName, codeToRun) => {
       if (!this.commands[name])
@@ -249,7 +250,8 @@ class Storymatic {
         callback
       );
     } else {
-      if (next.length == 0) typeof callback == "function" ? callback() : null;
+      if (!next || next.length == 0)
+        typeof callback == "function" ? callback() : null;
       else this.run(next, callback);
     }
   }
@@ -312,6 +314,9 @@ class Storymatic {
   }
 
   run(actions, callback) {
+    if (this.stopped) return;
+    if (!actions) return callback?.();
+
     actions = JSON.parse(JSON.stringify(actions));
 
     setTimeout(() => {
@@ -931,7 +936,7 @@ Storymatic.imports.input = {
       this.parseText(arg),
       options.map((e) => this.parseText(e.arg)),
       (index) => {
-        this.run(options[index].parsed, () => {
+        this.run(options[index], () => {
           this.run(next, callback);
         });
       }
@@ -1161,8 +1166,8 @@ Storymatic.imports.output = {
 
 Storymatic.imports.control = {
   if: function (arg, expr, code, parsed, ognext, callback) {
-    if (arg.replace(/\s/g, "") == "") return this.run(next, callback);
-    if (code.replace(/\s+/g, "") == "") return this.run(next, callback);
+    if (arg.replace(/\s/g, "") == "") return this.run(ognext, callback);
+    if (code.replace(/\s+/g, "") == "") return this.run(ognext, callback);
     var next = JSON.parse(JSON.stringify(ognext));
 
     var ifs = [{ action: "command", name: "if", arg, expr, code, parsed }];

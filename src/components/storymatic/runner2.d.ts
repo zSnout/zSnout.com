@@ -4,6 +4,7 @@ export class Storymatic {
   variables: any;
   parsed: any;
   commands: {};
+  stopped: boolean;
   mergeWith(text: any, callback?: any): void;
   getVariable(name: any): any;
   setVariable(name: any, value: any): void;
