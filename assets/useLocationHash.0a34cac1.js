@@ -1,1 +1,0 @@
-import{L as n,ad as t}from"./index.8e5f648c.js";const s=n();function c(e){return typeof e=="string"&&!globalThis.location.href.slice(1)&&(globalThis.location.hash=encodeURIComponent(e)),t({get(){var o;return decodeURIComponent(((o=s.value.hash)==null?void 0:o.slice(1))||"")},set(o){globalThis.location.hash=encodeURIComponent(o)}})}export{c as u};
