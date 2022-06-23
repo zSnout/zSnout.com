@@ -1,0 +1,1 @@
+function i(e,t){const n=document.createElement("p");return{el:n,done:new Promise(r=>{let l=1;if(n.textContent+=e[0]||"",e.length<=1){setTimeout(r,t);return}const o=setInterval(()=>{n.textContent+=e[l++]||"",l>=e.length&&(clearInterval(o),r())},t/(e.length-1))})}}export{i as u};
