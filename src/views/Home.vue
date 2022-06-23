@@ -18,10 +18,10 @@
       />
 
       <Card
-        description="It's like a random number generator, but it generates the same number every time."
-        keywords="random numbers passkey password"
-        title="Same Number Generator"
-        to="/same-number-generator"
+        description="Experiment with 4 versions of a programming language designed by zSnout."
+        keywords="programming languages custom"
+        title="Storymatic"
+        to="/storymatic/"
       />
 
       <Card
@@ -29,6 +29,13 @@
         keywords="images"
         title="Leopards"
         to="/leopards"
+      />
+
+      <Card
+        description="It's like a random number generator, but it generates the same number every time."
+        keywords="random numbers passkey password"
+        title="Same Number Generator"
+        to="/same-number-generator"
       />
 
       <Card
