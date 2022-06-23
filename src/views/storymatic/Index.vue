@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-  import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
-  import Title from "../../components/Title.vue";
   import Card from "../../components/Card.vue";
   import DocumentDisplay from "../../components/DocumentDisplay.vue";
+  import GridSpacer from "../../components/GridSpacer.vue";
+  import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
+  import Title from "../../components/Title.vue";
 </script>
 
 <template>
@@ -23,9 +24,43 @@
       />
 
       <Card
-        description="Create your own stories using the third version of Storymatic."
+        description="Create your own stories using the simple third version of Storymatic."
         title="V3 Editor"
         to="/storymatic/v3-editor"
+      />
+
+      <GridSpacer />
+
+      <div />
+
+      <Card
+        description="Watch the behind the scenes magic of how Storymatic 2 runs your code."
+        title="V2 Compiler"
+        to="/storymatic/v2-compiler"
+      />
+
+      <Card
+        description="View the JavaScript representation of any Storymatic 3 code you've written."
+        title="V3 Compiler"
+        to="/storymatic/v3-compiler"
+      />
+
+      <GridSpacer />
+
+      <Card
+        description="Learn all the tips and tricks of Storymatic 1 in our online documentation."
+        title="V1 Documentation"
+        to="https://zsnout.github.io/story.py/"
+      />
+
+      <div />
+
+      <div />
+
+      <Card
+        description="Master the Storymatic 4 language with our interactive playgrounds."
+        title="V4 Documentation"
+        to="https://storymatic.zsnout.com/"
       />
     </SearchableCardGrid>
   </DocumentDisplay>
