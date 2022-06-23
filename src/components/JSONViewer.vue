@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import ace from "ace-builds";
+  import "ace-builds/src-noconflict/mode-json";
   import AceEditor from "./AceEditor.vue";
 
   defineProps<{
@@ -17,7 +18,7 @@
   <AceEditor
     :modelValue="JSON.stringify(value, undefined, '  ')"
     :round="round"
-    mode="storymatic3"
+    mode="json"
     readonly
     @init="$emit('init', $event)"
     @save="$emit('save', $event)"
