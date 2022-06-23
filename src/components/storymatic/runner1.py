@@ -1,6 +1,6 @@
 import re
 from random import randint
-from time import sleep
+from js import prompt, wait
 
 # Four uses of story.ask():
   # ask(question,option 1,option 2,...) returns the key of the option selected.
@@ -38,14 +38,14 @@ class story:
 
     return float(text)
   @staticmethod
-  def ask(question = "",*answers):
+  async def ask(question = "",*answers):
     answers = list(answers)
     if len(answers) == 0: # For ask(question)
       answers = ["Yes","No"]
       print("")
       print(question)
       while True:
-        a = input("  Enter Yes or No:")
+        a = await prompt("  Enter Yes or No:", True)
         if a.lower() == "yes":
           return True
         elif a.lower() == "no":
@@ -56,7 +56,7 @@ class story:
       elif type(answers[0]) is str: # For ask(question,answer as str)
         print("")
         print(question)
-        a = input("  Answer:")
+        a = await prompt("  Answer:", True)
         b = answers[0]
         if a.lower() == b.lower():
           return True
@@ -68,7 +68,7 @@ class story:
       print("  %s: %s" %(z,answers[z]))
     boolean = True
     while boolean:
-      answer = input("    Enter a key:")
+      answer = await prompt("    Enter a key:", True)
       try:
         int(answer,10)
       except:
@@ -77,19 +77,19 @@ class story:
       if 0 <= intAnswer and intAnswer < len(answers):
         return intAnswer
   @staticmethod
-  def asknumber(question = ""):
+  async def asknumber(question = ""):
     print(" ")
     print(question)
 
-    def ite():
-      a = input("  Enter a number:")
+    async def ite():
+      a = await prompt("  Enter a number:", True)
       try:
         float(a)
       except:
-        return ite()
+        return await ite()
 
       if str(float(a)) == "nan":
-        return ite()
+        return await ite()
 
       a = float(a)
       if float(int(a)) == float(a):
@@ -97,20 +97,20 @@ class story:
       else:
         return float(a)
 
-    return ite()
+    return await ite()
   @staticmethod
-  def askinput(question = ""):
+  async def askinput(question = ""):
     print(" ")
     print(question)
 
-    def ite():
-      a = input("  Enter some text:")
+    async def ite():
+      a = await prompt("  Enter some text:", True)
       if a == "":
-        return ite()
+        return await ite()
 
       return a
 
-    return ite()
+    return await ite()
 
   def __init__(self,text,settings = dict()):
     text = text.replace("\r\n","\n").replace("\r","\n").replace("\t","  ")
@@ -176,12 +176,12 @@ class story:
 
       return text
 
-  def runState(self,state):
+  async def runState(self,state):
     if state in self.states.keys():
-      return self.run(self.states[state])
-  def run(self,code = None):
+      return await self.run(self.states[state])
+  async def run(self,code = None):
     if code is None:
-      return self.runState(self.state)
+      return await self.runState(self.state)
     source = code
     def others(x):
       if len(code.split("\n")) > x:
@@ -208,7 +208,8 @@ class story:
     elif line == "@continue":
       return "CONTINUE"
     elif line[0:1] == " ":
-      input(line.lstrip(" "))
+      print(line.lstrip(" "))
+      await prompt("Click to continue -->", False)
     elif len(line) > 8 and line[0:8] == "@nowait ":
       if line[8:9] == " ":
         print(line[9:])
@@ -219,7 +220,7 @@ class story:
     elif line == "@kill" or line == "@exit story":
       return "KILL"
     elif re.match(r"^\$([A-Za-z0-9_]+) *= *@(input|number)(?: +(.+))?$",line):
-      ret = self.runVarInput(line)
+      ret = await self.runVarInput(line)
     elif re.match(r"^\$([A-Za-z0-9_]+) *= *@random +([1-9][0-9]{0,5}) *, *([1-9][0-9]{0,5})$",line,re.M):
       ret = self.runVarRand(line)
     elif re.match(r"^\$[A-Za-z0-9_]+ *(?:[-+*/.]|)= *.+$",line,re.M):
@@ -227,55 +228,56 @@ class story:
     elif re.match(r"^\$([A-Za-z0-9_]+) *(\+\+|--)$",line,re.M):
       ret = self.runVarChange(line)
     elif re.match(r"^@(?:sleep|wait|timeout) +(10|[1-9]|[0-9]?\.[1-9]|[0-9]?\.[0-9][1-9])$",line,re.M):
-      ret = self.runSleep(line)
+      ret = await self.runSleep(line)
     elif contextblock:
       contextlength = len(contextblock.group(1).split("\n"))
       rest = others(contextlength)
       contextblock = contextblock.group(1)
-      ret = self.runContextBlock(contextblock)
+      ret = await self.runContextBlock(contextblock)
     elif repeatblock:
       repeatlength = len(repeatblock.group(1).split("\n"))
       rest = others(repeatlength)
       repeatblock = repeatblock.group(1)
-      ret = self.runRepeatBlock(repeatblock)
+      ret = await self.runRepeatBlock(repeatblock)
     elif whileblock:
       whilelength = len(whileblock.group(1).split("\n"))
       rest = others(whilelength)
       whileblock = whileblock.group(1)
-      ret = self.runWhileBlock(whileblock)
+      ret = await self.runWhileBlock(whileblock)
     elif ifblock:
       iflength = len(ifblock.group(1).split("\n"))
       rest = others(iflength)
       ifblock = ifblock.group(1)
-      ret = self.runIfBlock(ifblock)
+      ret = await self.runIfBlock(ifblock)
     elif forblock:
       forlength = len(forblock.group(1).split("\n"))
       rest = others(forlength)
       forblock = forblock.group(1)
-      ret = self.runForBlock(forblock)
+      ret = await self.runForBlock(forblock)
     elif menublock:
       menulength = len(menublock.group(1).split("\n"))
       rest = others(menulength)
       menublock = menublock.group(1)
-      ret = self.runMenuBlock(menublock)
+      ret = await self.runMenuBlock(menublock)
     elif re.match(r"^@run *[A-Za-z0-9_]+$",line,re.M):
-      ret = self.runRun(line)
+      ret = await self.runRun(line)
     elif re.match(r"^@goto *[A-Za-z0-9_]+$",line,re.M):
-      ret = self.runGoto(line)
+      ret = await self.runGoto(line)
     else:
-      input(self.text(line))
+      print(self.text(line))
+      await prompt("Press Enter to continue...", False)
 
     if rest is not None:
-      ret = self.run(rest)
+      ret = await self.run(rest)
       return ret
     else:
       return ret
 
-  def runSleep(self,code):
+  async def runSleep(self,code):
     regex = r"^@(?:sleep|wait|timeout) +(10|[1-9]|[0-9]?\.[1-9]|[0-9]?\.[0-9][1-9])$"
     match = re.match(regex,code)
     if match:
-      sleep(float(match.group(1)))
+      await wait(float(match.group(1)))
 
     return False
   def runVarChange(self,code):
@@ -344,7 +346,7 @@ class story:
           return self.runVarChange("$" + var + " -= 1")
 
     return False
-  def runVarInput(self,code):
+  async def runVarInput(self,code):
     match = re.findall(r"^\$([A-Za-z0-9_]+) *= *@(input|number)(?: +(.+))?$",code)
     if len(match) >= 1:
       match = match[0]
@@ -360,9 +362,9 @@ class story:
         q = "Set $" + var
 
       if tpe == "input":
-        a = str(self.askinput(q))
+        a = str(await self.askinput(q))
       elif tpe == "number":
-        a = str(self.asknumber(q))
+        a = str(await self.asknumber(q))
 
       if self.varExists(var):
         self.setVariable(var,a)
@@ -384,7 +386,7 @@ class story:
         self.setVariable(var,str(rand))
       else:
         self.localVars[var] = str(rand)
-  def runIfBlock(self,code):
+  async def runIfBlock(self,code):
     regex = r"@if +(.+)((?:\n +.+)+)((?:\n@elseif +.+(?:\n +.+)+)*(?:\n@else(?:\n +.+)+)?)"
     match = re.findall(regex,code,re.M)
     if len(match) >= 1:
@@ -398,16 +400,16 @@ class story:
         other = ""
 
       if self.test(condition):
-        return self.run(story.removeIndent(code[1:]))
+        return await self.run(story.removeIndent(code[1:]))
       elif other == "":
         return False
       elif other[0:7] == "\n@else\n":
-        return self.run(story.removeIndent(other[7:]))
+        return await self.run(story.removeIndent(other[7:]))
       elif other[0:9] == "\n@elseif ":
-        return self.runIfBlock("@if " + other[9:])
+        return await self.runIfBlock("@if " + other[9:])
 
     return False
-  def runMenuBlock(self,code):
+  async def runMenuBlock(self,code):
     regex = r"(@menu(?: (.+))?(?:\n( +)[^ \n\r].*(?:\n\3 +.*)+)+)"
     subex = r"(?:^([^ \n\r].*)$((?:\n^ +.*$)+))+"
 
@@ -429,23 +431,23 @@ class story:
         options.append(self.text(i[0]))
         codes.append(story.removeIndent(i[1][1:]))
 
-      i = story.ask(question,options)
+      i = await story.ask(question,options)
       print(" ")
-      return self.run(codes[i])
+      return await self.run(codes[i])
     return False
-  def runContextBlock(self,code):
+  async def runContextBlock(self,code):
     regex = r"(@context((?:\n +.*)+))"
 
     match = re.match(regex,code)
     if match:
       ctx = self.newContext()
-      ret = ctx.run(story.removeIndent(match.group(2)[1:]))
+      ret = await ctx.run(story.removeIndent(match.group(2)[1:]))
       if ret == "KILL":
         return "KILL"
       else:
         return False
     return False
-  def runRepeatBlock(self,code):
+  async def runRepeatBlock(self,code):
     regex = r"(@repeat +([1-9][0-9]?)((?:\n +.*)+))"
 
     match = re.match(regex,code)
@@ -457,14 +459,14 @@ class story:
         if ret == "STOP" or ret == "KILL":
           return ret
 
-        ret = self.run(code)
+        ret = await self.run(code)
 
       if ret == "STOP" or ret == "KILL":
         return ret
       else:
         return False
     return False
-  def runWhileBlock(self,code):
+  async def runWhileBlock(self,code):
     regex = r"(@(do|)while +(.+)((?:\n +.*)+))"
 
     match = re.match(regex,code)
@@ -480,19 +482,19 @@ class story:
         do = False
 
       if do:
-        ret = self.run(code)
+        ret = await self.run(code)
       while self.test(cond):
         if ret == "STOP" or ret == "KILL":
           return ret
 
-        ret = self.run(code)
+        ret = await self.run(code)
 
       if ret == "STOP" or ret == "KILL":
         return ret
       else:
         return False
     return False
-  def runForBlock(self,code):
+  async def runForBlock(self,code):
     regex = r"(@for +(.*?) *; *(.*?) *; *(.*?) *((?:\n +.*)+))"
 
     match = re.match(regex,code)
@@ -513,7 +515,7 @@ class story:
         if ret == "STOP" or ret == "KILL":
           return ret
 
-        ret = self.run(code)
+        ret = await self.run(code)
         if inc:
           self.runVarChange(inc.strip())
 
@@ -524,16 +526,16 @@ class story:
       else:
         return False
     return False
-  def runRun(self,code):
+  async def runRun(self,code):
     match = re.findall("^@run *([A-Za-z0-9_]+)$",code,re.M)
     if len(match) >= 1:
-      return self.runState(match[0])
+      return await self.runState(match[0])
     else:
       return False
-  def runGoto(self,code):
+  async def runGoto(self,code):
     match = re.findall("^@goto *([A-Za-z0-9_]+)$",code,re.M)
     if len(match) >= 1:
-      self.runState(match[0])
+      await self.runState(match[0])
       return "STOP"
     else:
       return "STOP"
