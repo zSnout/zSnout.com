@@ -3,10 +3,10 @@
   import JSONViewer from "../JSONViewer.vue";
   import { Storymatic } from "./runner2";
 
-  const props = defineProps<{ code: string }>();
+  const props = defineProps<{ code: string; round?: boolean }>();
   const story = computed(() => Storymatic.parse(props.code));
 </script>
 
 <template>
-  <JSONViewer :value="story" />
+  <JSONViewer :round="round" :value="story" />
 </template>
