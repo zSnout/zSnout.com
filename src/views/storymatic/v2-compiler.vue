@@ -8,7 +8,7 @@
 
 $money = 500
 $eggs = 0
-$name = (no name)
+$name = no name
 
 @start
   @input $name What is your name?
@@ -23,7 +23,6 @@ $name = (no name)
       @option Eggs
         @eggs
       @option Go Back
-        @pass
     @market
 
 @eggs
