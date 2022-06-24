@@ -39,12 +39,17 @@
       this.$rules = {
         start: [
           {
-            token: ["keyword.other", "text", "variable.other", "text"],
+            token: [
+              "entity.name.function",
+              "text",
+              "variable.storymatic",
+              "text",
+            ],
             regex: /^(@global)( +)(\$[A-Za-z0-9_]+)( *= *)/,
             next: "startString",
           },
           {
-            token: ["variable.other", "text"],
+            token: ["variable.storymatic", "text"],
             regex: /^(\$[A-Za-z0-9_]+)( *= *)/,
             next: "startString",
           },
@@ -63,19 +68,27 @@
             next: "start",
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {
@@ -92,16 +105,16 @@
             regex: /^ +$/,
           },
           {
-            token: ["text", "keyword.other", "text"],
+            token: ["text", "entity.name.function", "text"],
             regex: /^( +)(@nowait)( +)/,
             next: "codeText",
           },
           {
             token: [
               "text",
-              "variable.other",
+              "variable.storymatic",
               "keyword.operator",
-              "keyword.other",
+              "entity.name.function",
               "string.unquoted",
               "keyword.operator",
               "string.unquoted",
@@ -112,11 +125,11 @@
           {
             token: [
               "text",
-              "variable.other",
+              "variable.storymatic",
               "text",
               "keyword.operator",
               "text",
-              "keyword.other",
+              "entity.name.function",
               "text",
             ],
             regex:
@@ -124,50 +137,50 @@
             next: "codeString",
           },
           {
-            token: ["text", "keyword.control", "text"],
+            token: ["text", "entity.name.function", "text"],
             regex: /^( +)(@(?:else)?if)( +)/,
             next: "codeCondition",
           },
           {
             token: [
               "text",
-              "keyword.control",
+              "entity.name.function",
               "text",
               "language.constant.character",
             ],
             regex: /^( +)(@run|@goto)( +)([A-Za-z0-9_]+)$/,
           },
           {
-            token: ["text", "keyword.control"],
+            token: ["text", "entity.name.function"],
             regex: /^( +)(@context|@base|@pass|@stop|@kill|@else)$/,
           },
           {
-            token: ["text", "keyword.control", "text", "string.unquoted"],
+            token: ["text", "entity.name.function", "text", "string.unquoted"],
             regex:
               /^( +)(@(?:sleep|wait|timeout))( +)(10|[1-9]|[0-9]?\.[1-9]|[0-9]?\.[0-9][1-9])$/,
           },
           {
-            token: ["text", "keyword.control", "text"],
+            token: ["text", "entity.name.function", "text"],
             regex: /^( +)(@for)( +)/,
             next: "forDefn",
           },
           {
-            token: ["text", "keyword.control", "text"],
+            token: ["text", "entity.name.function", "text"],
             regex: /^( +)(@(?:do)?while)( +)/,
             next: "codeCondition",
           },
           {
-            token: ["text", "keyword.control", "text", "string.unquoted"],
+            token: ["text", "entity.name.function", "text", "string.unquoted"],
             regex: /^( +)(@repeat)( +)([1-9][0-9]?)$/,
             next: "code",
           },
           {
-            token: ["text", "keyword.control", "text"],
+            token: ["text", "entity.name.function", "text"],
             regex: /^( +)(@menu)( +)/,
             next: "codeString",
           },
           {
-            token: ["text", "keyword.control"],
+            token: ["text", "entity.name.function"],
             regex: /^( +)(@menu)$/,
             next: "code",
           },
@@ -188,25 +201,25 @@
           {
             token: [
               "keyword.operator.bold",
-              "variable.other.bold",
+              "variable.storymatic.bold",
               "keyword.operator.bold",
             ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: "variable.other.bold",
+            token: "variable.storymatic.bold",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
             token: [
               "keyword.operator.bold",
-              "variable.other.bold",
+              "variable.storymatic.bold",
               "keyword.operator.bold",
             ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other.bold",
+            token: "variable.storymatic.bold",
             regex: /@runfrom|@reference/,
           },
           {
@@ -219,19 +232,27 @@
             next: "code",
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {
@@ -248,19 +269,27 @@
             regex: /<=|>=|<|>|!=|=|or|and/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {
@@ -274,19 +303,27 @@
             next: "forCondition",
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {
@@ -308,19 +345,27 @@
             regex: /<=|>=|<|>|!=|=|or|and/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {
@@ -333,19 +378,27 @@
             next: "code",
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /\$[A-Za-z0-9_]+/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(\$[A-Za-z0-9_]+)(})/,
           },
           {
-            token: ["keyword.operator", "variable.other", "keyword.operator"],
+            token: [
+              "keyword.operator",
+              "variable.storymatic",
+              "keyword.operator",
+            ],
             regex: /({)(@runfrom|@reference)(})/,
           },
           {
-            token: "variable.other",
+            token: "variable.storymatic",
             regex: /@runfrom|@reference/,
           },
           {

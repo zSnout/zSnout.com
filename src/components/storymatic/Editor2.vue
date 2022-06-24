@@ -46,38 +46,13 @@
                 "variable.storymatic",
                 "text",
                 "entity.name.function",
-                "comment.line.other",
-              ],
-              regex:
-                /^(#import)( +)([A-Za-z_][A-Za-z0-9_]*)( +)((?:@[A-Za-z_][A-Za-z0-9_]*(?:$| +))+)( *<--.+)$/,
-            },
-            {
-              token: [
-                "keyword.other",
-                "text",
-                "variable.storymatic",
-                "text",
-                "entity.name.function",
               ],
               regex:
                 /^(#import)( +)([A-Za-z_][A-Za-z0-9_]*)( +)((?:@[A-Za-z_][A-Za-z0-9_]*(?:$| +))+)$/,
             },
             {
-              token: [
-                "keyword.other",
-                "text",
-                "variable.storymatic",
-                "comment.line.other",
-              ],
-              regex: /^(#import)( +)([A-Za-z_][A-Za-z0-9_]*)( *<--.+)$/,
-            },
-            {
               token: ["keyword.other", "text", "variable.storymatic"],
               regex: /^(#import)( +)([A-Za-z_][A-Za-z0-9_]*)$/,
-            },
-            {
-              token: ["keyword.other", "comment.line.other"],
-              regex: /^(#importall)( *<--.+)$/,
             },
             {
               token: "keyword.other",
@@ -88,28 +63,8 @@
                 "keyword.other",
                 "text",
                 "variable.other.markup.underline.link",
-                "comment.line.other",
-              ],
-              regex: /^(#library)( +)([^ ]+)( *<--.+)$/,
-            },
-            {
-              token: [
-                "keyword.other",
-                "text",
-                "variable.other.markup.underline.link",
               ],
               regex: /^(#library)( +)([^ ]+)$/,
-            },
-            {
-              token: [
-                "keyword.other",
-                "text",
-                "variable.other.markup.underline.link",
-                "text",
-                "string.other",
-                "comment.line.other",
-              ],
-              regex: /^(#plugin)( +)([^ ]+)( +)(.+)( *<--.+)$/,
             },
             {
               token: [
@@ -136,129 +91,48 @@
             { token: "constant.numeric", regex: /\b\d+(?:\.\d+)?\b/ },
             { token: "variable.storymatic", regex: /\$\w+/ },
             { token: "text", regex: /[,;]/ },
-            { token: "text", regex: /\s+/ },
-            { defaultToken: "string.other" },
-          ],
-          text: [
             {
-              token: "constant.character.escape",
+              token: "entity.name.function",
+              regex: /^\s+(?![@\s]|\$\w+\s+[+\-*\/%@]?=)|^ \s+@nowait\s+/,
+              next: "codeText",
+            },
+            { defaultToken: "string.unquoted" },
+          ],
+          codeText: [
+            {
+              regex: /$/,
+              next: "start",
+            },
+            {
+              token: [
+                "keyword.operator.bold",
+                "variable.storymatic.bold",
+                "keyword.operator.bold",
+              ],
+              regex: /({)(\$[A-Za-z0-9_]+)(})/,
+            },
+            {
+              token: "variable.storymatic.bold",
+              regex: /\$[A-Za-z0-9_]+/,
+            },
+            {
+              token: [
+                "keyword.operator.bold",
+                "variable.storymatic.bold",
+                "keyword.operator.bold",
+              ],
+              regex: /({)(@runfrom|@reference)(})/,
+            },
+            {
+              token: "variable.storymatic.bold",
+              regex: /@runfrom|@reference/,
+            },
+            {
+              token: "constant.language.escape.bold",
               regex: /\$\$/,
             },
             {
-              token: "comment.line.number-sign",
-              regex: /#.+$/,
-            },
-            {
-              token: "comment.line.other",
-              regex: /<--.+$/,
-            },
-            {
-              token: "comment.block",
-              regex: /\/\*/,
-              next: "comment",
-            },
-            {
-              token: "variable.storymatic",
-              regex: /\$[A-Za-z_][A-Za-z0-9_]*/,
-            },
-            {
-              token: "string.other",
-              regex: /-?[0-9]+(?:\.[0-9]+)?/,
-            },
-            {
-              regex: /^|$/,
-              next: "start",
-            },
-            {
-              defaultToken: "text",
-            },
-          ],
-          expression: [
-            {
-              token: "comment.line.number-sign",
-              regex: /#.+$/,
-            },
-            {
-              token: "comment.line.other",
-              regex: /<--.+$/,
-            },
-            {
-              token: "comment.block",
-              regex: /\/\*/,
-              next: "comment",
-            },
-            {
-              token: "variable.storymatic",
-              regex: /\$[A-Za-z_][A-Za-z0-9_]*/,
-            },
-            {
-              token: "string.other",
-              regex: /-?[0-9]+(?:\.[0-9]+)?/,
-            },
-            {
-              token: "keyword.operator",
-              regex: /\(|\)|<|>|\*|\/|%|\+|-|!|=|and|or|&&|\|\|/,
-            },
-            {
-              regex: /^|$/,
-              next: "start",
-            },
-            {
-              defaultToken: "text",
-            },
-          ],
-          comment: [
-            {
-              token: "comment.block",
-              regex: /\*\//,
-              next: "start",
-            },
-            {
-              defaultToken: "comment.block",
-            },
-          ],
-          argument: [
-            {
-              token: "constant.character.escape",
-              regex: /\$\$|\)\)/,
-            },
-            {
-              token: "text",
-              regex: /\) +/,
-              next: "text",
-            },
-            {
-              token: "text",
-              regex: /\)$/,
-              next: "start",
-            },
-            {
-              token: "comment.line.number-sign",
-              regex: /#.+$/,
-            },
-            {
-              token: "comment.line.other",
-              regex: /<--.+$/,
-            },
-            {
-              token: "comment.block",
-              regex: /\/\*/,
-              next: "comment",
-            },
-            {
-              token: "variable.storymatic",
-              regex: /\$[A-Za-z_][A-Za-z0-9_]*/,
-            },
-            {
-              token: "string.other",
-              regex: /-?[0-9]+(?:\.[0-9]+)?/,
-            },
-            {
-              regex: /^|$/,
-              next: "start",
-            },
-            {
-              defaultToken: "text",
+              defaultToken: "bold",
             },
           ],
         };
