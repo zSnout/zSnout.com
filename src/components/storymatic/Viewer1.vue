@@ -1,12 +1,13 @@
 <script lang="ts" setup>
+  import { useDebounceFn } from "@vueuse/core";
   import { loadPyodide } from "hoodmane-pyodide";
+  import { toRef, watch } from "vue";
   import {
     PyodideStderrSymbol,
     PyodideStdoutSymbol,
     PyodideSymbol,
   } from "../../composables/symbols";
   import Console, { useCompleteConsole } from "../Console.vue";
-  import { useNavLink } from "../Navigation.vue";
   import runner from "./runner1.py?raw";
 
   const props = defineProps<{ code: string }>();
@@ -26,21 +27,20 @@
     });
   }
 
-  useNavLink({
-    title: "Execute",
-    onEnter: true,
-    async action() {
-      console.clear();
-      placeholder.value = "";
-      Object.assign(window, { prompt: console.prompt });
+  async function start() {
+    console.clear();
+    placeholder.value = "";
+    Object.assign(window, { prompt: console.prompt });
 
-      const py = await window[PyodideSymbol];
+    const py = await window[PyodideSymbol];
 
-      py.runPythonAsync(
-        `${runner}\nawait story(\n"""\n${props.code}\n""").run()`
-      );
-    },
-  });
+    py.runPythonAsync(
+      `${runner}\nawait story(\n"""\n${props.code}\n""").run()`
+    );
+  }
+
+  start();
+  watch(toRef(props, "code"), useDebounceFn(start, 1000));
 </script>
 
 <template>

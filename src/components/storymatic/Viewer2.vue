@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+  import { useDebounceFn } from "@vueuse/core";
+  import { toRef, watch } from "vue";
   import { useTypewrite } from "../../composables/useTypewrite";
   import Console, { useCompleteConsole } from "../Console.vue";
-  import { useNavLink } from "../Navigation.vue";
   import { Storymatic } from "./runner2.js";
 
   const props = defineProps<{ code: string }>();
@@ -77,25 +78,24 @@
   };
 
   let prev: Storymatic | undefined;
-  useNavLink({
-    title: "Execute",
-    onEnter: true,
-    action() {
-      console.clear();
-      if (prev) prev.stopped = true;
+  function start() {
+    console.clear();
+    if (prev) prev.stopped = true;
 
-      prev = new Storymatic(props.code, (story) => {
-        Storymatic.waitingFor.splice(0, Storymatic.waitingFor.length);
-        Storymatic.tooltip("", () => {
-          Storymatic.clear(() => {
-            story.start();
-          });
+    prev = new Storymatic(props.code, (story) => {
+      Storymatic.waitingFor.splice(0, Storymatic.waitingFor.length);
+      Storymatic.tooltip("", () => {
+        Storymatic.clear(() => {
+          story.start();
         });
       });
+    });
 
-      Object.assign(window, { prev });
-    },
-  });
+    Object.assign(window, { prev });
+  }
+
+  start();
+  watch(toRef(props, "code"), useDebounceFn(start, 1000));
 </script>
 
 <template>
