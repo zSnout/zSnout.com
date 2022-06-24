@@ -30,7 +30,6 @@ $name = (no name)
   @number $egg How many dozens do you want to buy?
   $eggprice @= 6 * $egg
   @nowait $egg dozen eggs will cost $$$eggprice.
-
   @if $money > $eggprice
     @menu Are you sure you want to buy them?
       @option Yes
