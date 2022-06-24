@@ -149,8 +149,6 @@ async function $menu(
   if (isAsyncRunning) return;
   isAsyncRunning = true;
 
-  _print(...messages);
-
   menu = Object.create(null);
   options = Object.create(null);
   await cb();
