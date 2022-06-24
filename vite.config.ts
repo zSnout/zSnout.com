@@ -28,9 +28,7 @@ export default defineConfig({
       name: "fix-storymatic",
       transform(code, id) {
         if (jsfile.test(id)) {
-          return code
-            .replace(/_Storymatic/g, "Storymatic")
-            .replace(/import\((?!\))/g, "import(/* @vite-ignore */ ");
+          return code.replace(/_Storymatic/g, "Storymatic");
         }
       },
     },
