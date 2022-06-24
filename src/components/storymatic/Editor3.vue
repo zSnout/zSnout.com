@@ -63,7 +63,12 @@
             { token: "constant.language", regex: /true|false|null/ },
             { token: "keyword.operator", regex: /[+\-*\/%>=<!]|[&|]{2}/ },
             { token: "paren", regex: /[(){}[\]]/ },
-            { token: "entity.name.function", regex: /@\w+\b/ },
+            {
+              token: "entity.name.function",
+              regex:
+                /@(pause|typewrite(?:_ms)?|input(?:int|float)?|confirm|kill|wait(?:_ms)?|random|randint|range|menu|option)\b/,
+            },
+            { token: "language.constant.character", regex: /@\w+\b/ },
             { token: ["text", "property"], regex: /(\.\s*)(\$?\w+)/ },
             { token: ["property", "text"], regex: /(\$?\w+\s*)(:)/ },
             { token: "constant.numeric", regex: /\b\d+(?:\.\d+)?\b/ },
@@ -72,11 +77,53 @@
               token: "constant.language",
               regex: /\b(?:null|true|false|yes|no|on|off|y|n)\b/,
             },
+            {
+              token: "entity.name.function",
+              regex: /^\s*(?="[^"|]*"|@nowait "[^"|]*")/,
+              next: "codeText",
+            },
             { token: "string", regex: /"/, next: "string-dq" },
             { token: "paren", regex: /\|/, next: "string-dq" },
             { token: "text", regex: /[,;]/ },
             { token: "text", regex: /\s+/ },
             { defaultToken: "invalid" },
+          ],
+          "codeText": [
+            {
+              regex: /$/,
+              next: "start",
+            },
+            {
+              token: [
+                "keyword.operator.bold",
+                "variable.storymatic.bold",
+                "keyword.operator.bold",
+              ],
+              regex: /({)(\$[A-Za-z0-9_]+)(})/,
+            },
+            {
+              token: "variable.storymatic.bold",
+              regex: /\$[A-Za-z0-9_]+/,
+            },
+            {
+              token: [
+                "keyword.operator.bold",
+                "variable.storymatic.bold",
+                "keyword.operator.bold",
+              ],
+              regex: /({)(@runfrom|@reference)(})/,
+            },
+            {
+              token: "variable.storymatic.bold",
+              regex: /@runfrom|@reference/,
+            },
+            {
+              token: "constant.language.escape.bold",
+              regex: /\$\$/,
+            },
+            {
+              defaultToken: "bold",
+            },
           ],
           "string-dq": [
             ...dq,
