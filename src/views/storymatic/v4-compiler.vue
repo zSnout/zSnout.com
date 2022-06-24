@@ -6,19 +6,17 @@
 
   const code = useLocationHash(`money = 500
 eggs = 0
-
-name = prompt "What is your name?"
-await market()
+name = await prompt "What is your name?"
 
 market = ->
   print "#{name}, you have $#{money} and #{eggs} dozen eggs."
   idx = await select "What would you like to buy?", ["Eggs", "Go Back"]
   if idx == 0
-    await eggs()
+    await eggsfn()
   await market()
 
-eggs = ->
-  egg = +(prompt "How many dozen eggs do you want to buy?")
+eggsfn = ->
+  egg = +(await prompt "How many dozen eggs do you want to buy?")
   eggprice = 6 * egg
   print "#{egg} dozen eggs will cost $#{eggprice}."
   if money > eggprice
@@ -34,7 +32,8 @@ eggs = ->
     eggs += egg
   else
     print "You don't have enough money for these eggs!"
-`);
+
+await market()`);
 </script>
 
 <template>
