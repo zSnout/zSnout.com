@@ -29,7 +29,7 @@
     width: min(400px, 100%);
   }
 
-  @media screen and (max-width: 850px) {
+  @media (max-width: 850px) {
     .stack.stack {
       flex-direction: column;
     }
