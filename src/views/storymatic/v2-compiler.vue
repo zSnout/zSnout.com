@@ -4,40 +4,46 @@
   import Editor2 from "../../components/storymatic/Editor2.vue";
   import { useLocationHash } from "../../composables/useLocationHash";
 
-  const code = useLocationHash(`$money = 500
+  const code = useLocationHash(`#importall
+
+$money = 500
 $eggs = 0
 $name = (no name)
 
 @start
-  $name = @input What is your name?
-  @run market
+  @input $name What is your name?
+  @market
 
 @market
   $name, you have $$$money and $eggs dozen eggs.
-  @menu What would you like to buy?
-    Eggs
-      @eggs
-    Go Back
-      @pass
-  @market
+  @if $money < 6
+    Looks like you're out of money!
+  @else
+    @menu What would you like to buy?
+      @option Eggs
+        @eggs
+      @option Go Back
+        @pass
+    @market
 
 @eggs
-  $egg = @number How many dozen eggs do you want to buy?
+  @number $egg How many dozens do you want to buy?
   $eggprice @= 6 * $egg
-  $egg dozen eggs will cost $$$eggprice.
-  @menu Are you sure you want to buy them?
-    @option Yes
-      @if $money > $eggprice
+  @nowait $egg dozen eggs will cost $$$eggprice.
+
+  @if $money > $eggprice
+    @menu Are you sure you want to buy them?
+      @option Yes
         $money -= $eggprice
         $eggs += $egg
-      @elseif $money = $eggprice
-        You have just enough money for these eggs.
-        $money -= $eggprice
-        $eggs += $egg
-      @else
-        You don't have enough money for these eggs!
-    @option No
-      Okay, let's go back to the store.`);
+      @option No
+        Okay, let's go back to the store.
+  @elseif $money = $eggprice
+    You have just enough money for these eggs.
+    $money -= $eggprice
+    $eggs += $egg
+  @else
+    You don't have enough money for these eggs!`);
 </script>
 
 <template>
