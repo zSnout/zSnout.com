@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <EditorAndViewer>
+  <EditorAndViewer dual-editor>
     <Editor3 v-model="code" round />
 
     <Compiler3 :code="code" round />
