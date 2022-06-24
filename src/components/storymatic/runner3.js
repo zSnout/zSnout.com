@@ -35,11 +35,10 @@ function _print(/** @type {any[]} */ ...content) {
 
 async function _simplePost(
   type = "",
-  /** @type {any} */ defaultValue,
+  /** @type {any} */ defaultValue = null,
   messages = [""]
 ) {
   return runAsync(async () => {
-    _print(...messages);
     post({ type, messages });
 
     return await onNextMessage();
@@ -47,10 +46,7 @@ async function _simplePost(
 }
 
 async function $pause() {
-  return runAsync(async () => {
-    post({ type: "pause" });
-    await onNextMessage();
-  });
+  return _simplePost("pause");
 }
 
 async function $typewrite([time, ...messages] = [1, ""]) {
