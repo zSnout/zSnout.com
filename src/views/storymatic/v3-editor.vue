@@ -4,36 +4,37 @@
   import Viewer3 from "../../components/storymatic/Viewer3.vue";
   import { useLocationHash } from "../../composables/useLocationHash";
 
-  const code = useLocationHash(`money = 500
-eggs = 0
+  const code = useLocationHash(`$money = 500
+$eggs = 0
 
-name = prompt "What is your name?"
-market()
+$name = @input "What is your name?"
+@market
 
-market = ->
-  print "#{name}, you have $#{money} and #{eggs} dozen eggs."
-  switch await select "What would you like to buy?", ["Eggs", "Go Back"]
-    case 0
-      eggs()
-  market()
+def @market
+  "$name, you have $$money and $eggs dozen eggs."
+  @menu "What would you like to buy?"
+    @option "Eggs"
+      @eggsfn
+    @option "Go Back"
+  @market
 
-eggs = ->
-  egg = +(prompt "How many dozen eggs do you want to buy?")
-  eggprice = 6 * egg
-  print "#{egg} dozen eggs will cost $#{eggprice}."
-  menu "Are you sure you want to buy them?", ->
-    option "Yes", ->
-      if money > eggprice
-        money -= eggprice
-        eggs += egg
-      else if money = eggprice
-        print "You have just enough money for these eggs."
-        money -= eggprice
-        eggs += egg
+def @eggsfn
+  $egg = @inputint "How many dozen eggs do you want to buy?"
+  $eggprice = 6 * $egg
+  "$egg dozen eggs will cost $$eggprice."
+  @menu "Are you sure you want to buy them?"
+    @option "Yes"
+      if $money > $eggprice
+        $money -= $eggprice
+        $eggs += $egg
+      else if $money = $eggprice
+        "You have just enough money for these eggs."
+        $money -= $eggprice
+        $eggs += $egg
       else
-        print "You don't have enough money for these eggs!"
-    option "No", ->
-      print "Okay, let's go back to the store."`);
+        "You don't have enough money for these eggs!"
+    @option "No"
+      "Okay, let's go back to the store."`);
 </script>
 
 <template>
