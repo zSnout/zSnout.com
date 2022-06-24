@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-  import ace from "ace-builds";
+  import "ace-builds";
+  import type { Ace } from "ace-builds";
   import "ace-builds/src-noconflict/mode-json";
   import AceEditor from "./AceEditor.vue";
 
@@ -9,7 +10,7 @@
   }>();
 
   defineEmits<{
-    (event: "init", editor: ace.Ace.Editor): void;
+    (event: "init", editor: Ace.Editor): void;
     (event: "save", value: string): void;
   }>();
 </script>
