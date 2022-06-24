@@ -23,12 +23,15 @@
   ::before,
   ::after {
     box-sizing: border-box;
-    transition: var(--transitions);
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     -webkit-touch-callout: none;
     -webkit-text-size-adjust: none;
+  }
+
+  :not(.ace-editor *) {
+    transition: var(--transitions);
   }
 
   body,
