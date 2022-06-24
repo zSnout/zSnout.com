@@ -39,6 +39,13 @@
       />
 
       <Card
+        description="View the internal representation of your lambda calculus before reduction."
+        keywords="random numbers passkey password"
+        title="Lambda Calculus Compiler"
+        to="/lambda-compiler"
+      />
+
+      <Card
         description="We're not sure why you'd go to the 404 page, but here's a link if you need it."
         keywords="not found error page"
         title="404 page"
