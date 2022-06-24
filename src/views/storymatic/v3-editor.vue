@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import EditorAndViewer from "../../components/EditorAndViewer.vue";
   import Editor3 from "../../components/storymatic/Editor3.vue";
   import Viewer3 from "../../components/storymatic/Viewer3.vue";
   import { useLocationHash } from "../../composables/useLocationHash";
