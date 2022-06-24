@@ -29,6 +29,12 @@
         to="/storymatic/v3-editor"
       />
 
+      <Card
+        description="Use the first version of Storymatic based off of CoffeeScript and TypeScript."
+        title="V4 Editor"
+        to="/storymatic/v4-editor"
+      />
+
       <GridSpacer />
 
       <div />
@@ -43,6 +49,12 @@
         description="View the JavaScript representation of any Storymatic 3 code you've written."
         title="V3 Compiler"
         to="/storymatic/v3-compiler"
+      />
+
+      <Card
+        description="See the TypeScript and JavaScript versions of your Storymatic 4 code."
+        title="V4 Compiler"
+        to="/storymatic/v4-compiler"
       />
 
       <GridSpacer />
