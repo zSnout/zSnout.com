@@ -128,11 +128,10 @@
     if (checkOldWorker) worker?.terminate();
 
     try {
-      const js = preload + storyToJS(code);
+      const js = preload.replace("export {};", "") + storyToJS(code);
 
       const worker = new Worker(`data:text/javascript,${js}`, {
         name: Math.random().toString().slice(2),
-        type: "module",
       });
 
       worker.onmessage = onMessage;
