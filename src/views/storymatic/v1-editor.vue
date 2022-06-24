@@ -7,7 +7,6 @@
   const code = useLocationHash(`@global $money = 500
 @global $eggs = 0
 @global $name = (no name)
-$eggprice = 6
 
 start
   $name = @input What is your name?
@@ -15,32 +14,34 @@ start
 
 market
   $name, you have $$money and $eggs dozen eggs.
-  @menu What would you like to buy?
-    Eggs
-      @context
+  @if $money < 6
+    Looks like you're out of money!
+  @else
+    @menu What would you like to buy?
+      Eggs
         @run eggs
-    Go Back
-      @pass
-  @run market
+      Go Back
+        @pass
+    @run market
 
 eggs
-  $egg = @number How many dozen eggs do you want to buy?
+  $egg = @number How many dozens do you want to buy?
+  $eggprice = 6
   $eggprice *= $egg
-  $egg dozen eggs will cost $$eggprice.
-  @menu Are you sure you want to buy them?
-    Yes
-      @if $money > $eggprice
+  @nowait $egg dozen eggs will cost $$eggprice.
+  @if $money > $eggprice
+    @menu Are you sure you want to buy them?
+      Yes
         $money -= $eggprice
         $eggs += $egg
-      @elseif $money = $eggprice
-        You have just enough money for these eggs.
-        $money -= $eggprice
-        $eggs += $egg
-      @else
-        You don't have enough money for these eggs!
-    No
-      Okay, let's go back to the store.
-  @stop`);
+      No
+        Okay, let's go back to the store.
+  @elseif $money = $eggprice
+    You have just enough money for these eggs.
+    $money -= $eggprice
+    $eggs += $egg
+  @else
+    You don't have enough money for these eggs!`);
 </script>
 
 <template>
