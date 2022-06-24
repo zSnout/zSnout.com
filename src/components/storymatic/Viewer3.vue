@@ -128,7 +128,13 @@
     if (checkOldWorker) worker?.terminate();
 
     try {
-      const js = preload.replace("export {};", "") + storyToJS(code);
+      const js =
+        "(async()=>{" +
+        preload.replace("export {};", "") +
+        storyToJS(code) +
+        "})()";
+
+      window.console.log(js);
 
       const worker = new Worker(`data:text/javascript,${js}`, {
         name: Math.random().toString().slice(2),
