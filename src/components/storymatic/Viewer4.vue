@@ -9,6 +9,9 @@
   const { console, field, messages, onKey, onSelect, onSubmit, placeholder } =
     useCompleteConsole();
 
+  const AsyncFunction = Object.getPrototypeOf(async function () {})
+    .constructor as typeof Function;
+
   function start() {
     console.clear();
     placeholder.value = "";
@@ -64,7 +67,7 @@
       },
     });
 
-    new Function(
+    new AsyncFunction(
       transpile(compile(props.code), {
         jsx: "jsx",
         target: 99,
