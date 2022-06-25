@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { debouncedRef, useDebounceFn } from "@vueuse/core";
+  import { debouncedRef } from "@vueuse/core";
   import ace from "ace-builds";
   import { reactive, toRef, watch } from "vue";
   import Console from "../Console.vue";
@@ -28,28 +28,30 @@
     }
   });
 
-  const compiled = useEvaluateLambda(debouncedRef(code, 1000));
+  const ref = debouncedRef(code, 1000);
+  const compiled = useEvaluateLambda(ref);
 
   function msgs(result: typeof compiled.value) {
-    if (typeof result === "string") {
-      return [
-        {
+    return [
+      ...result.output.split(/\n+/g).map((content) => {
+        console.log(content);
+
+        return {
           type: "log" as const,
           id: Math.random(),
-          content: result,
-        },
-      ];
-    } else {
-      return result.map((content) => ({
+          content,
+        };
+      }),
+      {
         type: "log" as const,
         id: Math.random(),
-        content,
-      }));
-    }
+        content: result.result,
+      },
+    ];
   }
 
-  watch(compiled, (result) => {
-    messages.splice(0, messages.length, ...msgs(result));
+  watch(ref, () => {
+    messages.splice(0, messages.length, ...msgs(compiled.value));
   });
 
   const messages = reactive(msgs(compiled.value));
