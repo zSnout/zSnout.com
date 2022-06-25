@@ -53,7 +53,10 @@
   function onInit(ace: ace.Ace.Editor) {
     ace.on("change", (delta) => {
       if (delta.action === "insert") {
-        ace.replaceAll("λ", { needle: "lambda", caseSensitive: false });
+        ace.replaceAll("λ", {
+          needle: /lambda|[ΛλᴧⲖⲗ𝚲𝛌𝛬𝜆𝜦𝝀𝝠𝝺𝞚𝞴\\]/g,
+          caseSensitive: false,
+        });
       }
     });
   }
