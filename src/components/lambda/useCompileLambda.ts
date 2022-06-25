@@ -17,7 +17,7 @@ type FinalToken =
   | Alias
   | Group;
 
-type Expression =
+export type Expression =
   | { type: "function"; variable: string; scope: number; expr: Expression }
   | { type: "variable"; name: string; scope: number }
   | { type: "application"; lhs: Expression; rhs: Expression };
@@ -64,7 +64,7 @@ function tokenize(source: string) {
       tokens.push({ type: map.get(text[0])! });
       text = text.slice(1);
     } else {
-      const match = text.match(/^[\w\d+\-*\/%@?!:_#$^&|~]+/);
+      const match = text.match(/^[\w\d+\-*\/%@?!:_#$^&|~;'"]+/);
 
       if (match) {
         tokens.push({ type: "variable", name: match[0] });
@@ -259,10 +259,8 @@ export function useCompileLambda(source: Ref<string>) {
 
       return expr;
     } catch (e: any) {
-      if (e instanceof Error) {
-        console.error(e);
-        return e.message;
-      }
+      console.error(e);
+      return "" + e;
     }
   });
 }
