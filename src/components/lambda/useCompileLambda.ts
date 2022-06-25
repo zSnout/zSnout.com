@@ -57,7 +57,17 @@ function tokenize(source: string) {
   const tokens: Token[] = [];
 
   while (text) {
-    if (lambdas.has(text[0])) {
+    if (text[0] === "{") {
+      let depth = 0;
+      let char;
+
+      while ((char = text[0])) {
+        if (char === "{") depth++;
+        if (char === "}") depth--;
+        text = text.slice(1);
+        if (depth === 0) break;
+      }
+    } else if (lambdas.has(text[0])) {
       tokens.push({ type: "lambda" });
       text = text.slice(1);
     } else if (map.has(text[0])) {
