@@ -2,14 +2,6 @@ import { computed } from "@vue/reactivity";
 import { Ref } from "vue";
 import { Expression, useCompileLambda } from "./useCompileLambda";
 
-function churchNumeral(fn: any): number {
-  try {
-    return fn((x: number) => x + 1)(0);
-  } catch (e) {
-    return 1e10;
-  }
-}
-
 const special = {
   "+": "_add",
   "-": "_sub",
@@ -88,7 +80,67 @@ function evaluate(expr: Expression) {
   try {
     return eval(toJS(expr));
   } catch (e) {
-    return e;
+    return "" + e;
+  }
+}
+
+export namespace Convert {
+  export function toNumber(fn: any) {
+    try {
+      const number = fn((x: number) => x + 1)(0);
+      if (typeof number === "number") return number;
+    } catch (e) {}
+  }
+
+  export function toBoolean(fn: any) {
+    try {
+      const boolean = fn(true)(false);
+      if (typeof boolean === "boolean") return boolean;
+    } catch (e) {}
+  }
+
+  export function toNumPair(fn: any) {
+    try {
+      let _x: number | undefined, _y: number | undefined;
+      fn((x: any) => (y: any) => ((_x = toNumber(x)), (_y = toNumber(y))));
+
+      if (typeof _x === "number" && typeof _y === "number") {
+        return [_x, _y] as [number, number];
+      }
+    } catch (e) {}
+  }
+
+  export function toBoolPair(fn: any) {
+    try {
+      let _x: boolean | undefined, _y: boolean | undefined;
+      fn((x: any) => (y: any) => ((_x = toBoolean(x)), (_y = toBoolean(y))));
+
+      if (typeof _x === "boolean" && typeof _y === "boolean") {
+        return [_x, _y] as [boolean, boolean];
+      }
+    } catch (e) {}
+  }
+
+  export function all(fn: any) {
+    const results: string[] = [];
+
+    const number = toNumber(fn);
+    if (typeof number === "number") results.push(`As number: ${number}`);
+
+    const boolean = toBoolean(fn);
+    if (typeof boolean === "boolean") results.push(`As boolean: ${boolean}`);
+
+    let pair: [any, any] | undefined = toNumPair(fn);
+    if (typeof pair === "object")
+      results.push(`As numeric pair: (${pair[0]}, ${pair[1]})`);
+
+    pair = toBoolPair(fn);
+    if (typeof pair === "object")
+      results.push(`As boolean pair: (${pair[0]}, ${pair[1]})`);
+
+    if (results.length === 0) results.push("No conversions available.");
+
+    return results;
   }
 }
 
@@ -107,8 +159,7 @@ export function useEvaluateLambda(source: Ref<string>) {
         return result;
       }
 
-      const numeral = churchNumeral(result);
-      return numeral;
+      return Convert.all(result);
     } catch (e: any) {
       return "" + e;
     }
