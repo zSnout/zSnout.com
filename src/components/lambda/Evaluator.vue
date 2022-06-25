@@ -17,7 +17,9 @@
   const code = toRef(props, "code");
 
   watch(code, () => {
-    if (messages.length === 1) {
+    if (
+      messages[messages.length - 1].content !== "Waiting for input to finish..."
+    ) {
       messages.push({
         type: "log",
         id: Math.random(),
@@ -28,17 +30,29 @@
 
   const compiled = useEvaluateLambda(debouncedRef(code, 1000));
 
-  watch(compiled, (result: string | number) => {
-    messages.splice(0, messages.length, {
-      type: "log",
-      id: Math.random(),
-      content: result,
-    });
+  function msgs(result: typeof compiled.value) {
+    if (typeof result === "string") {
+      return [
+        {
+          type: "log" as const,
+          id: Math.random(),
+          content: result,
+        },
+      ];
+    } else {
+      return result.map((content) => ({
+        type: "log" as const,
+        id: Math.random(),
+        content,
+      }));
+    }
+  }
+
+  watch(compiled, (result) => {
+    messages.splice(0, messages.length, ...msgs(result));
   });
 
-  const messages = reactive([
-    { type: "log" as const, id: Math.random(), content: compiled },
-  ]);
+  const messages = reactive(msgs(compiled.value));
 </script>
 
 <template>
