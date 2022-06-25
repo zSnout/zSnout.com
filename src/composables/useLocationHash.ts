@@ -3,21 +3,36 @@ import { computed } from "vue";
 
 const location = useBrowserLocation();
 
+function getHash() {
+  if (!location.value.hash) return "";
+
+  let hash = decodeURIComponent(location.value.hash);
+  hash = hash?.slice(1);
+  if (hash === "#") return "";
+  if (hash?.startsWith("#")) return hash.slice(1);
+
+  return hash;
+}
+
+function setHash(hash: string) {
+  if (!hash) hash = "#";
+
+  const url = new URL(globalThis.location.href);
+  url.hash = encodeURIComponent(hash);
+  globalThis.location.replace(url);
+}
+
 export function useLocationHash(initial?: string) {
-  if (typeof initial === "string" && !globalThis.location.hash.slice(1)) {
-    const url = new URL(globalThis.location.href);
-    url.hash = encodeURIComponent(initial);
-    globalThis.location.replace(url);
+  if (initial && !getHash()) {
+    setHash(initial);
   }
 
   return computed<string>({
     get() {
-      return decodeURIComponent(location.value.hash?.slice(1) || "");
+      return getHash();
     },
     set(value) {
-      const url = new URL(globalThis.location.href);
-      url.hash = encodeURIComponent(value);
-      globalThis.location.replace(url);
+      setHash(value);
     },
   });
 }
