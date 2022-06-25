@@ -1,29 +1,20 @@
 <script lang="ts" setup>
-  import ace from "ace-builds";
+  import "ace-builds";
+  import "ace-builds/src-noconflict/mode-javascript";
   import { toRef } from "vue";
-  import JSONViewer from "../JSONViewer.vue";
+  import AceEditor from "../AceEditor.vue";
   import { useCompileLambda } from "./useCompileLambda";
+  import { toJS } from "./useEvaluateLambda";
 
-  const props = defineProps<{
-    code: string;
-    readonly?: boolean;
-    placeholder?: string;
-    round?: boolean;
-  }>();
-
-  defineEmits<{
-    (event: "init", editor: ace.Ace.Editor): void;
-    (event: "save", value: string): void;
-  }>();
-
+  const props = defineProps<{ code: string; round?: boolean }>();
   const compiled = useCompileLambda(toRef(props, "code"));
 </script>
 
 <template>
-  <JSONViewer
+  <AceEditor
+    :model-value="typeof compiled === 'string' ? compiled : toJS(compiled)"
     :round="round"
-    :value="compiled"
-    @init="$emit('init', $event)"
-    @save="$emit('save', $event)"
+    mode="javascript"
+    readonly
   />
 </template>
