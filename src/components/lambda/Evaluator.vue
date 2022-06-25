@@ -39,8 +39,6 @@
   const messages = reactive([
     { type: "log" as const, id: Math.random(), content: compiled },
   ]);
-
-  watch(compiled, () => {});
 </script>
 
 <template>

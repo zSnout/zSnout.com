@@ -52,15 +52,7 @@
 
   function onInit(ace: ace.Ace.Editor) {
     ace.on("change", (delta) => {
-      if (
-        delta.action === "insert" &&
-        ((delta.lines.length === 1 && delta.lines[0].endsWith("a")) ||
-          (delta.lines.length === 2 && delta.lines[0].endsWith("da")) ||
-          (delta.lines.length === 3 && delta.lines[0].endsWith("bda")) ||
-          (delta.lines.length === 4 && delta.lines[0].endsWith("mbda")) ||
-          (delta.lines.length === 5 && delta.lines[0].endsWith("ambda")) ||
-          (delta.lines.length >= 6 && delta.lines[0].endsWith("lambda")))
-      ) {
+      if (delta.action === "insert") {
         ace.replaceAll("λ", { needle: "lambda", caseSensitive: false });
       }
     });

@@ -6,8 +6,7 @@ function churchNumeral(fn: any): number {
   try {
     return fn((x: number) => x + 1)(0);
   } catch (e) {
-    console.error(e);
-    return 0;
+    return 1e10;
   }
 }
 
@@ -52,24 +51,36 @@ function indent(text: string): string {
 }
 
 export function toJS(expr: Expression): string {
-  if (expr.type === "variable") {
-    return normalizeVar(expr.name);
-  } else if (expr.type === "application") {
-    const output = toJS(expr.rhs);
+  try {
+    if (expr.type === "variable") {
+      return normalizeVar(expr.name);
+    } else if (expr.type === "application") {
+      let output = toJS(expr.rhs);
 
-    if (output.length > 60) {
-      return `${toJS(expr.lhs)}(\n  ${indent(output)}\n)`;
-    } else {
-      return `${toJS(expr.lhs)}(${output})`;
-    }
-  } else {
-    const output = toJS(expr.expr);
+      if (expr.rhs.type === "function") {
+        output = output.slice(1, -1);
+      }
 
-    if (output.length > 60) {
-      return `(${normalizeVar(expr.variable)} =>\n  ${indent(output)}\n)`;
+      if (output.length > 60) {
+        return `${toJS(expr.lhs)}(\n  ${indent(output)}\n)`;
+      } else {
+        return `${toJS(expr.lhs)}(${output})`;
+      }
     } else {
-      return `(${normalizeVar(expr.variable)} => ${output})`;
+      let output = toJS(expr.expr);
+
+      if (expr.expr.type === "function") {
+        output = output.slice(1, -1);
+      }
+
+      if (output.length > 40) {
+        return `(${normalizeVar(expr.variable)} =>\n  ${indent(output)}\n)`;
+      } else {
+        return `(${normalizeVar(expr.variable)} => ${output})`;
+      }
     }
+  } catch (e) {
+    return "" + e;
   }
 }
 
@@ -82,29 +93,6 @@ function evaluate(expr: Expression) {
 }
 
 export function useEvaluateLambda(source: Ref<string>) {
-  const expr = useCompileLambda(source);
-
-  return computed(() => {
-    try {
-      if (typeof expr.value === "string") {
-        return expr.value;
-      }
-
-      const result = evaluate(expr.value);
-
-      if (typeof result === "string") {
-        return result;
-      }
-
-      const numeral = churchNumeral(result);
-      return numeral;
-    } catch (e: any) {
-      return "" + e;
-    }
-  });
-}
-
-export function useJavaScriptLambda(source: Ref<string>) {
   const expr = useCompileLambda(source);
 
   return computed(() => {

@@ -232,11 +232,25 @@ function toExpression(
         "A dot cannot appear outside of a lambda function."
       );
     } else {
-      return {
-        type: "application",
-        lhs: toExpression(tokens[0], bound),
-        rhs: toExpression(tokens.slice(1), bound),
-      };
+      let lhs = toExpression(tokens[0], bound);
+
+      for (let i = 1; i < tokens.length; i++) {
+        if (tokens[i].type === "lambda") {
+          return {
+            type: "application",
+            lhs,
+            rhs: toExpression(tokens.slice(i), bound),
+          };
+        } else {
+          lhs = {
+            type: "application",
+            lhs,
+            rhs: toExpression(tokens[i], bound),
+          };
+        }
+      }
+
+      return lhs;
     }
   }
 
@@ -246,7 +260,7 @@ function toExpression(
     return toExpression(token.tokens, bound);
   } else {
     throw new SyntaxError(
-      `Cannot convert '${token.type}' token to an expression.`
+      `Cannot convert singular '${token.type}' token to an expression.`
     );
   }
 }
