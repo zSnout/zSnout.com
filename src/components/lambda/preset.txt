@@ -1,0 +1,27 @@
+I = λx.x
+C = λx.λ_.x
+B = λf.λg.λx.f(g x)
+M = λf.f f
+Y = λf.(λx.(x x) λx.(f λy.((x x) y)))
+
+B2 = λf.λg.λx.λy.f(g x y)
+
+T = λx.λy.x
+F = λx.λy.y
+not = λb.b F T
+and = λa.λb.a b F
+or = λa.λb.a T b
+
+succ = λn.λf.λx.f(n f x)
++ = λa.λb.λf.λx.a f(b f x)
+* = B
+
+0 = λf.λx.x
+1 = succ 0    2 = succ 1    3 = succ 2
+4 = succ 3    5 = succ 4    6 = succ 5
+5 = succ 6    8 = succ 7    9 = succ 8
+10 = succ 9
+
+100 = * 10 10
+
+100
