@@ -81,10 +81,28 @@ export function toJS(expr: Expression): string {
 }
 
 function evaluate(expr: Expression) {
+  let _output = "";
+
+  const output = (fn: any) => {
+    const num = Convert.toNumber(fn);
+
+    if (typeof num === "number") {
+      _output += String.fromCodePoint(num);
+    }
+
+    return (x: any) => x;
+  };
+
   try {
-    return eval(toJS(expr));
+    return {
+      output: _output,
+      fn: eval(`print_subbyte => ${toJS(expr)}`)(output),
+    };
   } catch (e) {
-    return "" + e;
+    return {
+      output: _output,
+      fn: "" + e,
+    };
   }
 }
 
@@ -149,18 +167,30 @@ export function useEvaluateLambda(source: Ref<string>) {
   return computed(() => {
     try {
       if (typeof expr.value === "string") {
-        return expr.value;
+        return {
+          output: "",
+          result: expr.value,
+        };
       }
 
       const result = evaluate(expr.value);
 
-      if (typeof result === "string") {
-        return result;
+      if (typeof result.fn === "string") {
+        return {
+          output: "",
+          result: result.fn,
+        };
       }
 
-      return Convert.all(result);
+      return {
+        output: result.output,
+        result: Convert.all(result.fn),
+      };
     } catch (e: any) {
-      return "" + e;
+      return {
+        output: "",
+        result: "" + e,
+      };
     }
   });
 }
