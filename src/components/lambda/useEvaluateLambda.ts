@@ -87,7 +87,7 @@ function evaluate(expr: Expression) {
     const num = Convert.toNumber(fn);
 
     if (typeof num === "number") {
-      _output += String.fromCodePoint(num);
+      _output += String.fromCharCode(num);
     }
 
     return (x: any) => x;
@@ -95,13 +95,13 @@ function evaluate(expr: Expression) {
 
   try {
     return {
-      output: _output,
       fn: eval(`print_subbyte => ${toJS(expr)}`)(output),
+      output: _output,
     };
   } catch (e) {
     return {
-      output: _output,
       fn: "" + e,
+      output: _output,
     };
   }
 }
@@ -177,7 +177,7 @@ export function useEvaluateLambda(source: Ref<string>) {
 
       if (typeof result.fn === "string") {
         return {
-          output: "",
+          output: result.output,
           result: result.fn,
         };
       }
