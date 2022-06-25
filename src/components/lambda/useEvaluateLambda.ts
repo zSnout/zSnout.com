@@ -89,62 +89,57 @@ function evaluate(expr: Expression) {
 }
 
 export namespace Convert {
+  export function isNil(fn: any) {
+    try {
+      const result = fn((x: number) => x + 1)(true)(false);
+      if (typeof result !== "boolean") return false;
+      return result;
+    } catch {
+      return false;
+    }
+  }
+
   export function toNumber(fn: any) {
     try {
       const number = fn((x: number) => x + 1)(0);
       if (typeof number === "number") return number;
-    } catch (e) {}
+    } catch {}
   }
 
   export function toBoolean(fn: any) {
     try {
       const boolean = fn(true)(false);
       if (typeof boolean === "boolean") return boolean;
-    } catch (e) {}
+    } catch {}
   }
 
-  export function toNumPair(fn: any) {
+  export function toPair(fn: any) {
     try {
-      let _x: number | undefined, _y: number | undefined;
-      fn((x: any) => (y: any) => ((_x = toNumber(x)), (_y = toNumber(y))));
+      let _x: any, _y: any;
+      fn((x: any) => (y: any) => ((_x = valueOf(x)), (_y = valueOf(y))));
 
-      if (typeof _x === "number" && typeof _y === "number") {
-        return [_x, _y] as [number, number];
+      if (typeof _x !== "undefined" && typeof _y !== "undefined") {
+        return [_x, _y] as [any, any];
       }
-    } catch (e) {}
+    } catch {}
   }
 
-  export function toBoolPair(fn: any) {
-    try {
-      let _x: boolean | undefined, _y: boolean | undefined;
-      fn((x: any) => (y: any) => ((_x = toBoolean(x)), (_y = toBoolean(y))));
+  export function valueOf(fn: any) {
+    if (isNil(fn)) return "nil";
 
-      if (typeof _x === "boolean" && typeof _y === "boolean") {
-        return [_x, _y] as [boolean, boolean];
-      }
-    } catch (e) {}
+    const num = toNumber(fn);
+    const bool = toBoolean(fn);
+
+    if (num === 0 && bool === false) return "0/false";
+    if (typeof bool === "boolean") return "" + bool;
+    if (typeof num === "number") return "" + num;
+
+    const pair = toPair(fn);
+    if (pair) return `(${pair[0]}, ${pair[1]})`;
   }
 
   export function all(fn: any) {
-    const results: string[] = [];
-
-    const number = toNumber(fn);
-    if (typeof number === "number") results.push(`As number: ${number}`);
-
-    const boolean = toBoolean(fn);
-    if (typeof boolean === "boolean") results.push(`As boolean: ${boolean}`);
-
-    let pair: [any, any] | undefined = toNumPair(fn);
-    if (typeof pair === "object")
-      results.push(`As numeric pair: (${pair[0]}, ${pair[1]})`);
-
-    pair = toBoolPair(fn);
-    if (typeof pair === "object")
-      results.push(`As boolean pair: (${pair[0]}, ${pair[1]})`);
-
-    if (results.length === 0) results.push("No conversions available.");
-
-    return results;
+    return valueOf(fn) || "No conversions available.";
   }
 }
 
