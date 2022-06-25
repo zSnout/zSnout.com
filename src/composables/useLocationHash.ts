@@ -5,7 +5,9 @@ const location = useBrowserLocation();
 
 export function useLocationHash(initial?: string) {
   if (typeof initial === "string" && !globalThis.location.hash.slice(1)) {
-    globalThis.location.hash = encodeURIComponent(initial);
+    const url = new URL(globalThis.location.href);
+    url.hash = encodeURIComponent(initial);
+    globalThis.location.replace(url);
   }
 
   return computed<string>({
@@ -13,7 +15,9 @@ export function useLocationHash(initial?: string) {
       return decodeURIComponent(location.value.hash?.slice(1) || "");
     },
     set(value) {
-      globalThis.location.hash = encodeURIComponent(value);
+      const url = new URL(globalThis.location.href);
+      url.hash = encodeURIComponent(value);
+      globalThis.location.replace(url);
     },
   });
 }
