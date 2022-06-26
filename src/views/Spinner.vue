@@ -113,14 +113,26 @@
 
     <template #indicator>
       <HStack>
-        <span @click="speed -= Math.min(Math.PI / 1440)">Slower</span>
+        <span class="button" @click="speed -= Math.min(Math.PI / 1440)">
+          Slower
+        </span>
+
         <span>/</span>
-        <span @click="speed += Math.min(Math.PI / 1440)">Faster</span>
+
+        <span class="button" @click="speed += Math.min(Math.PI / 1440)">
+          Faster
+        </span>
 
         <Spacer />
 
-        <span @click="_drawCircle">Clear Canvas</span>
+        <span class="button" @click="_drawCircle">Clear Canvas</span>
       </HStack>
     </template>
   </FullscreenDisplay>
 </template>
+
+<style scoped>
+  .button {
+    cursor: pointer;
+  }
+</style>
