@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import {
+    useClamp,
     useEventListener,
     useIntervalFn,
     usePointer,
@@ -9,15 +10,23 @@
   import { ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import { useCanvas } from "../composables/useCanvas";
+  import HStack from "../components/HStack.vue";
+  import Spacer from "../components/Spacer.vue";
+  import { computed } from "@vue/reactivity";
 
   const canvas = ref<HTMLCanvasElement>();
   const pointer = usePointer();
   const isDown = ref(false);
   const rotation = ref(0);
+  const speed = useClamp(Math.PI / 360, Math.PI / 1440, Math.PI / 8);
 
   useCanvas(canvas).then((info) => {
     const { canvas, onDispose, onResize, size } = info;
     const ctx = canvas.getContext("2d")!;
+
+    const maxDist = computed(() =>
+      Math.min(size.width.value / 2, size.height.value / 2)
+    );
 
     if (!ctx) {
       throw new Error("Your device doesn't support HTML5 canvases.");
@@ -34,7 +43,7 @@
       ctx.arc(
         size.width.value / 2,
         size.height.value / 2,
-        Math.min(size.width.value / 2, size.height.value / 2),
+        maxDist.value,
         0,
         2 * Math.PI
       );
@@ -62,7 +71,11 @@
           x - size.width.value / 2
         );
 
-        console.log(dist, angle);
+        if (dist > maxDist.value) {
+          lastX = NaN;
+          lastY = NaN;
+          return;
+        }
 
         [x, y] = [
           size.width.value / 2 + dist * Math.cos(rotation.value - angle),
@@ -85,7 +98,7 @@
   useEventListener("pointerdown", () => (isDown.value = true));
   useEventListener("pointerup", () => (isDown.value = false));
 
-  useRafFn(() => (rotation.value += Math.PI / 360));
+  useRafFn(() => (rotation.value += speed.value));
 </script>
 
 <template>
@@ -95,5 +108,15 @@
       class="canvas"
       :style="`transform: rotate(${rotation}rad)`"
     />
+
+    <template #indicator>
+      <HStack>
+        <span @click="speed -= Math.min(Math.PI / 1440)">Slow Down</span>
+
+        <Spacer />
+
+        <span @click="speed += Math.min(Math.PI / 1440)">Speed Up</span>
+      </HStack>
+    </template>
   </FullscreenDisplay>
 </template>
