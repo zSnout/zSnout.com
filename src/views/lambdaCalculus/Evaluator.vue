@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import EditorAndViewer from "../../components/EditorAndViewer.vue";
-  import Editor from "../../components/lambda/Editor.vue";
-  import Evaluator from "../../components/lambda/Evaluator.vue";
-  import initial from "../../components/lambda/preset.txt?raw";
+  import Editor from "../../components/lambdaCalculus/Editor.vue";
+  import Evaluator from "../../components/lambdaCalculus/Evaluator.vue";
+  import initial from "../../components/lambdaCalculus/preset.txt?raw";
   import { useLocationHash } from "../../composables/useLocationHash";
 
   const code = useLocationHash(initial);
