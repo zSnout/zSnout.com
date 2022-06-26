@@ -39,10 +39,17 @@
       />
 
       <Card
-        description="View the internal representation of your lambda calculus before reduction."
-        keywords="random numbers passkey password"
+        description="Run your lambda calculus functions in our interactive editor."
+        keywords="programming languages"
+        title="Lambda Calculus Evaluator"
+        to="/lambda-calculus/evaluator"
+      />
+
+      <Card
+        description="Convert your lambda calculus functions into valid and runnable JavaScript code."
+        keywords="programming languages javascript"
         title="Lambda Calculus Compiler"
-        to="/lambda-compiler"
+        to="/lambda-calculus/compiler"
       />
 
       <Card
