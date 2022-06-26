@@ -52,6 +52,15 @@
     }
   }
 
+  a,
+  button,
+  input,
+  select,
+  canvas {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   body,
   #app {
     min-height: var(--app-height);
