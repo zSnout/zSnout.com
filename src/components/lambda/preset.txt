@@ -2,9 +2,10 @@ I = λx.x
 C = λx.λ_.x
 B = λf.λg.λx.f(g x)
 M = λf.f f
-Y = λf.(λx.(x x) λx.(f λy.((x x) y)))
+Y = λf.(λx.(x x) λx.(f λy.(x x y)))
+void = λ_.M M
 
-B2 = λf.λg.λx.λy.f(g x y)
+let = λx.λf.f x
 
 T = λx.λy.x
 F = λx.λy.y
@@ -12,16 +13,41 @@ not = λb.b F T
 and = λa.λb.a b F
 or = λa.λb.a T b
 
-succ = λn.λf.λx.f(n f x)
-+ = λa.λb.λf.λx.a f(b f x)
-* = B
+do2 = F
+if = λp.λa.λb.p a b p
+
+pair = λx.λy.λf.f x y
+fst = λp.p T
+snd = λp.p F
 
 0 = λf.λx.x
+succ = λn.λf.λx.f(n f x)
+phi = λp.pair (succ (fst p)) (fst p)
+prev = λn.n phi (pair 0 0) F
+
+zero? = λn.n F not F
+
 1 = succ 0    2 = succ 1    3 = succ 2
 4 = succ 3    5 = succ 4    6 = succ 5
-5 = succ 6    8 = succ 7    9 = succ 8
-10 = succ 9
+7 = succ 6    8 = succ 7    9 = succ 8
+10 = succ 9   100 = λx.10 (10 x)
 
-100 = * 10 10
++ = λa.λb.a succ b
+- = λa.λb.b prev a
+* = B
+^ = λx.λy.y x
 
-100
+ge? = λa.λb.zero? (- b a)
+le? = λa.λb.zero? (- a b)
+gt? = λa.λb.not (le? a b)
+lt? = λa.λb.not (ge? a b)
+eq? = λa.λb.and (ge? a b) (le? a b)
+
+nil = C T
+empty? = λl.l λh.λt.F
+cons = pair
+head = fst
+tail = snd
+
+repeat = λn.λf.n (λi.do2 (f i) (succ i)) 0
+for = λf.λx.λn.snd (n (λp.pair (succ (fst p)) (p f)) (pair 0 x))
