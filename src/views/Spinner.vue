@@ -18,6 +18,7 @@
   const pointer = usePointer();
   const isDown = ref(false);
   const rotation = ref(0);
+  const _drawCircle = ref<() => void>();
   const speed = useClamp(Math.PI / 360, Math.PI / 1440, Math.PI / 8);
 
   useCanvas(canvas).then((info) => {
@@ -50,6 +51,7 @@
       ctx.fill();
     }
 
+    _drawCircle.value = drawCircle;
     drawCircle();
     onResize(drawCircle);
 
@@ -111,11 +113,13 @@
 
     <template #indicator>
       <HStack>
-        <span @click="speed -= Math.min(Math.PI / 1440)">Slow Down</span>
+        <span @click="speed -= Math.min(Math.PI / 1440)">Slower</span>
+        <span>/</span>
+        <span @click="speed += Math.min(Math.PI / 1440)">Faster</span>
 
         <Spacer />
 
-        <span @click="speed += Math.min(Math.PI / 1440)">Speed Up</span>
+        <span @click="_drawCircle">Clear Canvas</span>
       </HStack>
     </template>
   </FullscreenDisplay>
