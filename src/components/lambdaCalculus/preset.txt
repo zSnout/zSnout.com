@@ -50,4 +50,7 @@ head = fst
 tail = snd
 
 repeat = λn.λf.n (λi.do2 (f i) (succ i)) 0
-for = λf.λx.λn.snd (n (λp.pair (succ (fst p)) (p f)) (pair 0 x))
+for = λn.λf.λx.snd (n (λp.pair (succ (fst p)) (p f)) (pair 0 x))
+
+fact = λn.for n (λindex.λstate.* (succ index) state) 1
+fact 5
