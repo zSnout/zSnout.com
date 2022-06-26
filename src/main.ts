@@ -31,27 +31,19 @@ export const router = createRouter({
 });
 
 router.onError((error) => {
-  if (
-    confirm(
-      `An error occurred. Press 'OK' to reload the page or 'Cancel' to attempt a recovery.\n\n${error}`
-    )
-  ) {
-    location.reload();
-  } else {
-    router.replace(location.href);
-  }
+  alert(
+    `An error occurred. zSnout will be reloaded once you close this message.\n\n${error}`
+  );
+
+  location.reload();
 });
 
 window.onerror = (_, source, line, col, error) => {
-  if (
-    confirm(
-      `An error occurred in ${source}:${line}:${col}. Press 'OK' to reload the page or 'Cancel' to attempt a recovery.\n\n${error}`
-    )
-  ) {
-    location.reload();
-  } else {
-    router.replace(location.href);
-  }
+  alert(
+    `An error occurred in ${source}:${line}:${col}. zSnout will be reloaded once you close this message.\n\n${error}`
+  );
+
+  location.reload();
 };
 
 function simpleTitle(path: string) {
