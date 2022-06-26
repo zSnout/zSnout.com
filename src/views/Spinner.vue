@@ -1,18 +1,16 @@
 <script lang="ts" setup>
+  import { computed } from "@vue/reactivity";
   import {
     useClamp,
     useEventListener,
-    useIntervalFn,
     usePointer,
     useRafFn,
   } from "@vueuse/core";
-  import { reactive, watch } from "vue";
-  import { ref } from "vue";
+  import { reactive, ref, watch } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useCanvas } from "../composables/useCanvas";
   import HStack from "../components/HStack.vue";
   import Spacer from "../components/Spacer.vue";
-  import { computed } from "@vue/reactivity";
+  import { useCanvas } from "../composables/useCanvas";
 
   const canvas = ref<HTMLCanvasElement>();
   const pointer = usePointer();
@@ -21,7 +19,7 @@
   const _drawCircle = ref<() => void>();
   const speed = useClamp(Math.PI / 360, Math.PI / 1440, Math.PI / 8);
 
-  useCanvas(canvas).then((info) => {
+  useCanvas(canvas, { useDevicePixelRatio: false }).then((info) => {
     const { canvas, onDispose, onResize, size } = info;
     const ctx = canvas.getContext("2d")!;
 
@@ -125,7 +123,7 @@
 
         <Spacer />
 
-        <span class="button" @click="_drawCircle">Clear Canvas</span>
+        <span class="button" @click="_drawCircle">Clear</span>
       </HStack>
     </template>
   </FullscreenDisplay>

@@ -19,7 +19,14 @@ export interface CanvasInfo {
   dispose(): void;
 }
 
-export function useCanvas(canvas: MaybeElementRef) {
+export interface CanvasOptions {
+  useDevicePixelRatio?: boolean;
+}
+
+export function useCanvas(
+  canvas: MaybeElementRef,
+  { useDevicePixelRatio = true }: CanvasOptions = {}
+) {
   const onDispose: (() => void)[] = [];
   tryOnScopeDispose(() => onDispose.forEach((hook) => hook()));
 
@@ -34,8 +41,10 @@ export function useCanvas(canvas: MaybeElementRef) {
 
           onDispose.push(
             watchEffect(() => {
-              el.width = width.value * devicePixelRatio;
-              el.height = height.value * devicePixelRatio;
+              el.width =
+                width.value * (useDevicePixelRatio ? devicePixelRatio : 1);
+              el.height =
+                height.value * (useDevicePixelRatio ? devicePixelRatio : 1);
               onResize.forEach((hook) => hook());
             })
           );
