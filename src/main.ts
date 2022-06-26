@@ -30,6 +30,30 @@ export const router = createRouter({
     ]),
 });
 
+router.onError((error) => {
+  if (
+    confirm(
+      `An error occurred. Press 'OK' to reload the page or 'Cancel' to attempt a recovery.\n\n${error}`
+    )
+  ) {
+    location.reload();
+  } else {
+    router.replace(location.href);
+  }
+});
+
+window.onerror = (_, source, line, col, error) => {
+  if (
+    confirm(
+      `An error occurred in ${source}:${line}:${col}. Press 'OK' to reload the page or 'Cancel' to attempt a recovery.\n\n${error}`
+    )
+  ) {
+    location.reload();
+  } else {
+    router.replace(location.href);
+  }
+};
+
 function simpleTitle(path: string) {
   return path
     .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
