@@ -42,6 +42,7 @@ le? = λa.λb.zero? (- a b)
 gt? = λa.λb.not (le? a b)
 lt? = λa.λb.not (ge? a b)
 eq? = λa.λb.and (ge? a b) (le? a b)
+neq? = λa.λb.not (eq? a b)
 
 nil = C T
 empty? = λl.l λh.λt.F
