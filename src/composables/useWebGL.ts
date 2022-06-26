@@ -1,6 +1,6 @@
 import { MaybeElementRef, MaybeRef } from "@vueuse/core";
 import { unref, watchEffect } from "vue";
-import { CanvasInfo, useCanvas } from "./useCanvas";
+import { CanvasInfo, CanvasOptions, useCanvas } from "./useCanvas";
 
 export function useShader(
   gl: WebGL2RenderingContext,
@@ -65,7 +65,7 @@ void main() {
   gl_Position = vec4(pos = _pos, 0, 1);
 }`;
 
-export interface WebGLOptions {
+export interface WebGLOptions extends CanvasOptions {
   preserveDrawingBuffer?: boolean;
   vertShader?: string;
 }
@@ -88,7 +88,7 @@ export async function useWebGL(
   shader: string,
   opts?: WebGLOptions
 ): Promise<WebGLProgram> {
-  const data = await useCanvas(canvasRef);
+  const data = await useCanvas(canvasRef, opts);
   const { canvas, onResize, onDispose } = data;
 
   const gl = canvas.getContext("webgl2", {
