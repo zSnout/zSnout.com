@@ -32,6 +32,13 @@
       />
 
       <Card
+        description="Draw on a rotating tabletop using our easy to use drawing interface."
+        keywords="images draw"
+        title="Drawing Spinner"
+        to="/spinner"
+      />
+
+      <Card
         description="It's like a random number generator, but it generates the same number every time."
         keywords="random numbers passkey password"
         title="Same Number Generator"
