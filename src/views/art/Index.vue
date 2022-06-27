@@ -18,6 +18,13 @@
       />
 
       <Card
+        description="Watch some simple yet entrancing fires bounce across your screen."
+        keywords="fires multi"
+        title="Fireline"
+        to="/art/fireline"
+      />
+
+      <Card
         description="Watch an amazing display of colorful rectangles and change their sizes."
         keywords="squares"
         title="Rectangles"
