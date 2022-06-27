@@ -76,7 +76,7 @@
     background-color: #f0f0f0;
 
     .dark & {
-      background-color: #202124;
+      background-color: #0f0f0f;
     }
   }
 
@@ -108,7 +108,7 @@
     box-shadow: 0 3px 6px 1px #ddd;
 
     .dark & {
-      box-shadow: 0 3px 6px 1px #1a1a1a;
+      box-shadow: 0 3px 6px 1px #151515;
     }
 
     .shadow,
@@ -123,14 +123,14 @@
     border-radius: 0.25rem;
 
     .dark & {
-      background-color: #2f2f2f;
+      background-color: #1f1f1f;
     }
 
     .second-layer {
       background-color: #f0f0f0;
 
       .dark & {
-        background-color: #202124;
+        background-color: #0f0f0f;
       }
     }
   }

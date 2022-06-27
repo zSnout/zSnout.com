@@ -122,7 +122,7 @@
     position: sticky;
     top: 0;
     z-index: 3;
-    background-color: #f0f0f0;
+    background-color: white;
     border-bottom: 1px solid #3c3c3c1f;
 
     .dark & {
@@ -131,7 +131,7 @@
     }
 
     @supports (backdrop-filter: blur(8px)) {
-      background-color: #f0f0f080;
+      background-color: #ffffff80;
       backdrop-filter: blur(8px);
 
       .dark & {

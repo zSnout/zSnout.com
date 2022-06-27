@@ -7,7 +7,7 @@
 <style lang="scss" scoped>
   .title {
     padding: 0 0.5em 0.3em 0.5em;
-    color: #13474b;
+    color: #25575b;
     font-weight: 900;
     letter-spacing: 0.25px;
     border-bottom: 2px solid currentColor;
