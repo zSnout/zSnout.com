@@ -4,14 +4,12 @@
   import { height as windowHeight, width } from "../main";
 
   const els = document.getElementsByClassName("nav-root");
-  let height: Ref<number>;
+  let height: Ref<number> = ref(58);
 
   if (els[0]) {
     ({ height } = useElementSize(els[0] as HTMLElement, void 0, {
       box: "border-box",
     }));
-  } else {
-    height = ref(58);
   }
 </script>
 
