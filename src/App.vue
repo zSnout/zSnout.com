@@ -95,7 +95,7 @@
 
   a,
   button {
-    touch-action: none;
+    touch-action: pan-x pan-y;
   }
 
   canvas {
