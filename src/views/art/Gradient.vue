@@ -1,14 +1,24 @@
 <script lang="ts" setup>
   import { useClamp, useRafFn } from "@vueuse/core";
   import { ref } from "vue";
+  import ColorField from "../../components/ColorField.vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
+  import Labeled from "../../components/Labeled.vue";
   import { useCanvas } from "../../composables/useCanvas";
   import { syncOption } from "../../composables/useOption";
   import { randint } from "../../composables/useRandint";
+  import mix from "mix-css-color";
+  import InlineRangeField from "../../components/InlineRangeField.vue";
 
   const canvas = ref<HTMLCanvasElement>();
   const clear = ref<() => void>();
+
+  const first = ref("#0000ff");
+  syncOption("first", first);
+
+  const second = ref("#ff0000");
+  syncOption("second", second);
 
   const size = useClamp(50, 5, 1000);
   syncOption("size", size);
@@ -35,10 +45,10 @@
         for (let _ of Array(10)) {
           const x = randint(0, width.value);
           const y = randint(0, height.value);
+          const p = (100 * (x + y)) / (width.value + height.value);
+          const m = mix(second.value, first.value, p);
 
-          ctx.fillStyle = `rgb(${
-            (255 * (x + y)) / (width.value + height.value)
-          }, 0, ${255 - (255 * (x + y)) / (width.value + height.value)})`;
+          ctx.fillStyle = `rgba(${m.rgba.join(", ")})`;
 
           ctx.beginPath();
           ctx.ellipse(x, y, size.value, size.value, 0, 0, 2 * Math.PI);
@@ -52,6 +62,20 @@
 <template>
   <FullscreenDisplay>
     <canvas ref="canvas" />
+
+    <template #options>
+      <Labeled label="Top-Left">
+        <ColorField v-model="first" />
+      </Labeled>
+
+      <Labeled label="Bottom-Right">
+        <ColorField v-model="second" />
+      </Labeled>
+
+      <Labeled label="Size">
+        <InlineRangeField v-model="size" :max="100" :min="5" />
+      </Labeled>
+    </template>
 
     <template #indicator>
       <HStack>
