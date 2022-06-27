@@ -10,7 +10,7 @@
     <slot />
   </RouterLink>
 
-  <a v-else :href="to">
+  <a v-else :href="to" target="_blank">
     <slot />
   </a>
 </template>
