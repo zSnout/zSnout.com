@@ -25,6 +25,13 @@
       />
 
       <Card
+        description="See a collection of simple yet beautiful examples of abstract art."
+        keywords="gradients squares rectangles circles ellipses"
+        title="Art"
+        to="/art/"
+      />
+
+      <Card
         description="A leap of leopards (look it up) appear and fill your device's screen."
         keywords="images"
         title="Leopards"
