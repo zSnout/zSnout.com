@@ -53,6 +53,10 @@
     .dark & {
       opacity: 0.75;
     }
+
+    .hover .card:hover > & {
+      opacity: 1;
+    }
   }
 
   .title {
