@@ -33,9 +33,9 @@
 
       <Card
         description="Draw on a rotating tabletop using our easy to use drawing interface."
-        keywords="images draw"
-        title="Drawing Spinner"
-        to="/spinner"
+        keywords="spinner drawings"
+        title="Turntable"
+        to="/drawing/turntable"
       />
 
       <Card

@@ -7,10 +7,10 @@
     useRafFn,
   } from "@vueuse/core";
   import { reactive, ref, watch } from "vue";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import HStack from "../components/HStack.vue";
-  import Spacer from "../components/Spacer.vue";
-  import { useCanvas } from "../composables/useCanvas";
+  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
+  import HStack from "../../components/HStack.vue";
+  import Spacer from "../../components/Spacer.vue";
+  import { useCanvas } from "../../composables/useCanvas";
 
   const canvas = ref<HTMLCanvasElement>();
   const pointer = usePointer();
