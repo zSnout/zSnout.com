@@ -3,6 +3,7 @@
   import { ref } from "vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
+  import Spacer from "../../components/Spacer.vue";
   import { useCanvas } from "../../composables/useCanvas";
   import { syncOption } from "../../composables/useOption";
   import { randint } from "../../composables/useRandint";
