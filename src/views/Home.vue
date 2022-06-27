@@ -46,13 +46,6 @@
       />
 
       <Card
-        description="It's like a random number generator, but it generates the same number every time."
-        keywords="random numbers passkey password"
-        title="Same Number Generator"
-        to="/same-number-generator"
-      />
-
-      <Card
         description="Run your lambda calculus functions in our interactive editor."
         keywords="programming languages"
         title="Lambda Calculus Evaluator"
@@ -64,6 +57,20 @@
         keywords="programming languages javascript"
         title="Lambda Calculus Compiler"
         to="/lambda-calculus/compiler"
+      />
+
+      <Card
+        description="It's like a random number generator, but it generates the same number every time."
+        keywords="random numbers passkey password"
+        title="Same Number Generator"
+        to="/same-number-generator"
+      />
+
+      <Card
+        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
+        keywords="bouncing screensavers"
+        title="Metaballs"
+        to="/same-number-generator"
       />
 
       <Card
