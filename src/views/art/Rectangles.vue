@@ -6,6 +6,7 @@
   import { useCanvas } from "../../composables/useCanvas";
   import { syncOption } from "../../composables/useOption";
   import { randint } from "../../composables/useRandint";
+  import { randomColor } from "../../composables/useRandomColor";
 
   const canvas = ref<HTMLCanvasElement>();
   const clear = ref<() => void>();
@@ -33,14 +34,8 @@
     onDispose(
       useRafFn(() => {
         for (let _ of Array(10)) {
-          ctx.fillStyle = `rgb(${randint(0, 255)}, ${randint(
-            0,
-            255
-          )}, ${randint(0, 255)})`;
-          ctx.strokeStyle = `rgb(${randint(0, 255)}, ${randint(
-            0,
-            255
-          )}, ${randint(0, 255)})`;
+          ctx.fillStyle = randomColor();
+          ctx.strokeStyle = randomColor();
 
           const w = randint(0, size.value);
           const h = randint(0, size.value);
