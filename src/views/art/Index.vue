@@ -25,7 +25,7 @@
       />
 
       <Card
-        description="View a vast and vivid variety of vibrant ellipses."
+        description="View a vast and vivid variety of vibrant ellipses (and V-words)."
         keywords="circles"
         title="Ellipses"
         to="/art/ellipses"

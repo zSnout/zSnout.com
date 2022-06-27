@@ -32,22 +32,24 @@
 
     onDispose(
       useRafFn(() => {
-        ctx.fillStyle = `rgb(${randint(0, 255)}, ${randint(0, 255)}, ${randint(
-          0,
-          255
-        )})`;
-        ctx.strokeStyle = `rgb(${randint(0, 255)}, ${randint(
-          0,
-          255
-        )}, ${randint(0, 255)})`;
+        for (let _ of Array(10)) {
+          ctx.fillStyle = `rgb(${randint(0, 255)}, ${randint(
+            0,
+            255
+          )}, ${randint(0, 255)})`;
+          ctx.strokeStyle = `rgb(${randint(0, 255)}, ${randint(
+            0,
+            255
+          )}, ${randint(0, 255)})`;
 
-        const w = randint(0, size.value);
-        const h = randint(0, size.value);
-        const x = randint(0, width.value - w);
-        const y = randint(0, height.value - h);
+          const w = randint(0, size.value);
+          const h = randint(0, size.value);
+          const x = randint(0, width.value - w);
+          const y = randint(0, height.value - h);
 
-        ctx.fillRect(x, y, w, h);
-        ctx.strokeRect(x, y, w, h);
+          ctx.fillRect(x, y, w, h);
+          ctx.strokeRect(x, y, w, h);
+        }
       }).pause
     );
   });
