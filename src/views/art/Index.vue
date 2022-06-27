@@ -9,6 +9,13 @@
   <DocumentDisplay>
     <Title>Art Pages</Title>
 
+    <p>
+      <em>
+        "Beauty is in the eye of the beholder; behold, for I see beauty here." -
+        Sun Tzu, The Art of War
+      </em>
+    </p>
+
     <SearchableCardGrid>
       <Card
         description="Create your own blobby gradient with a custom size and color scheme."
