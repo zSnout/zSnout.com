@@ -39,6 +39,10 @@ router.onError((error) => {
 });
 
 window.onerror = (_, source, line, col, error) => {
+  // Chrome throws an error while typing in the console;
+  // this is a workaround to prevent from reloading the page.
+  if (source === location.href) return;
+
   alert(
     `An error occurred in ${source}:${line}:${col}. zSnout will be reloaded once you close this message.\n\n${error}`
   );
