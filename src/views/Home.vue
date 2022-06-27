@@ -32,10 +32,17 @@
       />
 
       <Card
-        description="Draw on a rotating tabletop using our easy to use drawing interface."
+        description="Draw on a rotating tabletop using our simple drawing interface."
         keywords="spinner drawings"
         title="Turntable"
         to="/drawing/turntable"
+      />
+
+      <Card
+        description="Draw on a table that moves beneath your finger as you create."
+        keywords="moving drawings"
+        title="Slider"
+        to="/drawing/slider"
       />
 
       <Card
