@@ -102,20 +102,32 @@
     touch-action: none;
   }
 
+  .shadow,
+  .second-layer,
+  .shadow-force {
+    box-shadow: 0 3px 6px 1px #ddd;
+
+    .dark & {
+      box-shadow: 0 3px 6px 1px #1a1a1a;
+    }
+
+    .shadow,
+    .second-layer {
+      box-shadow: none;
+    }
+  }
+
   .second-layer {
     padding: 0.5rem 0.75rem;
     background-color: white;
     border-radius: 0.25rem;
-    box-shadow: 0 3px 6px 1px #ddd;
 
     .dark & {
       background-color: #2f2f2f;
-      box-shadow: 0 3px 6px 1px #1a1a1a;
     }
 
     .second-layer {
       background-color: #f0f0f0;
-      box-shadow: none;
 
       .dark & {
         background-color: #202124;
