@@ -25,9 +25,13 @@ export function useCurrentFrame(
     canvas.width = unref(width) ?? video.videoWidth;
     canvas.height = unref(height) ?? video.videoHeight;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    frame.value = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    try {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      frame.value = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    } catch {
+      frame.value = undefined;
+    }
   });
 
   return frame;
