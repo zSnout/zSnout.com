@@ -84,6 +84,22 @@
       />
 
       <ImageCard
+        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
+        keywords="bouncing screensavers"
+        src="/images/metaballs.png"
+        title="Metaballs"
+        to="/metaballs"
+      />
+
+      <ImageCard
+        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
+        keywords="bouncing screensavers"
+        src="/images/reaction-time-tester.png"
+        title="Reaction Time Tester"
+        to="/reaction-time-tester"
+      />
+
+      <ImageCard
         description="Run your lambda calculus functions in our interactive editor."
         keywords="programming languages"
         src="/images/lambda-calculus/evaluator.png"
@@ -105,14 +121,6 @@
         src="/images/same-number-generator.png"
         title="Same Number Generator"
         to="/same-number-generator"
-      />
-
-      <ImageCard
-        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
-        keywords="bouncing screensavers"
-        src="/images/metaballs.png"
-        title="Metaballs"
-        to="/metaballs"
       />
 
       <ImageCard
