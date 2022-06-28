@@ -16,7 +16,7 @@ export function useCurrentFrame(
   if (stream instanceof HTMLVideoElement) {
     video = stream;
   } else {
-    video = useVideoFromStream(stream);
+    video = useVideoFromStream(stream, true);
   }
 
   const frame = ref<ImageData>();
