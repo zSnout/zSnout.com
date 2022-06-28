@@ -2,9 +2,9 @@
   import "ace-builds";
   import "ace-builds/src-noconflict/mode-javascript";
   import { toRef } from "vue";
+  import { useCompileLambda } from "../../composables/useCompileLambda";
+  import { toJS } from "../../composables/useEvaluateLambda";
   import AceEditor from "../AceEditor.vue";
-  import { useCompileLambda } from "./useCompileLambda";
-  import { toJS } from "./useEvaluateLambda";
 
   const props = defineProps<{ code: string; round?: boolean }>();
   const compiled = useCompileLambda(toRef(props, "code"));

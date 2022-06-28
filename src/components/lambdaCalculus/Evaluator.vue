@@ -2,8 +2,8 @@
   import { debouncedRef } from "@vueuse/core";
   import ace from "ace-builds";
   import { reactive, toRef, watch } from "vue";
+  import { useEvaluateLambda } from "../../composables/useEvaluateLambda";
   import Console from "../Console.vue";
-  import { useEvaluateLambda } from "./useEvaluateLambda";
 
   const props = defineProps<{
     code: string;
