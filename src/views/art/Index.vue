@@ -3,6 +3,7 @@
   import DocumentDisplay from "../../components/DocumentDisplay.vue";
   import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
   import Title from "../../components/Title.vue";
+  import ImageCard from "../../components/ImageCard.vue";
 </script>
 
 <template>
@@ -17,30 +18,34 @@
     </p>
 
     <SearchableCardGrid>
-      <Card
+      <ImageCard
         description="Create your own blobby gradient with a custom size and color scheme."
         keywords="circles"
+        src="/images/art/blobby-gradient.png"
         title="Blobby Gradient"
         to="/art/blobby-gradient"
       />
 
-      <Card
+      <ImageCard
         description="Watch some simple yet entrancing fires bounce across your screen."
         keywords="fires multi"
+        src="/images/art/fireline.png"
         title="Fireline"
         to="/art/fireline"
       />
 
-      <Card
+      <ImageCard
         description="Watch an amazing display of colorful rectangles and change their sizes."
         keywords="squares"
+        src="/images/art/rectangles.png"
         title="Rectangles"
         to="/art/rectangles"
       />
 
-      <Card
+      <ImageCard
         description="View a vast and vivid variety of vibrant ellipses (and V-words)."
         keywords="circles"
+        src="/images/art/ellipses.png"
         title="Ellipses"
         to="/art/ellipses"
       />
