@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import BlurredImage from "../components/BlurredImage.vue";
   import Cover from "../components/Cover.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import ImageCard from "../components/ImageCard.vue";
@@ -10,7 +11,11 @@
 <template>
   <DocumentDisplay>
     <Cover>
-      <VStack :space="2">
+      <BlurredImage src="/images/fractal-explorer.png" />
+
+      <BlurredImage src="/images/art/fireline.png" />
+
+      <VStack :space="2" style="position: relative; z-index: 2">
         <LargeTitle>Welcome to zSnout.</LargeTitle>
 
         <p style="line-height: 2">
@@ -26,7 +31,7 @@
       </VStack>
     </Cover>
 
-    <SearchableCardGrid>
+    <SearchableCardGrid style="position: relative; z-index: 2">
       <ImageCard
         description="View amazing fractal images and interact with them live on your computer."
         keywords="math mandelbrot set"
