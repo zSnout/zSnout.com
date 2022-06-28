@@ -64,6 +64,8 @@
 
     @media (max-width: 400px) {
       top: calc(2.5em + 1px + 1.5em);
+      width: calc(100% - 2em);
+      margin-left: 1em;
     }
   }
 </style>
