@@ -9,25 +9,33 @@
 </script>
 
 <template>
+  <BlurredImage class="hide-600" src="/images/fractal-explorer.png" />
+
+  <BlurredImage
+    class="hide-800"
+    :sensitivity="2"
+    src="/images/art/fireline.png"
+  />
+
+  <BlurredImage :sensitivity="3" src="/images/art/ellipses.png" />
+
   <DocumentDisplay>
     <Cover>
-      <BlurredImage src="/images/fractal-explorer.png" />
-
-      <BlurredImage src="/images/art/fireline.png" />
-
-      <VStack :space="2" style="position: relative; z-index: 2">
+      <VStack class="stack" :space="2">
         <LargeTitle>Welcome to zSnout.</LargeTitle>
 
-        <p style="line-height: 2">
+        <p class="text-color" style="line-height: 2">
           zSnout is a website made by
           <!-- prettier-ignore -->
-          <a href="https://github.com/zsakowitz" target="_blank">Zachary Sakowitz</a>
+          <a href="https://github.com/zsakowitz" target="_blank" class="link">Zachary Sakowitz</a>
           to create and test various projects. This edition, zSnout 7, is a
           collection of many of these projects and their archived versions, such
           as the four versions of Storymatic.
         </p>
 
-        <p style="margin-top: -1em">Scroll down and select a page!</p>
+        <p class="text-color" style="margin-top: -1em">
+          Scroll down and select a page!
+        </p>
       </VStack>
     </Cover>
 
@@ -146,3 +154,28 @@
     </SearchableCardGrid>
   </DocumentDisplay>
 </template>
+
+<style scoped>
+  .stack {
+    position: relative;
+    z-index: 2;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .link {
+    pointer-events: initial;
+  }
+
+  @media (max-width: 800px) {
+    .hide-800 {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hide-600 {
+      display: none;
+    }
+  }
+</style>
