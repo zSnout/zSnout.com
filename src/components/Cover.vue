@@ -1,26 +1,45 @@
 <script lang="ts" setup>
-  import { useElementSize } from "@vueuse/core";
+  import { computed } from "@vue/reactivity";
+  import { useElementSize, useScroll } from "@vueuse/core";
   import { ref, Ref } from "vue";
-  import { height as windowHeight, width } from "../main";
+  import { height as windowHeight, width as windowWidth } from "../main";
 
   const els = document.getElementsByClassName("nav-root");
-  let height: Ref<number> = ref(58);
+  let navHeight: Ref<number> = ref(58);
 
   if (els[0]) {
-    ({ height } = useElementSize(els[0] as HTMLElement, void 0, {
+    ({ height: navHeight } = useElementSize(els[0] as HTMLElement, void 0, {
       box: "border-box",
     }));
   }
+
+  const content = ref<HTMLElement>();
+  const { height: contentHeight } = useElementSize(content);
+
+  const { y: scrollY } = useScroll(window);
+
+  const contentOffset = computed(() => {
+    const coverHeight = `(${windowHeight.value - navHeight.value}px - ${
+      windowWidth.value < 400 ? 3 : 4
+    }em)`;
+
+    const offset = scrollY.value / 2;
+    return `min(${offset}px, calc((${coverHeight} - ${contentHeight.value}px) / 2))`;
+  });
 </script>
 
 <template>
   <div
     class="cover"
-    :style="`height: calc(${windowHeight - height}px - ${
-      width < 400 ? 3 : 4
-    }em)`"
+    :style="{
+      height: `calc(${windowHeight - navHeight}px - ${
+        windowWidth < 400 ? 3 : 4
+      }em)`,
+    }"
   >
-    <slot />
+    <div ref="content" class="content" :style="`top: ${contentOffset}`">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -34,5 +53,12 @@
     @media (max-width: 400px) {
       margin-bottom: 1.5em;
     }
+  }
+
+  .content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>
