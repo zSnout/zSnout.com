@@ -9,7 +9,7 @@
   const module = useCssModule();
 
   function keywordsOf(element: Element) {
-    const text = element.children[0]?.textContent ?? element.textContent;
+    const text = element.querySelector("p")?.textContent ?? element.textContent;
     const keywords = (element as HTMLElement).dataset?.keywords;
 
     return `${text} ${keywords}`.toLowerCase();
