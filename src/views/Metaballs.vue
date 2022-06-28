@@ -5,10 +5,9 @@
 -->
 
 <script lang="ts" setup>
-  import { useRafFn } from "@vueuse/core";
   import { ref } from "vue";
-  import { useWebGL } from "../composables/useWebGL";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
+  import { useWebGL } from "../composables/useWebGL";
 
   const metaballs = Array.from({ length: 50 }, () => {
     const x = Math.random();
