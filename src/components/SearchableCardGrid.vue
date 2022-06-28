@@ -38,16 +38,18 @@
 </script>
 
 <template>
-  <Field
-    v-model="field"
-    class="field"
-    placeholder="Type to search zSnout..."
-    type="search"
-  />
+  <div>
+    <Field
+      v-model="field"
+      class="field"
+      placeholder="Type to search zSnout..."
+      type="search"
+    />
 
-  <CardGrid ref="grid" class="grid">
-    <slot />
-  </CardGrid>
+    <CardGrid ref="grid" class="grid">
+      <slot />
+    </CardGrid>
+  </div>
 </template>
 
 <style lang="scss" module>
