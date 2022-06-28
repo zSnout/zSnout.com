@@ -11,8 +11,8 @@
 
   const visible = ref(false);
 
-  const x = Math.random();
-  const y = Math.random();
+  const x = ref(Math.random());
+  const y = ref(Math.random());
 
   const { x: px, y: py } = usePointer();
 
@@ -31,10 +31,28 @@
       return "2em";
     }
   });
+
+  const moving = ref(false);
+
+  function randomize() {
+    if (moving.value) return;
+
+    moving.value = true;
+
+    setTimeout(() => {
+      x.value = Math.random();
+      y.value = Math.random();
+
+      setTimeout(() => {
+        moving.value = false;
+      }, 300);
+    });
+  }
 </script>
 
 <template>
   <img
+    :class="{ moving }"
     class="image"
     :src="src"
     :style="{
@@ -46,19 +64,23 @@
         px - appWidth / 2
       }px / 100 * ${sensitivity ?? 1})`,
     }"
+    draggable="false"
+    @click="randomize"
     @load="visible = true"
   />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .image {
     position: fixed;
-    top: 0;
-    left: 0;
     z-index: 1;
     width: 320px;
     height: 320px;
     opacity: 0.3;
     filter: blur(0.5em);
+
+    &.moving {
+      transition: var(--transitions), top 0.3s, left 0.3s;
+    }
   }
 </style>
