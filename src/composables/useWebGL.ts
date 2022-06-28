@@ -30,6 +30,6 @@ export class WebGlCanvas extends GlslCanvas {
   }
 }
 
-namespace Canvas {
+export namespace WebGlCanvas {
   export type Options = ICanvasOptions;
 }
