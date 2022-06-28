@@ -57,7 +57,7 @@
     :src="src"
     :style="{
       display: visible ? undefined : 'none',
-      top: `calc(${padding} + (var(--app-height) - ${padding} - 2em - 320px) * ${y} + ${
+      top: `calc(${padding} + (var(--app-height) - ${padding} - ${lrPadding} - 320px) * ${y} + ${
         py - appHeight / 2
       }px / 100 * ${sensitivity ?? 1})`,
       left: `calc(${lrPadding} + (var(--app-width) - 2 * ${lrPadding} - 320px) * ${x} + ${
