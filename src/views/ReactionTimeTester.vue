@@ -2,7 +2,7 @@
   import { computed } from "@vue/reactivity";
   import { useEventListener } from "@vueuse/core";
   import { ref } from "vue";
-  import Button from "../components/Button.vue";
+  import BigButton from "../components/BigButton.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
 
   const started = ref(0);
@@ -52,17 +52,14 @@
 
 <template>
   <DocumentDisplay center>
-    <Button :class="mode" class="button" @pointerdown="onClick">
+    <BigButton :class="mode" class="button" @pointerdown="onClick">
       {{ text }}
-    </Button>
+    </BigButton>
   </DocumentDisplay>
 </template>
 
 <style lang="scss" scoped>
   .button {
-    width: min(max(50%, 500px), 100%);
-    height: min(max(33%, 300px), 100%);
-    font-size: 2em;
     transition: none;
 
     &.wait {
