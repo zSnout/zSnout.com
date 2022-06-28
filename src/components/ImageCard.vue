@@ -52,6 +52,7 @@
     .hover .card:hover > & {
       width: calc(100% + 1.5em - 2px);
       margin-right: calc(-0.75em + 1px);
+      margin-bottom: calc(0.125em + 2px);
       margin-left: calc(-0.75em + 1px);
     }
   }
