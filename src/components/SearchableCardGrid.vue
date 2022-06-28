@@ -59,13 +59,19 @@
     position: sticky;
     top: calc(3.5em + 1px + 2em);
     z-index: 2;
-    width: calc(100% - 4em);
     margin-left: 2em;
 
     @media (max-width: 400px) {
       top: calc(2.5em + 1px + 1.5em);
-      width: calc(100% - 2em);
       margin-left: 1em;
+    }
+  }
+
+  .field.field {
+    width: calc(100% - 4em);
+
+    @media (max-width: 400px) {
+      width: calc(100% - 2em);
     }
   }
 </style>
