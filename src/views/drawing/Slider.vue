@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-  import { computed } from "@vue/reactivity";
   import {
     useClamp,
     useEventListener,
@@ -11,7 +10,7 @@
   import HStack from "../../components/HStack.vue";
   import Spacer from "../../components/Spacer.vue";
   import { useCanvas } from "../../composables/useCanvas";
-  import { width } from "../../main";
+  import { appWidth } from "../../main";
 
   const canvasA = ref<HTMLCanvasElement>();
   const canvasB = ref<HTMLCanvasElement>();
@@ -113,14 +112,16 @@
     <canvas
       ref="canvasA"
       class="canvas"
-      :style="`transform: translateX(${normalize(movement % (2 * width))}px)`"
+      :style="`transform: translateX(${normalize(
+        movement % (2 * appWidth)
+      )}px)`"
     />
 
     <canvas
       ref="canvasB"
       class="canvas"
       :style="`transform: translateX(${normalize(
-        (movement + width) % (2 * width)
+        (movement + appWidth) % (2 * appWidth)
       )}px)`"
     />
 

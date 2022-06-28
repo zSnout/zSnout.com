@@ -57,9 +57,7 @@
   }
 
   .image {
-    z-index: 2;
     margin-top: -0.5em;
-    object-position: 50% 50%;
 
     .dark & {
       opacity: 0.8;
@@ -72,7 +70,6 @@
 
   .filter {
     position: relative;
-    z-index: 1;
     background: linear-gradient(to bottom, transparent, transparent 60%, white),
       transparent;
 

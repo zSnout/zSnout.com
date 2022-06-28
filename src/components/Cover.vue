@@ -2,7 +2,7 @@
   import { computed } from "@vue/reactivity";
   import { useElementSize, useScroll } from "@vueuse/core";
   import { ref, Ref } from "vue";
-  import { height as windowHeight, width as windowWidth } from "../main";
+  import { appHeight, appWidth } from "../main";
 
   const els = document.getElementsByClassName("nav-root");
   let navHeight: Ref<number> = ref(58);
@@ -19,8 +19,8 @@
   const { y: scrollY } = useScroll(window);
 
   const contentOffset = computed(() => {
-    const coverHeight = `(${windowHeight.value - navHeight.value}px - ${
-      windowWidth.value < 400 ? 3 : 4
+    const coverHeight = `(${appHeight.value - navHeight.value}px - ${
+      appWidth.value < 400 ? 3 : 4
     }em)`;
 
     const offset = scrollY.value / 2;
@@ -32,9 +32,7 @@
   <div
     class="cover"
     :style="{
-      height: `calc(${windowHeight - navHeight}px - ${
-        windowWidth < 400 ? 3 : 4
-      }em)`,
+      height: `calc(${appHeight - navHeight}px - ${appWidth < 400 ? 3 : 4}em)`,
     }"
   >
     <div ref="content" class="content" :style="`top: ${contentOffset}`">

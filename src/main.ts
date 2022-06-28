@@ -1,4 +1,4 @@
-import { useCssVar, useWindowSize } from "@vueuse/core";
+import { useCssVar, useElementSize, useWindowSize } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import {
@@ -103,13 +103,13 @@ watchEffect(() => {
   document.documentElement.classList.toggle("hover", isHoverable.value);
 });
 
-export const { width, height } = useWindowSize();
+export const { width: appWidth, height: appHeight } = useWindowSize();
 
-const appWidth = useCssVar("--app-width");
-watchEffect(() => (appWidth.value = width.value + "px"));
+const appWidthVar = useCssVar("--app-width");
+watchEffect(() => (appWidthVar.value = appWidth.value + "px"));
 
-const appHeight = useCssVar("--app-height");
-watchEffect(() => (appHeight.value = height.value + "px"));
+const appHeightVar = useCssVar("--app-height");
+watchEffect(() => (appHeightVar.value = appHeight.value + "px"));
 
 if (typeof Object.hasOwn !== "function") {
   Object.hasOwn = Object.prototype.hasOwnProperty.call;
