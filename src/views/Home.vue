@@ -29,10 +29,18 @@
     <SearchableCardGrid>
       <ImageCard
         description="View amazing fractal images and interact with them live on your computer."
-        keywords="fractals math mandelbrot set"
+        keywords="math mandelbrot set"
         src="/images/fractal-explorer.png"
         title="Fractal Explorer"
         to="/fractal-explorer"
+      />
+
+      <ImageCard
+        description="See a carefully curated collection of various interactive fractals."
+        keywords="math"
+        src="/images/fractal-presets/index.png"
+        title="Fractal Presets"
+        to="/fractal-presets"
       />
 
       <ImageCard
