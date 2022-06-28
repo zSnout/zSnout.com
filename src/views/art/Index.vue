@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-  import Card from "../../components/Card.vue";
   import DocumentDisplay from "../../components/DocumentDisplay.vue";
+  import ImageCard from "../../components/ImageCard.vue";
   import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
   import Title from "../../components/Title.vue";
-  import ImageCard from "../../components/ImageCard.vue";
 </script>
 
 <template>
