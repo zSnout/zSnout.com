@@ -38,7 +38,12 @@
 </script>
 
 <template>
-  <Field v-model="field" class="field" placeholder="Type to search zSnout..." />
+  <Field
+    v-model="field"
+    class="field"
+    placeholder="Type to search zSnout..."
+    type="search"
+  />
 
   <CardGrid ref="grid" class="grid">
     <slot />
