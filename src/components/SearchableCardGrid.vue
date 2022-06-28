@@ -38,9 +38,9 @@
 </script>
 
 <template>
-  <Field v-model="field" placeholder="Type to search zSnout..." />
+  <Field v-model="field" class="field" placeholder="Type to search zSnout..." />
 
-  <CardGrid ref="grid">
+  <CardGrid ref="grid" class="grid">
     <slot />
   </CardGrid>
 </template>
@@ -49,5 +49,21 @@
   // The double class here fixes issues with specificity.
   .hidden.hidden {
     display: none;
+  }
+</style>
+
+<style lang="scss" scoped>
+  // The `top` property adds the Navigation height, Navigation border, and DocumentDisplay padding.
+
+  .field {
+    position: sticky;
+    top: calc(3.5em + 1px + 2em);
+    z-index: 2;
+    width: calc(100% - 4em);
+    margin-left: 2em;
+
+    @media (max-width: 400px) {
+      top: calc(2.5em + 1px + 1.5em);
+    }
   }
 </style>
