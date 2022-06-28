@@ -6,6 +6,7 @@ export function useVideoFromStream(
   muted?: boolean
 ) {
   const video = document.createElement("video");
+  video.playsInline = true;
   video.muted = muted ?? false;
 
   watchEffect(() => {
