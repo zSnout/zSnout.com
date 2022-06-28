@@ -65,3 +65,8 @@ the index for a folder, name it `folder/Index.vue`.
 
 The system that assigns page titles and paths bases them on a page's file name,
 so make sure to use a short yet descriptive file name.
+
+If a page has an associated cover image, it should be a square 320x320 PNG and
+be placed in the `public/images` directory. The file path of the image should
+match the output URL of the original path. If the page is an index, the image
+should be named `folder/index.png`.
