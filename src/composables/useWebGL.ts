@@ -1,6 +1,61 @@
-import { MaybeElementRef, MaybeRef } from "@vueuse/core";
-import { unref, watchEffect } from "vue";
+import {
+  MaybeElementRef,
+  MaybeRef,
+  tryOnScopeDispose,
+  unrefElement,
+} from "@vueuse/core";
+import {
+  Canvas as GlslCanvas,
+  ICanvasOptions,
+} from "glsl-canvas-js/dist/esm/glsl";
+import { Ref, unref, watchEffect } from "vue";
 import { CanvasInfo, CanvasOptions, useCanvas } from "./useCanvas";
+
+export class Canvas extends GlslCanvas {
+  onDispose!: (cb: () => void) => void;
+
+  useUniform(key: string, value: Ref<any>) {
+    watchEffect(() => {
+      const { value: v } = value;
+
+      if (Array.isArray(v)) {
+        this.setUniform(key, ...v);
+      } else {
+        this.setUniform(key, v);
+      }
+    });
+  }
+
+  useUniformOfInt(key: string, value: Ref<any>) {
+    watchEffect(() => {
+      const { value: v } = value;
+
+      if (Array.isArray(v)) {
+        this.setUniformOfInt(key, v);
+      } else {
+        this.setUniformOfInt(key, [v]);
+      }
+    });
+  }
+}
+
+export function useWebGL(canvasRef: MaybeElementRef, opts?: ICanvasOptions) {
+  const onDispose: (() => void)[] = [];
+  tryOnScopeDispose(() => onDispose.forEach((hook) => hook()));
+
+  return new Promise<Canvas>((resolve) => {
+    var stop = watchEffect(() => {
+      const canvas = unrefElement(canvasRef);
+
+      if (canvas instanceof HTMLCanvasElement) {
+        stop?.();
+        const cv = new Canvas(canvas, opts);
+        cv.onDispose = (cb) => onDispose.push(cb);
+        resolve(cv);
+      }
+    });
+  });
+}
 
 export function useShader(
   gl: WebGL2RenderingContext,
@@ -83,7 +138,7 @@ export interface WebGLProgram extends CanvasInfo {
   ): void;
 }
 
-export async function useWebGL(
+export async function useOldWebGL(
   canvasRef: MaybeElementRef,
   shader: string,
   opts?: WebGLOptions
