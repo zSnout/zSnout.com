@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useElementSize } from "@vueuse/core";
-  import { ref, Ref } from "vue";
+  import { onMounted, ref, Ref } from "vue";
   import MaybeLink from "./MaybeLink.vue";
 
   defineProps<{
@@ -13,6 +13,8 @@
 
   const image = ref<HTMLImageElement>();
   const { height } = useElementSize(image);
+
+  const loaded = ref(false);
 </script>
 
 <template>
@@ -21,11 +23,23 @@
     :to="to"
     :data-keywords="keywords"
   >
-    <img ref="image" class="image" :src="src" aria-hidden="true" />
+    <img
+      ref="image"
+      class="image"
+      :src="src"
+      :style="loaded ? '' : 'display: none'"
+      aria-hidden="true"
+      @load="loaded = true"
+    />
 
     <div
       class="filter"
-      :style="`height: ${height}px; top: calc(-${height}px - 0.5em); margin-bottom: calc(-${height}px)`"
+      :style="{
+        height: `${height}px`,
+        top: `calc(-${height}px - 0.5em)`,
+        marginBottom: `calc(-${height}px)`,
+        display: loaded ? undefined : 'none',
+      }"
       aria-hidden="true"
     />
 
