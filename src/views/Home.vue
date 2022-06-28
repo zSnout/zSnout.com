@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import images from "virtual:image-list";
   import BlurredImage from "../components/BlurredImage.vue";
   import Cover from "../components/Cover.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
@@ -6,18 +7,19 @@
   import LargeTitle from "../components/LargeTitle.vue";
   import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import VStack from "../components/VStack.vue";
+  import { useRandomItem } from "../composables/useRandomItem";
+
+  const a = useRandomItem(images);
+  const b = useRandomItem(images);
+  const c = useRandomItem(images);
 </script>
 
 <template>
-  <BlurredImage class="hide-600" src="/images/fractal-explorer.png" />
+  <BlurredImage class="hide-600" :src="a" />
 
-  <BlurredImage
-    class="hide-800"
-    :sensitivity="2"
-    src="/images/art/fireline.png"
-  />
+  <BlurredImage class="hide-800" :sensitivity="2" :src="b" />
 
-  <BlurredImage :sensitivity="3" src="/images/art/ellipses.png" />
+  <BlurredImage :sensitivity="3" :src="c" />
 
   <DocumentDisplay>
     <Cover>
