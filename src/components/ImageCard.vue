@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import { useElementSize } from "@vueuse/core";
   import { ref, Ref } from "vue";
-  import Link from "./Link.vue";
   import MaybeLink from "./MaybeLink.vue";
 
   defineProps<{
@@ -38,6 +37,7 @@
 <style lang="scss" scoped>
   .card {
     display: block;
+    overflow: hidden;
     text-decoration: none;
     cursor: pointer;
   }
@@ -48,13 +48,18 @@
     margin-right: -0.75em;
     margin-bottom: 0.125em;
     margin-left: -0.75em;
-    border-top-left-radius: 0.25em;
-    border-top-right-radius: 0.25em;
+
+    .hover .card:hover > & {
+      width: calc(100% + 1.5em - 2px);
+      margin-right: calc(-0.75em + 1px);
+      margin-left: calc(-0.75em + 1px);
+    }
   }
 
   .image {
     z-index: 2;
     margin-top: -0.5em;
+    object-position: 50% 50%;
 
     .dark & {
       opacity: 0.8;
