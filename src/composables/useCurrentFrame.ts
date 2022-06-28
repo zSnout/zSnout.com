@@ -1,38 +1,13 @@
-import { MaybeRef, useRafFn } from "@vueuse/core";
-import { ref, unref } from "vue";
-import { useVideoFromStream } from "./useVideoFromStream";
-
-export function useCurrentFrame(
-  stream: HTMLVideoElement | MaybeRef<MediaStream | undefined>,
-  width?: MaybeRef<number>,
-  height?: MaybeRef<number>
-) {
+export function currentFrame(video: HTMLVideoElement) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d")!;
-  if (!ctx) return ref(undefined);
 
-  let video: HTMLVideoElement;
-
-  if (stream instanceof HTMLVideoElement) {
-    video = stream;
-  } else {
-    video = useVideoFromStream(stream, true);
-  }
-
-  const frame = ref<ImageData>();
-
-  useRafFn(() => {
-    canvas.width = unref(width) ?? video.videoWidth;
-    canvas.height = unref(height) ?? video.videoHeight;
-
-    try {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-      frame.value = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    } catch {
-      frame.value = undefined;
-    }
-  });
-
-  return frame;
+  return {
+    canvas,
+    update: () => {
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0);
+    },
+  };
 }
