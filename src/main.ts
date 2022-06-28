@@ -1,12 +1,7 @@
-import { useCssVar, useElementSize, useWindowSize } from "@vueuse/core";
+import { useCssVar, useWindowSize } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
-import {
-  createRouter,
-  createWebHistory,
-  onBeforeRouteUpdate,
-  RouteRecordRaw,
-} from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
