@@ -4,7 +4,7 @@ import { useResizeObserver } from "@vueuse/core";
 
 export class CoordinateCanvas2d extends WebGlCanvas {
   private saveBounds: boolean;
-  bounds!: Readonly<CoordinateCanvas2d.Bounds>;
+  bounds!: Readonly<Bounds>;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -45,7 +45,7 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     useResizeObserver(this.canvas, () => this.setBounds(this.bounds));
   }
 
-  setBounds(bounds: CoordinateCanvas2d.Bounds) {
+  setBounds(bounds: Bounds) {
     let { xStart, xEnd, yStart, yEnd } = bounds;
     this.bounds = bounds;
 
@@ -79,6 +79,40 @@ export class CoordinateCanvas2d extends WebGlCanvas {
 
     this.setUniform("u_scale", xEnd - xStart, yEnd - yStart);
   }
+
+  /** This function expects that the pixel values are relative to the canvas's top-left corner. */
+  pxToCoords(x: number, y: number): Coordinates {
+    let { xStart, xEnd, yStart, yEnd } = this.bounds;
+
+    const xCenter = xStart + xEnd;
+    const yCenter = yStart + yEnd;
+    const xRange = (xEnd - xStart) / 2;
+    const yRange = (yEnd - yStart) / 2;
+
+    const { width, height } = this.canvas;
+    let offsetX, offsetY;
+
+    if (width > height) {
+      xStart = xCenter - (width / height) * xRange;
+      xEnd = xCenter + (width / height) * xRange;
+
+      // The `(xEnd - xStart) / 2` here is a different value than the original `xRange`.
+      offsetX = (xStart - (xEnd - xStart) / 2) / 2;
+      offsetY = yStart;
+    } else {
+      yStart = yCenter - (height / width) * yRange;
+      yEnd = yCenter + (height / width) * yRange;
+
+      // The `(yEnd - yStart) / 2` here is a different value than the original `xRange`.
+      offsetX = xStart;
+      offsetY = (yStart - (yEnd - yStart) / 2) / 2;
+    }
+
+    return {
+      x: (x / this.canvas.clientWidth) * (xEnd - xStart) + offsetX,
+      y: (1 - y / this.canvas.clientHeight) * (yEnd - yStart) + offsetY,
+    };
+  }
 }
 
 export namespace CoordinateCanvas2d {
@@ -86,11 +120,16 @@ export namespace CoordinateCanvas2d {
     bounds?: Partial<Bounds>;
     saveBounds?: boolean;
   }
+}
 
-  export interface Bounds {
-    xStart: number;
-    xEnd: number;
-    yStart: number;
-    yEnd: number;
-  }
+export interface Bounds {
+  xStart: number;
+  xEnd: number;
+  yStart: number;
+  yEnd: number;
+}
+
+export interface Coordinates {
+  x: number;
+  y: number;
 }
