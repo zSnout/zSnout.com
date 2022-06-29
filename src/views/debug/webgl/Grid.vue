@@ -1,29 +1,26 @@
 <script lang="ts" setup>
-  import { MaybeElement } from "@vueuse/core";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import FullscreenDisplay from "../../../components/FullscreenDisplay.vue";
-  import { useMovableCanvas } from "../../../composables/useMovableCanvas";
+  import { CoordinateCanvas2d } from "../../../composables/webgl/CoordinateCanvas2d";
 
-  const canvas = ref<MaybeElement>();
-  useMovableCanvas(
-    canvas,
-    trim`
-    in vec2 pos;
-    out vec4 color;
+  const canvas = ref<HTMLCanvasElement>();
 
-    uniform float left;
+  const shader = minify`
+  void main() {
+    gl_FragColor = vec4(pos.x, pos.y, 0.5, 1);
 
-    void main() {
-      color = vec4(pos.x, pos.y, 0.5, 1);
+    if (
+      abs(float(int(pos.x)) - pos.x) < 0.01 ||
+      abs(float(int(pos.y)) - pos.y) < 0.01
+    ) {
+      gl_FragColor = vec4(0, 0, 0, 1);
+    }
+  }`;
 
-      if (
-        abs(float(int(pos.x)) - pos.x) < 0.01 ||
-        abs(float(int(pos.y)) - pos.y) < 0.01
-      ) {
-        color = vec4(0, 0, 0, 1);
-      }
-    }`
-  );
+  onMounted(() => {
+    if (!canvas.value) return;
+    new CoordinateCanvas2d(canvas.value, { fragmentString: shader });
+  });
 </script>
 
 <template>
