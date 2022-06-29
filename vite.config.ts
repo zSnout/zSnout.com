@@ -11,13 +11,13 @@ export default defineConfig({
   plugins: [
     vue(),
     {
-      name: "remove-trim",
+      name: "minify",
       transform(code, id) {
         if (process.env.NODE_ENV === "development")
-          return code.replace(/trim\s*`/g, "`");
+          return code.replace(/minify\s*`/g, "`");
 
         if (jsfile.test(id)) {
-          return code.replace(/trim\s*(`[^`]*`)/g, (match) => {
+          return code.replace(/minify\s*(`[^`]*`)/g, (match) => {
             return match
               .slice(4)
               .replace(/\s+/g, " ")

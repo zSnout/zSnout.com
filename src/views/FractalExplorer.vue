@@ -102,7 +102,7 @@
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
 
-  const shader = trim`
+  const shader = minify`
   in vec2 pos;
   out vec4 color;
 

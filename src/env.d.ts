@@ -45,7 +45,7 @@ declare module "ace-builds" {
 }
 
 declare global {
-  function trim(source: TemplateStringsArray, ...args: any[]): string;
+  function minify(source: TemplateStringsArray, ...args: any[]): string;
 
   declare interface Window {
     [PyodideStderrSymbol](msg: string): void;

@@ -7,7 +7,7 @@
   const canvas = ref<MaybeElement>();
   useMovableCanvas(
     canvas,
-    trim`
+    minify`
     in vec2 pos;
     out vec4 color;
 

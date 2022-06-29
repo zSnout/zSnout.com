@@ -70,3 +70,7 @@ If a page has an associated cover image, it should be a square 320x320 PNG and
 be placed in the `public/images` directory. The file path of the image should
 match the output URL of the original path. If the page is an index, the image
 should be named `folder/index.png`.
+
+## The `trim` function
+
+Unfortunately, 
