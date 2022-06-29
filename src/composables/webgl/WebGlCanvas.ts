@@ -25,8 +25,9 @@ export class WebGlCanvas extends GlslCanvas {
       return original;
     }
 
-    const index = original.search(/void main\(\) ?\{/);
+    let index = original.indexOf(minify`void main() {`);
     if (index === -1) return original;
+    index += minify`void main() {`.length;
 
     return `${original.slice(0, index)}${extra}${original.slice(index)}`;
   }
