@@ -2,7 +2,7 @@ import { computed } from "@vue/reactivity";
 import { syncRef, tryOnScopeDispose, useUrlSearchParams } from "@vueuse/core";
 import { Ref } from "vue";
 
-const params = useUrlSearchParams("history");
+export const params = useUrlSearchParams("history");
 
 export interface Options {
   string: string;
