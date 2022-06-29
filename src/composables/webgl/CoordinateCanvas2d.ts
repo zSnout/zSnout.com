@@ -45,6 +45,56 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     useResizeObserver(this.canvas, () => this.setBounds(this.bounds));
   }
 
+  getNormalizedBounds() {
+    let { xStart, xEnd, yStart, yEnd } = this.bounds;
+
+    const xCenter = xStart + xEnd;
+    const yCenter = yStart + yEnd;
+    const xRange = (xEnd - xStart) / 2;
+    const yRange = (yEnd - yStart) / 2;
+
+    const { width, height } = this.canvas;
+
+    if (width > height) {
+      xStart = xCenter - (width / height) * xRange;
+      xEnd = xCenter + (width / height) * xRange;
+    } else {
+      yStart = yCenter - (height / width) * yRange;
+      yEnd = yCenter + (height / width) * yRange;
+    }
+
+    return { xStart, xEnd, yStart, yEnd };
+  }
+
+  getAdjusters() {
+    const { width, height } = this.canvas;
+    const { xStart, xEnd, yStart, yEnd } = this.getNormalizedBounds();
+
+    if (width > height) {
+      return {
+        scale: {
+          x: xEnd - xStart,
+          y: yEnd - yStart,
+        } as Coordinates,
+        offset: {
+          x: (xStart - (xEnd - xStart) / 2) / 2,
+          y: yStart,
+        } as Coordinates,
+      };
+    } else {
+      return {
+        scale: {
+          x: xEnd - xStart,
+          y: yEnd - yStart,
+        } as Coordinates,
+        offset: {
+          x: xStart,
+          y: (yStart - (yEnd - yStart) / 2) / 2,
+        } as Coordinates,
+      };
+    }
+  }
+
   setBounds(bounds: Bounds) {
     let { xStart, xEnd, yStart, yEnd } = bounds;
     this.bounds = bounds;
@@ -56,62 +106,23 @@ export class CoordinateCanvas2d extends WebGlCanvas {
       params.yEnd = "" + yEnd;
     }
 
-    const xCenter = xStart + xEnd;
-    const yCenter = yStart + yEnd;
-    const xRange = (xEnd - xStart) / 2;
-    const yRange = (yEnd - yStart) / 2;
-
-    const { width, height } = this.canvas;
-
-    if (width > height) {
-      xStart = xCenter - (width / height) * xRange;
-      xEnd = xCenter + (width / height) * xRange;
-
-      // The `(xEnd - xStart) / 2` here is a different value than the original `xRange`.
-      this.setUniform("u_offset", (xStart - (xEnd - xStart) / 2) / 2, yStart);
-    } else {
-      yStart = yCenter - (height / width) * yRange;
-      yEnd = yCenter + (height / width) * yRange;
-
-      // The `(yEnd - yStart) / 2` here is a different value than the original `xRange`.
-      this.setUniform("u_offset", xStart, (yStart - (yEnd - yStart) / 2) / 2);
-    }
-
-    this.setUniform("u_scale", xEnd - xStart, yEnd - yStart);
+    const { offset, scale } = this.getAdjusters();
+    this.setUniform("u_offset", offset.x, offset.y);
+    this.setUniform("u_scale", scale.x, scale.y);
   }
 
   /** This function expects that the pixel values are relative to the canvas's top-left corner. */
   pxToCoords(x: number, y: number): Coordinates {
-    let { xStart, xEnd, yStart, yEnd } = this.bounds;
-
-    const xCenter = xStart + xEnd;
-    const yCenter = yStart + yEnd;
-    const xRange = (xEnd - xStart) / 2;
-    const yRange = (yEnd - yStart) / 2;
-
-    const { width, height } = this.canvas;
-    let offsetX, offsetY;
-
-    if (width > height) {
-      xStart = xCenter - (width / height) * xRange;
-      xEnd = xCenter + (width / height) * xRange;
-
-      // The `(xEnd - xStart) / 2` here is a different value than the original `xRange`.
-      offsetX = (xStart - (xEnd - xStart) / 2) / 2;
-      offsetY = yStart;
-    } else {
-      yStart = yCenter - (height / width) * yRange;
-      yEnd = yCenter + (height / width) * yRange;
-
-      // The `(yEnd - yStart) / 2` here is a different value than the original `xRange`.
-      offsetX = xStart;
-      offsetY = (yStart - (yEnd - yStart) / 2) / 2;
-    }
+    const { offset, scale } = this.getAdjusters();
 
     return {
-      x: (x / this.canvas.clientWidth) * (xEnd - xStart) + offsetX,
-      y: (1 - y / this.canvas.clientHeight) * (yEnd - yStart) + offsetY,
+      x: (x / this.canvas.clientWidth) * scale.x + offset.x,
+      y: (1 - y / this.canvas.clientHeight) * scale.y + offset.y,
     };
+  }
+
+  mouseToCoords() {
+    return this.pxToCoords(this.mouse.x, this.mouse.y);
   }
 }
 
