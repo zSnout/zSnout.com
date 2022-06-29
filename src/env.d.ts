@@ -44,6 +44,14 @@ declare module "ace-builds" {
   ): void;
 }
 
+declare module "@vueuse/core" {
+  export function useEventListener<T extends keyof HTMLElementEventMap>(
+    target: HTMLElement,
+    event: T,
+    handler: (evt: HTMLElementEventMap[T]) => void
+  );
+}
+
 declare global {
   function minify(source: TemplateStringsArray, ...args: any[]): string;
 
