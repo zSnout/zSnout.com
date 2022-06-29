@@ -71,6 +71,34 @@ be placed in the `public/images` directory. The file path of the image should
 match the output URL of the original path. If the page is an index, the image
 should be named `folder/index.png`.
 
-## The `trim` function
+## The `minify` macro
 
-Unfortunately, 
+Because Vite doesn't minify code in template strings, we have to do it manually.
+To prevent embedded GLSL code from looking unreadable during development, we
+created a `minify` macro that is compiled away in the vite.config.ts. It removes
+all whitespace except that between multiple word characters. However, it only
+exhibits this behavior in production. In development, it simply removes the
+`minify` tag from template literals.
+
+To match this behavior, `minify` is sometimes used on short literals in order to
+use the correct substring search behavior. For example, we would use
+`` string.includes(minify`abc; def`) `` if we were searching for `abc; def` in a
+minified string to match `abc; def` in development and `abc;def` in production.
+
+Again, note that `minify` is a macro and only works on tagged template literals.
+It is typed in `env.d.ts` so that TypeScript won't complain, but it only works
+like this:
+
+```javascript
+minify`
+some text here...
+`;
+```
+
+It isn't a function call either, and it should not be used as such.
+
+```javascript
+minify(`
+some text here...
+`);
+```
