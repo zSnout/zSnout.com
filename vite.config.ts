@@ -19,7 +19,7 @@ export default defineConfig({
         if (jsfile.test(id)) {
           return code.replace(/minify\s*(`[^`]*`)/g, (match) => {
             return match
-              .slice(4)
+              .slice(6)
               .replace(/\s+/g, " ")
               .replace(/\B \b|\b \B|\B \B/g, "");
           });
