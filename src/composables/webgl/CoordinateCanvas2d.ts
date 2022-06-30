@@ -4,6 +4,7 @@ import { useResizeObserver } from "@vueuse/core";
 
 export class CoordinateCanvas2d extends WebGlCanvas {
   private saveBounds: boolean;
+  private navTimer = true;
 
   bounds!: Readonly<Bounds>;
 
@@ -108,11 +109,14 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   setBounds(bounds: Bounds) {
     const { xStart, xEnd, yStart, yEnd } = (this.bounds = bounds);
 
-    if (this.saveBounds) {
+    if (this.saveBounds && this.navTimer) {
       params.xStart = "" + xStart;
       params.xEnd = "" + xEnd;
       params.yStart = "" + yStart;
       params.yEnd = "" + yEnd;
+
+      this.navTimer = false;
+      setTimeout(() => (this.navTimer = true), 1000);
     }
 
     const { offset, scale } = this.getAdjusters();
