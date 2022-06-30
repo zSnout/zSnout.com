@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-  import { MaybeElement, useClamp } from "@vueuse/core";
-  import { computed, ref, unref, watchEffect } from "vue";
+  import { useClamp } from "@vueuse/core";
+  import { computed, onMounted, ref, unref, watchEffect } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
@@ -10,9 +10,9 @@
   import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
   import { glsl } from "../composables/useGlsl";
-  import { useMovableCanvas } from "../composables/useMovableCanvas";
   import { syncOption } from "../composables/useOption";
   import { useRound } from "../composables/useRound";
+  import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
@@ -103,10 +103,7 @@
   // https://stackoverflow.com/a/17897228
 
   const shader = minify`
-  in vec2 pos;
-  out vec4 color;
-
-  uniform int detail;
+  uniform float detail;
   uniform float limit;
   uniform int theme;
   uniform float colorOffset;
@@ -116,7 +113,8 @@
   uniform bool split;
   uniform bool altColors;
 
-  float pi = 3.1415926535;
+  const float maxIterations = 1000.0;
+  const float pi = 3.1415926535;
 
   vec3 rgb2hsv(vec3 c) {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -134,47 +132,47 @@
     return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
   }
 
-  vec3 simplePalette(int i) {
-    float hue = mod(0.02 * repetition * float(i), 1.0);
-    vec3 hsv = vec3(1.0 - hue * spectrum, 1, 1);
+  vec3 simplePalette(float i) {
+    float hue = mod(0.02 * repetition * i, 1.0);
+    vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
 
-    if (darkness) hsv.z = mod(0.02 * float(i), 1.0);
+    if (darkness) hsv.z = mod(0.02 * i, 1.0);
     hsv.x = mod(hsv.x + colorOffset, 1.0);
 
     return hsv2rgb(hsv);
   }
 
-  vec3 gradientPalette(vec3 sz, int i) {
-    sz = abs(sz) / float(i) * repetition;
+  vec3 gradientPalette(vec3 sz, float i) {
+    sz = abs(sz) / i * repetition;
 
     vec3 hsv = rgb2hsv(sin(abs(sz * 5.0)) * 0.45 + 0.5);
     vec3 rgb = hsv2rgb(vec3(hsv.x * spectrum + colorOffset, hsv.yz));
-    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+    if (darkness) rgb *= mod(i * 0.02, 1.0);
 
     return rgb;
   }
 
-  vec3 rotationPalette(float t, int i) {
+  vec3 rotationPalette(float t, float i) {
     float hue = mod(2.0 * t / pi * repetition, 1.0);
 
-    vec3 rgb = hsv2rgb(vec3(1.0 - hue * spectrum + colorOffset, 1, 1));
-    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+    vec3 rgb = hsv2rgb(vec3(1.0 - hue * spectrum + colorOffset, 1.0, 1.0));
+    if (darkness) rgb *= mod(i * 0.02, 1.0);
 
     return rgb;
   }
 
-  vec3 newtonPalette(float t, int i) {
+  vec3 newtonPalette(float t, float i) {
     float hue = mod(t / pi * repetition, 1.0) * spectrum;
     hue = mod(hue + colorOffset, 1.0);
 
-    vec3 rgb = hsv2rgb(vec3(1.0 - hue, 1, 1));
-    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+    vec3 rgb = hsv2rgb(vec3(1.0 - hue, 1.0, 1.0));
+    if (darkness) rgb *= mod(i * 0.02, 1.0);
 
     return rgb;
   }
 
-  vec3 trigPalette(int i) {
-    float t = float(i) * 0.1 * repetition;
+  vec3 trigPalette(float i) {
+    float t = i * 0.1 * repetition;
 
     float n1, n2;
     if (split) {
@@ -192,7 +190,7 @@
       rgb = vec3(n1, n2, split ? 0.5 : 1.0);
     }
 
-    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+    if (darkness) rgb *= mod(i * 0.02, 1.0);
 
     vec3 hsv = rgb2hsv(rgb);
     hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
@@ -200,8 +198,8 @@
     return hsv2rgb(hsv);
   }
 
-  vec3 expPalette(int i) {
-    float t = float(i) * 0.1 * repetition;
+  vec3 expPalette(float i) {
+    float t = i * 0.1 * repetition;
 
     float n1, n2;
     if (split) {
@@ -222,7 +220,7 @@
       rgb = vec3(n1, n2, split ? 0.5 : 1.0);
     }
 
-    if (darkness) rgb *= mod(float(i) * 0.02, 1.0);
+    if (darkness) rgb *= mod(i * 0.02, 1.0);
 
     vec3 hsv = rgb2hsv(rgb);
     hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
@@ -257,7 +255,8 @@
     if (count <= 1) return a;
 
     vec2 result = a;
-    for (int i = 1; i < count; i++) {
+    for (int i = 1; i < 10; i++) {
+      if (i >= count) break;
       result = mult(result, a);
     }
 
@@ -270,8 +269,9 @@
 
     if (theme == 4 || theme == 1 && split) z = pos;
 
-    int iter = 0;
-    for (int i = 0; i < detail; i++) {
+    float iter = 0.0;
+    for (float i = 0.0; i < maxIterations; i++) {
+      if (i >= detail) break;
       ppz = pz;
       pz = z;
       z = {{EQ}};
@@ -279,19 +279,19 @@
 
       if (length(z) > limit) {
         if (theme == 1) {
-          color = vec4(simplePalette(iter), 1);
+          gl_FragColor = vec4(simplePalette(iter), 1.0);
           return;
         } else if (theme == 2) {
-          color = vec4(gradientPalette(sz, iter), 1);
+          gl_FragColor = vec4(gradientPalette(sz, iter), 1.0);
           return;
         } else if (theme == 3) {
-          color = vec4(rotationPalette(atan(sz.x, sz.y), iter), 1);
+          gl_FragColor = vec4(rotationPalette(atan(sz.x, sz.y), iter), 1.0);
           return;
         } else if (theme == 5) {
-          color = vec4(trigPalette(iter), 1);
+          gl_FragColor = vec4(trigPalette(iter), 1.0);
           return;
         } else if (theme == 6) {
-          color = vec4(expPalette(iter), 1);
+          gl_FragColor = vec4(expPalette(iter), 1.0);
           return;
         }
       }
@@ -313,13 +313,13 @@
     }
 
     if (theme == 2) {
-      color = vec4(gradientPalette(sz, iter), 1);
+      gl_FragColor = vec4(gradientPalette(sz, iter), 1.0);
     } else if (theme == 3) {
-      color = vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1);
+      gl_FragColor = vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1.0);
     } else if (theme == 4) {
       if (altColors) z = nz;
-      color = vec4(newtonPalette(atan(z.y / z.x), iter), 1);
-    } else color = vec4(0, 0, 0, 1);
+      gl_FragColor = vec4(newtonPalette(atan(z.y / z.x), iter), 1.0);
+    } else gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
   }
   `;
 
@@ -350,48 +350,49 @@
     return `Zoom Level: ${zoomLevel.value.toLocaleString()}`;
   });
 
-  const canvas = ref<MaybeElement>();
+  const canvas = ref<HTMLCanvasElement>();
 
-  let destroy: (() => void) | undefined;
-  let resetPosition = ref<() => void>();
+  const resetPosition = ref<() => void>();
+  const setEquation = ref<() => void>();
 
-  function reload() {
-    destroy?.();
+  onMounted(() => {
+    if (!canvas.value) return;
 
-    useMovableCanvas(
-      canvas,
-      shader.replace("{{EQ}}", glsl(equation.value))
-    ).then((gl) => {
-      gl.useUniform("detail", "i", detail);
-      gl.useUniform("limit", "f", limit);
-      gl.useUniform("theme", "i", themeInt);
-      gl.useUniform("colorOffset", "f", colorOffset);
-      gl.useUniform("repetition", "f", repetition);
-      gl.useUniform("spectrum", "f", spectrum);
-      gl.useUniform("darkness", "i", darkness);
-      gl.useUniform("split", "i", split);
-      gl.useUniform("altColors", "i", altColors);
-
-      gl.onDispose(
-        watchEffect(() => {
-          zoomLevel.value = 4 / (gl.bounds.xEnd.value - gl.bounds.xStart.value);
-          posX.value = (gl.bounds.xEnd.value + gl.bounds.xStart.value) / 2;
-          posY.value = (gl.bounds.yEnd.value + gl.bounds.yStart.value) / 2;
-        })
-      );
-
-      resetPosition.value = () => {
-        gl.bounds.xStart.value = -2;
-        gl.bounds.xEnd.value = 2;
-        gl.bounds.yStart.value = -2;
-        gl.bounds.yEnd.value = 2;
-      };
-
-      destroy = gl.destroy;
+    const gl = new MovableCanvas2d(canvas.value, {
+      fragmentString: shader.replace("{{EQ}}", glsl(equation.value)),
     });
-  }
 
-  reload();
+    setEquation.value = () => {
+      gl.load(shader.replace("{{EQ}}", glsl(equation.value)));
+    };
+
+    gl.on("render", () => {
+      gl.setUniform("detail", [detail.value]);
+      gl.setUniform("limit", limit.value);
+      gl.setUniformOfInt("theme", [themeInt.value]);
+      gl.setUniform("colorOffset", colorOffset.value);
+      gl.setUniform("repetition", repetition.value);
+      gl.setUniform("spectrum", spectrum.value);
+      gl.setUniformOfInt("darkness", [darkness.value]);
+      gl.setUniformOfInt("split", [split.value]);
+      gl.setUniformOfInt("altColors", [altColors.value]);
+    });
+
+    watchEffect(() => {
+      zoomLevel.value = 4 / (gl.bounds.xEnd - gl.bounds.xStart);
+      posX.value = (gl.bounds.xEnd + gl.bounds.xStart) / 2;
+      posY.value = (gl.bounds.yEnd + gl.bounds.yStart) / 2;
+    });
+
+    resetPosition.value = () => {
+      gl.setBounds({
+        xStart: -2,
+        xEnd: 2,
+        yStart: -2,
+        yEnd: 2,
+      });
+    };
+  });
 </script>
 
 <template>
@@ -413,7 +414,14 @@
 
       <Labeled label="Equation:">
         <Field v-model="equation" />
-        <Button style="white-space: pre" @click="reload">Apply Equation</Button>
+
+        <Button
+          v-if="setEquation"
+          style="white-space: pre"
+          @click="setEquation"
+        >
+          Apply Equation
+        </Button>
       </Labeled>
 
       <Labeled label="Theme:">
