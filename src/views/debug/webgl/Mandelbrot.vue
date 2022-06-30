@@ -1,53 +1,29 @@
 <script lang="ts" setup>
-  import { MaybeElement } from "@vueuse/core";
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import FullscreenDisplay from "../../../components/FullscreenDisplay.vue";
-  import { useMovableCanvas } from "../../../composables/useMovableCanvas";
+  import { MovableCanvas2d } from "../../../composables/webgl/MovableCanvas2d";
 
-  const canvas = ref<MaybeElement>();
-  useMovableCanvas(
-    canvas,
-    minify`
-    in vec2 pos;
-    out vec4 color;
+  const canvas = ref<HTMLCanvasElement>();
 
-    uniform Bounds bounds;
-    uniform Coordinates pointer;
-    uniform Bounds zoomRegion;
+  const shader = minify`
+  void main() {
+    gl_FragColor = vec4(0, 0, 0, 1);
 
-    void useRect(in Bounds bounds, float r, float g, float b) {
-      if (
-        bounds.xStart <= pos.x && pos.x <= bounds.xEnd &&
-        bounds.yStart <= pos.y && pos.y <= bounds.yEnd
-      ) {
-        color.r += r;
-        color.g += g;
-        color.b += b;
+    vec2 z;
+    for (int i = 0; i < 100; i++) {
+      z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + pos;
+
+      if (z.x * z.x + z.y * z.y > 4.0) {
+        gl_FragColor = vec4(float(i) / 100.0, float(i) / 100.0, float(i) / 100.0, 1.0);
+        break;
       }
     }
+  }`;
 
-    void main() {
-      vec2 z;
-
-      color = vec4(0, 0, 0, 1);
-
-      for (int i = 0; i < 100; i++) {
-        z = vec2(z.x * z.x - z.y * z.y, 2.0 * z.x * z.y) + pos;
-
-        if (z.x * z.x + z.y * z.y > 4.0) {
-          color = vec4(float(i) / 100.0, float(i) / 100.0, float(i) / 100.0, 1);
-        }
-      }
-
-      useRect(zoomRegion, 0.0, 0.0, 0.2);
-      useRect(bounds, 0.2, 0.0, 0.0);
-
-      if (abs(pointer.x - pos.x) < (bounds.xEnd - bounds.xStart) / 100.0 && abs(pointer.y - pos.y) < (bounds.yEnd - bounds.yStart) / 100.0) {
-        color = vec4(color.zz, color.z + 0.2, 1);
-      }
-    }`,
-    { uniforms: true }
-  );
+  onMounted(() => {
+    if (!canvas.value) return;
+    new MovableCanvas2d(canvas.value, { fragmentString: shader });
+  });
 </script>
 
 <template>
@@ -60,11 +36,7 @@
       <p>
         This is a WebGL debug page. It should contain a simple rendition of the
         Mandelbrot Set. This is used for testing purposes and helps demonstrate
-        different features of the MovableCanvas mixin. The page may show a blue
-        box where the viewport is located, which should be centered onscreen. It
-        may also show a pink/red box displaying where the canvas will be moved
-        to upon zooming. There is also a small box around where the cursor is
-        located.
+        different features of the MovableCanvas mixin.
       </p>
     </template>
   </FullscreenDisplay>
