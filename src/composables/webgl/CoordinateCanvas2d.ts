@@ -114,7 +114,6 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   /** This function expects that the pixel values are relative to the canvas's top-left corner. */
   pxToCoords(x: number, y: number): Coordinates {
     const { offset, scale } = this.getAdjusters();
-    console.log(offset);
 
     return {
       x: (x / this.canvas.clientWidth) * scale.x + offset.x,
