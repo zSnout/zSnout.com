@@ -45,8 +45,6 @@ export class CoordinateCanvas2d extends WebGlCanvas {
       };
     }
 
-    console.log(bounds);
-
     this.setBounds({
       xStart: bounds?.xStart ?? -2,
       xEnd: bounds?.xEnd ?? 2,
