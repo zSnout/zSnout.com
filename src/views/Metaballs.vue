@@ -5,9 +5,9 @@
 -->
 
 <script lang="ts" setup>
-  import { ref } from "vue";
+  import { onMounted, ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useWebGL } from "../composables/useWebGL";
+  import { WebGlCanvas } from "../composables/webgl/WebGlCanvas";
 
   const metaballs = Array.from({ length: 50 }, () => {
     const x = Math.random();
@@ -21,45 +21,38 @@
 
   const canvas = ref<HTMLCanvasElement>();
 
-  // Update the following code if `metaballs.length` is changed.
-  useWebGL(
-    canvas,
-    minify`
-    in vec2 pos;
-    out vec4 color;
+  // Update the for loop and list length within this shader if `metaballs.length` is changed.
+  const shader = minify`
+  uniform float scale;
+  uniform vec3 metaballs[50];
 
-    uniform vec2 window_size;
-    uniform vec3 metaballs[50];
+  void main() {
+    vec2 pos = gl_FragCoord.xy / scale;
+    float dist;
 
-    void main() {
-      vec2 _pos = (pos * 2.0 - 1.0) * window_size / 2.0;
-      float dist;
+    for (int i = 0; i < 50; i++) {
+      vec3 mb = metaballs[i];
 
-      for (int i = 0; i < 50; i++) {
-        vec3 mb = metaballs[i];
+      float dx = mb.x - pos.x;
+      dx = min(dx, 1.0 - dx);
 
-        float dx = mb.x - _pos.x;
-        dx = min(dx, 1.0 - dx);
+      float dy = mb.y - pos.y;
+      dy = min(dy, 1.0 - dy);
 
-        float dy = mb.y - _pos.y;
-        dy = min(dy, 1.0 - dy);
-
-        dist += 1.0 / (dx * dx + dy * dy);
-      }
-
-      if (dist > 1000.0) color = vec4(1, 1, 1, 1);
-      else color = vec4(0, 0, 0, 1);
+      dist += 1.0 / (dx * dx + dy * dy);
     }
-    `
-  ).then((info) => {
-    const { gl, onDispose, program, render, size } = info;
-    const { width, height } = size;
 
-    const metaballLoc = gl.getUniformLocation(program, "metaballs");
-    const windowLoc = gl.getUniformLocation(program, "window_size");
-    let frame: number | undefined;
+    if (dist > 1000.0) gl_FragColor = vec4(1, 1, 1, 1);
+    else gl_FragColor = vec4(0, 0, 0, 1);
+  }
+  `;
 
-    function nextFrame() {
+  onMounted(() => {
+    if (!canvas.value) return;
+
+    const gl = new WebGlCanvas(canvas.value, { fragmentString: shader });
+
+    gl.on("render", () => {
       metaballs.map((mb) => {
         mb.x += mb.dx;
         if (mb.x < 0) mb.x = 1 - mb.x;
@@ -79,20 +72,11 @@
         data[i * 2 + 2] = r;
       }
 
-      gl.uniform3fv(metaballLoc, data);
+      const metaballLoc = gl.gl.getUniformLocation(gl.program, "metaballs");
+      gl.gl.uniform3fv(metaballLoc, data);
 
-      if (height.value > width.value) {
-        gl.uniform2fv(windowLoc, [1, height.value / width.value]);
-      } else {
-        gl.uniform2fv(windowLoc, [width.value / height.value, 1]);
-      }
-
-      render();
-      frame = requestAnimationFrame(nextFrame);
-    }
-
-    onDispose(() => frame !== void 0 && cancelAnimationFrame(frame));
-    nextFrame();
+      gl.setUniform("scale", Math.max(gl.width, gl.height));
+    });
   });
 </script>
 
