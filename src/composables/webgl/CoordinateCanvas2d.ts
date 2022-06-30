@@ -122,7 +122,10 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   }
 
   mouseToCoords() {
-    return this.pxToCoords(this.mouse.x, this.mouse.y);
+    return this.pxToCoords(
+      this.mouse.x,
+      this.canvas.clientHeight - this.mouse.y
+    );
   }
 }
 
