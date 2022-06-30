@@ -4,6 +4,7 @@ import { useResizeObserver } from "@vueuse/core";
 
 export class CoordinateCanvas2d extends WebGlCanvas {
   private saveBounds: boolean;
+
   bounds!: Readonly<Bounds>;
 
   constructor(
@@ -96,8 +97,7 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   }
 
   setBounds(bounds: Bounds) {
-    let { xStart, xEnd, yStart, yEnd } = bounds;
-    this.bounds = bounds;
+    const { xStart, xEnd, yStart, yEnd } = (this.bounds = bounds);
 
     if (this.saveBounds) {
       params.xStart = "" + xStart;
@@ -114,6 +114,7 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   /** This function expects that the pixel values are relative to the canvas's top-left corner. */
   pxToCoords(x: number, y: number): Coordinates {
     const { offset, scale } = this.getAdjusters();
+    console.log(offset);
 
     return {
       x: (x / this.canvas.clientWidth) * scale.x + offset.x,
