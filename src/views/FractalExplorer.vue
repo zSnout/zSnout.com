@@ -360,6 +360,7 @@
 
     const gl = new MovableCanvas2d(canvas.value, {
       fragmentString: shader.replace("{{EQ}}", glsl(equation.value)),
+      saveBounds: true,
     });
 
     setEquation.value = () => {

@@ -36,6 +36,17 @@ export class CoordinateCanvas2d extends WebGlCanvas {
 
     this.saveBounds = saveBounds ?? false;
 
+    if (saveBounds) {
+      bounds = {
+        xStart: Number.isFinite(+params.xStart) ? +params.xStart : -2,
+        xEnd: Number.isFinite(+params.xEnd) ? +params.xEnd : 2,
+        yStart: Number.isFinite(+params.yStart) ? +params.yStart : -2,
+        yEnd: Number.isFinite(+params.yEnd) ? +params.yEnd : 2,
+      };
+    }
+
+    console.log(bounds);
+
     this.setBounds({
       xStart: bounds?.xStart ?? -2,
       xEnd: bounds?.xEnd ?? 2,
