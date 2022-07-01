@@ -1,4 +1,5 @@
 import { compare, hash } from "bcrypt";
+import { ObjectId } from "bson";
 import { collection } from "./database";
 
 export function isLegalUsername(username: string) {
@@ -42,9 +43,25 @@ export async function authenticateUser(username: string, password: string) {
   }
 }
 
+export async function reauthenticateUser(session: string) {
+  const accounts = await _accounts;
+  if (!accounts) return { status: ReAuthStatus.NoServer as const };
+
+  const account = await accounts.findOne({ session });
+  if (!account) return { status: ReAuthStatus.Failure as const };
+
+  return { status: ReAuthStatus.Success as const, account };
+}
+
 export enum AuthStatus {
   BadPassword,
   NoServer,
   NoUser,
+  Success,
+}
+
+export enum ReAuthStatus {
+  NoServer,
+  Failure,
   Success,
 }
