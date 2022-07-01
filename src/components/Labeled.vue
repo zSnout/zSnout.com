@@ -7,7 +7,7 @@
 <template>
   <label class="label">
     <HStack>
-      <span class="nowrap">{{ label }}</span>
+      <span class="nowrap text-color">{{ label }}</span>
 
       <slot />
     </HStack>
