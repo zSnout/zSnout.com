@@ -113,6 +113,10 @@
   uniform bool split;
   uniform bool altColors;
 
+  uniform vec2 u_resolution;
+  uniform vec2 u_scale;
+  uniform vec2 u_offset;
+
   const float maxIterations = 1000.0;
   const float pi = 3.1415926535;
 
@@ -264,6 +268,8 @@
   }
 
   void main() {
+    vec2 pos = (gl_FragCoord.xy / u_resolution) * u_scale + u_offset;
+
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 

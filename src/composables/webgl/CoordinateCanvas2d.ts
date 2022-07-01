@@ -17,22 +17,6 @@ export class CoordinateCanvas2d extends WebGlCanvas {
       ...options
     }: CoordinateCanvas2d.Options = {}
   ) {
-    if (typeof frag === "string") {
-      frag = WebGlCanvas.extend(
-        frag,
-        minify`uniform vec2 u_scale; uniform vec2 u_offset;`
-      );
-
-      // The shader may have already declared u_resolution, but the safeguards
-      // on `.extend` prevent the insertion of a second copy.
-      frag = WebGlCanvas.extend(frag, "uniform vec2 u_resolution;");
-
-      frag = WebGlCanvas.extendMain(
-        frag,
-        minify`vec2 pos = (gl_FragCoord.xy / u_resolution) * u_scale + u_offset;`
-      );
-    }
-
     super(canvas, { ...options, fragmentString: frag });
 
     this.saveBounds = saveBounds ?? false;
