@@ -93,6 +93,8 @@ export async function createAccount(
 
   if (!IsLegal.Email(email)) return { status: AccountStatus.BadEmail as const };
 
+  await clearOldAccounts();
+
   if (await accounts.findOne({ username }))
     return { status: AccountStatus.UsernameTaken as const };
 
@@ -156,3 +158,14 @@ export enum VerifyStatus {
   NoServer,
   Success,
 }
+
+export async function clearOldAccounts() {
+  const accounts = await _accounts;
+
+  await accounts?.deleteMany({
+    verified: false,
+    creation: { $lte: Date.now() - 15 * 60 * 1000 },
+  });
+}
+
+setInterval(clearOldAccounts, 5 * 60 * 1000);
