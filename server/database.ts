@@ -10,6 +10,9 @@ const db = client
   ?.then((client) => client?.db("zsnout"))
   .catch(() => undefined);
 
+export const isActive =
+  client?.then((e) => (e ? true : false)) ?? Promise.resolve(false);
+
 export async function collection<T extends keyof Database>(name: T) {
   return (await db)?.collection<Database[T]>(name);
 }
