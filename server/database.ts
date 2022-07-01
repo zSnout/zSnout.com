@@ -16,7 +16,6 @@ export const client = process.env.ZSNOUT_DATABASE
 
 export interface Database {
   accounts: {
-    id: string;
     creation: number;
     username: string;
     password: string;
