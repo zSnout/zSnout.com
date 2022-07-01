@@ -102,7 +102,7 @@
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
 
-  const shader = minify`
+  const shader = `
   uniform float detail;
   uniform float limit;
   uniform int theme;

@@ -6,7 +6,7 @@
 
   const canvas = ref<HTMLCanvasElement>();
 
-  const shader = minify`
+  const shader = `
   uniform vec2 u_resolution;
   uniform float left;
 

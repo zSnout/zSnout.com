@@ -22,7 +22,7 @@
   const canvas = ref<HTMLCanvasElement>();
 
   // Update the for loop and list length within this shader if `metaballs.length` is changed.
-  const shader = minify`
+  const shader = `
   uniform float scale;
   uniform vec3 metaballs[50];
 

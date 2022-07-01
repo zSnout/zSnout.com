@@ -53,8 +53,6 @@ declare module "@vueuse/core" {
 }
 
 declare global {
-  function minify(source: TemplateStringsArray, ...args: any[]): string;
-
   declare interface Window {
     [PyodideStderrSymbol](msg: string): void;
     [PyodideStdoutSymbol](msg: string): void;

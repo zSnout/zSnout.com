@@ -11,22 +11,6 @@ export default defineConfig({
   plugins: [
     vue(),
     {
-      name: "minify",
-      transform(code, id) {
-        if (process.env.NODE_ENV === "development")
-          return code.replace(/minify\s*`/g, "`");
-
-        if (jsfile.test(id)) {
-          return code.replace(/minify\s*(`[^`]*`)/g, (match) => {
-            return match
-              .slice(6)
-              .replace(/\s+/g, " ")
-              .replace(/\B \b|\b \B|\B \B/g, "");
-          });
-        }
-      },
-    },
-    {
       name: "fix-storymatic",
       transform(code, id) {
         if (jsfile.test(id)) {
