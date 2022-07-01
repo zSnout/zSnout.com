@@ -1,11 +1,20 @@
 import { compare, hash } from "bcrypt";
+import { collection } from "./database";
+
+export function isLegalUsername(username: string) {
+  return (
+    username.length >= 5 &&
+    /^[A-Za-z_][A-Za-z0-9_]+$/.test(username) &&
+    !/zsnout/i.test(username)
+  );
+}
 
 export function isLegalPassword(password: string) {
   return (
-    password.length > 8 &&
-    /\w/.test(password) &&
+    password.length >= 8 &&
+    /(?![\d_])\w/.test(password) &&
     /\d/.test(password) &&
-    /[^\s\w\d]/.test(password)
+    /[^\s\w]/.test(password)
   );
 }
 
@@ -15,4 +24,27 @@ export function hashPassword(password: string) {
 
 export function verifyPassword(password: string, hashed: string) {
   return compare(password, hashed);
+}
+
+const _accounts = collection("accounts");
+
+export async function authenticateUser(username: string, password: string) {
+  const accounts = await _accounts;
+  if (!accounts) return { status: AuthStatus.NoServer as const };
+
+  const account = await accounts.findOne({ username });
+  if (!account) return { status: AuthStatus.NoUser as const };
+
+  if (await verifyPassword(password, account.password)) {
+    return { status: AuthStatus.Success as const, account };
+  } else {
+    return { status: AuthStatus.BadPassword as const };
+  }
+}
+
+export enum AuthStatus {
+  BadPassword,
+  NoServer,
+  NoUser,
+  Success,
 }
