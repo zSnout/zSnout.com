@@ -3,6 +3,13 @@ import { MongoClient } from "mongodb";
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
       .connect()
+      .then((client) => {
+        client.on("error", async () => {
+          await client.close();
+          await client.connect();
+        });
+        return client;
+      })
       .catch((e) => (console.log(e), undefined))
   : Promise.resolve((console.log("no database available"), undefined));
 
