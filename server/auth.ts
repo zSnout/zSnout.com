@@ -100,7 +100,7 @@ export async function createAccount(
 
   const account = {
     username,
-    password,
+    password: await hashPassword(password),
     email,
     creation: Date.now(),
     session: randomUUID(),
@@ -135,3 +135,5 @@ export enum AccountStatus {
   Failure,
   Success,
 }
+
+export async function verifyAccount(verifyCode: string) {}
