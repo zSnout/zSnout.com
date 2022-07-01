@@ -5,7 +5,8 @@
     "target": "ESNext",
     "moduleResolution": "Node",
     "strict": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["vite.config.ts", "server/**/*.ts"]
 }
