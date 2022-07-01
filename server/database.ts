@@ -1,18 +1,18 @@
 import { MongoClient } from "mongodb";
 
-export const client = process.env.ZSNOUT_DATABASE
+const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE)
       .connect()
-      .then(async (client) => {
-        const db = client.db("zsnout");
-
-        return {
-          collection<T extends keyof Database>(name: T) {
-            return db.collection<Database[T]>(name);
-          },
-        };
-      })
+      .catch(() => undefined)
   : undefined;
+
+const db = client
+  ?.then((client) => client?.db("zsnout"))
+  .catch(() => undefined);
+
+export async function collection<T extends keyof Database>(name: T) {
+  return (await db)?.collection<Database[T]>(name);
+}
 
 export interface Database {
   accounts: {
