@@ -35,6 +35,6 @@ export default defineConfig({
       },
     },
     VitePWA(),
-    mix({ handler: "./server.ts" }),
+    mix({ handler: "./server/index.ts" }),
   ],
 });
