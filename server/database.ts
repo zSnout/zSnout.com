@@ -29,5 +29,6 @@ export interface Database {
     session: string;
     email: string;
     verified: boolean;
+    verifyCode: string;
   };
 }
