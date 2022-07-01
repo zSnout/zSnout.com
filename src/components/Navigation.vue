@@ -96,7 +96,7 @@
 
           <a
             class="icon"
-            href="https://github.com/zsnout/zsnout-next"
+            href="https://github.com/zsnout/zsnout.com"
             target="_blank"
           >
             <GithubIcon class="icon" />
