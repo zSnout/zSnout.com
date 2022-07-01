@@ -11,15 +11,16 @@ export interface Options {
 }
 
 export function useOption(name: string, initial?: string | number | boolean) {
-  if (params[name] === undefined && initial !== undefined) {
-    if (typeof initial === "boolean") {
-      if (initial) params[name] = "";
-      else delete params[name];
-    } else params[name] = "" + initial;
+  if (!params[name] && initial !== undefined) {
+    if (typeof initial !== "boolean") {
+      params[name] = "" + initial;
+    }
   }
 
   return computed<string | number | boolean>({
     get() {
+      params[name];
+
       if (typeof initial === "boolean") return params[name] === "true";
       if (typeof initial === "number") return +params[name];
       return "" + params[name];
