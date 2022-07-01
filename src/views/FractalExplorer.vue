@@ -369,9 +369,7 @@
       saveBounds: true,
     });
 
-    setEquation.value = () => {
-      gl.load(shader.replace("{{EQ}}", glsl(equation.value)));
-    };
+    setEquation.value = () => setTimeout(() => location.reload());
 
     gl.on("render", () => {
       gl.setUniform("detail", [detail.value]);
