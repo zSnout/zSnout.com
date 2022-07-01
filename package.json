@@ -13,6 +13,7 @@
     "@vueuse/integrations": "^8.7.5",
     "disable-scroll": "^0.6.0",
     "error-stack-parser": "^2.1.4",
+    "express": "^4.18.1",
     "fast-glob": "^3.2.11",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
@@ -27,6 +28,7 @@
     "vue3-ace-editor": "^2.2.2"
   },
   "devDependencies": {
+    "@types/express": "^4.17.13",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.3",
     "prettier-plugin-organize-attributes": "^0.0.5",
