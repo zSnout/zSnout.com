@@ -12,6 +12,7 @@
     "@vueuse/core": "^8.7.5",
     "@vueuse/integrations": "^8.7.5",
     "bcrypt": "^5.0.1",
+    "deep-email-validator": "^0.1.21",
     "disable-scroll": "^0.6.0",
     "error-stack-parser": "^2.1.4",
     "express": "^4.18.1",
