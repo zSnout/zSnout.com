@@ -2,13 +2,14 @@
   import Link from "./Link.vue";
 
   defineProps<{
-    to?: string;
+    forceReload?: boolean;
     inline?: boolean;
+    to?: string;
   }>();
 </script>
 
 <template>
-  <Link v-if="to !== undefined" :to="to">
+  <Link v-if="to !== undefined" :force-reload="forceReload" :to="to">
     <slot />
   </Link>
 

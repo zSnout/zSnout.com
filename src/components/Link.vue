@@ -1,16 +1,20 @@
 <script lang="ts" setup>
   import { RouterLink } from "vue-router";
 
-  const { to } = defineProps<{ to: string }>();
+  const { to, forceReload } = defineProps<{
+    forceReload?: boolean;
+    to: string;
+  }>();
+
   const isRelative = /^\/(?!\/)|\.\.?\//.test(to);
 </script>
 
 <template>
-  <RouterLink v-if="isRelative" :to="to">
+  <RouterLink v-if="isRelative && !forceReload" :to="to">
     <slot />
   </RouterLink>
 
-  <a v-else :href="to" target="_blank">
+  <a v-else :href="to" :target="forceReload ? undefined : '_blank'">
     <slot />
   </a>
 </template>

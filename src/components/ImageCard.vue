@@ -1,14 +1,15 @@
 <script lang="ts" setup>
   import { useElementSize } from "@vueuse/core";
-  import { onMounted, ref, Ref } from "vue";
+  import { ref, Ref } from "vue";
   import MaybeLink from "./MaybeLink.vue";
 
   defineProps<{
-    title: string | Ref<string>;
     description: string | Ref<string>;
+    forceReload?: boolean;
     keywords?: string;
-    to?: string;
     src: string;
+    title: string | Ref<string>;
+    to?: string;
   }>();
 
   const image = ref<HTMLImageElement>();
@@ -20,6 +21,7 @@
 <template>
   <MaybeLink
     class="card second-layer hoverline focusline"
+    :force-reload="forceReload"
     :to="to"
     :data-keywords="keywords"
   >
