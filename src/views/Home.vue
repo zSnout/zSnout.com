@@ -32,7 +32,9 @@
           <a href="https://github.com/zsakowitz" target="_blank" class="link">Zachary Sakowitz</a>
           to create and test various projects. This edition, zSnout 7, is a
           collection of many of these projects and their archived versions, such
-          as the four versions of Storymatic.
+          as the four versions of Storymatic. You can support Zachary at
+          <!-- prettier-ignore -->
+          <a class="link" href="https://store.zsnout.com/" target="_blank">the zSnout store.</a>
         </p>
 
         <p class="text-color" style="margin-top: -1em">
