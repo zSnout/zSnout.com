@@ -1,5 +1,6 @@
 import { compare, hash } from "bcrypt";
 import { randomUUID } from "crypto";
+import FastGlob from "fast-glob";
 import { collection } from "./database";
 import { send } from "./email";
 
@@ -71,8 +72,8 @@ export async function checkCredentials(session: string) {
 }
 
 export enum ReAuthStatus {
-  NoServer,
   Failure,
+  NoServer,
   Success,
 }
 
@@ -126,14 +127,32 @@ export async function createAccount(
 }
 
 export enum AccountStatus {
-  NoServer,
   BadUsername,
   BadPassword,
   BadEmail,
-  UsernameTaken,
   EmailTaken,
   Failure,
+  NoServer,
   Success,
+  UsernameTaken,
 }
 
-export async function verifyAccount(verifyCode: string) {}
+export async function verifyAccount(verifyCode: string) {
+  const accounts = await _accounts;
+  if (!accounts) return { status: VerifyStatus.NoServer as const };
+
+  const account = await accounts.findOneAndUpdate(
+    { verifyCode },
+    { $set: { verified: true } }
+  );
+
+  if (!account.value) return { status: VerifyStatus.NoAccount as const };
+
+  return { status: VerifyStatus.Success as const, account: account.value };
+}
+
+export enum VerifyStatus {
+  NoAccount,
+  NoServer,
+  Success,
+}
