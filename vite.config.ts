@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { VitePWA } from "vite-plugin-pwa";
 import { sync } from "fast-glob";
+import mix from "vite-plugin-mix";
 
 const jsfile = /\.([jt]sx?|vue)($|\?)/;
 const images = sync("./public/images/**/*.png");
@@ -34,5 +35,6 @@ export default defineConfig({
       },
     },
     VitePWA(),
+    mix({ handler: "./server.ts" }),
   ],
 });
