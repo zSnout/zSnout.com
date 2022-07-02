@@ -79,7 +79,7 @@
       <ImageCard
         v-if="!username && canLogIn"
         alt="A log in a fire"
-        description="Log in to zSnout to access your saved bookmarks and SnoutBucks."
+        description="Log in to zSnout to access your saved bookmarks and FastChat groups."
         keywords="account"
         src="/images/account/log-in.png"
         title="Log In"

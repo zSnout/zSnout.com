@@ -197,7 +197,7 @@ app.patch("/api/account/verifyCode", async (req, res) => {
 
   if (!req.hasKeys("verifyCode")) return;
 
-  const { status, account } = await verifyAccount(req.body.code);
+  const { status, account } = await verifyAccount(req.body.verifyCode);
 
   switch (status) {
     case VerifyStatus.NoAccount:
