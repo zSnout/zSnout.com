@@ -3,8 +3,6 @@
   import Button from "../../components/Button.vue";
   import DocumentDisplay from "../../components/DocumentDisplay.vue";
   import Field from "../../components/Field.vue";
-  import Labeled from "../../components/Labeled.vue";
-  import LabelGrid from "../../components/LabelGrid.vue";
   import Spacer from "../../components/Spacer.vue";
   import VStack from "../../components/VStack.vue";
   import { useApi } from "../../composables/useApi";
@@ -48,37 +46,29 @@
   <DocumentDisplay center>
     <form style="min-width: min(500px, 100%)">
       <VStack>
-        <LabelGrid>
-          <Labeled label="Username">
-            <Field
-              v-model="username"
-              autocomplete="username"
-              maxlength="32"
-              placeholder="Username..."
-              @input="error = ''"
-            />
-          </Labeled>
+        <Field
+          v-model="username"
+          autocomplete="username"
+          maxlength="32"
+          placeholder="Username..."
+          @input="error = ''"
+        />
 
-          <Labeled label="Password">
-            <Field
-              v-model="password"
-              autocomplete="password"
-              placeholder="Password..."
-              type="password"
-              @input="error = ''"
-            />
-          </Labeled>
+        <Field
+          v-model="password"
+          autocomplete="password"
+          placeholder="Password..."
+          type="password"
+          @input="error = ''"
+        />
 
-          <Labeled label="Email">
-            <Field
-              v-model="email"
-              autocomplete="email"
-              placeholder="Email Address..."
-              type="email"
-              @input="error = ''"
-            />
-          </Labeled>
-        </LabelGrid>
+        <Field
+          v-model="email"
+          autocomplete="email"
+          placeholder="Email Address..."
+          type="email"
+          @input="error = ''"
+        />
 
         <Spacer :size="2" />
 
