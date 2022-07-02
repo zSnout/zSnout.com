@@ -50,6 +50,16 @@
 
     <SearchableCardGrid style="position: relative; z-index: 2">
       <ImageCard
+        alt="A lock symbolizing 'log in'."
+        description="Log in to your zSnout account to save fractals, Storymatic projects, and more!"
+        keywords="account"
+        src="/images/account/log-in.png"
+        title="Log In"
+        to="/account/log-in"
+      />
+
+      <ImageCard
+        alt="The Mandelbrot Set in a raindow background"
         description="View amazing fractal images and interact with them live on your computer."
         keywords="math mandelbrot set"
         src="/images/fractal-explorer.png"
@@ -58,6 +68,7 @@
       />
 
       <ImageCard
+        alt="Light green blobs in a blue background"
         description="See a carefully curated collection of various interactive fractals."
         keywords="math"
         src="/images/fractal-presets/index.png"
@@ -66,6 +77,7 @@
       />
 
       <ImageCard
+        alt="A sample Storymatic program about groceries"
         description="Experiment with 4 versions of a programming language designed by zSnout."
         keywords="programming languages custom"
         src="/images/storymatic/index.png"
@@ -74,6 +86,7 @@
       />
 
       <ImageCard
+        alt="Multicolored overlapping rectangles with unique border styles"
         description="See a collection of simple yet beautiful examples of abstract art."
         keywords="gradients squares rectangles circles ellipses"
         src="/images/art/index.png"
@@ -82,6 +95,7 @@
       />
 
       <ImageCard
+        alt="Leopards stacked on top of each other"
         description="A leap of leopards (look it up) appear and fill your device's screen."
         keywords="images"
         src="/images/leopards.png"
@@ -90,6 +104,7 @@
       />
 
       <ImageCard
+        alt="A white circle with black segments drawn within it"
         description="Draw on a rotating tabletop using our simple drawing interface."
         keywords="spinner drawings"
         src="/images/drawing/turntable.png"
@@ -98,6 +113,7 @@
       />
 
       <ImageCard
+        alt="A sign saying 'Hi' with arrows pointing right"
         description="Draw on a table that moves beneath your finger as you create."
         keywords="moving drawings"
         src="/images/drawing/slider.png"
@@ -106,6 +122,7 @@
       />
 
       <ImageCard
+        alt="A black background with some white blobs that merge together"
         description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
         keywords="bouncing screensavers"
         src="/images/metaballs.png"
@@ -114,6 +131,7 @@
       />
 
       <ImageCard
+        alt="A clock with flames trailing behind it"
         description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
         keywords="bouncing screensavers"
         src="/images/reaction-time-tester.png"
@@ -122,6 +140,7 @@
       />
 
       <ImageCard
+        alt="A lambda calculus program defining the numerals 0 through 9"
         description="Run your lambda calculus functions in our interactive editor."
         keywords="programming languages"
         src="/images/lambda-calculus/evaluator.png"
@@ -130,6 +149,7 @@
       />
 
       <ImageCard
+        alt="A comparison of the lambda calculus Mockingbird combinator being applied to itself and its JavaScript counterpart."
         description="Convert your lambda calculus functions into valid and runnable JavaScript code."
         keywords="programming languages javascript"
         src="/images/lambda-calculus/compiler.png"
@@ -138,6 +158,7 @@
       />
 
       <ImageCard
+        alt="A preview of the 'Same Number Generator' page"
         description="It's like a random number generator, but it generates the same number every time."
         keywords="random numbers passkey password"
         src="/images/same-number-generator.png"
@@ -146,6 +167,7 @@
       />
 
       <ImageCard
+        alt="A symbol representing an image with the text 'image not found' beneath the symbol."
         description="We're not sure why you'd go to the 404 page, but here's a link if you need it."
         keywords="not found error page"
         src="/images/404.png"
@@ -154,6 +176,7 @@
       />
 
       <ImageCard
+        alt="A magnifying glass inspects a bug hidden amongst bookshelves"
         description="A collection of pages used to debug and test interfaces such as the canvas APIs."
         keywords="webgl canvas"
         src="/images/debug/index.png"

@@ -18,6 +18,7 @@
 
     <SearchableCardGrid>
       <ImageCard
+        alt="A gradient being created from thick paint strokes"
         description="Create your own blobby gradient with a custom size and color scheme."
         keywords="circles"
         src="/images/art/blobby-gradient.png"
@@ -26,6 +27,7 @@
       />
 
       <ImageCard
+        alt="Several fires stacked on each other with a red border and yellow flames"
         description="Watch some simple yet entrancing fires bounce across your screen."
         keywords="fires multi"
         src="/images/art/fireline.png"
@@ -34,6 +36,7 @@
       />
 
       <ImageCard
+        alt="Multicolored overlapping rectangles with unique border styles"
         description="Watch an amazing display of colorful rectangles and change their sizes."
         keywords="squares"
         src="/images/art/rectangles.png"
@@ -42,6 +45,7 @@
       />
 
       <ImageCard
+        alt="Multicolored overlapping ellipses with unique border styles"
         description="View a vast and vivid variety of vibrant ellipses (and V-words)."
         keywords="circles"
         src="/images/art/ellipses.png"
