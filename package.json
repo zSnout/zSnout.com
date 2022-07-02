@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "engines": {
-    "node": "18.0.0"
+    "node": "v18.3.0",
+    "npm": "8.12.1"
   },
   "dependencies": {
     "@vueuse/components": "^8.7.5",
