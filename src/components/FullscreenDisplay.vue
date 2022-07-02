@@ -9,6 +9,7 @@
   import OptionsIcon from "./OptionsIcon.vue";
   import SafeArea from "./SafeArea.vue";
   import Spacer from "./Spacer.vue";
+  import BookmarkIcon from "./BookmarkIcon.vue";
 
   defineProps<{ options?: boolean }>();
 
@@ -24,6 +25,8 @@
         </RouterLink>
 
         <Spacer />
+
+        <BookmarkIcon fullscreen />
 
         <OptionsIcon
           v-if="$slots.options"

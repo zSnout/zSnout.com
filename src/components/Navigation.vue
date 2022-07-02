@@ -57,6 +57,7 @@
   import HStack from "./HStack.vue";
   import Spacer from "./Spacer.vue";
   import Button from "./Button.vue";
+  import BookmarkIcon from "./BookmarkIcon.vue";
 
   const open = ref(false);
 </script>
@@ -86,13 +87,15 @@
 
           <Spacer />
 
+          <BookmarkIcon />
+
           <OptionsIcon
             v-if="$slots.options"
             role="button"
             @click="open = !open"
           />
 
-          <ThemeIcon class="icon" @click="isDark = !isDark" />
+          <ThemeIcon class="icon" role="button" @click="isDark = !isDark" />
 
           <a
             class="icon"
