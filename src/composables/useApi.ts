@@ -3,6 +3,7 @@ interface ApiRequest<T extends string> {
   body?: Record<string, string | number | boolean>;
   method: string;
   resultKeys: readonly T[];
+  desc: string;
 }
 
 export async function useApi<T extends string>(
@@ -17,6 +18,10 @@ export async function useApi<T extends string>(
         : undefined,
     });
 
+    if (result.status === 404) {
+      return new Error(`This instance of zSnout can't ${request.desc}.`);
+    }
+
     const text = await result.text();
 
     try {
@@ -24,6 +29,10 @@ export async function useApi<T extends string>(
 
       if (typeof json !== "object") {
         return new Error("Expected a JSON object as a response.");
+      }
+
+      if (json.error != null) {
+        return new Error(json.error);
       }
 
       for (const key of request.resultKeys) {
