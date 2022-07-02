@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, ref, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { ClientToServer, ServerToClient } from "../events";
+import { ClientToServer, ServerToClient } from "../shared";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
@@ -146,7 +146,7 @@ if (session.value) {
 socket.on("account:update:session", (value) => (session.value = value));
 socket.on("account:update:username", (value) => (username.value = value));
 socket.on("go-home", () => router.replace("/"));
-socket.on("set-error", (err) => (error.value = err));
+socket.on("error", (err) => (error.value = err));
 
 declare global {
   interface EventTarget {

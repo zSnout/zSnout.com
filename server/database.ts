@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { Bookmark } from "../shared";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
@@ -39,9 +40,4 @@ export interface Database {
     verifyCode: string;
     bookmarks: Bookmark[];
   };
-}
-
-export interface Bookmark {
-  name: string;
-  url: string;
 }

@@ -5,40 +5,20 @@
   import Field from "../../components/Field.vue";
   import Spacer from "../../components/Spacer.vue";
   import VStack from "../../components/VStack.vue";
-  import { useApi } from "../../composables/useApi";
-  import { router, session, username as _username } from "../../main";
+  import { error, socket } from "../../main";
 
   const username = ref("");
   const password = ref("");
   const email = ref("");
-  const error = ref("");
   const disabled = ref(false);
 
-  async function signUp() {
+  error.value = "";
+
+  function signUp() {
     disabled.value = true;
 
-    const result = await useApi({
-      api: "account",
-      method: "PUT",
-      body: {
-        username: username.value,
-        password: password.value,
-        email: email.value,
-      },
-      resultKeys: ["session", "username"],
-      desc: "create accounts",
-    });
-
-    if (result instanceof Error) {
-      error.value = result.message;
-    } else {
-      session.value = result.session;
-      _username.value = result.username;
-
-      router.replace("/");
-    }
-
-    disabled.value = false;
+    socket.emit("account:create", username.value, password.value, email.value);
+    socket.once("error", () => (disabled.value = false));
   }
 </script>
 
