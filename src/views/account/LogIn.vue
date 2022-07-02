@@ -8,6 +8,7 @@
   import VStack from "../../components/VStack.vue";
   import { useApi } from "../../composables/useApi";
   import { router, session, username as _username } from "../../main";
+  import LabelGrid from "../../components/LabelGrid.vue";
 
   const username = ref("");
   const password = ref("");
@@ -42,25 +43,27 @@
   <DocumentDisplay center>
     <form style="min-width: min(500px, 100%)">
       <VStack>
-        <Labeled label="Username">
-          <Field
-            v-model="username"
-            autocomplete="username"
-            maxlength="32"
-            placeholder="Username..."
-            @input="error = ''"
-          />
-        </Labeled>
+        <LabelGrid>
+          <Labeled label="Username">
+            <Field
+              v-model="username"
+              autocomplete="username"
+              maxlength="32"
+              placeholder="Username..."
+              @input="error = ''"
+            />
+          </Labeled>
 
-        <Labeled label="Password">
-          <Field
-            v-model="password"
-            autocomplete="password"
-            placeholder="Password..."
-            type="password"
-            @input="error = ''"
-          />
-        </Labeled>
+          <Labeled label="Password">
+            <Field
+              v-model="password"
+              autocomplete="password"
+              placeholder="Password..."
+              type="password"
+              @input="error = ''"
+            />
+          </Labeled>
+        </LabelGrid>
 
         <Spacer :size="2" />
 
