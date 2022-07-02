@@ -65,7 +65,7 @@ app.post("/api/account", async (req, res) => {
       break;
 
     case AuthStatus.Success:
-      res.json({ session: account.session });
+      res.json({ session: account.session, username: account.username });
       break;
 
     default:
