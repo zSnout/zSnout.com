@@ -8,6 +8,7 @@
   import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import VStack from "../components/VStack.vue";
   import { useRandomItem } from "../composables/useRandomItem";
+  import { username } from "../main";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
@@ -24,7 +25,11 @@
   <DocumentDisplay>
     <Cover>
       <VStack class="stack" :space="2">
-        <LargeTitle>Welcome to zSnout.</LargeTitle>
+        <LargeTitle v-if="username">
+          Welcome to zSnout, @{{ username }}.
+        </LargeTitle>
+
+        <LargeTitle v-else>Welcome to zSnout.</LargeTitle>
 
         <p class="text-color" style="line-height: 2">
           zSnout is a website made by
