@@ -19,7 +19,7 @@
     "src/**/*.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "./events.ts"
+    "./shared.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
