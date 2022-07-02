@@ -1,6 +1,6 @@
 interface ApiRequest<T extends string> {
   api: string;
-  body?: object;
+  body?: Record<string, string | number | boolean>;
   method: string;
   resultKeys: readonly T[];
 }
@@ -9,9 +9,12 @@ export async function useApi<T extends string>(
   request: ApiRequest<T>
 ): Promise<Record<T, string> | Error> {
   try {
-    const result = await fetch(`/api/${request}`, {
+    const result = await fetch(`/api/${request.api}`, {
       method: request.method,
       body: request.body && JSON.stringify(request.body),
+      headers: request.body
+        ? { "content-type": "application/json" }
+        : undefined,
     });
 
     const text = await result.text();
