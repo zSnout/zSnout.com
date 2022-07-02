@@ -60,7 +60,7 @@ export enum AuthStatus {
   Success,
 }
 
-export async function checkCredentials(session: string) {
+export async function checkSession(session: string) {
   const accounts = await _accounts;
   if (!accounts) return { status: ReAuthStatus.NoServer as const };
 
