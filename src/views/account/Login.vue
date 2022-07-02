@@ -22,6 +22,7 @@
       method: "POST",
       body: { username: username.value, password: password.value },
       resultKeys: ["session", "username"],
+      desc: "log users in",
     });
 
     if (result instanceof Error) {
