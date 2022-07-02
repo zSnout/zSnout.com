@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import images from "virtual:image-list";
+  import { ref } from "vue";
   import BlurredImage from "../components/BlurredImage.vue";
   import Cover from "../components/Cover.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
@@ -8,11 +9,17 @@
   import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import VStack from "../components/VStack.vue";
   import { useRandomItem } from "../composables/useRandomItem";
-  import { username } from "../main";
+  import { session, username } from "../main";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
   const c = useRandomItem(images);
+
+  const canLogIn = ref(false);
+
+  fetch("/api/ping")
+    .then(async (result) => (canLogIn.value = !!(await result.json())))
+    .catch(() => (canLogIn.value = false));
 </script>
 
 <template>
@@ -50,8 +57,29 @@
 
     <SearchableCardGrid style="position: relative; z-index: 2">
       <ImageCard
-        alt="A lock symbolizing 'log in'."
-        description="Log in to your zSnout account to save fractals, Storymatic projects, and more!"
+        v-if="username"
+        alt="A demonstration of how to integrate logarithms"
+        description="Log out of your zSnout account."
+        keywords="account"
+        src="/images/account/log-out.png"
+        title="Log Out"
+        @click="(username = ''), (session = '')"
+      />
+
+      <ImageCard
+        v-if="!username && canLogIn"
+        alt="Someone holding up a sign saying 'Sign Up'"
+        description="Create a new account on zSnout to save fractals, Storymatic projects, and more."
+        keywords="account"
+        src="/images/account/sign-up.png"
+        title="Sign Up"
+        to="/account/sign-up"
+      />
+
+      <ImageCard
+        v-if="!username && canLogIn"
+        alt="A log in a fire"
+        description="Log in to zSnout to access your saved bookmarks and SnoutBucks."
         keywords="account"
         src="/images/account/log-in.png"
         title="Log In"
