@@ -134,19 +134,22 @@ window.addEventListener("keydown", (event) => {
 export const session = useStorage("session", "");
 export const username = useStorage("username", "");
 
-useApi({
-  api: "account/check-login",
-  method: "POST",
-  desc: "reauthenticate accounts",
-  resultKeys: ["session", "username"],
-}).then((value) => {
-  if (value instanceof Error) {
-    session.value = "";
-    username.value = "";
-  } else {
-    username.value = value.username;
-  }
-});
+if (session.value) {
+  useApi({
+    api: "account/check-login",
+    method: "POST",
+    desc: "reauthenticate accounts",
+    resultKeys: ["session", "username"],
+    body: { session: session.value },
+  }).then((value) => {
+    if (value instanceof Error) {
+      session.value = "";
+      username.value = "";
+    } else {
+      username.value = value.username;
+    }
+  });
+}
 
 declare global {
   interface EventTarget {

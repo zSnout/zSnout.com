@@ -27,6 +27,8 @@
     "mongodb": "^4.7.0",
     "random-seed": "^0.3.0",
     "rangetouch": "^2.0.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1",
     "storymatic": "^2.0.85",
     "tabbable": "^5.3.3",
     "vite-plugin-mix": "^0.3.1",

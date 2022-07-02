@@ -1,4 +1,5 @@
 import express, { json } from "express";
+import { createServer } from "http";
 import {
   AccountStatus,
   AuthStatus,
@@ -13,7 +14,9 @@ import { StatusCode } from "./codes";
 import { isActive as isDatabaseActive } from "./database";
 import { isActive as isMailActive } from "./email";
 
-const app = express();
+export const app = express();
+export const server = createServer(app);
+
 app.use(json({ type: "application/json" }));
 
 app.use((req, res, next) => {

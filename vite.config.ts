@@ -1,8 +1,9 @@
-import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import { VitePWA } from "vite-plugin-pwa";
 import { sync } from "fast-glob";
+import { defineConfig } from "vite";
 import mix from "vite-plugin-mix";
+import { VitePWA } from "vite-plugin-pwa";
+import { makeIO } from "./server/socketio";
 
 const jsfile = /\.([jt]sx?|vue)($|\?)/;
 const images = sync("./public/images/**/*.png");
@@ -35,6 +36,14 @@ export default defineConfig({
       },
     },
     VitePWA(),
+    {
+      name: "socket.io",
+      configureServer(server) {
+        if (server.httpServer) {
+          makeIO(server.httpServer);
+        }
+      },
+    },
     mix({ handler: "./server/index.ts" }),
   ],
 });
