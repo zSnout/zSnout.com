@@ -108,6 +108,7 @@ export async function createAccount(
     session: randomUUID(),
     verified: false,
     verifyCode: randomUUID(),
+    bookmarks: [],
   };
 
   const result = await accounts.insertOne(account);
