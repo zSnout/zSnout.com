@@ -5,6 +5,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
+import { useApi } from "./composables/useApi";
 
 const routes = import.meta.glob("./views/**/*.vue");
 
@@ -132,6 +133,20 @@ window.addEventListener("keydown", (event) => {
 
 export const session = useStorage("session", "");
 export const username = useStorage("username", "");
+
+useApi({
+  api: "account/check-login",
+  method: "POST",
+  desc: "reauthenticate accounts",
+  resultKeys: ["session", "username"],
+}).then((value) => {
+  if (value instanceof Error) {
+    session.value = "";
+    username.value = "";
+  } else {
+    username.value = value.username;
+  }
+});
 
 declare global {
   interface EventTarget {

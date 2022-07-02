@@ -17,7 +17,7 @@
     disabled.value = true;
 
     const result = await useApi({
-      api: "account",
+      api: "account/login",
       method: "POST",
       body: { username: username.value, password: password.value },
       resultKeys: ["session", "username"],

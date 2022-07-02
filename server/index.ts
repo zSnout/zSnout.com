@@ -40,72 +40,77 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/account", async (req, res) => {
+app.post("/api/account/login", async (req, res) => {
   if (!(await isDatabaseActive))
     return res.error(
       "This instance of zSnout can't authenticate accounts.",
       StatusCode.ServiceUnavailable
     );
 
-  if (req.hasKeys("username", "password")) {
-    const { status, account } = await logInUser(
-      req.body.username,
-      req.body.password
+  if (!req.hasKeys("username", "password")) return;
+
+  const { status, account } = await logInUser(
+    req.body.username,
+    req.body.password
+  );
+
+  switch (status) {
+    case AuthStatus.BadPassword:
+    case AuthStatus.NoUser:
+      res.error("The username or password is incorrect.");
+      break;
+
+    case AuthStatus.NoServer:
+      res.error(
+        "This instance of zSnout can't authenticate accounts.",
+        StatusCode.ServiceUnavailable
+      );
+      break;
+
+    case AuthStatus.Success:
+      res.json({ session: account.session, username: account.username });
+      break;
+
+    default:
+      res.error(
+        "The server responded with a nonexistent authentication status.",
+        StatusCode.InternalServerError
+      );
+  }
+});
+
+app.post("/api/account/check-login", async (req, res) => {
+  if (!(await isDatabaseActive))
+    return res.error(
+      "This instance of zSnout can't authenticate accounts.",
+      StatusCode.ServiceUnavailable
     );
 
-    switch (status) {
-      case AuthStatus.BadPassword:
-      case AuthStatus.NoUser:
-        res.error("The username or password is incorrect.");
-        break;
+  if (!req.hasKeys("session")) return;
 
-      case AuthStatus.NoServer:
-        res.error(
-          "This instance of zSnout can't authenticate accounts.",
-          StatusCode.ServiceUnavailable
-        );
-        break;
+  const { status, account } = await checkSession(req.body.session);
 
-      case AuthStatus.Success:
-        res.json({ session: account.session, username: account.username });
-        break;
+  switch (status) {
+    case ReAuthStatus.Failure:
+      res.error("That session key is now invalid.", StatusCode.NotFound);
+      break;
 
-      default:
-        res.error(
-          "The server responded with a nonexistent authentication status.",
-          StatusCode.InternalServerError
-        );
-    }
-  } else if (req.hasKeys("session")) {
-    const { status, account } = await checkSession(req.body.session);
+    case ReAuthStatus.NoServer:
+      res.error(
+        "This instance of zSnout can't reauthenticate accounts.",
+        StatusCode.ServiceUnavailable
+      );
+      break;
 
-    switch (status) {
-      case ReAuthStatus.Failure:
-        res.error("That session key is now invalid.", StatusCode.NotFound);
-        break;
+    case ReAuthStatus.Success:
+      res.json({ session: account.session, username: account.username });
+      break;
 
-      case ReAuthStatus.NoServer:
-        res.error(
-          "This instance of zSnout can't reauthenticate accounts.",
-          StatusCode.ServiceUnavailable
-        );
-        break;
-
-      case ReAuthStatus.Success:
-        res.json({ session: account.session, username: account.username });
-        break;
-
-      default:
-        res.error(
-          "The server responded with a nonexistent reauthentication status.",
-          StatusCode.InternalServerError
-        );
-    }
-  } else {
-    res.error(
-      "You must either pass 'username' and 'password' or 'session' to authenticate",
-      StatusCode.BadRequest
-    );
+    default:
+      res.error(
+        "The server responded with a nonexistent reauthentication status.",
+        StatusCode.InternalServerError
+      );
   }
 });
 
