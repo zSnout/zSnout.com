@@ -1,7 +1,10 @@
+import { computed } from "@vue/reactivity";
 import { useCssVar, useStorage, useWindowSize } from "@vueuse/core";
+import { io, Socket } from "socket.io-client";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { ClientToServer, ServerToClient } from "../events";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
@@ -131,25 +134,17 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+export const socket = io() as Socket<ServerToClient, ClientToServer>;
+
 export const session = useStorage("session", "");
 export const username = useStorage("username", "");
 
 if (session.value) {
-  useApi({
-    api: "account/check-login",
-    method: "POST",
-    desc: "reauthenticate accounts",
-    resultKeys: ["session", "username"],
-    body: { session: session.value },
-  }).then((value) => {
-    if (value instanceof Error) {
-      session.value = "";
-      username.value = "";
-    } else {
-      username.value = value.username;
-    }
-  });
+  socket.emit("account:check-session", session.value);
 }
+
+socket.on("account:update:session", (value) => (session.value = value));
+socket.on("account:update:username", (value) => (username.value = value));
 
 declare global {
   interface EventTarget {
