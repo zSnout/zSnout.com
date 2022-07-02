@@ -37,5 +37,11 @@ export interface Database {
     email: string;
     verified: boolean;
     verifyCode: string;
+    bookmarks: Bookmark[];
   };
+}
+
+export interface Bookmark {
+  name: string;
+  url: string;
 }
