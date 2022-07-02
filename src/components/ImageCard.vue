@@ -4,6 +4,7 @@
   import MaybeLink from "./MaybeLink.vue";
 
   defineProps<{
+    alt: string;
     description: string | Ref<string>;
     forceReload?: boolean;
     keywords?: string;
@@ -28,6 +29,7 @@
     <img
       ref="image"
       class="image"
+      :alt="alt"
       :src="src"
       :style="loaded ? '' : 'display: none'"
       aria-hidden="true"
