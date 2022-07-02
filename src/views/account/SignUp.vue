@@ -14,7 +14,7 @@
   const error = ref("");
   const disabled = ref(false);
 
-  async function logIn() {
+  async function signUp() {
     disabled.value = true;
 
     const result = await useApi({
@@ -72,7 +72,7 @@
 
         <Spacer :size="2" />
 
-        <Button @click="logIn">Sign Up</Button>
+        <Button @click="signUp">Sign Up</Button>
 
         <p v-if="error">Error: {{ error }}</p>
       </VStack>

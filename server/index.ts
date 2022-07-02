@@ -136,7 +136,7 @@ app.put("/api/account", async (req, res) => {
       break;
 
     case AccountStatus.Success:
-      res.send({ session: account.session });
+      res.send({ session: account.session, username: account.username });
       break;
 
     case AccountStatus.UsernameTaken:
