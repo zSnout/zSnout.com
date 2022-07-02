@@ -1,4 +1,4 @@
-import { useCssVar, useWindowSize } from "@vueuse/core";
+import { useCssVar, useStorage, useWindowSize } from "@vueuse/core";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
@@ -129,6 +129,9 @@ window.addEventListener("keydown", (event) => {
     showOptions();
   }
 });
+
+export const session = useStorage("session", "");
+export const username = useStorage("username", "");
 
 declare global {
   interface EventTarget {
