@@ -8,7 +8,8 @@ import {
   VerifyStatus,
 } from "./auth";
 import { StatusCode } from "./codes";
-import { isActive } from "./database";
+import { isActive as isDatabaseActive } from "./database";
+import { isActive as isMailActive } from "./email";
 
 const app = express();
 app.use(json({ type: "application/json" }));
@@ -38,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/account", async (req, res) => {
-  if (!(await isActive))
+  if (!(await isDatabaseActive))
     return res.error(
       "This instance of zSnout can't authenticate accounts.",
       StatusCode.ServiceUnavailable
@@ -77,9 +78,15 @@ app.post("/api/account", async (req, res) => {
 });
 
 app.put("/api/account", async (req, res) => {
-  if (!(await isActive))
+  if (!(await isDatabaseActive))
     return res.error(
-      "This instance of zSnout can't authenticate accounts.",
+      "This instance of zSnout can't create accounts.",
+      StatusCode.ServiceUnavailable
+    );
+
+  if (!isMailActive)
+    return res.error(
+      "This instance of zSnout can't create accounts.",
       StatusCode.ServiceUnavailable
     );
 
@@ -144,14 +151,14 @@ app.put("/api/account", async (req, res) => {
   }
 });
 
-app.put("/api/verify-account", async (req, res) => {
-  if (!(await isActive))
+app.patch("/api/account/verifyCode", async (req, res) => {
+  if (!(await isDatabaseActive))
     return res.error(
-      "This instance of zSnout can't authenticate accounts.",
+      "This instance of zSnout can't verify accounts.",
       StatusCode.ServiceUnavailable
     );
 
-  if (!req.hasKeys("code")) return;
+  if (!req.hasKeys("verifyCode")) return;
 
   const { status, account } = await verifyAccount(req.body.code);
 
@@ -168,7 +175,7 @@ app.put("/api/verify-account", async (req, res) => {
       break;
 
     case VerifyStatus.Success:
-      res.send({ session: account.session });
+      res.send({ session: account.session, username: account.username });
       break;
 
     default:
@@ -177,6 +184,17 @@ app.put("/api/verify-account", async (req, res) => {
         StatusCode.InternalServerError
       );
   }
+});
+
+app.get("/api/ping", async (_, res) => {
+  const active = await isDatabaseActive;
+
+  res.send({
+    "POST /api/account": active,
+    "PUT /api/account": active && isMailActive,
+    "PATCH /api/account/verifyCode": active,
+    "GET /api/ping": true,
+  });
 });
 
 export { app as handler };

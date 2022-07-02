@@ -1,6 +1,5 @@
 import { compare, hash } from "bcrypt";
 import { randomUUID } from "crypto";
-import FastGlob from "fast-glob";
 import { collection } from "./database";
 import { send } from "./email";
 

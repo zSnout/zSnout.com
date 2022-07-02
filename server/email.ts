@@ -12,6 +12,12 @@ const config = {
   },
 };
 
+export const isActive = !!(
+  process.env.ZSNOUT_MAIL_HOST &&
+  process.env.ZSNOUT_MAIL_USER &&
+  process.env.ZSNOUT_MAIL_PASSWORD
+);
+
 const transport = createTransport(config);
 
 export function send(options: Omit<Mail.Options, "from">) {
