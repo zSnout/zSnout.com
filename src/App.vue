@@ -80,7 +80,8 @@
     }
   }
 
-  a {
+  a,
+  .link {
     color: #008383;
     text-decoration: none;
 
