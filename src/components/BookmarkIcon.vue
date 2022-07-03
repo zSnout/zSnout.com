@@ -103,9 +103,11 @@
             </Button>
           </HStack>
 
-          <RouterLink v-for="bookmark in bookmarks" :to="bookmark.url">
-            {{ bookmark.name }}
-          </RouterLink>
+          <HStack v-for="bookmark in bookmarks">
+            <RouterLink class="second-layer" :to="bookmark.url" style="flex: 1">
+              {{ bookmark.name }}
+            </RouterLink>
+          </HStack>
         </template>
       </VStack>
     </div>
