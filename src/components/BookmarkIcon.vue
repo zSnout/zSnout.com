@@ -1,15 +1,27 @@
 <!-- https://www.svgrepo.com/svg/98665/bookmark-outline -->
 
 <script lang="ts" setup>
-  import { ref } from "vue";
+  import { reactive, ref } from "vue";
+  import { RouterLink } from "vue-router";
+  import { Bookmark } from "../../shared";
+  import { session, socket } from "../main";
   import Button from "./Button.vue";
-  import VStack from "./VStack.vue";
   import HStack from "./HStack.vue";
+  import LogInForm from "./LogInForm.vue";
+  import VStack from "./VStack.vue";
 
   defineProps<{ fullscreen?: boolean }>();
 
   const isOpen = ref(false);
   const visible = ref(false);
+  const logInOpen = ref(false);
+  const bookmarks = reactive<Bookmark[]>([]);
+
+  socket.emit("bookmarks:request", session.value);
+
+  socket.on("bookmarks:list", (list) => {
+    bookmarks.splice(0, bookmarks.length, ...list);
+  });
 
   function open() {
     isOpen.value = true;
@@ -19,6 +31,14 @@
   function close() {
     isOpen.value = false;
     setTimeout(() => visible.value && (visible.value = false), 300);
+  }
+
+  function addThis() {
+    const url = location.pathname + location.search + location.hash;
+    if (bookmarks.some((e) => e.url === url)) return;
+
+    bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
+    socket.emit("bookmarks:update", session.value, bookmarks);
   }
 </script>
 
@@ -67,13 +87,30 @@
       @click="close()"
     >
       <VStack class="bookmarks second-layer" @click="$event.stopPropagation()">
-        <HStack stretch>
-          <Button>Add this page</Button>
-          <Button>Refresh</Button>
-        </HStack>
+        <p v-if="!session" style="text-align: center">
+          <!-- prettier-ignore -->
+          <span class="link" style="cursor: pointer" @click="logInOpen = true">Log in</span>
+          to create bookmarks.
+        </p>
+
+        <template v-else>
+          <HStack stretch>
+            <Button @click="addThis">Add this page</Button>
+
+            <Button @click="socket.emit('bookmarks:request', session)">
+              Refresh
+            </Button>
+          </HStack>
+
+          <RouterLink v-for="bookmark in bookmarks" :to="bookmark.url">
+            {{ bookmark.name }}
+          </RouterLink>
+        </template>
       </VStack>
     </div>
   </Teleport>
+
+  <LogInForm v-model:open="logInOpen" />
 </template>
 
 <style lang="scss" scoped>
