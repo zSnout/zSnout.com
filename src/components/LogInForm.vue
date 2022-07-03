@@ -1,11 +1,3 @@
-<script lang="ts">
-  let emit: (event: "update:open", open: boolean) => void;
-  let _disabled: Ref<boolean>;
-
-  socket.on("account:complete-login", () => emit("update:open", false));
-  socket.on("error", () => (_disabled.value = false));
-</script>
-
 <script lang="ts" setup>
   import { Ref, ref } from "vue";
   import { error, socket } from "../main";
@@ -16,15 +8,17 @@
   import Button from "./Button.vue";
 
   const { signUp } = defineProps<{ open: boolean; signUp?: boolean }>();
-  const _emit = defineEmits<(event: "update:open", open: boolean) => void>();
-  emit = _emit;
+  const emit = defineEmits<(event: "update:open", open: boolean) => void>();
 
   const username = ref("");
   const password = ref("");
   const email = ref("");
-  const disabled = (_disabled = ref(false));
+  const disabled = ref(false);
   const isSigningUp = ref(signUp || false);
   error.value = "";
+
+  socket.on("account:complete-login", () => emit("update:open", false));
+  socket.on("error", () => (disabled.value = false));
 
   function logIn() {
     if (disabled.value) return;

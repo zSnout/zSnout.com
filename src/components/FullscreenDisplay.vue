@@ -26,7 +26,7 @@
 
         <Spacer />
 
-        <BookmarkIcon fullscreen />
+        <BookmarkIcon class="bookmark-icon" fullscreen />
 
         <OptionsIcon
           v-if="$slots.options"
@@ -122,7 +122,8 @@
     }
   }
 
-  .options {
+  .options,
+  :deep(.bookmark-icon) {
     height: 2em;
     overflow: visible;
     cursor: pointer;

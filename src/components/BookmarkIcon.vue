@@ -50,6 +50,7 @@
     viewBox="0 0 603.511 603.511"
     xmlns="http://www.w3.org/2000/svg"
     @click="isOpen ? close() : open()"
+    v-bind="$attrs"
   >
     <path
       d="M103.468,58.64v486.202c0,8.186,1.659,16.096,4.931,23.513c3.116,7.063,7.548,13.345,13.173,18.669
@@ -103,8 +104,15 @@
             </Button>
           </HStack>
 
-          <HStack v-for="bookmark in bookmarks">
-            <RouterLink class="second-layer" :to="bookmark.url" style="flex: 1">
+          <HStack
+            v-for="bookmark in bookmarks"
+            class="bookmark second-layer hoverline focusline"
+          >
+            <RouterLink
+              class="bookmark-link"
+              :to="bookmark.url"
+              style="text-decoration: none; color: inherit"
+            >
               {{ bookmark.name }}
             </RouterLink>
           </HStack>
@@ -178,5 +186,13 @@
     .open & {
       left: 0;
     }
+  }
+
+  .bookmark {
+    cursor: pointer;
+  }
+
+  .bookmark-link {
+    flex: 1;
   }
 </style>
