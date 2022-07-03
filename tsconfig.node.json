@@ -8,5 +8,5 @@
     "allowSyntheticDefaultImports": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "server/**/*.ts", "./shared.ts"]
+  "include": ["vite.config.ts", "server/**/*.ts", "./shared.d.ts"]
 }
