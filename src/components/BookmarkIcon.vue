@@ -4,7 +4,7 @@
   import { reactive, ref } from "vue";
   import { RouterLink } from "vue-router";
   import { Bookmark } from "../../shared";
-  import { session, socket } from "../main";
+  import { connected, session, socket } from "../main";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
   import LogInForm from "./LogInForm.vue";
@@ -44,7 +44,8 @@
 
 <template>
   <svg
-    class="icon options"
+    v-if="connected"
+    class="icon"
     role="button"
     viewBox="0 0 603.511 603.511"
     xmlns="http://www.w3.org/2000/svg"

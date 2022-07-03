@@ -134,6 +134,10 @@ window.addEventListener("keydown", (event) => {
 
 export const socket = io() as Socket<ServerToClient, ClientToServer>;
 
+export const connected = ref(socket.connected);
+socket.on("connect", () => (connected.value = true));
+socket.on("disconnect", () => (connected.value = false));
+
 export const session = useStorage("session", "");
 export const username = useStorage("username", "");
 
@@ -145,7 +149,6 @@ if (session.value) {
 
 socket.on("account:update:session", (value) => (session.value = value));
 socket.on("account:update:username", (value) => (username.value = value));
-socket.on("go-home", () => router.replace("/"));
 socket.on("error", (err) => (error.value = err));
 
 declare global {
