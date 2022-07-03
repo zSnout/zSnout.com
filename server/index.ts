@@ -1,252 +1,131 @@
-import express, { json } from "express";
-import { createServer } from "http";
+import { Server as HTTPServer } from "node:http";
+import { Server } from "socket.io";
+import { ClientToServer, ServerToClient } from "../shared";
 import {
   AccountStatus,
   AuthStatus,
   checkSession,
   createAccount,
+  getAccount,
   logInUser,
   ReAuthStatus,
+  updateAccount,
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import { StatusCode } from "./codes";
-import { isActive as isDatabaseActive } from "./database";
-import { isActive as isMailActive } from "./email";
 
-export const app = express();
-export const server = createServer(app);
+export function makeIO(server: HTTPServer) {
+  const io = new Server<ClientToServer, ServerToClient>(server);
 
-app.use(json({ type: "application/json" }));
+  io.on("connection", (socket) => {
+    let oldSession: string | undefined;
 
-app.use((req, res, next) => {
-  req.hasKeys = (...keys) => {
-    if (typeof req.body !== "object" || req.body === null) {
-      res.error("The request body must be an object.");
-      return false;
-    }
+    async function verify(session: string) {
+      const { status, account } = await checkSession(session);
 
-    for (const key of keys) {
-      if (typeof req.body[key] !== "string") {
-        res.error(`The ${key} must be an string.`);
+      if (status === ReAuthStatus.Success) {
+        socket.emit("account:update:session", account.session);
+        socket.emit("account:update:username", account.username);
+
+        if (oldSession) socket.leave(`session:${oldSession}`);
+        socket.join(`session:${session}`);
+
+        return true;
+      } else {
+        socket.emit("account:update:session", "");
+        socket.emit("account:update:username", "");
+        if (oldSession) socket.leave(`session:${oldSession}`);
+
         return false;
       }
     }
 
-    return true;
-  };
+    socket.on("account:check-session", verify);
 
-  res.error = (error, status) => {
-    res.status(status ?? 400).json({ error });
-  };
-
-  next();
-});
-
-app.post("/api/account/login", async (req, res) => {
-  if (!(await isDatabaseActive))
-    return res.error(
-      "This instance of zSnout can't authenticate accounts.",
-      StatusCode.ServiceUnavailable
-    );
-
-  if (!req.hasKeys("username", "password")) return;
-
-  const { status, account } = await logInUser(
-    req.body.username,
-    req.body.password
-  );
-
-  switch (status) {
-    case AuthStatus.BadPassword:
-    case AuthStatus.NoUser:
-      res.error("The username or password is incorrect.");
-      break;
-
-    case AuthStatus.NoServer:
-      res.error(
-        "This instance of zSnout can't authenticate accounts.",
-        StatusCode.ServiceUnavailable
+    socket.on("account:create", async (username, password, email) => {
+      const { status, account } = await createAccount(
+        username,
+        password,
+        email
       );
-      break;
 
-    case AuthStatus.Success:
-      res.json({ session: account.session, username: account.username });
-      break;
+      if (status === AccountStatus.Success) {
+        await verify(account.session);
+        socket.emit("account:complete-login");
+      } else {
+        socket.emit(
+          "error",
+          {
+            [AccountStatus.BadEmail]:
+              "Your email address is invalid. Make sure it is formatted properly and can recieve emails.",
+            [AccountStatus.BadPassword]:
+              "Your password should have a letter, number, symbol, and be at least 8 characters long.",
+            [AccountStatus.BadUsername]:
+              "Your username should only contain letters, numbers, and underscores, and should be at least 6 characters long.",
+            [AccountStatus.EmailTaken]: `${email} is already registered with another account.`,
+            [AccountStatus.Failure]:
+              "An unknown issue occurred. Try again later.",
+            [AccountStatus.NoServer]:
+              "This instance of zSnout can't log in users.",
+            [AccountStatus.UsernameTaken]: `@${username} is already registered with another account.`,
+          }[status]
+        );
+      }
+    });
 
-    default:
-      res.error(
-        "The server responded with a nonexistent authentication status.",
-        StatusCode.InternalServerError
-      );
-  }
-});
+    socket.on("account:login", async (username, password) => {
+      const { status, account } = await logInUser(username, password);
 
-app.post("/api/account/check-login", async (req, res) => {
-  if (!(await isDatabaseActive))
-    return res.error(
-      "This instance of zSnout can't authenticate accounts.",
-      StatusCode.ServiceUnavailable
-    );
+      if (status === AuthStatus.Success) {
+        await verify(account.session);
+        socket.emit("account:complete-login");
+      } else {
+        socket.emit(
+          "error",
+          {
+            [AuthStatus.BadPassword]: "Your username or password is incorrect.",
+            [AuthStatus.NoServer]:
+              "This instance of zSnout can't log in users.",
+            [AuthStatus.NoUser]: "Your username or password is incorrect.",
+          }[status]
+        );
+      }
+    });
 
-  if (!req.hasKeys("session")) return;
+    socket.on("account:verify", async (verifyCode) => {
+      const { status, account } = await verifyAccount(verifyCode);
 
-  const { status, account } = await checkSession(req.body.session);
+      if (status === VerifyStatus.Success) {
+        await verify(account.session);
+        socket.emit("account:complete-login");
+      } else {
+        socket.emit(
+          "error",
+          {
+            [VerifyStatus.NoAccount]:
+              "The provided verification code is invalid.",
+            [VerifyStatus.NoServer]:
+              "This instance of zSnout can't verify accounts.",
+          }[status]
+        );
+      }
+    });
 
-  switch (status) {
-    case ReAuthStatus.Failure:
-      res.error("That session key is now invalid.", StatusCode.NotFound);
-      break;
+    socket.on("bookmarks:request", async (session) => {
+      if (await verify(session)) {
+        const bookmarks = (await getAccount(session))?.bookmarks;
+        if (bookmarks) socket.emit("bookmarks:list", bookmarks);
+      }
+    });
 
-    case ReAuthStatus.NoServer:
-      res.error(
-        "This instance of zSnout can't reauthenticate accounts.",
-        StatusCode.ServiceUnavailable
-      );
-      break;
-
-    case ReAuthStatus.Success:
-      res.json({ session: account.session, username: account.username });
-      break;
-
-    default:
-      res.error(
-        "The server responded with a nonexistent reauthentication status.",
-        StatusCode.InternalServerError
-      );
-  }
-});
-
-app.put("/api/account", async (req, res) => {
-  if (!(await isDatabaseActive))
-    return res.error(
-      "This instance of zSnout can't create accounts.",
-      StatusCode.ServiceUnavailable
-    );
-
-  if (!isMailActive)
-    return res.error(
-      "This instance of zSnout can't create accounts.",
-      StatusCode.ServiceUnavailable
-    );
-
-  if (!req.hasKeys("username", "password", "email")) return;
-
-  const { status, account } = await createAccount(
-    req.body.username,
-    req.body.password,
-    req.body.email
-  );
-
-  switch (status) {
-    case AccountStatus.BadEmail:
-      res.error(
-        "Your email is invalid. Make sure it is properly formatted and can recieve messages from zsnout.com."
-      );
-      break;
-
-    case AccountStatus.BadPassword:
-      res.error(
-        "Your password isn't secure enough. Include a letter, number, special character, and make it at least 8 characters long."
-      );
-      break;
-
-    case AccountStatus.BadUsername:
-      res.error(
-        "Your username isn't allowed. It should be between 5 and 20 characters and only contain alphanumeric characters."
-      );
-      break;
-
-    case AccountStatus.EmailTaken:
-      res.error("Your email is already being used.", StatusCode.Conflict);
-      break;
-
-    case AccountStatus.Failure:
-      res.error(
-        "An unknown server-side issue occurred.",
-        StatusCode.InternalServerError
-      );
-      break;
-
-    case AccountStatus.NoServer:
-      res.error(
-        "This instance of zSnout can't create accounts.",
-        StatusCode.ServiceUnavailable
-      );
-      break;
-
-    case AccountStatus.Success:
-      res.send({ session: account.session, username: account.username });
-      break;
-
-    case AccountStatus.UsernameTaken:
-      res.error("Your username is already being used.", StatusCode.Conflict);
-      break;
-
-    default:
-      res.error(
-        "The server responded with a nonexistent account creation status.",
-        StatusCode.InternalServerError
-      );
-  }
-});
-
-app.patch("/api/account/verifyCode", async (req, res) => {
-  if (!(await isDatabaseActive))
-    return res.error(
-      "This instance of zSnout can't verify accounts.",
-      StatusCode.ServiceUnavailable
-    );
-
-  if (!req.hasKeys("verifyCode")) return;
-
-  const { status, account } = await verifyAccount(req.body.verifyCode);
-
-  switch (status) {
-    case VerifyStatus.NoAccount:
-      res.error("No account exists for that verification code.");
-      break;
-
-    case VerifyStatus.NoServer:
-      res.error(
-        "This instance of zSnout can't verify accounts.",
-        StatusCode.ServiceUnavailable
-      );
-      break;
-
-    case VerifyStatus.Success:
-      res.send({ session: account.session, username: account.username });
-      break;
-
-    default:
-      res.error(
-        "The server responded with a nonexistent account verification status.",
-        StatusCode.InternalServerError
-      );
-  }
-});
-
-app.get("/api/ping", async (_, res) => {
-  const active = await isDatabaseActive;
-
-  res.send({
-    "POST /api/account": active,
-    "PUT /api/account": active && isMailActive,
-    "PATCH /api/account/verifyCode": active,
-    "GET /api/ping": true,
+    socket.on("bookmarks:update", async (session, bookmarks) => {
+      if (await verify(session)) {
+        if (await updateAccount(session, { bookmarks })) {
+          if (bookmarks) {
+            socket.to(`session:${session}`).emit("bookmarks:list", bookmarks);
+          }
+        }
+      }
+    });
   });
-});
-
-export { app as handler };
-
-declare global {
-  namespace Express {
-    interface Request {
-      hasKeys(...keys: string[]): boolean;
-    }
-
-    interface Response {
-      error(error: any, status?: StatusCode): void;
-    }
-  }
 }

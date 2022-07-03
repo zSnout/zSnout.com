@@ -1,9 +1,8 @@
 import vue from "@vitejs/plugin-vue";
 import { sync } from "fast-glob";
 import { defineConfig } from "vite";
-import mix from "vite-plugin-mix";
 import { VitePWA } from "vite-plugin-pwa";
-import { makeIO } from "./server/socketio";
+import { makeIO } from "./server";
 
 const jsfile = /\.([jt]sx?|vue)($|\?)/;
 const images = sync("./public/images/**/*.png");
@@ -44,6 +43,5 @@ export default defineConfig({
         }
       },
     },
-    mix({ handler: "./server/index.ts" }),
   ],
 });
