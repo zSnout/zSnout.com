@@ -108,7 +108,17 @@
             v-for="bookmark in bookmarks"
             class="bookmark second-layer hoverline focusline"
           >
+            <a
+              v-if="bookmark.url.includes('?') || bookmark.url.includes('#')"
+              class="bookmark-link"
+              :href="bookmark.url"
+              style="text-decoration: none; color: inherit"
+            >
+              {{ bookmark.name }}
+            </a>
+
             <RouterLink
+              v-else
               class="bookmark-link"
               :to="bookmark.url"
               style="text-decoration: none; color: inherit"
@@ -151,14 +161,19 @@
     backdrop-filter: blur(0.5em);
     transition: var(--transitions), opacity 0.3s;
 
-    @media (max-width: 400px) {
-      top: calc(2.5em + 1px);
-      height: calc(var(--app-height) - 2.5em - 1px);
-    }
-
     &.fullscreen {
       top: 0;
       height: var(--app-height);
+    }
+
+    @media (max-width: 400px) {
+      top: calc(2.5em + 1px);
+      height: calc(var(--app-height) - 2.5em - 1px);
+
+      &.fullscreen {
+        top: 0;
+        height: var(--app-height);
+      }
     }
 
     &.open {
@@ -181,6 +196,14 @@
 
     &.bookmarks {
       border-radius: 0;
+    }
+
+    .fullscreen & {
+      padding-top: calc(3.5em + 0.5em + 1px);
+
+      @media (max-width: 400px) {
+        padding-top: calc(2.5em + 0.5em + 1px);
+      }
     }
 
     .open & {
