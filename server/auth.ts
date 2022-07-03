@@ -1,6 +1,6 @@
 import { compare, hash } from "bcrypt";
 import { randomUUID } from "crypto";
-import { collection } from "./database";
+import { collection, Database } from "./database";
 import { send } from "./email";
 
 export namespace IsLegal {
@@ -166,6 +166,18 @@ export async function clearOldAccounts() {
     verified: false,
     creation: { $lte: Date.now() - 15 * 60 * 1000 },
   });
+}
+
+export async function getAccount(session: string) {
+  return (await (await _accounts)?.findOne({ session })) || undefined;
+}
+
+export async function updateAccount(
+  session: string,
+  update: Partial<Database["accounts"]>
+) {
+  return (await (await _accounts)?.updateOne({ session }, { $set: update }))
+    ?.acknowledged;
 }
 
 setInterval(clearOldAccounts, 5 * 60 * 1000);
