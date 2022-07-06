@@ -41,7 +41,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.3",
-    "nodemailer": "^6.7.6",
+    "nodemailer": "^6.7.7",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
     "sass": "^1.53.0",
