@@ -13,7 +13,7 @@
     "npm": "8.12.1"
   },
   "dependencies": {
-    "@vueuse/components": "^8.7.5",
+    "@vueuse/components": "^8.8.0",
     "@vueuse/core": "^8.7.5",
     "@vueuse/integrations": "^8.7.5",
     "bcrypt": "^5.0.1",
