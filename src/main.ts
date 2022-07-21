@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, ref, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { ClientToServer, ServerToClient } from "../shared";
+import { ClientToServer, ServerToClient } from "../shared.client";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";

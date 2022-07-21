@@ -1,6 +1,6 @@
 import { Server as HTTPServer } from "node:http";
 import { Server } from "socket.io";
-import { ClientToServer, ServerToClient } from "../shared";
+import { ClientToServer, ServerToClient } from "../shared.server";
 import {
   AccountStatus,
   AuthStatus,

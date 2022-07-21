@@ -38,7 +38,7 @@ export default defineConfig({
     {
       name: "socket.io",
       configureServer(server) {
-        if (server.httpServer) {
+        if (process.argv.includes("build") && server.httpServer) {
           makeIO(server.httpServer);
         }
       },

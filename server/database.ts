@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { Bookmark } from "../shared";
+import { Bookmark } from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })

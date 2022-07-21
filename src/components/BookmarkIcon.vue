@@ -3,7 +3,7 @@
 <script lang="ts" setup>
   import { reactive, ref } from "vue";
   import { RouterLink } from "vue-router";
-  import { Bookmark } from "../../shared";
+  import { Bookmark } from "../../shared.client";
   import { connected, session, socket } from "../main";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
