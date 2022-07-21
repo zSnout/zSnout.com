@@ -9,8 +9,8 @@
     "preview": "npx vite preview"
   },
   "engines": {
-    "node": "v18.3.0",
-    "npm": "8.12.1"
+    "node": "v16.14.2",
+    "npm": "8.5.0"
   },
   "dependencies": {
     "@vueuse/components": "^8.7.5",
