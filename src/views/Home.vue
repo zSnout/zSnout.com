@@ -149,8 +149,8 @@
 
       <ImageCard
         alt="A clock with flames trailing behind it"
-        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
-        keywords="bouncing screensavers"
+        description="See what your reaction time is with our simple tester."
+        keywords="speed"
         src="/images/reaction-time-tester.png"
         title="Reaction Time Tester"
         to="/reaction-time-tester"
