@@ -35,13 +35,13 @@ export default defineConfig({
       },
     },
     VitePWA(),
-    {
-      name: "socket.io",
-      configureServer(server) {
-        if (process.argv.includes("build") && server.httpServer) {
-          makeIO(server.httpServer);
-        }
-      },
-    },
+    // {
+    //   name: "socket.io",
+    //   configureServer(server) {
+    //     if (process.argv.includes("build") && server.httpServer) {
+    //       makeIO(server.httpServer);
+    //     }
+    //   },
+    // },
   ],
 });
