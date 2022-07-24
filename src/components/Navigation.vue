@@ -146,6 +146,7 @@
   .navbar {
     height: 3.5rem;
     padding: 0.75rem 0;
+    touch-action: manipulation;
   }
 
   .logo-outer {
