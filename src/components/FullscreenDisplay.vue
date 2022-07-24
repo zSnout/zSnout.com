@@ -67,6 +67,7 @@
     top: 0;
     z-index: 3;
     width: var(--app-width);
+    touch-action: manipulation;
 
     .padding {
       padding-top: 0.75em;
@@ -83,6 +84,7 @@
     bottom: 0;
     z-index: 3;
     width: var(--app-width);
+    touch-action: manipulation;
 
     .padding {
       padding-bottom: 0.75rem;
