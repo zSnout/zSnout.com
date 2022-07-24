@@ -36,6 +36,15 @@
       />
 
       <ImageCard
+        alt="A rainbow gradient created by randomizing pixel colors and their lightness."
+        description="A rainbow gradient created by randomizing pixel colors and their lightness."
+        keywords="gradient randomized"
+        src="/images/art/pixelated-rainbow.png"
+        title="Pixelated Rainbow"
+        to="/art/pixelated-rainbow"
+      />
+
+      <ImageCard
         alt="Multicolored overlapping rectangles with unique border styles"
         description="Watch an amazing display of colorful rectangles and change their sizes."
         keywords="squares"
