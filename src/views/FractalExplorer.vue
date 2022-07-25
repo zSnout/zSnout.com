@@ -411,7 +411,7 @@
       </Labeled>
 
       <Labeled label="Color Repetition:">
-        <InlineRangeField v-model="repetition" :max="10" :min="0" step="any" />
+        <InlineRangeField v-model="repetition" :max="10" :min="1" step="any" />
       </Labeled>
 
       <Labeled label="Color Spectrum:">
