@@ -22,7 +22,7 @@
     if (!field.value) return;
 
     const { x, width } = field.value.getBoundingClientRect();
-    const pos = (event.touches[0].clientX - x) / width;
+    const pos = Math.min(1,Math.max(0, (event.touches[0].clientX - x) / width));
 
     const { max = 100, min = 0, step } = props;
     let value = pos * (max - min) + min;
