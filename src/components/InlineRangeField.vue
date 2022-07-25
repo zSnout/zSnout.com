@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-  defineProps<{
+  import { ref } from "vue";
+
+  const props = defineProps<{
     modelValue: number;
     autocomplete?: string;
     min?: number;
@@ -7,13 +9,33 @@
     step?: number | "any";
   }>();
 
-  defineEmits<{
+  const emit = defineEmits<{
     (event: "update:modelValue", modelValue: number): void;
   }>();
+
+  const field = ref<HTMLElement>();
+
+  function onTouchMove(event: TouchEvent) {
+    event.preventDefault();
+
+    if (event.touches.length !== 1) return;
+    if (!field.value) return;
+
+    const { x, width } = field.value.getBoundingClientRect();
+    const pos = (event.touches[0].clientX - x) / width;
+
+    const { max = 100, min = 0, step } = props;
+    let value = pos * (max - min) + min;
+    if (step !== "any" && step) value = ~~(value / step) * step;
+    // Using `step` instead of `step !== undefined` also checks 0.
+
+    emit("update:modelValue", value);
+  }
 </script>
 
 <template>
   <input
+    ref="field"
     class="field"
     :autocomplete="autocomplete ?? 'off'"
     :max="max"
@@ -22,6 +44,8 @@
     :value="modelValue"
     type="range"
     @input="$emit('update:modelValue', +$event.target!.value)"
+    @pointerdown="($event.target as HTMLElement).setPointerCapture($event.pointerId)"
+    @touchmove="onTouchMove"
   />
 </template>
 
