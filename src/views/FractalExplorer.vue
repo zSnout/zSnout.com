@@ -1,6 +1,6 @@
 <script lang="ts" setup>
   import { useClamp } from "@vueuse/core";
-  import { computed, onMounted, ref, unref, watchEffect } from "vue";
+  import { computed, onMounted, ref } from "vue";
   import Button from "../components/Button.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
@@ -11,7 +11,6 @@
   import Labeled from "../components/Labeled.vue";
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
-  import { useRound } from "../composables/useRound";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
 
   const detail = useClamp(100, 5, 1000);
