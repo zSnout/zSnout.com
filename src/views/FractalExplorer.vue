@@ -329,33 +329,6 @@
   }
   `;
 
-  const indicatorType = ref<"zoomLevel" | "position">("zoomLevel");
-  syncOption("indicator", indicatorType);
-
-  function nextIndicator() {
-    indicatorType.value =
-      {
-        zoomLevel: "position" as const,
-        position: "zoomLevel" as const,
-      }[indicatorType.value] || "position";
-  }
-
-  const zoomLevel = useRound(ref(1), 100);
-  const posX = useRound(ref(0));
-  const posY = useRound(ref(0));
-
-  const indicator = computed(() => {
-    unref(posX);
-    unref(posY);
-    unref(zoomLevel);
-
-    if (indicatorType.value === "position") {
-      return `Position: (${posX.value}, ${posY.value})`;
-    }
-
-    return `Zoom Level: ${zoomLevel.value.toLocaleString()}`;
-  });
-
   const canvas = ref<HTMLCanvasElement>();
 
   const resetPosition = ref<() => void>();
@@ -381,12 +354,6 @@
       gl.setUniformOfInt("darkness", [darkness.value]);
       gl.setUniformOfInt("split", [split.value]);
       gl.setUniformOfInt("altColors", [altColors.value]);
-    });
-
-    watchEffect(() => {
-      zoomLevel.value = 4 / (gl.bounds.xEnd - gl.bounds.xStart);
-      posX.value = (gl.bounds.xEnd + gl.bounds.xStart) / 2;
-      posY.value = (gl.bounds.yEnd + gl.bounds.yStart) / 2;
     });
 
     resetPosition.value = () => {
@@ -485,10 +452,6 @@
       <Button v-if="resetPosition" @click="resetPosition">
         Reset Position
       </Button>
-    </template>
-
-    <template #indicator>
-      <div style="cursor: pointer" @click="nextIndicator">{{ indicator }}</div>
     </template>
 
     <canvas ref="canvas" />
