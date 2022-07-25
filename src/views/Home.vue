@@ -121,6 +121,15 @@
       />
 
       <ImageCard
+        alt="A flower created from a rainbow gradient with a vignette on its exterior."
+        description="Experiment with amazing transformations of the complex plane."
+        keywords="math number equation"
+        src="/images/complex-explorer.png"
+        title="Complex Explorer"
+        to="/complex-explorer"
+      />
+
+      <ImageCard
         alt="A white circle with black segments drawn within it"
         description="Draw on a rotating tabletop using our simple drawing interface."
         keywords="spinner drawings"
