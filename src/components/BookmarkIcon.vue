@@ -209,6 +209,16 @@
           </Button>
         </HStack>
 
+        <p v-if="bookmarks.length === 0" style="text-align: center">
+          Click "Add this page" to create a link that always takes you to this
+          page, then click "Edit" to change the bookmark's name. You can save
+          fractals and Storymatic programs as well.{{
+            connected
+              ? " Additionally, your programs will be saved in the cloud if you're logged in."
+              : ""
+          }}
+        </p>
+
         <template v-for="(bookmark, index) in bookmarks">
           <HStack v-if="editing">
             <input
