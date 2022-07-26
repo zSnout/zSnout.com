@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "npm i && npx vite build && node build/server.js",
+    "start": "npm i --production=false && npx vite build && node build/server.js",
     "dev": "npx vite",
     "build": "npx vue-tsc --noEmit && npx vite build",
     "preview": "npx vite preview"
