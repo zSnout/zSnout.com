@@ -96,7 +96,7 @@
 
   a,
   button {
-    touch-action: pan-x pan-y;
+    touch-action: manipulation;
   }
 
   canvas {
