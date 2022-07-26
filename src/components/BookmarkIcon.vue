@@ -1,7 +1,73 @@
 <!-- https://www.svgrepo.com/svg/98665/bookmark-outline -->
 
+<script lang="ts">
+  function getBookmarks() {
+    try {
+      const stored = JSON.parse(localStorage.bookmarks);
+      if (Array.isArray(stored)) {
+        for (const entry of stored) {
+          if (
+            typeof entry !== "object" ||
+            entry === null ||
+            typeof entry.name !== "string" ||
+            !entry.name ||
+            typeof entry.url !== "string" ||
+            !entry.url
+          ) {
+            return;
+          }
+        }
+      }
+
+      bookmarks.splice(0, bookmarks.length, ...stored);
+    } catch {}
+  }
+
+  const bookmarks = reactive<Bookmark[]>([]);
+  getBookmarks();
+
+  const conflict = ref<Bookmark[]>();
+
+  window.addEventListener("storage", (event) => {
+    if (event.storageArea === localStorage && event.key === "bookmarks") {
+      getBookmarks();
+    }
+  });
+
+  watchDebounced(
+    bookmarks,
+    (value) => {
+      if (session.value && !conflict.value) {
+        socket.emit("bookmarks:update", session.value, value);
+      }
+
+      localStorage.bookmarks = JSON.stringify(bookmarks);
+    },
+    { debounce: 500 }
+  );
+
+  watchEffect(() => {
+    if (session.value) {
+      socket.emit("bookmarks:request", session.value);
+    }
+  });
+
+  socket.on("bookmarks:list", (list) => {
+    if (JSON.stringify(list) === JSON.stringify(bookmarks)) {
+      conflict.value = undefined;
+      return;
+    } else if (bookmarks.length === 0) {
+      conflict.value = undefined;
+      bookmarks.splice(0, bookmarks.length, ...list);
+    } else {
+      conflict.value = list;
+    }
+  });
+</script>
+
 <script lang="ts" setup>
-  import { reactive, ref } from "vue";
+  import { watchDebounced } from "@vueuse/core";
+  import { reactive, ref, watch, watchEffect } from "vue";
   import { RouterLink } from "vue-router";
   import { Bookmark } from "../../shared.client";
   import { connected, session, socket } from "../main";
@@ -9,19 +75,15 @@
   import HStack from "./HStack.vue";
   import LogInForm from "./LogInForm.vue";
   import VStack from "./VStack.vue";
+  import Modal from "./Modal.vue";
+  import TrashIcon from "./TrashIcon.vue";
 
   defineProps<{ fullscreen?: boolean }>();
 
   const isOpen = ref(false);
   const visible = ref(false);
   const logInOpen = ref(false);
-  const bookmarks = reactive<Bookmark[]>([]);
-
-  socket.emit("bookmarks:request", session.value);
-
-  socket.on("bookmarks:list", (list) => {
-    bookmarks.splice(0, bookmarks.length, ...list);
-  });
+  const editing = ref(false);
 
   function open() {
     isOpen.value = true;
@@ -30,6 +92,7 @@
 
   function close() {
     isOpen.value = false;
+    editing.value = false;
     setTimeout(() => visible.value && (visible.value = false), 300);
   }
 
@@ -39,6 +102,38 @@
 
     bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
     socket.emit("bookmarks:update", session.value, bookmarks);
+  }
+
+  const updateMessage = ref("");
+  const isUpdating = ref(false);
+  const forceUpdate = ref<() => void>();
+
+  function updateLocal() {
+    updateMessage.value =
+      "Updating your local copy will overwrite your bookmarks with ones loaded from the cloud. This is not revertable.";
+
+    isUpdating.value = true;
+
+    forceUpdate.value = () => {
+      if (conflict.value) {
+        bookmarks.splice(0, bookmarks.length, ...conflict.value);
+        conflict.value = undefined;
+      }
+    };
+  }
+
+  function updateCloud() {
+    updateMessage.value =
+      "Updating your cloud copy will copy the bookmarks from this device onto your account and sync them across your devices. This is not revertable.";
+
+    isUpdating.value = true;
+
+    forceUpdate.value = () => {
+      if (session.value) {
+        conflict.value = undefined;
+        socket.emit("bookmarks:update", session.value, bookmarks);
+      }
+    };
   }
 </script>
 
@@ -89,49 +184,86 @@
       @click="close()"
     >
       <VStack class="bookmarks second-layer" @click="$event.stopPropagation()">
-        <p v-if="!session" style="text-align: center">
+        <p v-if="!session && connected" style="text-align: center">
           <!-- prettier-ignore -->
           <span class="link" style="cursor: pointer" @click="logInOpen = true">Log in</span>
-          to create bookmarks.
+          to save bookmarks to the cloud.
         </p>
 
-        <template v-else>
+        <template v-if="conflict && session">
+          <p style="text-align: center">
+            Your local bookmarks and cloud bookmarks are in conflict.
+          </p>
+
           <HStack stretch>
-            <Button @click="addThis">Add this page</Button>
+            <Button @click="updateLocal">Update Local</Button>
 
-            <Button @click="socket.emit('bookmarks:request', session)">
-              Refresh
-            </Button>
+            <Button @click="updateCloud">Update Cloud</Button>
+          </HStack>
+        </template>
+
+        <HStack stretch>
+          <Button @click="addThis">Add</Button>
+
+          <Button @click="socket.emit('bookmarks:request', session)">
+            Refresh
+          </Button>
+
+          <Button @click="editing = !editing">
+            {{ editing ? "Save" : "Edit" }}
+          </Button>
+        </HStack>
+
+        <template v-for="(bookmark, index) in bookmarks">
+          <HStack v-if="editing">
+            <input
+              class="bookmark second-layer focusline"
+              :value="bookmark.name"
+              style="flex: 1"
+              @input="bookmark.name = $event.target!.value"
+            />
+
+            <div
+              class="second-layer trash-div"
+              @click="bookmarks.splice(index, 1)"
+            >
+              <TrashIcon class="trash" />
+            </div>
           </HStack>
 
-          <HStack
-            v-for="bookmark in bookmarks"
+          <a
+            v-else-if="bookmark.url.includes('?') || bookmark.url.includes('#')"
             class="bookmark second-layer hoverline focusline"
+            :href="bookmark.url"
+            style="text-decoration: none; color: inherit"
           >
-            <a
-              v-if="bookmark.url.includes('?') || bookmark.url.includes('#')"
-              class="bookmark-link"
-              :href="bookmark.url"
-              style="text-decoration: none; color: inherit"
-            >
-              {{ bookmark.name }}
-            </a>
+            {{ bookmark.name }}
+          </a>
 
-            <RouterLink
-              v-else
-              class="bookmark-link"
-              :to="bookmark.url"
-              style="text-decoration: none; color: inherit"
-            >
-              {{ bookmark.name }}
-            </RouterLink>
-          </HStack>
+          <RouterLink
+            v-else
+            class="bookmark second-layer hoverline focusline"
+            :to="bookmark.url"
+            style="text-decoration: none; color: inherit"
+          >
+            {{ bookmark.name }}
+          </RouterLink>
         </template>
       </VStack>
     </div>
   </Teleport>
 
   <LogInForm v-model:open="logInOpen" />
+
+  <Modal :open="conflict !== undefined && session !== '' && isUpdating">
+    <p>{{ updateMessage }}</p>
+
+    <template #buttons>
+      <Button @click="forceUpdate?.()">OK</Button>
+
+      <Button cancel @click="isUpdating = false">Cancel</Button>
+    </template>
+  </Modal>
 </template>
 
 <style lang="scss" scoped>
@@ -139,12 +271,12 @@
     transform: scale(0.83);
     cursor: pointer;
     fill: currentColor;
-    stroke: white;
-    stroke-width: 0.5em;
-    stroke-linecap: round;
 
     &.fullscreen {
       transform: none;
+      stroke: white;
+      stroke-width: 0.5em;
+      stroke-linecap: round;
     }
   }
 
@@ -192,6 +324,7 @@
     max-width: 100%;
     height: 100%;
     margin-left: auto;
+    overflow-y: auto;
     transition: var(--transitions), left 0.3s;
 
     &.bookmarks {
@@ -212,10 +345,19 @@
   }
 
   .bookmark {
+    width: 100%;
+    height: 2.5em;
+    font-size: inherit;
     cursor: pointer;
   }
 
-  .bookmark-link {
-    flex: 1;
+  .trash {
+    width: 1.5em;
+    height: 1.5em;
+    color: var(--text-color);
+  }
+
+  .trash-div {
+    height: 2.5em;
   }
 </style>
