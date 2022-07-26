@@ -3,7 +3,6 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start": "npm i --production=false && npx vite build && node build/server.js",
     "dev": "npx vite",
     "build": "npx vue-tsc --noEmit && npx vite build && npm run build-server",
     "build-server": "npx esbuild ./server/index.ts --bundle --platform=node --target=node16 --minify --format=esm --external:./node_modules/* --outfile=./dist/server.js && sed -i 's+../node_modules/++g' ./dist/server.mjs",
@@ -20,7 +19,6 @@
     "bcrypt": "^5.0.1",
     "disable-scroll": "^0.6.0",
     "error-stack-parser": "^2.1.4",
-    "express": "^4.18.1",
     "fast-glob": "^3.2.11",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
