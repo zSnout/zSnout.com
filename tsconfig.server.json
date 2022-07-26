@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "noFallthroughCasesInSwitch": true,
+    "declaration": false,
+    "outDir": "./dist/server"
+  },
+  "include": ["./server/**/*.ts", "./shared.server.d.ts"]
+}

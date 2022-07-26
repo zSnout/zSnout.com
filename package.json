@@ -5,7 +5,8 @@
   "scripts": {
     "start": "npm i --production=false && npx vite build && node build/server.js",
     "dev": "npx vite",
-    "build": "npx vue-tsc --noEmit && npx vite build",
+    "build": "npx vue-tsc --noEmit && npx vite build && npm run build-server",
+    "build-server": "npx esbuild ./server/index.ts --bundle --platform=node --external:./node_modules/* --outfile=./dist/server.js --target=node16 --minify --format=esm",
     "preview": "npx vite preview"
   },
   "engines": {
@@ -41,6 +42,7 @@
     "@types/nodemailer": "^6.4.4",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.3",
+    "esbuild": "^0.14.50",
     "nodemailer": "^6.7.7",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
