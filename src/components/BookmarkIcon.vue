@@ -67,16 +67,16 @@
 
 <script lang="ts" setup>
   import { watchDebounced } from "@vueuse/core";
-  import { reactive, ref, watch, watchEffect } from "vue";
+  import { reactive, ref, watchEffect } from "vue";
   import { RouterLink } from "vue-router";
   import { Bookmark } from "../../shared.client";
   import { connected, session, socket } from "../main";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
   import LogInForm from "./LogInForm.vue";
-  import VStack from "./VStack.vue";
   import Modal from "./Modal.vue";
   import TrashIcon from "./TrashIcon.vue";
+  import VStack from "./VStack.vue";
 
   defineProps<{ fullscreen?: boolean }>();
 
@@ -139,7 +139,6 @@
 
 <template>
   <svg
-    v-if="connected"
     class="icon"
     role="button"
     viewBox="0 0 603.511 603.511"
