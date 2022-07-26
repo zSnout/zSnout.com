@@ -6,7 +6,7 @@
     "start": "npm i --production=false && npx vite build && node build/server.js",
     "dev": "npx vite",
     "build": "npx vue-tsc --noEmit && npx vite build && npm run build-server",
-    "build-server": "npx esbuild ./server/index.ts --bundle --platform=node --external:./node_modules/* --outfile=./dist/server.js --target=node16 --minify --format=esm",
+    "build-server": "npx esbuild ./server/index.ts --bundle --platform=node --target=node16 --minify --format=esm --external:./node_modules/* --outfile=./dist/server.js && sed -i 's+../node_modules/++g' ./dist/server.js",
     "preview": "npx vite preview"
   },
   "engines": {
