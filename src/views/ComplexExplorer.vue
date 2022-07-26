@@ -229,7 +229,7 @@
           style="white-space: pre"
           @click="setEquation"
         >
-          Apply Equation
+          Apply
         </Button>
       </Labeled>
 
