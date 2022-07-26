@@ -214,7 +214,9 @@
           page, then click "Edit" to change the bookmark's name. You can save
           fractals and Storymatic programs as well.{{
             connected
-              ? " Additionally, your programs will be saved in the cloud if you're logged in."
+              ? session
+                ? " Additionally, your bookmarks are synced to the cloud and your other devices."
+                : " If you log in, you can even sync bookmarks to the cloud!"
               : ""
           }}
         </p>
