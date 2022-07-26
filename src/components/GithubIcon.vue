@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="icon"
+    class="icon text-color"
     aria-hidden="true"
     focusable="false"
     viewBox="0 0 24 24"

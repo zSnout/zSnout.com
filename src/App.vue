@@ -36,7 +36,7 @@
 
   body,
   svg,
-  svg *,
+  path,
   a,
   button,
   input,
