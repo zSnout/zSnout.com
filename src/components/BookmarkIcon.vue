@@ -202,11 +202,7 @@
         </template>
 
         <HStack stretch>
-          <Button @click="addThis">Add</Button>
-
-          <Button @click="socket.emit('bookmarks:request', session)">
-            Refresh
-          </Button>
+          <Button @click="addThis">Add this page</Button>
 
           <Button @click="editing = !editing">
             {{ editing ? "Save" : "Edit" }}
