@@ -54,11 +54,15 @@
 
   a,
   button,
-  input,
   select,
   canvas {
     -webkit-user-select: none;
     user-select: none;
+  }
+
+  input {
+    -webkit-user-select: text;
+    user-select: text;
   }
 
   body,
