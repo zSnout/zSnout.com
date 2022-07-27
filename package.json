@@ -23,7 +23,7 @@
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
     "mix-css-color": "^0.2.0",
-    "mongodb": "^4.8.0",
+    "mongodb": "^4.8.1",
     "random-seed": "^0.3.0",
     "rangetouch": "^2.0.1",
     "socket.io": "^4.5.1",
