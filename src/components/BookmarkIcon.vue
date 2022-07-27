@@ -53,14 +53,14 @@
   });
 
   socket.on("bookmarks:list", (list) => {
-    if (JSON.stringify(list) === JSON.stringify(bookmarks)) {
-      conflict.value = undefined;
-      return;
-    } else if (bookmarks.length === 0) {
+    const serverUrls = list.map((e) => e.url);
+    const clientUrls = bookmarks.map((e) => e.url);
+
+    if (clientUrls.filter((e) => !serverUrls.includes(e)).length) {
+      conflict.value = list;
+    } else {
       conflict.value = undefined;
       bookmarks.splice(0, bookmarks.length, ...list);
-    } else {
-      conflict.value = list;
     }
   });
 </script>
@@ -191,7 +191,9 @@
 
         <template v-if="conflict && session">
           <p style="text-align: center">
-            Your local bookmarks and cloud bookmarks are in conflict.
+            Your local bookmarks and cloud bookmarks are in conflict. This can
+            occur when you delete bookmarks on another devices or modify your
+            list offline.
           </p>
 
           <HStack stretch>
