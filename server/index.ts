@@ -14,6 +14,7 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
+import { allNotes, createNote } from "./notes";
 
 type Socket = IOSocket<ClientToServer, ServerToClient> & {
   oldSession?: string;
@@ -128,6 +129,21 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
           this.to(`session:${session}`).emit("bookmarks:list", bookmarks);
         }
       }
+    }
+  },
+  async "notes:create"(session, title) {
+    if (await verify(this, session)) {
+      await createNote(session, title);
+      this.emit("notes:index", await allNotes(session));
+    } else {
+      this.emit("notes:index", []);
+    }
+  },
+  async "notes:request:index"(session) {
+    if (await verify(this, session)) {
+      this.emit("notes:index", await allNotes(session));
+    } else {
+      this.emit("notes:index", []);
     }
   },
 };
