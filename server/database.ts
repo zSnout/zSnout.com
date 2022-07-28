@@ -39,22 +39,20 @@ export interface Database {
     verified: boolean;
     verifyCode: string;
     bookmarks: Bookmark[];
-    favoriteNotes: ObjectId[];
     notes: ObjectId[];
-    favoriteChats: ObjectId[];
     chats: ObjectId[];
   };
   notes: {
     creation: number;
     contributors: { [ObjectId: string]: "owner" | "editor" | "viewer" };
-    baseRole: "commenter" | "viewer";
+    baseRole: "commenter" | "viewer" | "none";
     title: string;
     contents: string;
   };
   chats: {
     creation: number;
     contributors: { [ObjectId: string]: "owner" | "commenter" | "viewer" };
-    baseRole: "commenter" | "viewer";
+    baseRole: "commenter" | "viewer" | "none";
     title: string;
     messages: ChatMessage[];
   };

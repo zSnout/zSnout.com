@@ -54,7 +54,7 @@ export interface NoteDetails {
         level: "owner" | "editor" | "viewer";
       }[]
     | false;
-  baseRole: "editor" | "viewer";
+  baseRole: "editor" | "viewer" | "none";
   title: string;
 }
 
