@@ -22,3 +22,9 @@ export interface Bookmark {
   name: string;
   url: string;
 }
+
+export interface ChatMessage {
+  creation: number;
+  sentBy: string; // username of sender at the send time
+  message: string;
+}

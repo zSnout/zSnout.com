@@ -109,6 +109,10 @@ export async function createAccount(
     verified: false,
     verifyCode: randomUUID(),
     bookmarks: [],
+    favoriteNotes: [],
+    notes: [],
+    favoriteChats: [],
+    chats: [],
   };
 
   const result = await accounts.insertOne(account);
