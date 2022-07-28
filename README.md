@@ -77,7 +77,7 @@ In development mode, a Socket.io server is automatically created on the same
 port as the main Vite server, and no setup is needed.
 
 When the project is built, the `dist` directory will contain a file called
-`server.js`. It is your responsibility to load this as a CommonJS module and
+`server.mjs`. It is your responsibility to load this as an ES module and
 call its `.start()` method. This will create a Socket.io server on localhost on
 port `process.env.PORT || 3000`. You must serve static files normally and
 forward Socket.io connections to this server.
