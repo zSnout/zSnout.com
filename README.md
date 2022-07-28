@@ -70,3 +70,53 @@ If a page has an associated cover image, it should be a square 320x320 PNG and
 be placed in the `public/images` directory. The file path of the image should
 match the output URL of the original path. If the page is an index, the image
 should be named `folder/index.png`.
+
+## Enabling server features
+
+In development mode, a Socket.io server is automatically created on the same
+port as the main Vite server, and no setup is needed.
+
+When the project is built, the `dist` directory will contain a file called
+`server.js`. It is your responsibility to load this as a CommonJS module and
+call its `.start()` method. This will create a Socket.io server on localhost on
+port `process.env.PORT || 3000`. You must serve static files normally and
+forward Socket.io connections to this server.
+
+If you do not create a Socket.io server and forward requests properly, zSnout
+will still work properly. However, accounts, cloud bookmarks, and other server
+features will not work.
+
+## Using a database
+
+If you're using a Socket.io server, you should also add a database. This enables
+account log in, cloud bookmarks, and other features.
+
+To do this, create a MongoDB database called `zsnout` and get a connection URL
+similar to this one:
+
+```
+mongodb+srv://<username>:<password>@<name>.<code>.mongodb.net/?retryWrites=true&w=majority
+```
+
+Then set an environment variable in your shell called `ZSNOUT_DATABASE` to the
+URL.
+
+The database will be populated by collections specified in the `Database`
+interface in
+[server/database.ts](https://github.com/zSnout/zsnout-next/blob/main/server/database.ts#L32).
+
+## Using a mail system
+
+In addition to a database, a mail system is also required to create accounts. To
+do this, figure out how to get the mail host, port, username, and password, and
+stuff these into the following environment variables:
+
+```
+ZSNOUT_MAIL_HOST
+ZSNOUT_MAIL_PORT
+ZSNOUT_MAIL_USER
+ZSNOUT_MAIL_PASSWORD
+```
+
+zSnout uses Nodemailer to connect. It will attempt a secure connection if the
+specified port is 465.
