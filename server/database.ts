@@ -48,12 +48,14 @@ export interface Database {
     creation: number;
     contributors: { [ObjectId: string]: "owner" | "editor" | "viewer" };
     baseRole: "commenter" | "viewer";
+    title: string;
     contents: string;
   };
   chats: {
     creation: number;
     contributors: { [ObjectId: string]: "owner" | "commenter" | "viewer" };
     baseRole: "commenter" | "viewer";
+    title: string;
     messages: ChatMessage[];
   };
 }
