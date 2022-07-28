@@ -10,7 +10,12 @@
   import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import VStack from "../components/VStack.vue";
   import { useRandomItem } from "../composables/useRandomItem";
-  import { connected, session, username } from "../main";
+  import {
+    connected,
+    session,
+    timeLeftBeforeAccountDeletion,
+    username,
+  } from "../main";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
@@ -50,6 +55,16 @@
 
         <p class="text-color" style="margin-top: -1em">
           Scroll down and select a page!
+        </p>
+
+        <p v-if="username && timeLeftBeforeAccountDeletion !== false">
+          Hey @{{ username }}! Your account will be deleted in
+          {{
+            timeLeftBeforeAccountDeletion >= 120 * 1000
+              ? `${~~(timeLeftBeforeAccountDeletion / (60 * 1000))} minutes`
+              : `${~~(timeLeftBeforeAccountDeletion / 1000)} seconds`
+          }}
+          unless you verify it with the email we sent you.
         </p>
       </VStack>
     </Cover>

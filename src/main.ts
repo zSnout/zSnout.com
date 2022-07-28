@@ -151,6 +151,12 @@ socket.on("account:update:session", (value) => (session.value = value));
 socket.on("account:update:username", (value) => (username.value = value));
 socket.on("error", (err) => (error.value = err));
 
+export const timeLeftBeforeAccountDeletion = ref<false | number>(false);
+socket.on(
+  "account:needs-verification",
+  (value) => (timeLeftBeforeAccountDeletion.value = value)
+);
+
 declare global {
   interface EventTarget {
     checked: boolean;

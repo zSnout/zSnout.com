@@ -23,8 +23,18 @@ async function verify(socket: Socket, session: string) {
   const { status, account } = await checkSession(session);
 
   if (status === ReAuthStatus.Success) {
-    socket.emit("account:update:session", account.session);
-    socket.emit("account:update:username", account.username);
+    const deletionTime = account.creation + 15 * 60 * 1000;
+
+    if (account.verified || (!account.verified && deletionTime > Date.now())) {
+      socket.emit("account:update:session", account.session);
+      socket.emit("account:update:username", account.username);
+    }
+
+    if (account.verified) {
+      socket.emit("account:needs-verification", false);
+    } else {
+      socket.emit("account:needs-verification", deletionTime - Date.now());
+    }
 
     if (socket.oldSession) socket.leave(`session:${socket.oldSession}`);
     socket.join(`session:${(socket.oldSession = session)}`);
@@ -33,6 +43,7 @@ async function verify(socket: Socket, session: string) {
   } else {
     socket.emit("account:update:session", "");
     socket.emit("account:update:username", "");
+    socket.emit("account:needs-verification", false);
     if (socket.oldSession) socket.leave(`session:${socket.oldSession}`);
 
     return false;

@@ -12,6 +12,7 @@ export interface ServerToClient {
   "account:update:session"(session: string): void;
   "account:update:username"(username: string): void;
   "account:complete-login"(): void;
+  "account:needs-verification"(timeLeft: false | number): void;
 
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
