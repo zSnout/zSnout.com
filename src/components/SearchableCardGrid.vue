@@ -4,6 +4,8 @@
   import CardGrid from "./CardGrid.vue";
   import Field from "./Field.vue";
 
+  defineProps<{ placeholder?: string }>();
+
   const field = ref("");
   const grid = ref<VueInstance>();
   const module = useCssModule();
@@ -42,7 +44,7 @@
     <Field
       v-model="field"
       class="field"
-      placeholder="Type to search zSnout..."
+      :placeholder="placeholder ?? 'Type to search zSnout...'"
       type="search"
     />
 
