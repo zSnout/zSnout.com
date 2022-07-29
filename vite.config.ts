@@ -5,6 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const jsfile = /\.([jt]sx?|vue)($|\?)/;
 const images = sync("./public/images/**/*.png");
+const publicFiles = sync("./public/**/*").filter((e) => !e.endsWith(".png"));
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -33,7 +34,11 @@ export default defineConfig({
         }
       },
     },
-    VitePWA(),
+    VitePWA({
+      workbox: {
+        additionalManifestEntries: publicFiles,
+      },
+    }),
     {
       name: "socket.io",
       configureServer: process.argv.includes("build")
