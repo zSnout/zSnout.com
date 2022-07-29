@@ -5,7 +5,9 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const jsfile = /\.([jt]sx?|vue)($|\?)/;
 const images = sync("./public/images/**/*.png");
-const publicFiles = sync("./public/**/*").filter((e) => !e.endsWith(".png"));
+const publicFiles = sync("./public/**/*").filter(
+  (e) => !e.startsWith("./public/images/")
+);
 
 // https://vitejs.dev/config/
 export default defineConfig({
