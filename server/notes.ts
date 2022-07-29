@@ -46,9 +46,11 @@ export async function createNote(session: string, title: string) {
   const notes = await _notes;
   if (!notes) return;
 
+  if (account.notes.length >= 100) return;
+
   const note = {
     _id: new ObjectId(),
-    contents: "This is your new note!",
+    contents: "<p>This is your new note!</p>",
     creation: Date.now(),
     owner: account._id,
     title,
@@ -83,11 +85,25 @@ export async function doesOwnNote(session: string, noteIdAsHex: string) {
 }
 
 export async function setNoteContents(noteIdAsHex: string, contents: string) {
+  if (contents.length >= 10000) return;
+
   const notes = await _notes;
   if (!notes) return;
 
   await notes.updateOne(
     { _id: ObjectId.createFromHexString(noteIdAsHex) },
     { $set: { contents } }
+  );
+}
+
+export async function setNoteTitle(noteIdAsHex: string, title: string) {
+  if (title.length >= 100) return;
+
+  const notes = await _notes;
+  if (!notes) return;
+
+  await notes.updateOne(
+    { _id: ObjectId.createFromHexString(noteIdAsHex) },
+    { $set: { title } }
   );
 }

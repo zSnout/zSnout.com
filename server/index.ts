@@ -14,7 +14,13 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import { allNotes, createNote, doesOwnNote, setNoteContents } from "./notes";
+import {
+  allNotes,
+  createNote,
+  doesOwnNote,
+  setNoteContents,
+  setNoteTitle,
+} from "./notes";
 
 interface SocketData {
   oldSession?: string;
@@ -147,6 +153,15 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       this.emit("notes:index", []);
     }
   },
+  async "notes:request:details"(session, noteId) {
+    if (await verify(this, session)) {
+      const { doesOwn, note } = await doesOwnNote(session, noteId);
+
+      if (doesOwn) {
+        this.emit("notes:details", { id: noteId, title: note.title });
+      }
+    }
+  },
   async "notes:request:index"(session) {
     if (await verify(this, session)) {
       this.emit("notes:index", await allNotes(session));
@@ -172,6 +187,20 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       if (doesOwn) {
         setNoteContents(noteId, contents);
         this.to(`session:${session}`).emit("notes:note", noteId, contents);
+      }
+    }
+  },
+  async "notes:update:title"(session, noteId, title) {
+    if (await verify(this, session)) {
+      const { doesOwn } = await doesOwnNote(session, noteId);
+
+      if (doesOwn) {
+        await setNoteTitle(noteId, title);
+
+        this.to(`session:${session}`).emit("notes:details", {
+          id: noteId,
+          title,
+        });
       }
     }
   },

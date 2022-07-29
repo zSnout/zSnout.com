@@ -4,6 +4,8 @@
     type?: string;
     autocomplete?: string;
     placeholder?: string;
+    flex?: boolean;
+    maxlength?: number;
   }>();
 
   defineEmits<{
@@ -15,8 +17,12 @@
   <input
     class="field"
     :autocomplete="autocomplete ?? 'off'"
+    :maxlength="maxlength"
     :placeholder="placeholder"
-    :style="{ width: modelValue.length + 2 + 'ch' }"
+    :style="{
+      width: flex ? undefined : modelValue.length + 2 + 'ch',
+      flex: flex ? '1' : undefined,
+    }"
     :type="type ?? 'text'"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target!.value)"
