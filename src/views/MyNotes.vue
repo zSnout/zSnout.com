@@ -5,20 +5,19 @@
 </script>
 
 <script lang="ts" setup>
-  import DocumentDisplay from "../components/DocumentDisplay.vue";
-  import Title from "../components/Title.vue";
-  import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import { ref, watchEffect } from "vue";
   import { NotePreview } from "../../shared.client";
-  import { session, socket, username } from "../main";
-  import LogInForm from "../components/LogInForm.vue";
   import Button from "../components/Button.vue";
-  import Modal from "../components/Modal.vue";
-  import Field from "../components/Field.vue";
   import Card from "../components/Card.vue";
-  import GridSpacer from "../components/GridSpacer.vue";
-  import HStack from "../components/HStack.vue";
   import CardGrid from "../components/CardGrid.vue";
+  import DocumentDisplay from "../components/DocumentDisplay.vue";
+  import Field from "../components/Field.vue";
+  import LogInForm from "../components/LogInForm.vue";
+  import Modal from "../components/Modal.vue";
+  import SearchableCardGrid from "../components/SearchableCardGrid.vue";
+  import Title from "../components/Title.vue";
+  import { htmlToText } from "../composables/useHtmlToText";
+  import { session, socket, username } from "../main";
 
   const isLogInOpen = ref(false);
   const isTitlePickerOpen = ref(false);
@@ -41,7 +40,7 @@
       to access the Notes app.
     </p>
 
-    <CardGrid v-if="session" style="margin-bottom: 2em">
+    <CardGrid v-if="session && notes.length < 100" style="margin-bottom: 2em">
       <Button @click="(isTitlePickerOpen = true), (title = '')">
         New Note
       </Button>
@@ -54,7 +53,7 @@
       <RouterLink v-for="note in notes" :to="`/note?id=${note.id}`">
         <Card
           class="card text-color"
-          :description="note.desc"
+          :description="htmlToText(note.desc)"
           :title="note.title"
         />
       </RouterLink>
