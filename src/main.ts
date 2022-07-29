@@ -95,8 +95,17 @@ export const serviceWorker = useRegisterSW({
 watchEffect(() => {
   document.documentElement.classList.toggle("dark", isDark.value);
 
-  const metaThemeColor = document.querySelector("meta[name='theme-color']");
-  metaThemeColor?.setAttribute("content", isDark.value ? "#171819" : "#f7f7f7");
+  const metaThemeEl = document.querySelector("meta[name='theme-color']");
+  metaThemeEl?.setAttribute(
+    "content",
+    CSS.supports("backdrop-filter", "blur(8px)")
+      ? isDark.value
+        ? "#171819"
+        : "#f7f7f7"
+      : isDark.value
+      ? "#202124"
+      : "#ffffff"
+  );
 });
 
 watchEffect(() => {
