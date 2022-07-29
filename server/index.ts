@@ -223,22 +223,6 @@ export function start() {
 
   makeIO(server);
 
-  server.addListener("request", (_, res) => {
-    readFile("./index.html", (err, data) => {
-      if (res.headersSent) return;
-
-      if (err) {
-        res.statusCode = 503;
-
-        res
-          .setHeader("content-type", "application/json")
-          .end(JSON.stringify(data));
-      } else {
-        res.setHeader("content-type", "text/html").end(data);
-      }
-    });
-  });
-
   const port = +(process.env.PORT || 3000);
   server.listen(Number.isSafeInteger(port) ? port : 3000);
 }
