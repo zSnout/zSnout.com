@@ -11,6 +11,7 @@ export interface ClientToServer {
   "notes:request:details"(session: string, noteId: string): void;
   "notes:request:index"(session: string): void;
   "notes:request:note"(session: string, noteId: string): void;
+  "notes:update:note"(session: string, noteId: string, contents: string): void;
   "notes:update:title"(session: string, noteId: string, title: string): void;
 }
 
@@ -25,7 +26,7 @@ export interface ServerToClient {
   "error"(error: string): void;
 
   "notes:index"(notes: NotePreview[]): void;
-  "notes:note"(noteId: string, note: string | false): void;
+  "notes:note"(noteId: string, contents: string | false): void;
   "notes:details"(details: NoteDetails): void;
 }
 
