@@ -11,11 +11,7 @@ export interface ClientToServer {
   "notes:request:details"(session: string, noteId: string): void;
   "notes:request:index"(session: string): void;
   "notes:request:note"(session: string, noteId: string): void;
-  "notes:update:details"(
-    session: string,
-    noteId: string,
-    details: NoteDetails
-  ): void;
+  "notes:update:title"(session: string, noteId: string, title: string): void;
 }
 
 export interface ServerToClient {
@@ -40,25 +36,11 @@ export interface Bookmark {
 
 export interface NoteDetails {
   id: string;
-  contributors:
-    | {
-        username: string;
-        level: "owner" | "editor" | "viewer";
-      }[]
-    | false;
-  baseRole: "editor" | "viewer" | "none";
   title: string;
 }
 
 export interface NotePreview {
+  id: string;
   title: string;
   desc: string;
-  id: string;
-}
-
-export const enum NoteRole {
-  Owner = "owner",
-  Editor = "editor",
-  Viewer = "viewer",
-  None = "none",
 }

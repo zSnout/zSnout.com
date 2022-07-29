@@ -44,14 +44,7 @@ export interface Database {
   };
   notes: {
     creation: number;
-    contributors: {
-      [ObjectId: string]:
-        | NoteRole.Owner
-        | NoteRole.Editor
-        | NoteRole.Viewer
-        | undefined;
-    };
-    baseRole: NoteRole.Editor | NoteRole.Viewer | NoteRole.None;
+    owner: ObjectId;
     title: string;
     contents: string;
   };
