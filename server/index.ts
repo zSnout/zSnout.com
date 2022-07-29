@@ -220,7 +220,6 @@ export function makeIO(server: HTTPServer) {
 
 export function start() {
   const server = new HTTPServer();
-
   makeIO(server);
 
   const port = +(process.env.PORT || 3000);
