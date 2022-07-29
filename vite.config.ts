@@ -36,7 +36,7 @@ export default defineConfig({
     },
     VitePWA({
       workbox: {
-        additionalManifestEntries: publicFiles,
+        additionalManifestEntries: publicFiles.map((entry) => entry.slice(8)),
       },
     }),
     {
