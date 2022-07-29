@@ -1,5 +1,3 @@
-import { ObjectIdLike } from "bson";
-
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -40,12 +38,6 @@ export interface Bookmark {
   url: string;
 }
 
-export interface ChatMessage {
-  creation: number;
-  sentBy: string; // username of sender at the send time
-  message: string;
-}
-
 export interface NoteDetails {
   id: string;
   contributors:
@@ -62,4 +54,11 @@ export interface NotePreview {
   title: string;
   desc: string;
   id: string;
+}
+
+export const enum NoteRole {
+  Owner = "owner",
+  Editor = "editor",
+  Viewer = "viewer",
+  None = "none",
 }
