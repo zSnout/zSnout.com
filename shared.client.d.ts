@@ -25,7 +25,7 @@ export interface ServerToClient {
   "error"(error: string): void;
 
   "notes:index"(notes: NotePreview[]): void;
-  "notes:note"(note: string): void;
+  "notes:note"(noteId: string, note: string | false): void;
   "notes:details"(details: NoteDetails): void;
 }
 
