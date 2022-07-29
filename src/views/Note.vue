@@ -7,7 +7,7 @@
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import InlineField from "../components/InlineField.vue";
   import LogInForm from "../components/LogInForm.vue";
-  import { session, socket, username } from "../main";
+  import { connected, session, socket, username } from "../main";
   import HStack from "../components/HStack.vue";
 
   const id = "" + useRoute().query.id;
@@ -79,7 +79,11 @@
 
 <template>
   <DocumentDisplay>
-    <p v-if="!session">
+    <p v-if="!connected && state !== 'editing'">
+      You're not connected to a zServer. Check your internet and try again.
+    </p>
+
+    <p v-else-if="!session">
       You have to
       <span class="link" @click="isLogInOpen = true">log in</span>
       before you can edit a note.
@@ -95,7 +99,12 @@
     </p>
 
     <template v-else>
-      <HStack style="margin-bottom: 1em">
+      <p v-if="!connected" style="margin: 0 0 1em 0">
+        Looks like you disconnected from a zServer. Copy your recent changes and
+        <a :href="`/note?id=${id}`">reload the page.</a>
+      </p>
+
+      <HStack v-else style="margin-bottom: 1em">
         <span>
           {{ overflow ? "Whoops!" : isSynced ? "Synced:" : "Syncing:" }}
         </span>

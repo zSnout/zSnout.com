@@ -127,6 +127,16 @@
       />
 
       <ImageCard
+        v-if="connected && session"
+        alt="A notepad"
+        description="Create notes that will sync across your devices using our simple editor."
+        keywords="text editor cloud syncing"
+        src="/images/my-notes.png"
+        title="My Notes"
+        to="/my-notes"
+      />
+
+      <ImageCard
         alt="Leopards stacked on top of each other"
         description="A leap of leopards (look it up) appear and fill your device's screen."
         keywords="images"
