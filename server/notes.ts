@@ -1,5 +1,5 @@
 import { ObjectId } from "bson";
-import { NotePreview } from "../shared.server";
+import { NotePreview, NoteRole } from "../shared.server";
 import { checkSession, ReAuthStatus } from "./auth";
 import { collection } from "./database";
 
@@ -64,9 +64,9 @@ export async function createNote(session: string, title: string) {
 
   const note = {
     _id: new ObjectId(),
-    baseRole: "none" as const,
+    baseRole: NoteRole.None as const,
     contents: "This is your new note!",
-    contributors: { [account._id.toHexString()]: "owner" } as const,
+    contributors: { [account._id.toHexString()]: NoteRole.Owner } as const,
     creation: Date.now(),
     title,
   };
@@ -75,4 +75,25 @@ export async function createNote(session: string, title: string) {
     notes.insertOne(note),
     addToMyNotes(note._id.toHexString(), [account._id]),
   ]);
+}
+
+export async function roleForNote(session: string, noteId: string | ObjectId) {
+  const { status, account } = await checkSession(session);
+
+  if (status === ReAuthStatus.Failure) return NoteRole.None;
+  if (status === ReAuthStatus.NoServer) return NoteRole.None;
+
+  const notes = await _notes;
+  if (!notes) return NoteRole.None;
+
+  const note = await notes.findOne({
+    _id:
+      typeof noteId === "string"
+        ? ObjectId.createFromHexString(noteId)
+        : noteId,
+  });
+
+  if (!note) return NoteRole.None;
+
+  return note.contributors[account._id.toHexString()] ?? note.baseRole;
 }

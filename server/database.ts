@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { Bookmark, ChatMessage } from "../shared.server";
+import { Bookmark, NoteRole } from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
@@ -44,16 +44,15 @@ export interface Database {
   };
   notes: {
     creation: number;
-    contributors: { [ObjectId: string]: "owner" | "editor" | "viewer" };
-    baseRole: "commenter" | "viewer" | "none";
+    contributors: {
+      [ObjectId: string]:
+        | NoteRole.Owner
+        | NoteRole.Editor
+        | NoteRole.Viewer
+        | undefined;
+    };
+    baseRole: NoteRole.Editor | NoteRole.Viewer | NoteRole.None;
     title: string;
     contents: string;
-  };
-  chats: {
-    creation: number;
-    contributors: { [ObjectId: string]: "owner" | "commenter" | "viewer" };
-    baseRole: "commenter" | "viewer" | "none";
-    title: string;
-    messages: ChatMessage[];
   };
 }
