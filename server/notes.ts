@@ -1,39 +1,23 @@
 import { ObjectId } from "bson";
-import { NotePreview, NoteRole } from "../shared.server";
+import { NotePreview } from "../shared.server";
 import { checkSession, ReAuthStatus } from "./auth";
-import { collection } from "./database";
+import { collection, Database } from "./database";
 
 const _accounts = collection("accounts");
 const _notes = collection("notes");
 
-async function addToMyNotes(noteIdAsHex: string, userIds: ObjectId[]) {
+async function addToMyNotes(noteId: ObjectId, userId: ObjectId) {
   const accounts = await _accounts;
   if (!accounts) return;
 
-  const users = await accounts.find({ _id: { $in: userIds } }).toArray();
-
-  await Promise.all(
-    users.map(({ _id, notes }) => {
-      notes = notes.filter((id) => id.toHexString() !== noteIdAsHex);
-      notes.unshift(ObjectId.createFromHexString(noteIdAsHex));
-
-      return accounts.updateOne({ _id }, { $set: { notes } });
-    })
-  );
+  await accounts.updateOne({ _id: userId }, { $push: { notes: noteId } });
 }
 
-async function removeFromMyNotes(noteIdAsHex: string, userIds: ObjectId[]) {
+async function removeFromMyNotes(noteId: ObjectId, userId: ObjectId) {
   const accounts = await _accounts;
   if (!accounts) return;
 
-  const users = await accounts.find({ _id: { $in: userIds } }).toArray();
-
-  await Promise.all(
-    users.map(({ _id, notes }) => {
-      notes = notes.filter((id) => id.toHexString() !== noteIdAsHex);
-      return accounts.updateOne({ _id }, { $set: { notes } });
-    })
-  );
+  await accounts.updateOne({ _id: userId }, { $pull: { notes: noteId } });
 }
 
 export async function allNotes(session: string): Promise<NotePreview[]> {
@@ -64,36 +48,46 @@ export async function createNote(session: string, title: string) {
 
   const note = {
     _id: new ObjectId(),
-    baseRole: NoteRole.None as const,
     contents: "This is your new note!",
-    contributors: { [account._id.toHexString()]: NoteRole.Owner } as const,
     creation: Date.now(),
+    owner: account._id,
     title,
   };
 
   await Promise.all([
     notes.insertOne(note),
-    addToMyNotes(note._id.toHexString(), [account._id]),
+    addToMyNotes(note._id, account._id),
   ]);
 }
 
-export async function roleForNote(session: string, noteId: string | ObjectId) {
+export async function doesOwnNote(session: string, noteIdAsHex: string) {
   const { status, account } = await checkSession(session);
 
-  if (status === ReAuthStatus.Failure) return NoteRole.None;
-  if (status === ReAuthStatus.NoServer) return NoteRole.None;
+  if (status === ReAuthStatus.Failure) return { doesOwn: false as const };
+  if (status === ReAuthStatus.NoServer) return { doesOwn: false as const };
 
   const notes = await _notes;
-  if (!notes) return NoteRole.None;
+  if (!notes) return { doesOwn: false as const };
 
   const note = await notes.findOne({
-    _id:
-      typeof noteId === "string"
-        ? ObjectId.createFromHexString(noteId)
-        : noteId,
+    _id: ObjectId.createFromHexString(noteIdAsHex),
+    owner: account._id,
   });
 
-  if (!note) return NoteRole.None;
+  if (!note) return { doesOwn: false as const };
 
-  return note.contributors[account._id.toHexString()] ?? note.baseRole;
+  return {
+    doesOwn: true as const,
+    note,
+  };
+}
+
+export async function setNoteContents(noteIdAsHex: string, contents: string) {
+  const notes = await _notes;
+  if (!notes) return;
+
+  await notes.updateOne(
+    { _id: ObjectId.createFromHexString(noteIdAsHex) },
+    { $set: { contents } }
+  );
 }

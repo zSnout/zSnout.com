@@ -35,9 +35,9 @@
 
     <p v-if="!session">
       Looks like you're not logged in.
-      <span @click="isLogInOpen = true">Log in</span>
+      <span class="link" @click="isLogInOpen = true">Log in</span>
       or
-      <span @click="isLogInOpen = true">create an account</span>
+      <span class="link" @click="isLogInOpen = true">create an account</span>
       to access the Notes app.
     </p>
 

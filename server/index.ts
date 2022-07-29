@@ -14,11 +14,13 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import { allNotes, createNote } from "./notes";
+import { allNotes, createNote, doesOwnNote, setNoteContents } from "./notes";
 
-type Socket = IOSocket<ClientToServer, ServerToClient> & {
+interface SocketData {
   oldSession?: string;
-};
+}
+
+type Socket = IOSocket<ClientToServer, ServerToClient, any, SocketData>;
 
 async function verify(socket: Socket, session: string) {
   const { status, account } = await checkSession(session);
@@ -37,15 +39,21 @@ async function verify(socket: Socket, session: string) {
       socket.emit("account:needs-verification", deletionTime - Date.now());
     }
 
-    if (socket.oldSession) socket.leave(`session:${socket.oldSession}`);
-    socket.join(`session:${(socket.oldSession = session)}`);
+    if (socket.data.oldSession) {
+      socket.leave(`session:${socket.data.oldSession}`);
+    }
+
+    socket.join(`session:${(socket.data.oldSession = session)}`);
 
     return true;
   } else {
     socket.emit("account:update:session", "");
     socket.emit("account:update:username", "");
     socket.emit("account:needs-verification", false);
-    if (socket.oldSession) socket.leave(`session:${socket.oldSession}`);
+
+    if (socket.data.oldSession) {
+      socket.leave(`session:${socket.data.oldSession}`);
+    }
 
     return false;
   }
@@ -144,6 +152,27 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       this.emit("notes:index", await allNotes(session));
     } else {
       this.emit("notes:index", []);
+    }
+  },
+  async "notes:request:note"(session, noteId) {
+    if (await verify(this, session)) {
+      const { doesOwn, note } = await doesOwnNote(session, noteId);
+
+      if (doesOwn) {
+        this.emit("notes:note", noteId, note.contents);
+      } else {
+        this.emit("notes:note", noteId, false);
+      }
+    }
+  },
+  async "notes:update:note"(session, noteId, contents) {
+    if (await verify(this, session)) {
+      const { doesOwn } = await doesOwnNote(session, noteId);
+
+      if (doesOwn) {
+        setNoteContents(noteId, contents);
+        this.to(`session:${session}`).emit("notes:note", noteId, contents);
+      }
     }
   },
 };
