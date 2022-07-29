@@ -46,10 +46,9 @@
 
   const syncNote = useDebounceFn(
     () => {
-      if (!overflow) {
-        isSynced.value = true;
-        socket.emit("notes:update:note", session.value, id, editor.getHTML());
-      }
+      if (overflow.value) return;
+      isSynced.value = true;
+      socket.emit("notes:update:note", session.value, id, editor.getHTML());
     },
     500,
     { maxWait: 1000 }
@@ -119,16 +118,23 @@
   <LogInForm v-model:open="isLogInOpen" />
 </template>
 
-<style>
-  .ProseMirror > :first-child {
-    margin-top: 0;
-  }
+<style lang="scss">
+  .ProseMirror {
+    > :first-child {
+      margin-top: 0;
+    }
 
-  .ProseMirror > :last-child {
-    margin-bottom: 0;
-  }
+    > :last-child {
+      margin-bottom: 0;
+    }
 
-  .ProseMirror-focused {
-    outline: none;
+    &-focused {
+      outline: none;
+    }
+
+    li > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 </style>
