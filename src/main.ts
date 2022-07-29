@@ -94,6 +94,9 @@ export const serviceWorker = useRegisterSW({
 
 watchEffect(() => {
   document.documentElement.classList.toggle("dark", isDark.value);
+
+  const metaThemeColor = document.querySelector("meta[name='theme-color']");
+  metaThemeColor?.setAttribute("content", isDark.value ? "#171819" : "#f7f7f7");
 });
 
 watchEffect(() => {
