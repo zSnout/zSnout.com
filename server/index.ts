@@ -225,6 +225,8 @@ export function start() {
 
   server.addListener("request", (_, res) => {
     readFile("./index.html", (err, data) => {
+      if (res.headersSent) return;
+
       if (err) {
         res.statusCode = 503;
 
