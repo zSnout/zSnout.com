@@ -77,10 +77,10 @@ In development mode, a Socket.io server is automatically created on the same
 port as the main Vite server, and no setup is needed.
 
 When the project is built, the `dist` directory will contain a file called
-`server.mjs`. It is your responsibility to load this as an ES module and
-call its `.start()` method. This will create a Socket.io server on localhost on
-port `process.env.PORT || 3000`. You must serve static files normally and
-forward Socket.io connections to this server.
+`server.mjs`. It is your responsibility to load this as an ES module and call
+its `.start()` method. This will create a Socket.io server on localhost on port
+`process.env.PORT || 3000`. You must serve static files normally and forward
+Socket.io connections to this server.
 
 If you do not create a Socket.io server and forward requests properly, zSnout
 will still work properly. However, accounts, cloud bookmarks, and other server
@@ -108,8 +108,8 @@ interface in
 ## Using a mail system
 
 In addition to a database, a mail system is also required to create accounts. To
-do this, figure out how to get the mail host, port, username, and password, and
-stuff these into the following environment variables:
+do this, get your mail host, port, username, and password, and stuff these into
+the following environment variables:
 
 ```
 ZSNOUT_MAIL_HOST
@@ -118,5 +118,7 @@ ZSNOUT_MAIL_USER
 ZSNOUT_MAIL_PASSWORD
 ```
 
-zSnout uses Nodemailer to connect. It will attempt a secure connection if the
-specified port is 465.
+You should also specify the email you are sending from with `ZSNOUT_MAIL_FROM`.
+
+zSnout uses Nodemailer to send emails. It will attempt a secure connection to
+your email server if the specified port is 465.

@@ -20,6 +20,10 @@ export const isActive = !!(
 
 const transport = createTransport(config);
 
+transport.sendMail({
+  to: "zsakowitz@gmail.com",
+});
+
 export function send(options: Omit<Mail.Options, "from">) {
   return new Promise<SMTPTransport.SentMessageInfo | undefined>((resolve) => {
     transport?.sendMail(
@@ -28,7 +32,10 @@ export function send(options: Omit<Mail.Options, "from">) {
         if (err) {
           console.log(err);
           resolve(undefined);
-        } else resolve(info);
+        } else {
+          console.log(info);
+          resolve(info);
+        }
       }
     );
   });
