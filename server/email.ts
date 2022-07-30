@@ -33,7 +33,6 @@ export function send(options: Omit<Mail.Options, "from">) {
           console.log(err);
           resolve(undefined);
         } else {
-          console.log(info);
           resolve(info);
         }
       }
