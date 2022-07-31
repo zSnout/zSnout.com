@@ -1,4 +1,3 @@
-import { readFile } from "node:fs";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
 import { ClientToServer, ServerToClient } from "../shared.server";
@@ -74,7 +73,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
     if (status === AccountStatus.Success) {
       await verify(this, account.session);
-      this.emit("account:complete-login");
+      this.emit("account:done:verify");
     } else {
       this.emit(
         "error",
@@ -100,7 +99,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
     if (status === AuthStatus.Success) {
       await verify(this, account.session);
-      this.emit("account:complete-login");
+      this.emit("account:done:verify");
     } else {
       this.emit(
         "error",
@@ -117,7 +116,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
     if (status === VerifyStatus.Success) {
       await verify(this, account.session);
-      this.emit("account:complete-login");
+      this.emit("account:done:verify");
     } else {
       this.emit(
         "error",

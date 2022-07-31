@@ -14,7 +14,7 @@
     }
 
     socket.emit("account:verify", code);
-    socket.once("account:complete-login", () => router.replace("/"));
+    socket.once("account:done:verify", () => router.replace("/"));
   }
 
   verifyMe();
