@@ -71,17 +71,17 @@
 
     <SearchableCardGrid style="position: relative; z-index: 2">
       <ImageCard
-        v-if="username"
-        alt="A demonstration of how to integrate logarithms"
-        description="Log out of your zSnout account."
-        keywords="account"
-        src="/images/account/log-out.png"
-        title="Log Out"
-        @click="(username = ''), (session = '')"
+        v-if="connected && session"
+        alt="An outline of a person's head and upper body"
+        description="Log out of your account, change your username, and modify other account settings."
+        keywords="log out"
+        src="/images/my-account.png"
+        title="My Account"
+        to="/my-account"
       />
 
       <ImageCard
-        v-if="!username && connected"
+        v-if="connected && !session"
         alt="Someone holding up a sign saying 'Sign Up'"
         description="Create a new account on zSnout to save fractals, Storymatic projects, and more."
         keywords="account"
