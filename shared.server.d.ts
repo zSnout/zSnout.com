@@ -2,6 +2,13 @@ export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
   "account:login"(username: string, password: string): void;
+  "account:reset-session"(session: string, shouldSendNewSession: boolean): void;
+  "account:update:password"(
+    session: string,
+    oldPassword: string,
+    password: string
+  ): void;
+  "account:update:username"(session: string, username: string): void;
   "account:verify"(verifyCode: string): void;
 
   "bookmarks:request"(session: string): void;
@@ -18,7 +25,10 @@ export interface ClientToServer {
 export interface ServerToClient {
   "account:update:session"(session: string): void;
   "account:update:username"(username: string): void;
-  "account:complete-login"(): void;
+  "account:done:reset-session"(): void;
+  "account:done:update:password"(): void;
+  "account:done:update:username"(): void;
+  "account:done:verify"(): void;
   "account:needs-verification"(timeLeft: false | number): void;
 
   "bookmarks:list"(bookmarks: Bookmark[]): void;
