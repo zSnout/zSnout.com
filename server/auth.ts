@@ -119,7 +119,7 @@ export async function createAccount(
   const sentMessage = await send({
     to: email,
     subject: "Verify your zSnout account",
-    text: `Hey @${username}! Verify your new zSnout account by opening this link: https://zsnout.com/account/verify?code=${account.verifyCode}.`,
+    text: `Hey @${username}! Verify your new zSnout account by opening this link: https://zsnout.com/verify-account?code=${account.verifyCode}.`,
   });
 
   if (!sentMessage) {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { useRoute } from "vue-router";
-  import DocumentDisplay from "../../components/DocumentDisplay.vue";
-  import Title from "../../components/Title.vue";
-  import { error, router, socket } from "../../main";
+  import DocumentDisplay from "../components/DocumentDisplay.vue";
+  import Title from "../components/Title.vue";
+  import { error, router, socket } from "../main";
 
   error.value = "";
   const code = useRoute().query.code;
