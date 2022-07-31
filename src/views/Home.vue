@@ -173,15 +173,6 @@
       />
 
       <ImageCard
-        alt="A black background with some white blobs that merge together"
-        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
-        keywords="bouncing screensavers"
-        src="/images/metaballs.png"
-        title="Metaballs"
-        to="/metaballs"
-      />
-
-      <ImageCard
         alt="A clock with flames trailing behind it"
         description="See what your reaction time is with our simple tester."
         keywords="speed"

@@ -18,6 +18,14 @@
 
     <SearchableCardGrid>
       <ImageCard
+        alt="A gradient of differently sized rainbow blobs in puddles of darkness"
+        description="Watch a live animation of multicolored puddles moving across your screen."
+        src="/images/art/rainbow-blobs.png"
+        title="Rainbow Blobs"
+        to="/art/rainbow-blobs?darkness=true&split=true"
+      />
+
+      <ImageCard
         alt="A gradient being created from thick paint strokes"
         description="Create your own blobby gradient with a custom size and color scheme."
         keywords="circles"
@@ -42,6 +50,15 @@
         src="/images/art/pixelated-rainbow.png"
         title="Pixelated Rainbow"
         to="/art/pixelated-rainbow"
+      />
+
+      <ImageCard
+        alt="A black background with some white blobs that merge together"
+        description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
+        keywords="bouncing screensavers"
+        src="/images/art/metaballs.png"
+        title="Metaballs"
+        to="/art/metaballs"
       />
 
       <ImageCard

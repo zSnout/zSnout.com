@@ -6,8 +6,8 @@
 
 <script lang="ts" setup>
   import { onMounted, ref } from "vue";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { WebGlCanvas } from "../composables/webgl/WebGlCanvas";
+  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
+  import { WebGlCanvas } from "../../composables/webgl/WebGlCanvas";
 
   const metaballs = Array.from({ length: 50 }, () => {
     const x = Math.random();
