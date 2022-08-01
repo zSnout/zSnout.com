@@ -1,5 +1,5 @@
 import { compare, hash } from "bcrypt";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import { collection, Database } from "./database";
 import { send } from "./email";
 

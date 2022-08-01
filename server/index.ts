@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
 import { ClientToServer, ServerToClient } from "../shared.server";
@@ -110,6 +111,19 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
         }[status]
       );
     }
+  },
+  async "account:reset-session"(session, shouldSendNewSession) {
+    const newSession = randomUUID();
+
+    updateAccount(session, {
+      session: newSession,
+    });
+
+    if (shouldSendNewSession) {
+      this.emit("account:update:session", newSession);
+    }
+
+    this.emit("account:done:reset-session");
   },
   async "account:verify"(verifyCode) {
     const { status, account } = await verifyAccount(verifyCode);
