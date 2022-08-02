@@ -17,7 +17,7 @@
   const isSigningUp = ref(signUp || false);
   error.value = "";
 
-  socket.on("account:done:login", () => emit("update:open", false));
+  socket.on("account:done:verify", () => emit("update:open", false));
   socket.on("error", () => (disabled.value = false));
 
   function logIn() {
