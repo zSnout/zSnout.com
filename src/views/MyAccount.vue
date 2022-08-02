@@ -31,7 +31,8 @@
 
       <Button
         @click="
-          (logOutOtherDevicesMessage = 'Logging out your other devices...'),
+          (isLogOutOtherDevicesOpen = true),
+            (logOutOtherDevicesMessage = 'Logging out your other devices...'),
             socket.emit('account:reset-session', session, true)
         "
       >
@@ -43,6 +44,8 @@
   <Modal :open="isLogOutOtherDevicesOpen">
     <p>{{ logOutOtherDevicesMessage }}</p>
 
-    <template #buttons></template>
+    <template #buttons>
+      <p></p>
+    </template>
   </Modal>
 </template>
