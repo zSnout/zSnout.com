@@ -9,6 +9,7 @@
   import Labeled from "../../components/Labeled.vue";
   import { syncOption } from "../../composables/useOption";
   import { MovableCanvas2d } from "../../composables/webgl/MovableCanvas2d";
+  import ColorSliders from "../../components/ColorSliders.vue";
 
   const sliders = useColorSliders();
 
@@ -26,13 +27,7 @@
   uniform bool darkness;
   uniform bool split;
 
-  ${useColorSliders.toString({
-    addDarkness: `
-if (darkness) {
-  hsv.y = v > 0.0 ? 1.0 - v : 1.0;
-  hsv.z = v < 0.0 ? (split ? -v : 1.0 - -v) : 1.0;
-}`,
-  })}
+  ${useColorSliders}
 
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
@@ -44,7 +39,14 @@ if (darkness) {
       else if (v < 0.5 && i > 0.5) i -= 0.5;
     }
 
-    return use_color_sliders(i);
+    vec3 rgb = use_color_sliders(i);
+
+    if (darkness) {
+      rgb = 1.0 - (1.0 - rgb) * (v > 0.0 ? 1.0 - v : 1.0);
+      rgb *= v < 0.0 ? (split ? -v : 1.0 - -v) : 1.0;
+    }
+
+    return rgb;
   }
 
   vec4 permute(vec4 x) {

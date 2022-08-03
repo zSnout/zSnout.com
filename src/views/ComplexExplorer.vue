@@ -100,15 +100,15 @@
   const float pi = 3.1415926535;
   const float pi2 = 6.28318530718;
 
-  ${useColorSliders.toString({
-    addDarkness: `
-vec2 z2 = z * z;
-float d = sqrt(z2.x + z2.y);
-if (d < 1.0) hsv.z *= d;`,
-  })}
+  ${useColorSliders}
 
   vec3 palette(vec2 z) {
-    return use_color_sliders(atan(z.y, z.x) / pi2);
+    vec3 rgb = use_color_sliders(atan(z.y, z.x) / pi2);
+    vec2 z2 = z * z;
+    float d = sqrt(z2.x + z2.y);
+    if (d < 1.0) rgb *= d;
+
+    return rgb;
   }
 
   vec2 cube(vec2 a) {
