@@ -2,6 +2,7 @@
   import { useClamp } from "@vueuse/core";
   import { computed, onMounted, ref } from "vue";
   import Button from "../components/Button.vue";
+  import { useColorSliders } from "../components/ColorSliders.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
@@ -12,6 +13,7 @@
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
+  import ColorSliders from "../components/ColorSliders.vue";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
@@ -79,14 +81,7 @@
 
   const themeInt = computed(() => themeIntMap[theme.value]);
 
-  const colorOffset = ref(0);
-  syncOption("colorOffset", colorOffset);
-
-  const repetition = ref(1);
-  syncOption("repetition", repetition);
-
-  const spectrum = ref(1);
-  syncOption("spectrum", spectrum);
+  const sliders = useColorSliders();
 
   const darkness = ref(false);
   syncOption("darkness", darkness);
@@ -105,12 +100,13 @@
   uniform float detail;
   uniform float limit;
   uniform int theme;
-  uniform float colorOffset;
-  uniform float repetition;
-  uniform float spectrum;
   uniform bool darkness;
   uniform bool split;
   uniform bool altColors;
+
+  ${useColorSliders.toString({
+    addDarkness: "if (darkness && theme == 1) hsv.z = mod(i, 0.5);",
+  })}
 
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
@@ -136,40 +132,28 @@
   }
 
   vec3 simplePalette(float i) {
-    float hue = mod(0.02 * repetition * i, 1.0);
-    vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
-
-    if (darkness) hsv.z = mod(0.02 * i, 1.0);
-    hsv.x = mod(hsv.x + colorOffset, 1.0);
-
-    return hsv2rgb(hsv);
+    return use_color_sliders(0.02 * i);
   }
 
   vec3 gradientPalette(vec3 sz, float i) {
-    sz = abs(sz) / i * repetition;
+    sz = abs(sz) / i;
 
-    vec3 hsv = rgb2hsv(sin(abs(sz * 5.0)) * 0.45 + 0.5);
-    vec3 rgb = hsv2rgb(vec3(hsv.x * spectrum + colorOffset, hsv.yz));
-    if (darkness) rgb *= mod(i * 0.02, 1.0);
+    vec3 rgb = use_color_sliders(sin(abs(sz * 5.0)) * 0.45 + 0.5);
+    if (darkness) rgb *= mod(0.02 * i, 1.0);
 
     return rgb;
   }
 
   vec3 rotationPalette(float t, float i) {
-    float hue = mod(2.0 * t / pi * repetition, 1.0);
-
-    vec3 rgb = hsv2rgb(vec3(1.0 - hue * spectrum + colorOffset, 1.0, 1.0));
-    if (darkness) rgb *= mod(i * 0.02, 1.0);
+    vec3 rgb = use_color_sliders(2.0 * t / pi);
+    if (darkness) rgb *= mod(0.02 * i, 1.0);
 
     return rgb;
   }
 
   vec3 newtonPalette(float t, float i) {
-    float hue = mod(t / pi * repetition, 1.0) * spectrum;
-    hue = mod(hue + colorOffset, 1.0);
-
-    vec3 rgb = hsv2rgb(vec3(1.0 - hue, 1.0, 1.0));
-    if (darkness) rgb *= mod(i * 0.02, 1.0);
+    vec3 rgb = use_color_sliders(t / pi);
+    if (darkness) rgb *= mod(0.02 * i, 1.0);
 
     return rgb;
   }
@@ -188,21 +172,19 @@
 
     vec3 rgb;
     if (altColors) {
-      rgb = vec3(n2, n1, n2);
+      rgb = vec3(n2, n2, n1);
     } else {
-      rgb = vec3(n1, n2, split ? 0.5 : 1.0);
+      rgb = vec3(n1, split ? 0.5 : 1.0, n2);
     }
 
+    rgb = use_color_sliders(rgb, false);
     if (darkness) rgb *= mod(i * 0.02, 1.0);
 
-    vec3 hsv = rgb2hsv(rgb);
-    hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
-
-    return hsv2rgb(hsv);
+    return rgb;
   }
 
   vec3 expPalette(float i) {
-    float t = i * 0.1 * repetition;
+    float t = 0.1 * i * repetition;
 
     float n1, n2;
     if (split) {
@@ -218,17 +200,15 @@
 
     vec3 rgb;
     if (altColors) {
-      rgb = vec3(n2, n1, n2);
+      rgb = vec3(n2, n2, n1);
     } else {
-      rgb = vec3(n1, n2, split ? 0.5 : 1.0);
+      rgb = vec3(n1, split ? 0.5 : 1.0, n2);
     }
 
+    rgb = use_color_sliders(rgb, false);
     if (darkness) rgb *= mod(i * 0.02, 1.0);
 
-    vec3 hsv = rgb2hsv(rgb);
-    hsv.x = mod(hsv.x * spectrum + colorOffset, 1.0);
-
-    return hsv2rgb(hsv);
+    return rgb;
   }
 
   vec2 cube(vec2 a) {
@@ -347,12 +327,10 @@
       gl.setUniform("detail", [detail.value]);
       gl.setUniform("limit", limit.value);
       gl.setUniformOfInt("theme", [themeInt.value]);
-      gl.setUniform("colorOffset", colorOffset.value);
-      gl.setUniform("repetition", repetition.value);
-      gl.setUniform("spectrum", spectrum.value);
       gl.setUniformOfInt("darkness", [darkness.value]);
       gl.setUniformOfInt("split", [split.value]);
       gl.setUniformOfInt("altColors", [altColors.value]);
+      sliders.setGlsl(gl);
     });
 
     resetPosition.value = () => {
@@ -406,17 +384,7 @@
         </Dropdown>
       </Labeled>
 
-      <Labeled label="Color Offset:">
-        <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Repetition:">
-        <InlineRangeField v-model="repetition" :max="10" :min="1" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Spectrum:">
-        <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
-      </Labeled>
+      <ColorSliders :sliders="sliders" />
 
       <Labeled label="Darkness Effect?">
         <InlineCheckboxField v-model="darkness" />
