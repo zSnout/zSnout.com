@@ -17,8 +17,7 @@ export namespace IsLegal {
     return (
       password.length >= 8 &&
       /(?![\d_])\w/.test(password) &&
-      /\d/.test(password) &&
-      /[^\s\w]/.test(password)
+      /\d/.test(password)
     );
   }
 
