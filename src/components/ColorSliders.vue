@@ -172,6 +172,19 @@ vec3 use_color_sliders(vec3 rgb) {
 
   return c_hsv2rgb(hsv);
 }
+
+vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
+  vec3 hsv = c_rgb2hsv(rgb);
+  float i = hsv.x;
+  hsv.x = 1.0 - hsv.x * spectrum;
+  if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
+  hsv.x = mod(hsv.x + colorOffset, 1.0);
+  if (noiseLevel > 0.0) hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
+
+  ${options?.addDarkness || ""}
+
+  return c_hsv2rgb(hsv);
+}
       `;
     }
   }
