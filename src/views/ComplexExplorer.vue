@@ -108,7 +108,7 @@ if (d < 1.0) hsv.z *= d;`,
   })}
 
   vec3 palette(vec2 z) {
-    return use_color_sliders(atan(z.y, z.x) / pi2, z);
+    return use_color_sliders(atan(z.y, z.x) / pi2);
   }
 
   vec2 cube(vec2 a) {

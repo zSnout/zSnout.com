@@ -147,7 +147,7 @@ float c_noise(vec3 v) {
   return (c_snoise(v) + 1.0) / 2.0;
 }
 
-vec3 use_color_sliders(float i, vec2 z) {
+vec3 use_color_sliders(float i) {
   float hue = mod(repetition * i, 1.0);
   vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
@@ -159,7 +159,7 @@ vec3 use_color_sliders(float i, vec2 z) {
   return c_hsv2rgb(hsv);
 }
 
-vec3 use_color_sliders(vec3 rgb, vec2 z) {
+vec3 use_color_sliders(vec3 rgb) {
   vec3 hsv = c_rgb2hsv(rgb);
   float i = hsv.x;
   hsv.x = mod(hsv.x * repetition, 1.0);
