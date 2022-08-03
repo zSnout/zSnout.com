@@ -92,8 +92,6 @@ export async function createAccount(
 
   if (!IsLegal.Email(email)) return { status: AccountStatus.BadEmail as const };
 
-  await clearOldAccounts();
-
   if (await accounts.findOne({ username }))
     return { status: AccountStatus.UsernameTaken as const };
 
@@ -130,15 +128,16 @@ export async function createAccount(
   return { status: AccountStatus.Success as const, account };
 }
 
-export enum AccountStatus {
+export const enum AccountStatus {
+  NoServer,
+  Failure,
+  Success,
   BadUsername,
   BadPassword,
   BadEmail,
-  EmailTaken,
-  Failure,
-  NoServer,
-  Success,
+  IncorrectPassword,
   UsernameTaken,
+  EmailTaken,
 }
 
 export async function verifyAccount(verifyCode: string) {
@@ -178,8 +177,47 @@ export async function updateAccount(
   session: string,
   update: Partial<Database["accounts"]>
 ) {
-  return (await (await _accounts)?.updateOne({ session }, { $set: update }))
-    ?.acknowledged;
+  return (
+    (await (await _accounts)?.updateOne({ session }, { $set: update }))
+      ?.acknowledged || false
+  );
+}
+
+export async function updateUsername(session: string, username: string) {
+  const accounts = await _accounts;
+  if (!accounts) return AccountStatus.NoServer;
+
+  if (!IsLegal.Username(username)) return AccountStatus.BadUsername;
+
+  if (await accounts.findOne({ username })) return AccountStatus.UsernameTaken;
+
+  return (await updateAccount(session, { username }))
+    ? AccountStatus.Success
+    : AccountStatus.Failure;
+}
+
+export async function updatePassword(
+  session: string,
+  oldPassword: string,
+  password: string
+) {
+  const accounts = await _accounts;
+  if (!accounts) return AccountStatus.NoServer;
+
+  if (!IsLegal.Password(password)) return AccountStatus.BadPassword;
+
+  const account = await getAccount(session);
+  if (!account) return AccountStatus.Failure;
+
+  if (!(await verifyPassword(oldPassword, account.password))) {
+    return AccountStatus.IncorrectPassword;
+  }
+
+  return (await updateAccount(session, {
+    password: await hashPassword(password),
+  }))
+    ? AccountStatus.Success
+    : AccountStatus.Failure;
 }
 
 setInterval(clearOldAccounts, 5 * 60 * 1000);
