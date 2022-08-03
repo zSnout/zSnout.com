@@ -2,14 +2,16 @@
   import { useElementSize, useEventListener, useRafFn } from "@vueuse/core";
   import { onMounted, ref } from "vue";
   import Button from "../components/Button.vue";
+  import ColorSliders, {
+    useColorSliders,
+  } from "../components/ColorSliders.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import InlineRangeField from "../components/InlineRangeField.vue";
+  import HStack from "../components/HStack.vue";
   import Labeled from "../components/Labeled.vue";
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
-  import HStack from "../components/HStack.vue";
 
   const time = ref(1);
   const isAnimating = ref(false);
@@ -82,23 +84,13 @@
   const equation = ref("z^2");
   syncOption("equation", equation);
 
-  const colorOffset = ref(0);
-  syncOption("colorOffset", colorOffset);
-
-  const repetition = ref(1);
-  syncOption("repetition", repetition);
-
-  const spectrum = ref(1);
-  syncOption("spectrum", spectrum);
+  const colors = useColorSliders();
 
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
 
   const shader = `
-  uniform float colorOffset;
-  uniform float repetition;
-  uniform float spectrum;
   uniform float time;
 
   uniform vec2 u_resolution;
@@ -108,33 +100,15 @@
   const float pi = 3.1415926535;
   const float pi2 = 6.28318530718;
 
-  vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
-    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-  }
-
-  vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-  }
+  ${useColorSliders.toString({
+    addDarkness: `
+vec2 z2 = z * z;
+float d = sqrt(z2.x + z2.y);
+if (d < 1.0) hsv.z *= d;`,
+  })}
 
   vec3 palette(vec2 z) {
-    float i = atan(z.y, z.x) / pi2;
-    float hue = mod(repetition * i, 1.0);
-    vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
-
-    hsv.x = mod(hsv.x + colorOffset, 1.0);
-    vec2 z2 = z * z;
-    float d = sqrt(z2.x + z2.y);
-    if (d < 1.0) hsv.z *= d;
-
-    return hsv2rgb(hsv);
+    return use_color_sliders(atan(z.y, z.x) / pi2, z);
   }
 
   vec2 cube(vec2 a) {
@@ -199,9 +173,7 @@
     setEquation.value = () => setTimeout(() => location.reload());
 
     gl.on("render", () => {
-      gl.setUniform("colorOffset", colorOffset.value);
-      gl.setUniform("repetition", repetition.value);
-      gl.setUniform("spectrum", spectrum.value);
+      colors.setGlsl(gl);
       gl.setUniform("time", time.value);
     });
 
@@ -233,17 +205,7 @@
         </Button>
       </Labeled>
 
-      <Labeled label="Color Offset:">
-        <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Repetition:">
-        <InlineRangeField v-model="repetition" :max="10" :min="1" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Spectrum:">
-        <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
-      </Labeled>
+      <ColorSliders :options="colors" />
     </template>
 
     <template #buttons>
