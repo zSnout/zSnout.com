@@ -152,9 +152,7 @@ vec3 use_color_sliders(float i, vec2 z) {
   vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
-  if (noiseLevel > 0.0) {
-    hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
-  }
+  if (noiseLevel > 0.0) hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
 
   ${options?.addDarkness || ""}
 
@@ -163,6 +161,7 @@ vec3 use_color_sliders(float i, vec2 z) {
 
 vec3 use_color_sliders(vec3 rgb, vec2 z) {
   vec3 hsv = c_rgb2hsv(rgb);
+  float i = hsv.x;
   hsv.x = mod(hsv.x * repetition, 1.0);
   hsv.x = 1.0 - hsv.x * spectrum;
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
