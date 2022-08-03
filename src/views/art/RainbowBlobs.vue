@@ -2,6 +2,7 @@
   import { useRafFn } from "@vueuse/core";
   import { onMounted, ref } from "vue";
   import Button from "../../components/Button.vue";
+  import { useColorSliders } from "../../components/ColorSliders.vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
   import InlineRangeField from "../../components/InlineRangeField.vue";
@@ -9,14 +10,7 @@
   import { syncOption } from "../../composables/useOption";
   import { MovableCanvas2d } from "../../composables/webgl/MovableCanvas2d";
 
-  const colorOffset = ref(0);
-  syncOption("colorOffset", colorOffset);
-
-  const repetition = ref(1);
-  syncOption("repetition", repetition);
-
-  const spectrum = ref(1);
-  syncOption("spectrum", spectrum);
+  const sliders = useColorSliders();
 
   const darkness = ref(false);
   syncOption("darkness", darkness);
@@ -28,32 +22,21 @@
   // https://gist.github.com/patriciogonzalezvivo/670c22f3966e662d2f83
 
   const shader = `
-  uniform float colorOffset;
-  uniform float repetition;
-  uniform float spectrum;
   uniform float time;
   uniform bool darkness;
   uniform bool split;
 
+  ${useColorSliders.toString({
+    addDarkness: `
+if (darkness) {
+  hsv.y = v > 0.0 ? 1.0 - v : 1.0;
+  hsv.z = v < 0.0 ? (split ? -v : 1.0 - -v) : 1.0;
+}`,
+  })}
+
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
-
-  vec3 rgb2hsv(vec3 c) {
-    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-
-    float d = q.x - min(q.w, q.y);
-    float e = 1.0e-10;
-    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
-  }
-
-  vec3 hsv2rgb(vec3 c) {
-    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
-    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
-    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
-  }
 
   vec3 palette(float i, float v) {
     if (split) {
@@ -61,18 +44,7 @@
       else if (v < 0.5 && i > 0.5) i -= 0.5;
     }
 
-    float hue = mod(repetition * i, 1.0);
-
-    vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
-
-    if (darkness) {
-      hsv.y = v > 0.0 ? 1.0 - v : 1.0;
-      hsv.z = v < 0.0 ? (split ? -v : 1.0 - -v) : 1.0;
-    }
-
-    hsv.x = mod(hsv.x + colorOffset, 1.0);
-
-    return hsv2rgb(hsv);
+    return use_color_sliders(i);
   }
 
   vec4 permute(vec4 x) {
@@ -191,12 +163,10 @@
     });
 
     gl.on("render", () => {
-      gl.setUniform("colorOffset", colorOffset.value);
-      gl.setUniform("repetition", repetition.value);
-      gl.setUniform("spectrum", spectrum.value);
       gl.setUniformOfInt("darkness", [darkness.value]);
       gl.setUniformOfInt("split", [split.value]);
       gl.setUniform("time", time);
+      sliders.setGlsl(gl);
     });
 
     resetPosition.value = () => {
@@ -215,17 +185,7 @@
 <template>
   <FullscreenDisplay>
     <template #options>
-      <Labeled label="Color Offset:">
-        <InlineRangeField v-model="colorOffset" :max="1" :min="0" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Repetition:">
-        <InlineRangeField v-model="repetition" :max="10" :min="1" step="any" />
-      </Labeled>
-
-      <Labeled label="Color Spectrum:">
-        <InlineRangeField v-model="spectrum" :max="1" :min="0" step="any" />
-      </Labeled>
+      <ColorSliders :sliders="sliders" />
 
       <Labeled label="Darkness Effect?">
         <InlineCheckboxField v-model="darkness" />
