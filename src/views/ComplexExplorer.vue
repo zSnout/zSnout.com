@@ -84,7 +84,7 @@
   const equation = ref("z^2");
   syncOption("equation", equation);
 
-  const colors = useColorSliders();
+  const sliders = useColorSliders();
 
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
@@ -173,7 +173,7 @@ if (d < 1.0) hsv.z *= d;`,
     setEquation.value = () => setTimeout(() => location.reload());
 
     gl.on("render", () => {
-      colors.setGlsl(gl);
+      sliders.setGlsl(gl);
       gl.setUniform("time", time.value);
     });
 
@@ -205,7 +205,7 @@ if (d < 1.0) hsv.z *= d;`,
         </Button>
       </Labeled>
 
-      <ColorSliders :options="colors" />
+      <ColorSliders :sliders="sliders" />
     </template>
 
     <template #buttons>

@@ -204,8 +204,8 @@ vec3 use_color_sliders(vec3 rgb, vec2 z) {
     setGlsl(this: ColorSliders, gl: WebGlCanvas): void;
   }
 
-  const { options } = defineProps<{ options: ColorSliders }>();
-  const { colorOffset, noiseLevel, repetition, separation, spectrum } = options;
+  const { sliders } = defineProps<{ sliders: ColorSliders }>();
+  const { colorOffset, noiseLevel, repetition, separation, spectrum } = sliders;
 </script>
 
 <template>
