@@ -11,6 +11,8 @@ import {
   logInUser,
   ReAuthStatus,
   updateAccount,
+  updatePassword,
+  updateUsername,
   verifyAccount,
   VerifyStatus,
 } from "./auth";
@@ -65,6 +67,12 @@ async function verify(socket: Socket, session: string) {
   }
 }
 
+const badUsernameMessage =
+  "Your username should only contain letters, numbers, and underscores, and should be 6 to 20 characters long.";
+
+const badPasswordMessage =
+  "Your password should contain a letter and number and be at least 8 characters long.";
+
 const events: Partial<ClientToServer> & ThisType<Socket> = {
   "account:check-session"(session: string) {
     verify(this, session);
@@ -81,10 +89,8 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
         {
           [AccountStatus.BadEmail]:
             "Your email address is invalid. Make sure it is formatted properly and can recieve emails.",
-          [AccountStatus.BadPassword]:
-            "Your password should have a letter, number, symbol, and be at least 8 characters long.",
-          [AccountStatus.BadUsername]:
-            "Your username should only contain letters, numbers, and underscores, and should be at least 6 characters long.",
+          [AccountStatus.BadPassword]: badPasswordMessage,
+          [AccountStatus.BadUsername]: badUsernameMessage,
           [AccountStatus.EmailTaken]: `${email} is already registered with another account.`,
           [AccountStatus.Failure]:
             "An unknown issue occurred. Try again later.",
@@ -115,15 +121,61 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
   async "account:reset-session"(session, shouldSendNewSession) {
     const newSession = randomUUID();
 
-    updateAccount(session, {
+    await updateAccount(session, {
       session: newSession,
     });
 
+    const mySession = this.to(`session:${session}`);
+    mySession.emit("account:update:session", "");
+    mySession.emit("account:update:username", "");
+
     if (shouldSendNewSession) {
-      this.emit("account:update:session", newSession);
+      this.emit("account:update:session", (this.data.oldSession = newSession));
     }
 
     this.emit("account:done:reset-session");
+  },
+  async "account:update:username"(session, username) {
+    if (await verify(this, session)) {
+      const status = await updateUsername(session, username);
+
+      if (status === AccountStatus.Success) {
+        this.to(`session:${session}`).emit("account:update:username", username);
+        this.emit("account:update:username", username);
+
+        this.emit("account:done:update:username");
+      } else {
+        this.emit(
+          "error",
+          {
+            [AccountStatus.BadUsername]: badUsernameMessage,
+            [AccountStatus.UsernameTaken]: `@${username} is already registered with another account.`,
+            [AccountStatus.NoServer]: "This server cannot change usernames.",
+            [AccountStatus.Failure]: "An unknown error occurred.",
+          }[status]
+        );
+      }
+    }
+  },
+  async "account:update:password"(session, oldPassword, password) {
+    if (await verify(this, session)) {
+      const status = await updatePassword(session, oldPassword, password);
+
+      if (status === AccountStatus.Success) {
+        this.emit("account:done:update:password");
+      } else {
+        this.emit(
+          "error",
+          {
+            [AccountStatus.BadPassword]: badPasswordMessage,
+            [AccountStatus.IncorrectPassword]:
+              "Your old password was incorrect.",
+            [AccountStatus.NoServer]: "This server cannot change usernames.",
+            [AccountStatus.Failure]: "An unknown error occurred.",
+          }[status]
+        );
+      }
+    }
   },
   async "account:verify"(verifyCode) {
     const { status, account } = await verifyAccount(verifyCode);
