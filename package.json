@@ -19,7 +19,7 @@
     "@vueuse/components": "^9.1.0",
     "@vueuse/core": "^8.9.4",
     "@vueuse/integrations": "^9.1.0",
-    "@vueuse/shared": "^8.9.4",
+    "@vueuse/shared": "^9.1.0",
     "bcrypt": "^5.0.1",
     "disable-scroll": "^0.6.0",
     "error-stack-parser": "^2.1.4",
