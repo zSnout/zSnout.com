@@ -7,6 +7,7 @@ import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
+const mdfile = /\.md($|\?)/;
 const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 const publicFiles = sync("./public/**/*").filter(
@@ -26,6 +27,18 @@ export default defineConfig({
           containerClass: "second-layer table-of-contents",
           listType: "ul",
         });
+
+        const render: (src: string, env?: any) => string = md.render;
+        md.render = function (src: string, env?: any) {
+          return render
+            .call(this, src, env)
+            .replace(/<pre(?:[^>]*)>/g, (match) =>
+              match.includes("class")
+                ? match.replace('class="', 'class="second-layer ')
+                : match.replace(">", ' class="second-layer">')
+            )
+            .replace(/<code>/g, '<code class="second-layer">');
+        };
       },
     }),
     {
