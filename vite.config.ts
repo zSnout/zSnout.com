@@ -1,9 +1,13 @@
+import Katex from "@traptitech/markdown-it-katex";
 import vue from "@vitejs/plugin-vue";
 import { sync } from "fast-glob";
+import Prism from "markdown-it-prism";
+import TOC from "markdown-it-toc-done-right";
 import { defineConfig } from "vite";
+import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
-const jsfile = /\.([jt]sx?|vue)($|\?)/;
+const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 const publicFiles = sync("./public/**/*").filter(
   (e) => !e.startsWith("./public/images/")
@@ -12,7 +16,18 @@ const publicFiles = sync("./public/**/*").filter(
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({ include: [/\.vue$/, /\.md$/] }),
+    Markdown({
+      wrapperComponent: "Prose",
+      markdownItSetup(md) {
+        md.use(Prism);
+        md.use(Katex, { throwOnError: false });
+        md.use(TOC, {
+          containerClass: "second-layer table-of-contents",
+          listType: "ul",
+        });
+      },
+    }),
     {
       name: "fix-storymatic",
       transform(code, id) {
