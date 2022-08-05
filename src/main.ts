@@ -1,30 +1,34 @@
 import { useCssVar, useStorage, useWindowSize } from "@vueuse/core";
 import { io, Socket } from "socket.io-client";
 import { useRegisterSW } from "virtual:pwa-register/vue";
-import { createApp, ref, watchEffect } from "vue";
+import { createApp, defineAsyncComponent, ref, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import { ClientToServer, ServerToClient } from "../shared.client";
 import App from "./App.vue";
 import { isDark } from "./composables/isDark";
 import { isHoverable } from "./composables/isHoverable";
 
-const routes = import.meta.glob("./views/**/*.vue");
+function transformRoutes(
+  routes: Record<string, () => Promise<any>>,
+  ext: string
+) {
+  return Object.entries(routes).map<RouteRecordRaw>(([path, module]) => ({
+    path: path
+      .slice(7, -ext.length)
+      .replace(/(Index|Home)$/, "")
+      .replace(/\/[A-Z]/g, (char) => char.toLocaleLowerCase())
+      .replace(/[A-Z]/g, (char) => `-${char.toLocaleLowerCase()}`),
+    component: module,
+  }));
+}
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: Object.entries(routes)
-    .map<RouteRecordRaw>(([path, module]) => ({
-      path: path
-        .slice(7, -4)
-        .replace(/(Index|Home)$/, "")
-        .replace(/\/[A-Z]/g, (char) => char.toLocaleLowerCase())
-        .replace(/[A-Z]/g, (char) => `-${char.toLocaleLowerCase()}`),
-      component: module,
-    }))
-    .concat([
-      { path: "/:path(.*)", component: routes["./views/404.vue"] },
-      { path: "/leopard", redirect: "/leopards" },
-    ]),
+  routes: [
+    ...transformRoutes(import.meta.glob("./views/**/*.vue"), ".vue"),
+    ...transformRoutes(import.meta.glob("./views/**/*.md"), ".md"),
+    { path: "/:path(.*)", component: () => import("./views/404.vue") },
+  ],
 });
 
 router.onError((error) => {
@@ -80,7 +84,10 @@ router.beforeEach(({ path }, _, next) => {
   next();
 });
 
+const Prose = defineAsyncComponent(() => import("./components/Prose.vue"));
+
 export const app = createApp(App);
+app.component("Prose", Prose);
 app.use(router).mount("#app");
 
 const loc = new URL(location.href);
