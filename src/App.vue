@@ -162,9 +162,23 @@
   }
 
   .dark .outline,
+  .dark hr,
+  .dark blockquote,
+  .dark q,
   .dark.hover .hoverline:hover,
   .dark.hover .focusline:focus {
     border-color: #2c8d8d;
     outline-color: #2c8d8d;
+  }
+
+  hr {
+    margin: 1em 0;
+    border: none;
+    border-top: 1px solid #066567;
+  }
+
+  blockquote,
+  q {
+    border-left: 2px solid #066567;
   }
 </style>
