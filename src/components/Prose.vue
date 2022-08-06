@@ -72,7 +72,11 @@
 
     p {
       margin-top: 0;
-      margin-bottom: 0.5em;
+      margin-bottom: 1em;
+    }
+
+    p:not(.non-text) + p {
+      margin-top: -0.5em;
     }
 
     details {
@@ -181,26 +185,38 @@
     table {
       min-width: 50%;
       max-width: 100%;
-      margin: 0 auto;
-      margin-bottom: 0.5em;
+      margin: 0 0 1em 0;
       overflow-x: auto;
       text-align: center;
+      border: 1px solid #404040;
+      border-radius: 0;
       border-collapse: collapse;
-      border-spacing: 0;
+
+      .dark & {
+        border-color: #c0c0c0;
+      }
+
       thead {
         font-weight: bold;
         background-color: var(--field-background);
       }
+
       td,
       th {
         padding: 0.5em;
-        border: 0.0625em solid var(--border-color);
+        border: 1px solid #404040;
+
+        .dark & {
+          border-color: #c0c0c0;
+        }
       }
     }
+
     > :first-child,
     > .markdown-body > :first-child {
       margin-top: 0;
     }
+
     > :last-child,
     > .markdown-body > :last-child {
       margin-bottom: 0;

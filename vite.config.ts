@@ -37,7 +37,9 @@ export default defineConfig({
                 ? match.replace('class="', 'class="second-layer ')
                 : match.replace(">", ' class="second-layer">')
             )
-            .replace(/<code>/g, '<code class="second-layer">');
+            .replace(/<code>/g, '<code class="second-layer">')
+            .replace(/<table>/g, '<table class="second-layer">')
+            .replace(/<p>\s*<img/g, '<p class="non-text"><img');
         };
       },
     }),
