@@ -25,6 +25,7 @@
     "disable-scroll": "^0.6.0",
     "error-stack-parser": "^2.1.4",
     "fast-glob": "^3.2.11",
+    "generate-maze": "^1.1.0",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
     "katex": "^0.16.0",
