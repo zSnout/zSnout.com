@@ -153,6 +153,9 @@
     height: var(--app-height);
 
     > :deep(canvas) {
+      position: fixed;
+      top: 0;
+      left: 0;
       width: var(--app-width);
       height: var(--app-height);
     }
