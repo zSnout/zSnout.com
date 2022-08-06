@@ -9,7 +9,7 @@
 
 <script lang="ts" setup>
   import "katex/dist/katex.css";
-  import prismDark from "prismjs/themes/prism-dark.min.css?inline";
+  import prismDark from "prismjs/themes/prism-okaidia.min.css?inline";
   import prismLight from "prismjs/themes/prism.min.css?inline";
   import { watchEffect } from "vue";
   import { isDark } from "../composables/isDark";
