@@ -9,7 +9,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 const mdfile = /\.md($|\?)/;
 const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
-const images = sync("./public/images/**/*.png");
+const images = sync("./public/images/**/*.png").concat(sync("./public/images/**/*.jpg"));
 const publicFiles = sync("./public/**/*").filter(
   (e) => !e.startsWith("./public/images/")
 );

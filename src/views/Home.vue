@@ -137,6 +137,16 @@
       />
 
       <ImageCard
+        v-if="connected && session"
+        alt="An AirPod superimposed on top of the Google Slides logo"
+        description="Use your AirPods 3 or Pro as a remote for a Google Slides presentation."
+        keywords="google presentation airpods remote"
+        src="/images/hands-free-slides.jpg"
+        title="Hands Free Slides"
+        to="/hands-free-slides"
+      />
+
+      <ImageCard
         alt="Leopards stacked on top of each other"
         description="A leap of leopards (look it up) appear and fill your device's screen."
         keywords="images"
