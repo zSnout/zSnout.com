@@ -1,6 +1,19 @@
+<script lang="ts">
+  const el = document.createElement("style");
+  document.head.append(el);
+
+  watchEffect(() => {
+    el.textContent = isDark.value ? prismDark : prismLight;
+  });
+</script>
+
 <script lang="ts" setup>
-  import DocumentDisplay from "./DocumentDisplay.vue";
   import "katex/dist/katex.css";
+  import prismDark from "prismjs/themes/prism-dark.min.css?inline";
+  import prismLight from "prismjs/themes/prism.min.css?inline";
+  import { watchEffect } from "vue";
+  import { isDark } from "../composables/isDark";
+  import DocumentDisplay from "./DocumentDisplay.vue";
 
   defineProps<{ frontmatter?: any }>();
 </script>
@@ -24,7 +37,18 @@
       }
 
       a {
+        display: inline-block;
+        width: 100%;
+        padding-bottom: 0.25em;
         color: inherit;
+      }
+
+      li ul {
+        margin-top: 0;
+      }
+
+      li + li {
+        margin-top: 0;
       }
     }
 
@@ -175,6 +199,12 @@
       font-size: 0.85rem;
       font-family: "Courier New", Courier, monospace;
       white-space: pre-wrap;
+      background-color: white;
+      border: 0;
+
+      .dark & {
+        background-color: #1f1f1f;
+      }
 
       code {
         padding: 0;
@@ -192,10 +222,6 @@
       border-radius: 0;
       border-collapse: collapse;
 
-      .dark & {
-        border-color: #c0c0c0;
-      }
-
       thead {
         font-weight: bold;
         background-color: var(--field-background);
@@ -205,10 +231,6 @@
       th {
         padding: 0.5em;
         border: 1px solid #404040;
-
-        .dark & {
-          border-color: #c0c0c0;
-        }
       }
     }
 
