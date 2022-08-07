@@ -16,6 +16,7 @@
     timeLeftBeforeAccountDeletion,
     username,
   } from "../main";
+  import Button from "../components/Button.vue";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
@@ -69,10 +70,14 @@
       </VStack>
     </Cover>
 
-    <SearchableCardGrid style="position: relative; z-index: 2">
+    <SearchableCardGrid
+      :sizes="['normal', 'small', 'icon']"
+      style="position: relative; z-index: 2"
+    >
       <ImageCard
         v-if="connected && session"
         alt="An outline of a person's head and upper body"
+        bg="white"
         description="Log out of your account, change your username, and modify other account settings."
         keywords="log out"
         src="/images/my-account.png"
@@ -149,7 +154,7 @@
         alt="An AirPod superimposed on top of the Google Slides logo"
         description="Use your AirPods 3 or Pro as a remote for a Google Slides presentation."
         keywords="google presentation airpods remote"
-        src="/images/hands-free-slides.jpg"
+        src="/images/hands-free-slides.png"
         title="Hands Free Slides"
         to="/hands-free-slides"
       />
