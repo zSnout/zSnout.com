@@ -58,6 +58,16 @@
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
+
+    .no-title.no-title & {
+      padding-bottom: 0;
+      border-radius: 0;
+      box-shadow: none;
+
+      .hover &:hover {
+        border: 0;
+      }
+    }
   }
 
   .image,
@@ -66,12 +76,21 @@
     margin-right: -0.75em;
     margin-bottom: 0.125em;
     margin-left: -0.75em;
+    background-color: white;
+
+    .no-title & {
+      margin-bottom: -0.5em;
+    }
 
     .hover .card:hover > & {
       width: calc(100% + 1.5em - 2px);
       margin-right: calc(-0.75em + 1px);
       margin-bottom: calc(0.125em + 2px);
       margin-left: calc(-0.75em + 1px);
+    }
+
+    .hover .no-title .card:hover > & {
+      margin-bottom: -1em;
     }
   }
 
@@ -101,21 +120,33 @@
         ),
         transparent;
     }
+
+    .no-title & {
+      display: none;
+    }
   }
 
   .title {
-    margin-top: 0;
-    margin-bottom: 0.25em;
+    margin: 0;
     font-weight: bold;
+
+    .no-title & {
+      display: none;
+    }
   }
 
   .description {
     margin: 0;
+    margin-top: 0.25em;
     color: #666;
     font-size: 0.9em;
 
     .dark & {
       color: #aaa;
+    }
+
+    .no-desc & {
+      display: none;
     }
   }
 </style>

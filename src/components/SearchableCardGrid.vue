@@ -4,7 +4,10 @@
   import CardGrid from "./CardGrid.vue";
   import Field from "./Field.vue";
 
-  defineProps<{ placeholder?: string }>();
+  defineProps<{
+    placeholder?: string;
+    sizes?: ("normal" | "small" | "icon")[];
+  }>();
 
   const field = ref("");
   const grid = ref<VueInstance>();
@@ -48,7 +51,7 @@
       type="search"
     />
 
-    <CardGrid ref="grid" class="grid">
+    <CardGrid ref="grid" class="grid" :sizes="sizes">
       <slot />
     </CardGrid>
   </div>
