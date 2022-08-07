@@ -47,7 +47,7 @@
         const x = ~~(canvas.width / size) - 2;
         const y = ~~(canvas.height / size) - 2;
 
-        maze.value = generate(x, y, true);
+        maze.value = generate(x, y, true, ~~(Math.random() * 1000000));
         maxX = x;
         maxY = y;
       }
