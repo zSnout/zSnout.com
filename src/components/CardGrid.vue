@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-  import { useEventListener, useResizeObserver } from "@vueuse/core";
+  import {
+    useEventListener,
+    useResizeObserver,
+    useStorage,
+  } from "@vueuse/core";
   import { ref, watch } from "vue";
   import { tabbable } from "tabbable";
   import Button from "./Button.vue";
@@ -13,8 +17,16 @@
   const grid = ref<HTMLElement>();
   const size = ref<"normal" | "small" | "icon">(sizes[0]);
 
+  const preferred = useStorage<"normal" | "small" | "icon">(
+    "preferred-grid-size",
+    size.value
+  );
+
+  if (sizes.includes(preferred.value)) size.value = preferred.value;
+
   function nextSize() {
     size.value = sizes[(sizes.indexOf(size.value) + 1) % sizes.length];
+    preferred.value = size.value;
   }
 
   function checkCols() {
