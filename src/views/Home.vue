@@ -138,6 +138,16 @@
 
       <ImageCard
         v-if="connected && session"
+        alt="A black ball at a corner in a maze"
+        description="Twist and turn your phone or tablet to move a ball around in a randomly generated maze."
+        keywords="orientation mobile"
+        src="/images/maze-game.png"
+        title="Maze Game"
+        to="/maze-game"
+      />
+
+      <ImageCard
+        v-if="connected && session"
         alt="An AirPod superimposed on top of the Google Slides logo"
         description="Use your AirPods 3 or Pro as a remote for a Google Slides presentation."
         keywords="google presentation airpods remote"
