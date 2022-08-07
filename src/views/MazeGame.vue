@@ -19,6 +19,7 @@
   const playerX = ref(0);
   const playerY = ref(0);
 
+  (window.DeviceMotionEvent as any)?.requestPermission();
   const { beta, gamma } = useDeviceOrientation();
   const { x: px, y: py } = usePointer();
 
