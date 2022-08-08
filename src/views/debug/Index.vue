@@ -9,7 +9,7 @@
   <DocumentDisplay>
     <Title>Debug Pages</Title>
 
-    <SearchableCardGrid>
+    <SearchableCardGrid :sizes="['normal', 'small']">
       <Card
         description="Creates a code editor using Ace and tests the ability to use dynamic refs and options."
         keywords="code"
