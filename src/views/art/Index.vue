@@ -16,7 +16,7 @@
       </em>
     </p>
 
-    <SearchableCardGrid>
+    <SearchableCardGrid :sizes="['normal', 'small', 'icon']">
       <ImageCard
         alt="A gradient of differently sized rainbow blobs in puddles of darkness"
         description="Watch a live animation of multicolored puddles moving across your screen."
