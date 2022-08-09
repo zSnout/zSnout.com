@@ -134,10 +134,19 @@
       <ImageCard
         alt="A strangely colored bookshelf"
         description="Use our color controls to make strange images from your camera"
-        keywords="colors image editor overcolorifier"
+        keywords="colors editor image live overcolorifier"
         src="/images/camera-modifier.png"
         title="Camera Modifier"
         to="/camera-modifier"
+      />
+
+      <ImageCard
+        alt="An ASCII art version of Zachary's face (the creator of zSnout)"
+        description="Watch your own face and world transform into letters and symbols."
+        keywords="camera live text"
+        src="/images/ascii-art.png"
+        title="ASCII Art"
+        to="/ascii-art"
       />
 
       <ImageCard
