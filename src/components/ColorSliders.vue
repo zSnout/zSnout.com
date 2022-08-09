@@ -3,6 +3,9 @@
     const colorOffset = ref(0);
     syncOption("colorOffset", colorOffset);
 
+    const grayscale = ref(0);
+    syncOption("grayscale", grayscale);
+
     const repetition = ref(1);
     syncOption("repetition", repetition);
 
@@ -23,6 +26,7 @@
 
     return {
       colorOffset,
+      grayscale,
       noiseLevel,
       overcolor,
       repetition,
@@ -37,6 +41,7 @@
     export function toString(options?: { addDarkness?: string }) {
       return `
 uniform float colorOffset;
+uniform float grayscale_amount;
 uniform float noiseLevel;
 uniform float overcolor_amount;
 uniform float repetition;
@@ -152,11 +157,17 @@ float c_noise(vec3 v) {
   return (c_snoise(v) + 1.0) / 2.0;
 }
 
+vec3 grayscale(vec3 hsv) {
+  vec3 other = vec3(hsv.x, 0.0, hsv.z);
+
+  return (1.0 - grayscale_amount) * hsv + grayscale_amount * other;
+}
+
 vec3 overcolor(vec3 hsv) {
   vec3 other;
 
-  if (hsv.y < 0.1 || hsv.z < 0.1) {
-    other = vec3(0.0, 0.0, hsv.z);
+  if (hsv.y < grayscale_amount || hsv.z < grayscale_amount) {
+    other = vec3(hsv.x, 0.0, hsv.z);
   } else {
     other = vec3(hsv.x, 1.0, 1.0);
   }
@@ -174,6 +185,7 @@ vec3 use_color_sliders(float i) {
   ${options?.addDarkness || ""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
+  else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
   return c_hsv2rgb(hsv);
 }
 
@@ -189,6 +201,7 @@ vec3 use_color_sliders(vec3 rgb) {
   ${options?.addDarkness || ""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
+  else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
   return c_hsv2rgb(hsv);
 }
 
@@ -203,6 +216,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
   ${options?.addDarkness || ""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
+  else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
   return c_hsv2rgb(hsv);
 }
       `;
@@ -211,6 +225,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   function setGlsl(this: ColorSliders, gl: WebGlCanvas) {
     gl.setUniform("colorOffset", this.colorOffset.value);
+    gl.setUniform("grayscale_amount", this.grayscale.value);
     gl.setUniform("noiseLevel", this.noiseLevel.value);
     gl.setUniform("repetition", this.repetition.value);
     gl.setUniform("separation", this.separation.value);
@@ -230,6 +245,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   export interface ColorSliders {
     colorOffset: Ref<number>;
+    grayscale: Ref<number>;
     noiseLevel: Ref<number>;
     overcolor: Ref<number>;
     repetition: Ref<number>;
@@ -243,6 +259,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   const {
     colorOffset,
+    grayscale,
     noiseLevel,
     overcolor,
     repetition,
@@ -270,6 +287,10 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   <Labeled label="Randomness:">
     <InlineRangeField v-model="noiseLevel" :max="1" :min="0" step="any" />
+  </Labeled>
+
+  <Labeled label="Grayscale:">
+    <InlineRangeField v-model="grayscale" :max="1" :min="0" step="any" />
   </Labeled>
 
   <Labeled label="Overcoloring:">
