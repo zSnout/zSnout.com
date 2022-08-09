@@ -11,7 +11,7 @@ const mdfile = /\.md($|\?)/;
 const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 const publicFiles = sync("./public/**/*").filter(
-  (e) => !e.startsWith("./public/images/")
+  (e) => !e.startsWith("./public/images/") && !e.includes("404.html")
 );
 
 // https://vitejs.dev/config/
