@@ -80,13 +80,15 @@ export class MovableCanvas2d extends CoordinateCanvas2d {
     });
   }
 
-  getZoomRegion(amplitude = 1, pointer: Coordinates = this.mouse) {
+  getZoomRegion(
+    amplitude = 1,
+    pointer: Coordinates = {
+      x: this.mouse.x / this.devicePixelRatio,
+      y: this.canvas.clientHeight - this.mouse.y / this.devicePixelRatio,
+    }
+  ) {
     const { xStart, xEnd, yStart, yEnd } = this.bounds;
-
-    const { x, y } = this.pxToCoords(
-      pointer.x,
-      pointer === this.mouse ? this.canvas.clientHeight - pointer.y : pointer.y
-    );
+    const { x, y } = this.pxToCoords(pointer.x, pointer.y);
 
     return {
       xStart: xStart + (amplitude * (x - xStart)) / 10,
