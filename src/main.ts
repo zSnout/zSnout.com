@@ -55,8 +55,9 @@ function simpleTitle(path: string) {
   return path
     .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
     .replace(/^./, (match) => match.toLocaleUpperCase())
-    .replace(/Webgl/g, "WebGL")
-    .replace(/Ai/g, "AI");
+    .replace(/Ai/g, "AI")
+    .replace(/Ascii/g, "ASCII")
+    .replace(/Webgl/g, "WebGL");
 }
 
 function titleOf(path: string, deep = false): string {
