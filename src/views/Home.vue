@@ -132,6 +132,15 @@
       />
 
       <ImageCard
+        alt="A strangely colored bookshelf"
+        description="Use our color controls to make strange images from your camera"
+        keywords="colors image editor overcolorifier"
+        src="/images/camera-modifier.png"
+        title="Camera Modifier"
+        to="/camera-modifier"
+      />
+
+      <ImageCard
         v-if="connected && session"
         alt="A notepad"
         description="Create notes that will sync across your devices using our simple editor."
