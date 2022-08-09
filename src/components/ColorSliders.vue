@@ -15,12 +15,16 @@
     const spectrum = ref(1);
     syncOption("spectrum", spectrum);
 
+    const overcolor = ref(0);
+    syncOption("overcolor", overcolor);
+
     const time = ref(Math.random() * 10000);
     useRafFn(() => (time.value += 0.01));
 
     return {
       colorOffset,
       noiseLevel,
+      overcolor,
       repetition,
       separation,
       spectrum,
@@ -33,10 +37,11 @@
     export function toString(options?: { addDarkness?: string }) {
       return `
 uniform float colorOffset;
+uniform float noiseLevel;
+uniform float overcolor_amount;
 uniform float repetition;
 uniform float spectrum;
 uniform float separation;
-uniform float noiseLevel;
 uniform float c_time;
 
 vec3 c_rgb2hsv(vec3 c) {
@@ -147,6 +152,18 @@ float c_noise(vec3 v) {
   return (c_snoise(v) + 1.0) / 2.0;
 }
 
+vec3 overcolor(vec3 hsv) {
+  vec3 other;
+
+  if (hsv.y < 0.1 || hsv.z < 0.1) {
+    other = vec3(0.0, 0.0, hsv.z);
+  } else {
+    other = vec3(hsv.x, 1.0, 1.0);
+  }
+
+  return (1.0 - overcolor_amount) * hsv + overcolor_amount * other;
+}
+
 vec3 use_color_sliders(float i) {
   float hue = mod(repetition * i, 1.0);
   vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
@@ -156,6 +173,7 @@ vec3 use_color_sliders(float i) {
 
   ${options?.addDarkness || ""}
 
+  if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   return c_hsv2rgb(hsv);
 }
 
@@ -170,6 +188,7 @@ vec3 use_color_sliders(vec3 rgb) {
 
   ${options?.addDarkness || ""}
 
+  if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   return c_hsv2rgb(hsv);
 }
 
@@ -183,6 +202,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   ${options?.addDarkness || ""}
 
+  if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   return c_hsv2rgb(hsv);
 }
       `;
@@ -193,8 +213,9 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
     gl.setUniform("colorOffset", this.colorOffset.value);
     gl.setUniform("noiseLevel", this.noiseLevel.value);
     gl.setUniform("repetition", this.repetition.value);
-    gl.setUniform("spectrum", this.spectrum.value);
     gl.setUniform("separation", this.separation.value);
+    gl.setUniform("overcolor_amount", this.overcolor.value);
+    gl.setUniform("spectrum", this.spectrum.value);
     gl.setUniform("c_time", this.time.value);
   }
 </script>
@@ -210,6 +231,7 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
   export interface ColorSliders {
     colorOffset: Ref<number>;
     noiseLevel: Ref<number>;
+    overcolor: Ref<number>;
     repetition: Ref<number>;
     separation: Ref<number>;
     spectrum: Ref<number>;
@@ -218,7 +240,15 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
   }
 
   const { sliders } = defineProps<{ sliders: ColorSliders }>();
-  const { colorOffset, noiseLevel, repetition, separation, spectrum } = sliders;
+
+  const {
+    colorOffset,
+    noiseLevel,
+    overcolor,
+    repetition,
+    separation,
+    spectrum,
+  } = sliders;
 </script>
 
 <template>
@@ -240,5 +270,9 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
 
   <Labeled label="Randomness:">
     <InlineRangeField v-model="noiseLevel" :max="1" :min="0" step="any" />
+  </Labeled>
+
+  <Labeled label="Overcoloring:">
+    <InlineRangeField v-model="overcolor" :max="1" :min="0" step="any" />
   </Labeled>
 </template>
