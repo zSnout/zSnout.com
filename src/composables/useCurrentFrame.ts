@@ -4,6 +4,7 @@ export function currentFrame(video: HTMLVideoElement) {
 
   return {
     canvas,
+    ctx,
     update: (width = video.videoWidth, height = video.videoHeight) => {
       canvas.width = width;
       canvas.height = height;
