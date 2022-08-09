@@ -1,8 +1,7 @@
-import { MaybeRef } from "@vueuse/core";
-import { unref, watchEffect } from "vue";
+import { Ref, watchEffect } from "vue";
 
 export function useVideoFromStream(
-  stream: MaybeRef<MediaStream | undefined>,
+  stream: Ref<MediaStream | undefined>,
   muted?: boolean
 ) {
   const video = document.createElement("video");
@@ -10,15 +9,8 @@ export function useVideoFromStream(
   video.muted = muted ?? false;
 
   watchEffect(() => {
-    const _stream = unref(stream);
-
-    if (_stream) {
-      video.srcObject = _stream;
-    } else {
-      video.srcObject = null;
-    }
-
-    video.play();
+    video.srcObject = stream.value ?? null;
+    if (video.srcObject) video.play();
   });
 
   return video;
