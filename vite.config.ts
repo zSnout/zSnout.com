@@ -7,7 +7,6 @@ import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
-const mdfile = /\.md($|\?)/;
 const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 const publicFiles = sync("./public/**/*").filter(
