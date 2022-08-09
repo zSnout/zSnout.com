@@ -4,10 +4,14 @@ import { ref } from "vue";
 export function useSizedUserMedia(opts?: MediaStreamConstraints) {
   const stream = ref<MediaStream>();
 
-  function getMedia() {
+  function stop() {
     if (stream.value) {
       stream.value.getTracks().map((track) => track.stop());
     }
+  }
+
+  function retry() {
+    stop();
 
     navigator.mediaDevices
       ?.getUserMedia({
@@ -23,15 +27,19 @@ export function useSizedUserMedia(opts?: MediaStreamConstraints) {
       });
   }
 
-  getMedia();
-  setTimeout(getMedia, 1000);
-  useEventListener("resize", useDebounceFn(getMedia, 250));
+  retry();
+  setTimeout(retry, 1000);
+  useEventListener("resize", useDebounceFn(retry, 250));
 
-  tryOnUnmounted(() => {
-    if (stream.value) {
-      stream.value.getTracks().map((track) => track.stop());
-    }
-  });
+  tryOnUnmounted(stop);
 
-  return stream;
+  return {
+    stream,
+    stop,
+    setOpts(_opts?: MediaStreamConstraints) {
+      opts = _opts;
+      retry();
+    },
+    retry,
+  };
 }
