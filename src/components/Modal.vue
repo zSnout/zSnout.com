@@ -99,7 +99,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 4;
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,7 +113,7 @@
     background-color: transparent;
     visibility: hidden;
     cursor: pointer;
-    transition: var(--transitions), visibility 0.3s, z-index 0.3s;
+    transition: var(--transitions), visibility 0.3s;
     pointer-events: all;
     --padding: 2rem;
 
@@ -122,7 +122,6 @@
     }
 
     &.open {
-      z-index: 4;
       background-color: #0006;
       visibility: visible;
     }
