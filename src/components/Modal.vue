@@ -2,7 +2,6 @@
   import { MaybeElement, unrefElement, useEventListener } from "@vueuse/core";
   import { tabbable } from "tabbable";
   import { Ref, ref, toRef, unref, watchEffect } from "vue";
-  import { useDisableScroll } from "../composables/useDisableScroll";
   import Button from "./Button.vue";
   import HStack from "./HStack.vue";
   import Spacer from "./Spacer.vue";
@@ -11,9 +10,7 @@
   const props = defineProps<{ open: boolean | { value: boolean } }>();
   const open = toRef(props, "open") as Ref<boolean>;
   const buttons = ref<MaybeElement>();
-  const dialog = ref<HTMLElement>();
-
-  useDisableScroll(document.scrollingElement as HTMLElement | null, open);
+  const dialog = ref<MaybeElement>();
 
   function cancel(event?: Event) {
     if (!open.value) return;
@@ -117,6 +114,7 @@
     visibility: hidden;
     cursor: pointer;
     transition: var(--transitions), visibility 0.3s, z-index 0.3s;
+    pointer-events: all;
     --padding: 2rem;
 
     @media (max-width: 400px) {
