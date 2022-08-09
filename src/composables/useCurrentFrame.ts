@@ -4,10 +4,10 @@ export function currentFrame(video: HTMLVideoElement) {
 
   return {
     canvas,
-    update: () => {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      ctx.drawImage(video, 0, 0);
+    update: (width = video.videoWidth, height = video.videoHeight) => {
+      canvas.width = width;
+      canvas.height = height;
+      ctx.drawImage(video, 0, 0, width, height);
     },
   };
 }
