@@ -105,6 +105,7 @@
       ref="media"
       class="media"
       loop
+      playsinline
       src="https://mdn.github.io/learning-area/html/multimedia-and-embedding/video-and-audio-content/rabbit320.mp4"
       @playing="onReady"
     />
