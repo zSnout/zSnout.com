@@ -11,11 +11,21 @@
 
   const canvas = ref<HTMLCanvasElement>();
   const sliders = useColorSliders();
+  const facing = ref<"user" | "environment">("user");
 
-  const stream = useSizedUserMedia({
+  const { stream, setOpts } = useSizedUserMedia({
     audio: false,
-    video: { facingMode: { ideal: "user" } },
+    video: { facingMode: { ideal: facing.value } },
   });
+
+  function switchCamera() {
+    facing.value = facing.value === "user" ? "environment" : "user";
+
+    setOpts({
+      audio: false,
+      video: { facingMode: { ideal: facing.value } },
+    });
+  }
 
   const video = useVideoFromStream(stream, true);
 
@@ -48,6 +58,10 @@
 
     <template #options>
       <ColorSliders :sliders="sliders" />
+    </template>
+
+    <template #indicator>
+      <span @click="switchCamera">Switch Camera</span>
     </template>
   </FullscreenDisplay>
 </template>
