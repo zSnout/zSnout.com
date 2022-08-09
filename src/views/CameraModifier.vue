@@ -61,7 +61,7 @@
     </template>
 
     <template #indicator>
-      <span @click="switchCamera">Switch Camera</span>
+      <span style="cursor: pointer" @click="switchCamera">Switch Camera</span>
     </template>
   </FullscreenDisplay>
 </template>
