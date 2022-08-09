@@ -57,6 +57,7 @@ function simpleTitle(path: string) {
     .replace(/^./, (match) => match.toLocaleUpperCase())
     .replace(/Ai/g, "AI")
     .replace(/Ascii/g, "ASCII")
+    .replace(/Of/g, "of")
     .replace(/Webgl/g, "WebGL");
 }
 
