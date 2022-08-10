@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { useClamp } from "@vueuse/core";
+  import { useClamp } from "@vueuse/math";
   import { ref } from "vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
