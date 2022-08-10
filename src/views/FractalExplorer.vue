@@ -1,19 +1,19 @@
 <script lang="ts" setup>
-  import { useClamp } from "@vueuse/core";
+  import { useClamp } from "@vueuse/math";
   import { computed, onMounted, ref } from "vue";
   import Button from "../components/Button.vue";
-  import { useColorSliders } from "../components/ColorSliders.vue";
+  import ColorSliders, {
+    useColorSliders,
+  } from "../components/ColorSliders.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import Incrementable from "../components/Incrementable.vue";
   import InlineCheckboxField from "../components/InlineCheckboxField.vue";
-  import InlineRangeField from "../components/InlineRangeField.vue";
   import Labeled from "../components/Labeled.vue";
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
-  import ColorSliders from "../components/ColorSliders.vue";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);

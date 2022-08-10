@@ -44,7 +44,7 @@ export function syncOption(
   const option = useOption(name, ref.value);
   ref.value = option.value;
 
-  const stop = syncRef<Ref<string | number | boolean>>(option, ref, {
+  const stop = syncRef<string | number | boolean>(option, ref, {
     direction: "rtl",
   });
 

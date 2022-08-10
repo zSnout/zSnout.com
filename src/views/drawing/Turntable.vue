@@ -1,11 +1,7 @@
 <script lang="ts" setup>
   import { computed } from "@vue/reactivity";
-  import {
-    useClamp,
-    useEventListener,
-    usePointer,
-    useRafFn,
-  } from "@vueuse/core";
+  import { useEventListener, usePointer, useRafFn } from "@vueuse/core";
+  import { useClamp } from "@vueuse/math";
   import { reactive, ref, watch } from "vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import HStack from "../../components/HStack.vue";
