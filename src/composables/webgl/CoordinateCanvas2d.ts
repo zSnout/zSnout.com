@@ -23,10 +23,14 @@ export class CoordinateCanvas2d extends WebGlCanvas {
 
     if (saveBounds) {
       bounds = {
-        xStart: Number.isFinite(+params.xStart) ? +params.xStart : -2,
-        xEnd: Number.isFinite(+params.xEnd) ? +params.xEnd : 2,
-        yStart: Number.isFinite(+params.yStart) ? +params.yStart : -2,
-        yEnd: Number.isFinite(+params.yEnd) ? +params.yEnd : 2,
+        xStart: Number.isFinite(+params.xStart)
+          ? +params.xStart
+          : bounds?.xStart,
+        xEnd: Number.isFinite(+params.xEnd) ? +params.xEnd : bounds?.xEnd,
+        yStart: Number.isFinite(+params.yStart)
+          ? +params.yStart
+          : bounds?.yStart,
+        yEnd: Number.isFinite(+params.yEnd) ? +params.yEnd : bounds?.yEnd,
       };
     }
 
