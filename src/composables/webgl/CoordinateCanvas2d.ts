@@ -40,8 +40,8 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     useResizeObserver(this.canvas, () => this.setBounds(this.bounds));
   }
 
-  getNormalizedBounds() {
-    let { xStart, xEnd, yStart, yEnd } = this.bounds;
+  getNormalizedBounds(bounds = this.bounds) {
+    let { xStart, xEnd, yStart, yEnd } = bounds;
 
     const xCenter = xStart + xEnd;
     const yCenter = yStart + yEnd;
@@ -61,9 +61,9 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     return { xStart, xEnd, yStart, yEnd };
   }
 
-  getAdjusters() {
+  getAdjusters(bounds = this.bounds) {
     const { width, height } = this.canvas;
-    const { xStart, xEnd, yStart, yEnd } = this.getNormalizedBounds();
+    const { xStart, xEnd, yStart, yEnd } = this.getNormalizedBounds(bounds);
 
     if (width > height) {
       return {
@@ -106,6 +106,16 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     const { offset, scale } = this.getAdjusters();
     this.setUniform("u_offset", offset.x, offset.y);
     this.setUniform("u_scale", scale.x, scale.y);
+
+    const { offset: sOffset, scale: sScale } = this.getAdjusters({
+      xStart: -1,
+      xEnd: 1,
+      yStart: -1,
+      yEnd: 1,
+    });
+
+    this.setUniform("us_offset", sOffset.x, sOffset.y);
+    this.setUniform("us_scale", sScale.x, sScale.y);
   }
 
   /** This function expects that the pixel values are relative to the canvas's top-left corner. */
