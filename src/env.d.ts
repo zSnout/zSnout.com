@@ -69,6 +69,9 @@ declare global {
     [PyodideStdoutSymbol](msg: string): void;
     [PyodideSymbol]: ReturnType<typeof loadPyodide>;
   }
+
+  declare interface EventTarget
+    extends Pick<HTMLElement, "setPointerCapture"> {}
 }
 
 export {};
