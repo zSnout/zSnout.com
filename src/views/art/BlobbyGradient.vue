@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-  import { useClamp, useRafFn } from "@vueuse/core";
+  import { useRafFn } from "@vueuse/core";
+  import { useClamp } from "@vueuse/math";
   import { ref } from "vue";
   import ColorField from "../../components/ColorField.vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
