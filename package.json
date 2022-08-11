@@ -52,7 +52,7 @@
     "@types/nodemailer": "^6.4.5",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.3",
-    "esbuild": "^0.15.0",
+    "esbuild": "^0.15.1",
     "happy-dom": "^6.0.4",
     "markdown-it-prism": "^2.2.4",
     "prettier-plugin-organize-attributes": "^0.0.5",
