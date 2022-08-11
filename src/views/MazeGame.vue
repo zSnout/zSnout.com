@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { useDeviceOrientation, usePointer, useRafFn } from "@vueuse/core";
   import generate, { MazeCell } from "generate-maze";
-  import { computed, ref, watch } from "vue";
+  import { computed, ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import { useCanvas } from "../composables/useCanvas";
 
@@ -19,7 +19,7 @@
   const playerX = ref(0);
   const playerY = ref(0);
 
-  (window.DeviceMotionEvent as any)?.requestPermission();
+  (window.DeviceMotionEvent as any)?.requestPermission?.();
   const { beta, gamma } = useDeviceOrientation();
   const { x: px, y: py } = usePointer();
 
