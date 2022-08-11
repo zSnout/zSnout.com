@@ -9,7 +9,7 @@
   <DocumentDisplay>
     <Title>Fractal Presets</Title>
 
-    <SearchableCardGrid>
+    <SearchableCardGrid :sizes="['normal', 'small', 'icon']">
       <ImageCard
         alt="An iconic image of the Mandelbrot Set with a multicolored background"
         description="View math's poster child of fractals and diagrams: the amazing Mandelbrot Set!"
