@@ -51,6 +51,11 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     });
   }
 
+  async load(frag?: string, vert?: string) {
+    const didLoad = await super.load(frag, vert);
+    return this.setBounds(this.bounds), didLoad;
+  }
+
   getNormalizedBounds(bounds = this.bounds) {
     let { xStart, xEnd, yStart, yEnd } = bounds;
 
