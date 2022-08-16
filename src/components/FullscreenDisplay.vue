@@ -14,6 +14,7 @@
   defineProps<{ options?: boolean }>();
 
   const open = ref(false);
+  const help = ref(false);
 </script>
 
 <template>
@@ -47,10 +48,18 @@
   </UseScreenSafeArea>
 
   <Modal :open="open">
-    <slot name="options" />
+    <div class="help" v-if="$slots.help && help">
+      <slot name="help" />
+    </div>
+
+    <slot name="options" v-else />
 
     <template #buttons>
       <Button cancel @click="open = !open">OK</Button>
+
+      <Button @click="help = !help" v-if="$slots.help">
+        {{ help ? "Back to Options" : "Help" }}
+      </Button>
 
       <slot name="buttons" />
     </template>
@@ -158,6 +167,28 @@
       left: 0;
       width: var(--app-width);
       height: var(--app-height);
+    }
+  }
+
+  .help {
+    > :deep(:first-child) {
+      margin-top: 0;
+    }
+
+    > :deep(:last-child) {
+      margin-bottom: 0;
+    }
+
+    > :deep(*) {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    :deep() {
+      h1 {
+        font-size: 1.2em;
+        margin-top: 1rem;
+      }
     }
   }
 </style>
