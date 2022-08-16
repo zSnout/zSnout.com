@@ -11,18 +11,30 @@
 
   const min = ref(1);
   const max = ref(10);
-  const inst = ref(0);
+  const inst = ref(1);
   const password = ref("");
 
   const gen = computed(() => {
+    inst.value = 1;
     const minSeed = create("" + min.value).intBetween(0, 0xffffff);
     const maxSeed = create("" + max.value).intBetween(0, 0xffffff);
-    return create(password.value + minSeed * maxSeed);
+
+    return {
+      generator: create(password.value + minSeed * maxSeed),
+      values: [] as number[],
+    };
   });
 
   const number = computed(() => {
-    inst.value;
-    return gen.value.intBetween(min.value, max.value);
+    const { generator, values } = gen.value;
+    return (values[inst.value] ??= generator.intBetween(min.value, max.value));
+  });
+
+  const ordinal = computed(() => {
+    let char = inst.value.toString();
+    char = char[char.length - 1];
+
+    return inst.value + ([, "st", "nd", "rd"][+char] || "th");
   });
 </script>
 
@@ -41,11 +53,17 @@
           type="password"
         />
 
-        <Button @click="inst++">Generate another number...</Button>
+        <HStack stretch>
+          <Button :disabled="inst <= 1" @click="inst--">
+            Previous number...
+          </Button>
+
+          <Button @click="inst++">Next number...</Button>
+        </HStack>
 
         <Spacer />
 
-        <p class="result">Here's a number: {{ number }}</p>
+        <p class="result">{{ ordinal }} number: {{ number }}</p>
       </VStack>
     </form>
   </DocumentDisplay>
