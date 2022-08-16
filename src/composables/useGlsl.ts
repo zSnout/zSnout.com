@@ -7,6 +7,8 @@ const precds: Record<string, number> = {
   "/": 3,
   "**": 4,
   "^": 5,
+  "^2": 5,
+  "^3": 5,
 };
 
 function levelOf(token: string) {
