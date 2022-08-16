@@ -135,11 +135,7 @@
   }
 
   vec3 simplePalette(float i) {
-    if (altColors) {
-      return use_color_sliders(-0.02 * i);
-    } else {
-      return use_color_sliders(0.02 * i);
-    }
+    return use_color_sliders(0.02 * i);
   }
 
   vec3 gradientPalette(vec3 sz, float i) {
@@ -253,38 +249,36 @@
     return result;
   }
 
-  void main() {
+  ${["{{EQ}}", "{{EQC}}"]
+    .map(
+      (v, i) => `
+  vec4 color${i}() {
     vec2 pos = (gl_FragCoord.xy / u_resolution) * u_scale + u_offset;
 
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (theme == 4 || theme == 1 && split) z = pos - z_offset;
+    if (${i} == 0 && (theme == 4 || theme == 1 && split)) z = pos - 2.0 * z_offset;
 
     float iter = 0.0;
     for (float i = 0.0; i < maxIterations; i++) {
       if (i >= detail) break;
       ppz = pz;
       pz = z;
-      z = {{EQ}};
+      z = ${v};
       iter++;
 
-      if (length(z) > limit) {
+      if (length(z) > 2.0) {
         if (theme == 1) {
-          gl_FragColor = vec4(simplePalette(iter), 1.0);
-          return;
+          return vec4(simplePalette(iter), 1.0);
         } else if (theme == 2) {
-          gl_FragColor = vec4(gradientPalette(sz, iter), 1.0);
-          return;
+          return vec4(gradientPalette(sz, iter), 1.0);
         } else if (theme == 3) {
-          gl_FragColor = vec4(rotationPalette(atan(sz.x, sz.y), iter), 1.0);
-          return;
+          return vec4(rotationPalette(atan(sz.x, sz.y), iter), 1.0);
         } else if (theme == 5) {
-          gl_FragColor = vec4(trigPalette(iter), 1.0);
-          return;
+          return vec4(trigPalette(iter), 1.0);
         } else if (theme == 6) {
-          gl_FragColor = vec4(expPalette(iter), 1.0);
-          return;
+          return vec4(expPalette(iter), 1.0);
         }
       }
 
@@ -305,13 +299,23 @@
     }
 
     if (theme == 2) {
-      gl_FragColor = vec4(gradientPalette(sz, iter), 1.0);
+      return vec4(gradientPalette(sz, iter), 1.0);
     } else if (theme == 3) {
-      gl_FragColor = vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1.0);
+      return vec4(rotationPalette(pi - atan(sz.y / sz.x), detail), 1.0);
     } else if (theme == 4) {
       if (altColors) z = nz;
-      gl_FragColor = vec4(newtonPalette(atan(z.y / z.x), iter), 1.0);
-    } else gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+      return vec4(newtonPalette(atan(z.y / z.x), iter), 1.0);
+    } else return vec4(0.0, 0.0, 0.0, 1.0);
+  }`
+    )
+    .join("")}
+
+  void main() {
+    if (theme == 1 && altColors) {
+      gl_FragColor = 0.6 * color0() + 0.4 * color1();
+    } else {
+      gl_FragColor = color0();
+    }
   }
   `;
 
@@ -324,7 +328,9 @@
     if (!canvas.value) return;
 
     const gl = new MovableCanvas2d(canvas.value, {
-      fragmentString: shader.replace("{{EQ}}", glsl(equation.value)),
+      fragmentString: shader
+        .replace("{{EQ}}", glsl(equation.value))
+        .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c"))),
       saveBounds: true,
     });
 
@@ -354,15 +360,27 @@
     });
 
     setEquation.value = () =>
-      setTimeout(() => gl.load(shader.replace("{{EQ}}", glsl(equation.value))));
+      setTimeout(() =>
+        gl.load(
+          shader
+            .replace("{{EQ}}", glsl(equation.value))
+            .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c")))
+        )
+      );
 
     gl.on("render", () => {
       gl.setUniform("detail", [detail.value]);
       gl.setUniform("limit", limit.value);
       gl.setUniformOfInt("theme", [themeInt.value]);
       gl.setUniformOfInt("darkness", [darkness.value]);
-      gl.setUniformOfInt("split", [split.value]);
-      gl.setUniformOfInt("altColors", [altColors.value]);
+      gl.setUniformOfInt("split", [
+        (theme.value === "simple" && equation.value.includes("m")) ||
+          split.value,
+      ]);
+      gl.setUniformOfInt("altColors", [
+        (theme.value !== "simple" || equation.value.includes("m")) &&
+          altColors.value,
+      ]);
       sliders.setGlsl(gl);
 
       if (equation.value.includes("m")) {
@@ -448,10 +466,12 @@
       </Labeled>
 
       <Labeled
-        v-if="theme !== 'newton'"
+        v-if="
+          theme !== 'newton' && (theme !== 'simple' || !equation.includes('m'))
+        "
         :label="
           theme === 'simple'
-            ? 'Mimic Newton\'s Method?'
+            ? 'Initialize Z?'
             : theme === 'rotation'
             ? 'Alternate Split?'
             : theme === 'trig'
@@ -469,13 +489,13 @@
           theme === 'newton' ||
           theme === 'trig' ||
           theme === 'exp' ||
-          theme === 'simple'
+          (theme === 'simple' && equation.includes('m'))
         "
         :label="
           theme === 'newton'
             ? '3D Effect?'
             : theme === 'simple'
-            ? 'Reverse Coloring?'
+            ? 'Dual Coloring?'
             : 'Alternate Coloring?'
         "
       >
@@ -487,6 +507,36 @@
       <Button v-if="resetPosition" @click="resetPosition">
         Reset Position
       </Button>
+    </template>
+
+    <template #help>
+      <h1>Moving the Explorer</h1>
+
+      <p>
+        On mobile,
+        <br />
+        move the image using one finger and
+        <br />
+        pinch to zoom using two fingers.
+      </p>
+
+      <p>
+        On desktop,
+        <br />
+        click and drag using a mouse or trackpad to move the image and
+        <br />
+        scroll using a mouse or pinch on a trackpad using two fingers to zoom.
+      </p>
+
+      <h1>Adjusting Detail</h1>
+
+      <p>
+        If you zoom in for a while, the fractal will start to have flat edges.
+        To combat this, increase the "Detail Level". Increasing it makes your
+        computer slower and uses more battery, so adjust this carefully.
+      </p>
+
+      <h1>Fractal Size</h1>
     </template>
 
     <canvas ref="canvas" />
