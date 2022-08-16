@@ -5,6 +5,7 @@
   import ColorSliders, {
     useColorSliders,
   } from "../components/ColorSliders.vue";
+  import ColorSlidersHelp from "../components/ColorSlidersHelp.vue";
   import Dropdown from "../components/Dropdown.vue";
   import Field from "../components/Field.vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
@@ -268,7 +269,7 @@
       z = ${v};
       iter++;
 
-      if (length(z) > 2.0) {
+      if (length(z) > limit) {
         if (theme == 1) {
           return vec4(simplePalette(iter), 1.0);
         } else if (theme == 2) {
@@ -513,19 +514,14 @@
       <h1>Moving the Explorer</h1>
 
       <p>
-        On mobile,
-        <br />
-        move the image using one finger and
-        <br />
-        pinch to zoom using two fingers.
+        On mobile, move the image using one finger and pinch to zoom using two
+        fingers.
       </p>
 
       <p>
-        On desktop,
-        <br />
-        click and drag using a mouse or trackpad to move the image and
-        <br />
-        scroll using a mouse or pinch on a trackpad using two fingers to zoom.
+        On desktop, click and drag using a mouse or trackpad to move the image
+        and scroll using a mouse or pinch on a trackpad using two fingers to
+        zoom.
       </p>
 
       <h1>Adjusting Detail</h1>
@@ -537,6 +533,60 @@
       </p>
 
       <h1>Fractal Size</h1>
+
+      <p>
+        If you see sharp cutoffs at the edges of a fractal, try increasing the
+        "Fractal Size" to see more of the image. Alternatively, shrink the value
+        to crop certain parts of your fractal.
+      </p>
+
+      <h1>The Equation</h1>
+
+      <p>
+        When creating a fractal, try putting interesting equations into the
+        "Equation" field. The Z and C variables are standard in fractals. Check
+        out
+        <a
+          href="https://www.youtube.com/watch?v=FFftmWSzgmk&ab_channel=Numberphile"
+          target="_blank"
+        >
+          this video behind the Mandelbrot Set
+        </a>
+        for more information. Additionally, zSnout provides M (the current mouse
+        position), T (the time that the page has been loaded for), and e, i, and
+        pi. You may use the +, -, *, /, and ^ operators.
+      </p>
+
+      <p>
+        If you have an equation with M and/or T, right-click the canvas to
+        replace the M and T variables with their values.
+      </p>
+
+      <h1>Choosing a Theme</h1>
+
+      <p>
+        The Fractal Explorer has six different color themes. You may select one
+        via a dropdown. When using an equation without C or M (e.g. z - f(z) /
+        f'(z)), it is recommended to use "Newton's Method" or the "Simple" theme
+        with "Initialize Z" checked.
+      </p>
+
+      <h1>Theme Checkboxes</h1>
+
+      <p>
+        At the bottom of the options page, you will find two to three
+        checkboxes. These are specific to each theme. You may select or deselect
+        any of these to produce unique results for each theme. Note that the
+        "Simple" theme has two checkboxes ("Initialize Z" and "Dual Coloring")
+        that may be hidden depending on whether your equation uses M.
+      </p>
+
+      <ColorSlidersHelp
+        page="Fractal Explorer"
+        note='Note that
+    "Grayscale" and "Overcoloring" only have effects in themes with gray colors
+    ("Gradient", "Trigonometric", and "Exponential").'
+      />
     </template>
 
     <canvas ref="canvas" />
