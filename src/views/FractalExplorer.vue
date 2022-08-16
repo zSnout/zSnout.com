@@ -112,7 +112,8 @@
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
-  uniform vec2 m;
+  uniform vec2 mouse;
+  uniform float time;
 
   const float maxIterations = 1000.0;
   const float pi = 3.1415926535;
@@ -330,11 +331,16 @@
     canvas.value.addEventListener("contextmenu", (event) => {
       event.preventDefault();
 
-      if (equation.value.includes("m")) {
+      if (equation.value.includes("m") || equation.value.includes("t")) {
         const { x, y } = gl.mouseToCoords();
-        equation.value = equation.value.replace(/m/g, `$(${x}+${y}i)`);
-      } else if (equation.value.includes("$")) {
-        equation.value = equation.value.replace(/\$\s*\([^)]*\)/g, "m");
+
+        equation.value = equation.value
+          .replace(/m/g, `$(${x}+${y}i)`)
+          .replace(/t/g, `@(${gl.time})`);
+      } else if (equation.value.includes("$") || equation.value.includes("@")) {
+        equation.value = equation.value
+          .replace(/\$\s*\([^)]*\)/g, "m")
+          .replace(/@\s*\([^)]*\)/g, "t");
       } else if (equation.value.includes("c")) {
         equation.value = equation.value.replace(/c/g, "m");
         if (theme.value === "simple") split.value = true;

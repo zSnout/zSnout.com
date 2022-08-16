@@ -54,7 +54,7 @@ export class WebGlCanvas extends GlslCanvas {
 
     tryOnScopeDispose(() => this.destroy());
 
-    useRafFn(() => (this.time += 0.01));
+    useRafFn(() => (this.time = Math.round(100 * this.time + 1) / 100));
     this.on("render", () => this.setUniform("time", this.time));
   }
 
