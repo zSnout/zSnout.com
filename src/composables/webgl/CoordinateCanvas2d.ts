@@ -47,7 +47,7 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     this.on("render", () => {
       const { x, y } = this.mouseToCoords();
 
-      this.setUniform("m", x, y);
+      this.setUniform("mouse", x, y);
     });
   }
 

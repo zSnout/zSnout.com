@@ -54,18 +54,12 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|m|fx|fy)/))) {
+    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|m|t|fx|fy)/))) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = true;
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if (equation[0] === "t") {
-      if (wasLastTokenAValue) tokens.push("**");
-      wasLastTokenAValue = true;
-
-      tokens.push("vec2(time, 0)");
-      equation = equation.slice(1);
     } else if ((match = equation.match(/^\.[xy]/))) {
       wasLastTokenAValue = true;
 
@@ -155,11 +149,15 @@ export function rpnToGLSL(rpn: (string | number)[]) {
         stack.push("vec2(3.141592653589793, 0)");
       } else if (token === "e") {
         stack.push("vec2(2.718281828459045, 0)");
+      } else if (token === "t") {
+        stack.push("vec2(time, 0)");
+      } else if (token === "m") {
+        stack.push("mouse");
       } else if (token === "fx") {
         stack.push("vec2(1, -1)");
       } else if (token === "fy") {
         stack.push("vec2(-1, 1)");
-      } else if (token.match(/^(pz|ppz|sz|m|c|z)$/)) {
+      } else if (token.match(/^(pz|ppz|sz|c|z)$/)) {
         stack.push(token);
       } else if (token === "+" || token === "-" || token === "#") {
         const t1 = stack.pop();
