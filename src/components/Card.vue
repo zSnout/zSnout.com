@@ -52,5 +52,9 @@
     .dark & {
       color: #aaa;
     }
+
+    .no-desc & {
+      display: none;
+    }
   }
 </style>
