@@ -31,7 +31,7 @@ function isFunc(token: string) {
   return !nonFuncs.includes(token);
 }
 
-function toReversePolish(equation: string): (string | number)[] {
+export function toReversePolish(equation: string): (string | number)[] {
   const tokens: (string | number)[] = [];
   let wasLastTokenAValue = false;
 
@@ -52,8 +52,13 @@ function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|fx|fy)/))) {
+    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|m|fx|fy)/))) {
       if (wasLastTokenAValue) tokens.push("**");
+      wasLastTokenAValue = true;
+
+      tokens.push(match[0]);
+      equation = equation.slice(match[0].length);
+    } else if ((match = equation.match(/^\.[xy]/))) {
       wasLastTokenAValue = true;
 
       tokens.push(match[0]);
@@ -77,6 +82,8 @@ function toReversePolish(equation: string): (string | number)[] {
       typeof token === "number" ||
       token.match(/^(pi|pz|ppz|sz|e|i|c|z|fx|fy)$/)
     ) {
+      outputQueue.push(token);
+    } else if (token.match(/^\.[xy]$/)) {
       outputQueue.push(token);
     } else if (token === ")") {
       while (operatorStack[operatorStack.length - 1] !== "(") {
@@ -123,7 +130,7 @@ function toReversePolish(equation: string): (string | number)[] {
   return outputQueue;
 }
 
-function rpnToGLSL(rpn: (string | number)[]) {
+export function rpnToGLSL(rpn: (string | number)[]) {
   try {
     const stack: string[] = [];
 
@@ -140,7 +147,7 @@ function rpnToGLSL(rpn: (string | number)[]) {
         stack.push("vec2(1, -1)");
       } else if (token === "fy") {
         stack.push("vec2(-1, 1)");
-      } else if (token.match(/^(pz|ppz|sz|c|z)$/)) {
+      } else if (token.match(/^(pz|ppz|sz|m|c|z)$/)) {
         stack.push(token);
       } else if (token === "+" || token === "-" || token === "#") {
         const t1 = stack.pop();
@@ -171,6 +178,8 @@ function rpnToGLSL(rpn: (string | number)[]) {
         token === "abs"
       ) {
         stack.push(`${token}(${stack.pop()})`);
+      } else if (token === ".x" || token === ".y") {
+        stack.push(`vec2((${stack.pop()})${token}, 0)`);
       }
     }
 
