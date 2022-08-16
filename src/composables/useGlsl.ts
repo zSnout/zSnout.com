@@ -34,6 +34,8 @@ function isFunc(token: string) {
 }
 
 export function toReversePolish(equation: string): (string | number)[] {
+  equation = equation.toLowerCase();
+
   const tokens: (string | number)[] = [];
   let wasLastTokenAValue = false;
 
