@@ -1,6 +1,7 @@
-import { WebGlCanvas } from "./WebGlCanvas";
-import { params } from "../useOption";
 import { useResizeObserver } from "@vueuse/core";
+import { watchEffect } from "vue";
+import { params } from "../useOption";
+import { WebGlCanvas } from "./WebGlCanvas";
 
 export class CoordinateCanvas2d extends WebGlCanvas {
   private saveBounds: boolean;
@@ -42,6 +43,12 @@ export class CoordinateCanvas2d extends WebGlCanvas {
     });
 
     useResizeObserver(this.canvas, () => this.setBounds(this.bounds));
+
+    this.on("render", () => {
+      const { x, y } = this.mouseToCoords();
+
+      this.setUniform("m", x, y);
+    });
   }
 
   getNormalizedBounds(bounds = this.bounds) {
