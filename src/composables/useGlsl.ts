@@ -60,6 +60,12 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
+    } else if (equation[0] === "t") {
+      if (wasLastTokenAValue) tokens.push("**");
+      wasLastTokenAValue = true;
+
+      tokens.push("vec2(time, 0)");
+      equation = equation.slice(1);
     } else if ((match = equation.match(/^\.[xy]/))) {
       wasLastTokenAValue = true;
 

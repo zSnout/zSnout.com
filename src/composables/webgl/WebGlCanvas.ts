@@ -1,4 +1,4 @@
-import { tryOnScopeDispose } from "@vueuse/core";
+import { tryOnScopeDispose, useRafFn } from "@vueuse/core";
 import {
   Canvas as GlslCanvas,
   ICanvasOptions,
@@ -32,6 +32,8 @@ export class WebGlCanvas extends GlslCanvas {
     return `${original.slice(0, index)}${extra}${original.slice(index)}`;
   }
 
+  time = 0;
+
   constructor(
     canvas: HTMLCanvasElement,
     {
@@ -51,6 +53,9 @@ export class WebGlCanvas extends GlslCanvas {
     super(canvas, { ...options, vertexString: vert, fragmentString: frag });
 
     tryOnScopeDispose(() => this.destroy());
+
+    useRafFn(() => (this.time += 0.01));
+    this.on("render", () => this.setUniform("time", this.time));
   }
 
   load(frag?: string, vert?: string) {
