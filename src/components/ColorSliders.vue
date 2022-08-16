@@ -160,16 +160,18 @@ float c_noise(vec3 v) {
 vec3 grayscale(vec3 hsv) {
   vec3 other = vec3(hsv.x, 0.0, hsv.z);
 
-  return (1.0 - grayscale_amount) * hsv + grayscale_amount * other;
+  if (hsv.y < grayscale_amount || hsv.z < grayscale_amount) {
+    return vec3(hsv.x, 0.0, hsv.z);
+  }
+
+  return hsv;
 }
 
 vec3 overcolor(vec3 hsv) {
-  vec3 other;
+  vec3 other = vec3(hsv.x, 1.0, 1.0);
 
   if (hsv.y < grayscale_amount || hsv.z < grayscale_amount) {
-    other = vec3(hsv.x, 0.0, hsv.z);
-  } else {
-    other = vec3(hsv.x, 1.0, 1.0);
+    return vec3(hsv.x, 0.0, hsv.z);
   }
 
   return (1.0 - overcolor_amount) * hsv + overcolor_amount * other;
