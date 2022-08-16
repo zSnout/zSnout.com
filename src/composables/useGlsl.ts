@@ -63,6 +63,10 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
+    } else if ((match = equation.match(/^\^[23]/))) {
+      wasLastTokenAValue = true;
+      tokens.push(match[0]);
+      equation = equation.slice(match[0].length);
     } else if ((match = equation.match(/^[-+*#\/^()]/))) {
       if (wasLastTokenAValue && match[0] === "(") tokens.push("**");
       wasLastTokenAValue = false;
@@ -153,6 +157,10 @@ export function rpnToGLSL(rpn: (string | number)[]) {
         const t1 = stack.pop();
         const t2 = stack.pop() ?? "";
         stack.push(`${t2} ${token === "#" ? "*" : token} ${t1}`);
+      } else if (token === "^2") {
+        stack.push(`sqr(${stack.pop()})`);
+      } else if (token === "^3") {
+        stack.push(`cube(${stack.pop()})`);
       } else if (
         token === "*" ||
         token === "**" ||

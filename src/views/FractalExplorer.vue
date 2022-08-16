@@ -111,6 +111,7 @@
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
+  uniform vec2 m;
 
   const float maxIterations = 1000.0;
   const float pi = 3.1415926535;
@@ -132,7 +133,11 @@
   }
 
   vec3 simplePalette(float i) {
-    return use_color_sliders(0.02 * i);
+    if (altColors) {
+      return use_color_sliders(-0.02 * i);
+    } else {
+      return use_color_sliders(0.02 * i);
+    }
   }
 
   vec3 gradientPalette(vec3 sz, float i) {
@@ -321,6 +326,15 @@
       saveBounds: true,
     });
 
+    canvas.value.addEventListener("contextmenu", (event) => {
+      if (equation.value.includes("m")) {
+        const { x, y } = gl.mouseToCoords();
+        event.preventDefault();
+        equation.value = equation.value.replaceAll("m", `(${x} + ${y}i)`);
+        setEquation.value?.();
+      }
+    });
+
     setEquation.value = () => setTimeout(() => location.reload());
 
     gl.on("render", () => {
@@ -408,8 +422,19 @@
       </Labeled>
 
       <Labeled
-        v-if="theme === 'newton' || theme === 'trig' || theme === 'exp'"
-        :label="theme === 'newton' ? '3D Effect?' : 'Alternate Coloring?'"
+        v-if="
+          theme === 'newton' ||
+          theme === 'trig' ||
+          theme === 'exp' ||
+          theme === 'simple'
+        "
+        :label="
+          theme === 'newton'
+            ? '3D Effect?'
+            : theme === 'simple'
+            ? 'Reverse Coloring?'
+            : 'Alternate Coloring?'
+        "
       >
         <InlineCheckboxField v-model="altColors" />
       </Labeled>
