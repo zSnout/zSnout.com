@@ -14,7 +14,7 @@ git clone https://github.com/zsnout/zsnout-next
 Once you've downloaded the project, install the dependencies using
 
 ```sh
-npm i
+npm i --legacy-peer-deps
 ```
 
 ## Running the project
