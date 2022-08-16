@@ -179,10 +179,10 @@ vec3 overcolor(vec3 hsv) {
 
 vec3 use_color_sliders(float i) {
   float hue = mod(repetition * i, 1.0);
+  if (noiseLevel > 0.0) hue = mod(hue + noiseLevel * c_snoise(vec3(i, i, c_time)), 1.0);
   vec3 hsv = vec3(1.0 - hue * spectrum, 1.0, 1.0);
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
-  if (noiseLevel > 0.0) hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
 
   ${options?.addDarkness || ""}
 
@@ -195,10 +195,10 @@ vec3 use_color_sliders(vec3 rgb) {
   vec3 hsv = c_rgb2hsv(rgb);
   float i = hsv.x;
   hsv.x = mod(hsv.x * repetition, 1.0);
+  if (noiseLevel > 0.0) hsv.x = mod(hsv.x + noiseLevel * c_snoise(vec3(i, i, c_time)), 1.0);
   hsv.x = 1.0 - hsv.x * spectrum;
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
-  if (noiseLevel > 0.0) hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
 
   ${options?.addDarkness || ""}
 
@@ -211,9 +211,9 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
   vec3 hsv = c_rgb2hsv(rgb);
   float i = hsv.x;
   hsv.x = 1.0 - hsv.x * spectrum;
+  if (noiseLevel > 0.0) hsv.x = mod(hsv.x + noiseLevel * c_snoise(vec3(i, i, c_time)), 1.0);
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
-  if (noiseLevel > 0.0) hsv.x += noiseLevel * c_snoise(vec3(i, i, c_time));
 
   ${options?.addDarkness || ""}
 
