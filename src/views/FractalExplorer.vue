@@ -341,6 +341,7 @@
         equation.value = equation.value
           .replace(/\$\s*\([^)]*\)/g, "m")
           .replace(/@\s*\([^)]*\)/g, "t");
+        if (theme.value === "simple") split.value = true;
       } else if (equation.value.includes("c")) {
         equation.value = equation.value.replace(/c/g, "m");
         if (theme.value === "simple") split.value = true;
@@ -352,9 +353,8 @@
       setEquation.value?.();
     });
 
-    setEquation.value = () => {
-      gl.load(shader.replace("{{EQ}}", glsl(equation.value)));
-    };
+    setEquation.value = () =>
+      setTimeout(() => gl.load(shader.replace("{{EQ}}", glsl(equation.value))));
 
     gl.on("render", () => {
       gl.setUniform("detail", [detail.value]);

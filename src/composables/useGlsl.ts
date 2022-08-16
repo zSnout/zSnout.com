@@ -48,6 +48,15 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(+match[0]);
       equation = equation.slice(match[0].length);
+    } else if (
+      !wasLastTokenAValue &&
+      (match = equation.match(/^-\d+(?:\.\d+)?/))
+    ) {
+      if (wasLastTokenAValue) tokens.push("**");
+      wasLastTokenAValue = true;
+
+      tokens.push(+match[0]);
+      equation = equation.slice(match[0].length);
     } else if ((match = equation.match(/^(sin|cos|tan|exp|log|abs|min|max)/))) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = false;
