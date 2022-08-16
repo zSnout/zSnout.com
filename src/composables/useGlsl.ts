@@ -40,8 +40,8 @@ export function toReversePolish(equation: string): (string | number)[] {
 
     if (equation.length === 0) {
       break;
-    } else if (equation[0] === "$") {
-      equation = equation.slice(1);
+    } else if ((match = equation.match(/\$\s*\w+/))) {
+      equation = equation.slice(match[0].length);
     } else if ((match = equation.match(/^\d+(?:\.\d+)?/))) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = true;
