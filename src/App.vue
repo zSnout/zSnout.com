@@ -124,18 +124,19 @@
 
   .second-layer {
     padding: 0.5rem 0.75rem;
-    background-color: white;
+    background-color: var(--layer-background);
     border-radius: 0.25rem;
+    --layer-background: white;
 
     .dark & {
-      background-color: #1f1f1f;
+      --layer-background: #1f1f1f;
     }
 
     .second-layer {
-      background-color: #f0f0f0;
+      --layer-background: #f0f0f0;
 
       .dark & {
-        background-color: #0f0f0f;
+        --layer-background: #0f0f0f;
       }
     }
   }
