@@ -14,7 +14,7 @@
   const inst = ref(1);
   const password = ref("");
 
-  const gen = computed(() => {
+  const numGen = computed(() => {
     inst.value = 1;
     const minSeed = create("" + min.value).intBetween(0, 0xffffff);
     const maxSeed = create("" + max.value).intBetween(0, 0xffffff);
@@ -25,9 +25,41 @@
     };
   });
 
+  const textGen = computed(() => {
+    inst.value = 1;
+    const minSeed = create("" + min.value).intBetween(0, 0xffffff);
+    const maxSeed = create("" + max.value).intBetween(0, 0xffffff);
+
+    return {
+      generator: create(password.value + minSeed * maxSeed),
+      values: [] as string[],
+    };
+  });
+
   const number = computed(() => {
-    const { generator, values } = gen.value;
+    const { generator, values } = numGen.value;
     return (values[inst.value] ??= generator.intBetween(min.value, max.value));
+  });
+
+  const text = computed(() => {
+    const { generator, values } = textGen.value;
+
+    return (values[inst.value] ??= Array<void>(number.value.toString().length)
+      .fill()
+      .map(() => {
+        const val = generator.intBetween(0, 35);
+
+        if (val > 9) {
+          if (generator.intBetween(0, 1)) {
+            return val.toString(36).toUpperCase();
+          } else {
+            return val.toString(36).toLowerCase();
+          }
+        }
+
+        return val.toString(36);
+      })
+      .join(""));
   });
 
   const ordinal = computed(() => {
@@ -64,6 +96,8 @@
         <Spacer />
 
         <p class="result">{{ ordinal }} number: {{ number }}</p>
+
+        <p class="result">{{ ordinal }} string: {{ text }}</p>
       </VStack>
     </form>
   </DocumentDisplay>
