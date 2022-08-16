@@ -6,7 +6,12 @@
   const canvas = ref<HTMLCanvasElement>();
 
   const shader = `
+  uniform vec2 u_resolution;
+  uniform vec2 u_scale;
+  uniform vec2 u_offset;
+
   void main() {
+    vec2 pos = (gl_FragCoord.xy / u_resolution) * u_scale + u_offset;
     gl_FragColor = vec4(pos.x, pos.y, 0.5, 1);
 
     if (
