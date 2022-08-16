@@ -47,7 +47,7 @@
 
   function decrementLimit(value: number) {
     if (value <= 2) {
-      return Math.ceil(10 * (value - 0.1)) / 10;
+      return (Math.ceil(10 * value) - 1) / 10;
     } else {
       return Math.ceil(value - 1);
     }
@@ -55,7 +55,7 @@
 
   function incrementLimit(value: number) {
     if (value < 2) {
-      return ~~(10 * (value + 0.1)) / 10;
+      return (~~(10 * value) + 1) / 10;
     } else {
       return ~~(value + 1);
     }
@@ -103,6 +103,7 @@
   uniform bool darkness;
   uniform bool split;
   uniform bool altColors;
+  uniform vec2 z_offset;
 
   ${useColorSliders.toString({
     addDarkness: "if (darkness && theme == 1) hsv.z = mod(i, 0.5);",
@@ -257,7 +258,7 @@
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (theme == 4 || theme == 1 && split) z = pos;
+    if (theme == 4 || theme == 1 && split) z = pos - z_offset;
 
     float iter = 0.0;
     for (float i = 0.0; i < maxIterations; i++) {
@@ -327,15 +328,27 @@
     });
 
     canvas.value.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+
       if (equation.value.includes("m")) {
         const { x, y } = gl.mouseToCoords();
-        event.preventDefault();
-        equation.value = equation.value.replaceAll("m", `(${x} + ${y}i)`);
-        setEquation.value?.();
+        equation.value = equation.value.replace(/m/g, `$(${x}+${y}i)`);
+      } else if (equation.value.includes("$")) {
+        equation.value = equation.value.replace(/\$\s*\([^)]*\)/g, "m");
+      } else if (equation.value.includes("c")) {
+        equation.value = equation.value.replace(/c/g, "m");
+        if (theme.value === "simple") split.value = true;
+      } else {
+        equation.value = equation.value + "+m";
+        if (theme.value === "simple") split.value = true;
       }
+
+      setEquation.value?.();
     });
 
-    setEquation.value = () => setTimeout(() => location.reload());
+    setEquation.value = () => {
+      gl.load(shader.replace("{{EQ}}", glsl(equation.value)));
+    };
 
     gl.on("render", () => {
       gl.setUniform("detail", [detail.value]);
@@ -345,6 +358,30 @@
       gl.setUniformOfInt("split", [split.value]);
       gl.setUniformOfInt("altColors", [altColors.value]);
       sliders.setGlsl(gl);
+
+      if (equation.value.includes("m")) {
+        const { x, y } = gl.mouseToCoords();
+        gl.setUniform("z_offset", x, y);
+      } else if (equation.value.includes("$")) {
+        const match = equation.value.match(
+          /\$\s*\(\s*(-?\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*\+\s*(-?\d+(?:\.\d+)?(?:e[+-]?\d+)?)i\s*\)/
+        );
+
+        if (match) {
+          const a = +match[1];
+          const b = +match[2];
+
+          gl.setUniform(
+            "z_offset",
+            Number.isFinite(a) ? a : 0,
+            Number.isFinite(b) ? b : 0
+          );
+        } else {
+          gl.setUniform("z_offset", 0, 0);
+        }
+      } else {
+        gl.setUniform("z_offset", 0, 0);
+      }
     });
 
     resetPosition.value = () => {
