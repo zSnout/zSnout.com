@@ -29,6 +29,6 @@
   <p>
     <strong>Color Spectrum</strong>
     changes how many colors appear. By setting this to halfway, only half of the
-    colors on the color wheel will appear (e.g. red, orange, and yellow.)
+    colors on the color wheel will appear (e.g. red, orange, and yellow).
   </p>
 </template>
