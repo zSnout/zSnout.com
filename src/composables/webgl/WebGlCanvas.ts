@@ -64,7 +64,7 @@ export class WebGlCanvas extends GlslCanvas {
     useRafFn(() => (this.time = Math.round(100 * this.time + 1) / 100));
     this.on("render", () => this.setUniform("time", this.time));
 
-    useEventListener("pointermove", (event) => {
+    useEventListener(canvas, "pointermove", (event) => {
       event.preventDefault();
 
       this.pointer.x = event.offsetX;
