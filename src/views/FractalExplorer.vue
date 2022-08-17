@@ -378,11 +378,16 @@
     ] as const;
 
     useEventListener("keydown", (event) => {
-      if (!event.ctrlKey && !event.altKey && !event.metaKey) {
+      if (
+        event.target === document.body &&
+        !event.ctrlKey &&
+        !event.altKey &&
+        !event.metaKey
+      ) {
         event.preventDefault();
 
         switch (event.key) {
-          case "LeftArrow":
+          case "ArrowLeft":
             theme.value =
               themes[
                 (themes.indexOf(theme.value) - 1 + themes.length) %
@@ -390,16 +395,16 @@
               ];
             break;
 
-          case "RightArrow":
+          case "ArrowRight":
             theme.value =
               themes[(themes.indexOf(theme.value) + 1) % themes.length];
             break;
 
-          case "UpArrow":
+          case "ArrowUp":
             detail.value = incrementDetail(detail.value);
             break;
 
-          case "DownArrow":
+          case "ArrowDown":
             detail.value = decrementDetail(detail.value);
             break;
 
