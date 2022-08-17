@@ -50,7 +50,12 @@ export class WebGlCanvas extends GlslCanvas {
       frag = WebGlCanvas.extend(frag, "precision highp float;");
     }
 
-    super(canvas, { ...options, vertexString: vert, fragmentString: frag });
+    super(canvas, {
+      powerPreference: "high-performance",
+      ...options,
+      vertexString: vert,
+      fragmentString: frag,
+    });
 
     tryOnScopeDispose(() => this.destroy());
 
