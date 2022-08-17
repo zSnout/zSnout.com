@@ -93,6 +93,12 @@
   const altColors = ref(false);
   syncOption("altColors", altColors);
 
+  const initZ = ref(false);
+  syncOption("initZ", initZ);
+
+  const dualPlot = ref(false);
+  syncOption("dualPlot", dualPlot);
+
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
@@ -104,6 +110,8 @@
   uniform bool darkness;
   uniform bool split;
   uniform bool altColors;
+  uniform bool initZ;
+  uniform bool dualPlot;
   uniform vec2 z_offset;
 
   ${useColorSliders.toString({
@@ -259,7 +267,7 @@
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (${i} == 0 && (theme == 4 || theme == 1 && split)) z = pos - 2.0 * z_offset;
+    if (${i} == 0 && initZ) z = pos - 2.0 * z_offset;
 
     float iter = 0.0;
     for (float i = 0.0; i < maxIterations; i++) {
@@ -312,7 +320,7 @@
     .join("")}
 
   void main() {
-    if (theme == 1 && altColors) {
+    if (dualPlot) {
       gl_FragColor = 0.6 * color0() + 0.4 * color1();
     } else {
       gl_FragColor = color0();
@@ -348,13 +356,14 @@
         equation.value = equation.value
           .replace(/\$\s*\([^)]*\)/g, "m")
           .replace(/@\s*\([^)]*\)/g, "t");
-        if (theme.value === "simple") split.value = true;
       } else if (equation.value.includes("c")) {
         equation.value = equation.value.replace(/c/g, "m");
-        if (theme.value === "simple") split.value = true;
       } else {
         equation.value = equation.value + "+m";
-        if (theme.value === "simple") split.value = true;
+      }
+
+      if (theme.value !== "newton" && !equation.value.includes("m")) {
+        initZ.value = true;
       }
 
       setEquation.value?.();
@@ -381,6 +390,14 @@
       gl.setUniformOfInt("altColors", [
         (theme.value !== "simple" || equation.value.includes("m")) &&
           altColors.value,
+      ]);
+      gl.setUniformOfInt("initZ", [
+        theme.value === "newton" || equation.value.includes("m") || initZ.value,
+      ]);
+      gl.setUniformOfInt("dualPlot", [
+        theme.value !== "newton" &&
+          equation.value.includes("m") &&
+          dualPlot.value,
       ]);
       sliders.setGlsl(gl);
 
@@ -467,13 +484,9 @@
       </Labeled>
 
       <Labeled
-        v-if="
-          theme !== 'newton' && (theme !== 'simple' || !equation.includes('m'))
-        "
+        v-if="theme !== 'newton' && theme !== 'simple'"
         :label="
-          theme === 'simple'
-            ? 'Initialize Z?'
-            : theme === 'rotation'
+          theme === 'rotation'
             ? 'Alternate Split?'
             : theme === 'trig'
             ? 'Alternate Trig Functions?'
@@ -486,21 +499,24 @@
       </Labeled>
 
       <Labeled
-        v-if="
-          theme === 'newton' ||
-          theme === 'trig' ||
-          theme === 'exp' ||
-          (theme === 'simple' && equation.includes('m'))
-        "
-        :label="
-          theme === 'newton'
-            ? '3D Effect?'
-            : theme === 'simple'
-            ? 'Dual Coloring?'
-            : 'Alternate Coloring?'
-        "
+        v-if="theme === 'newton' || theme === 'trig' || theme === 'exp'"
+        :label="theme === 'newton' ? '3D Effect?' : 'Alternate Coloring?'"
       >
         <InlineCheckboxField v-model="altColors" />
+      </Labeled>
+
+      <Labeled
+        v-if="theme !== 'newton' && !equation.includes('m')"
+        label="Initialize Z?"
+      >
+        <InlineCheckboxField v-model="initZ" />
+      </Labeled>
+
+      <Labeled
+        v-if="theme === 'newton' || equation.includes('m')"
+        label="Dual Coloring?"
+      >
+        <InlineCheckboxField v-model="dualPlot" />
       </Labeled>
     </template>
 
@@ -576,9 +592,9 @@
       <p>
         At the bottom of the options page, you will find two to three
         checkboxes. These are specific to each theme. You may select or deselect
-        any of these to produce unique results for each theme. Note that the
-        "Simple" theme has two checkboxes ("Initialize Z" and "Dual Coloring")
-        that may be hidden depending on whether your equation uses M.
+        any of these to produce unique results for each theme. The best way to
+        understand what they do is to play around with them and learn by doing,
+        not reading.
       </p>
 
       <ColorSlidersHelp
