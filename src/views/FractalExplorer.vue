@@ -270,7 +270,7 @@
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (${i} == 0 && initZ) z = pos;
+    if (${i} == 0 && initZ || theme == 4) z = pos;
 
     float iter = 0.0;
     for (float i = 0.0; i < maxIterations; i++) {
@@ -419,9 +419,7 @@
         theme.value === "newton" || equation.value.includes("m") || initZ.value,
       ]);
       gl.setUniformOfInt("dualPlot", [
-        theme.value !== "newton" &&
-          equation.value.includes("m") &&
-          dualPlot.value,
+        equation.value.includes("m") && dualPlot.value,
       ]);
       sliders.setGlsl(gl);
 
@@ -536,10 +534,7 @@
         <InlineCheckboxField v-model="initZ" />
       </Labeled>
 
-      <Labeled
-        v-if="theme === 'newton' || equation.includes('m')"
-        label="Dual Coloring?"
-      >
+      <Labeled v-if="equation.includes('m')" label="Dual Coloring?">
         <InlineCheckboxField v-model="dualPlot" />
       </Labeled>
 
