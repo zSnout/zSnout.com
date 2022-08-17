@@ -37,6 +37,13 @@
         title="Mandelbrot Set"
         to="/debug/webgl/mandelbrot"
       />
+
+      <Card
+        description="A rotating box with multicolored faces."
+        keywords="webgl 3d"
+        title="3 Dimensions"
+        to="/debug/webgl/3-dimensions"
+      />
     </SearchableCardGrid>
   </DocumentDisplay>
 </template>
