@@ -135,7 +135,6 @@
     width: min(500px, 100%);
     min-height: min(300px, 100%);
     max-height: min(600px, 100%);
-    height: 600px;
     padding: 0.75em;
     overflow: auto;
     cursor: initial;
