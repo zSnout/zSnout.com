@@ -1,5 +1,4 @@
 import { useResizeObserver } from "@vueuse/core";
-import { watchEffect } from "vue";
 import { params } from "../useOption";
 import { WebGlCanvas } from "./WebGlCanvas";
 
