@@ -45,21 +45,17 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
   import { tryOnScopeDispose, useEventListener } from "@vueuse/core";
-  import { reactive, ref } from "vue";
+  import { reactive } from "vue";
   import { RouterLink } from "vue-router";
   import { isDark } from "../composables/isDark";
+  import Button from "./Button.vue";
   import GithubIcon from "./GithubIcon.vue";
+  import HStack from "./HStack.vue";
   import LogoWithName from "./Logo.vue";
   import SafeArea from "./SafeArea.vue";
-  import ThemeIcon from "./ThemeIcon.vue";
-  import OptionsIcon from "./OptionsIcon.vue";
-  import Modal from "./Modal.vue";
-  import HStack from "./HStack.vue";
+  import SharedNav from "./SharedNav.vue";
   import Spacer from "./Spacer.vue";
-  import Button from "./Button.vue";
-  import BookmarkIcon from "./BookmarkIcon.vue";
-
-  const open = ref(false);
+  import ThemeIcon from "./ThemeIcon.vue";
 </script>
 
 <template>
@@ -87,13 +83,23 @@
 
           <Spacer />
 
-          <BookmarkIcon />
+          <SharedNav fullscreen>
+            <template #buttons>
+              <slot name="buttons" />
+            </template>
 
-          <OptionsIcon
-            v-if="$slots.options"
-            role="button"
-            @click="open = !open"
-          />
+            <template #indicator>
+              <slot name="indicator" />
+            </template>
+
+            <template #options>
+              <slot name="options" />
+            </template>
+
+            <template #help>
+              <slot name="help" />
+            </template>
+          </SharedNav>
 
           <ThemeIcon class="icon" role="button" @click="isDark = !isDark" />
 
@@ -107,16 +113,6 @@
         </HStack>
       </SafeArea>
     </UseScreenSafeArea>
-
-    <Modal :open="open">
-      <slot name="options" />
-
-      <template #buttons>
-        <Button cancel @click="open = !open">OK</Button>
-
-        <slot name="buttons" />
-      </template>
-    </Modal>
   </nav>
 </template>
 
