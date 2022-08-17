@@ -33,12 +33,24 @@ export class WebGlCanvas extends GlslCanvas {
   }
 
   time = 0;
+  useDevicePixelRatio = true;
+
+  get pixelRatio() {
+    if (this.useDevicePixelRatio) {
+      return devicePixelRatio;
+    }
+
+    return 1;
+  }
+
+  set pixelRatio(v) {}
 
   constructor(
     canvas: HTMLCanvasElement,
     {
       fragmentString: frag,
       vertexString: vert,
+      useDevicePixelRatio,
       ...options
     }: WebGlCanvas.Options = {}
   ) {
@@ -56,6 +68,8 @@ export class WebGlCanvas extends GlslCanvas {
       vertexString: vert,
       fragmentString: frag,
     });
+
+    this.useDevicePixelRatio = useDevicePixelRatio ?? true;
 
     tryOnScopeDispose(() => this.destroy());
 
@@ -101,5 +115,7 @@ export class WebGlCanvas extends GlslCanvas {
 }
 
 export namespace WebGlCanvas {
-  export type Options = ICanvasOptions;
+  export interface Options extends ICanvasOptions {
+    useDevicePixelRatio?: boolean;
+  }
 }

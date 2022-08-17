@@ -1,4 +1,4 @@
-import { useResizeObserver } from "@vueuse/core";
+import { useEventListener, useResizeObserver } from "@vueuse/core";
 import { params } from "../useOption";
 import { WebGlCanvas } from "./WebGlCanvas";
 
@@ -145,8 +145,8 @@ export class CoordinateCanvas2d extends WebGlCanvas {
 
   mouseToCoords() {
     return this.pxToCoords(
-      this.mouse.x,
-      this.canvas.clientHeight - this.mouse.y
+      this.mouse.x / this.pixelRatio,
+      this.canvas.clientHeight - this.mouse.y / this.pixelRatio
     );
   }
 }
