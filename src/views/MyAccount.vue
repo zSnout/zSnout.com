@@ -146,14 +146,10 @@
       }}
     </p>
 
-    <template #buttons>
-      <p v-if="!isFieldShown"></p>
+    <template #buttons v-if="isFieldShown">
+      <Button @click="confirmSet">OK</Button>
 
-      <template v-else>
-        <Button @click="confirmSet">OK</Button>
-
-        <Button cancel @click="open = false">Cancel</Button>
-      </template>
+      <Button cancel @click="open = false">Cancel</Button>
     </template>
   </Modal>
 </template>
