@@ -263,12 +263,14 @@
     .map(
       (v, i) => `
   vec4 color${i}() {
-    vec2 pos = (gl_FragCoord.xy / u_resolution) * u_scale + u_offset;
+    vec2 pos = gl_FragCoord.xy / u_resolution;
+    if (${i} == 0 && dualPlot) pos = 2.0 * pos - vec2(1.0, 0.0);
+    pos = pos * u_scale + u_offset;
 
     vec2 pz, ppz, nz, c = pos, z;
     vec3 sz;
 
-    if (${i} == 0 && initZ) z = pos - 2.0 * z_offset;
+    if (${i} == 0 && initZ) z = pos;
 
     float iter = 0.0;
     for (float i = 0.0; i < maxIterations; i++) {
@@ -322,7 +324,13 @@
 
   void main() {
     if (dualPlot) {
-      gl_FragColor = 0.6 * color0() + 0.4 * color1();
+      vec2 pos = gl_FragCoord.xy / u_resolution;
+
+      if (pos.y < 0.5 && pos.x > 0.5) {
+        gl_FragColor = color0();
+      } else {
+        gl_FragColor = color1();
+      }
     } else {
       gl_FragColor = color0();
     }
