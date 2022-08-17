@@ -58,7 +58,6 @@ export function useCanvas(
           Object.defineProperty(el, "resolution", {
             configurable: true,
             enumerable: false,
-            writable: true,
             get() {
               return resolution;
             },

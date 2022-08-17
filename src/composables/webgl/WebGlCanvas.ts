@@ -72,6 +72,16 @@ export class WebGlCanvas extends GlslCanvas {
     });
   }
 
+  setPixelRatio(ratio: number) {
+    const oldPixelRatio = this.devicePixelRatio;
+    const pixelRatio = (this.devicePixelRatio = ratio);
+
+    this.canvas.width *= pixelRatio / oldPixelRatio;
+    this.canvas.height *= pixelRatio / oldPixelRatio;
+
+    this.checkRender();
+  }
+
   load(frag?: string, vert?: string) {
     if (typeof vert === "string") {
       vert = WebGlCanvas.extend(vert, "precision highp float;");

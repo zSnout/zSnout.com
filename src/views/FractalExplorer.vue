@@ -15,6 +15,7 @@
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
+  import InlineRangeField from "../components/InlineRangeField.vue";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
@@ -333,15 +334,30 @@
   const resetPosition = ref<() => void>();
   const setEquation = ref<() => void>();
 
+  const realResolution = ref(1);
+
+  let gl: MovableCanvas2d;
+  const resolution = computed({
+    get() {
+      return realResolution.value;
+    },
+    set(v) {
+      realResolution.value = v;
+      gl?.setPixelRatio(1 / v);
+    },
+  });
+
   onMounted(() => {
     if (!canvas.value) return;
 
-    const gl = new MovableCanvas2d(canvas.value, {
+    gl = new MovableCanvas2d(canvas.value, {
       fragmentString: shader
         .replace("{{EQ}}", glsl(equation.value))
         .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c"))),
       saveBounds: true,
     });
+
+    syncOption("resolution", resolution);
 
     canvas.value.addEventListener("contextmenu", (event) => {
       event.preventDefault();
@@ -517,6 +533,10 @@
         label="Dual Coloring?"
       >
         <InlineCheckboxField v-model="dualPlot" />
+      </Labeled>
+
+      <Labeled label="Resolution">
+        <InlineRangeField v-model="resolution" :min="1" :max="10" step="any" />
       </Labeled>
     </template>
 
