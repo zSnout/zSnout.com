@@ -1,8 +1,13 @@
 <!-- https://www.svgrepo.com/svg/111206/settings -->
 
+<script lang="ts" setup>
+  defineProps<{ open?: boolean }>();
+</script>
+
 <template>
   <svg
     class="icon options"
+    :class="{ open }"
     viewBox="0 0 478.703 478.703"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -47,15 +52,17 @@
     stroke-width: 0.5em;
     stroke-linecap: round;
 
-    .hover &:hover {
-      transform: scale(0.83) rotate(45deg);
+    .hover &:hover,
+    &.open {
+      transform: scale(0.83) rotate(67.5deg);
     }
 
     &.fullscreen {
       transform: none;
 
-      .hover &:hover {
-        transform: rotate(45deg);
+      .hover &:hover,
+      &.open {
+        transform: rotate(67.5deg);
       }
     }
   }
