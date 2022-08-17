@@ -32,8 +32,8 @@
   <FullscreenDisplay>
     <canvas ref="canvas" />
 
-    <template #options>
-      <p><strong>What is this?</strong></p>
+    <template #help>
+      <h1>What is this?</h1>
 
       <p>
         This is a WebGL debug page. A gradient should be contained within these
