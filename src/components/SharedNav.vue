@@ -3,6 +3,7 @@
   import { ref } from "vue";
   import BookmarkIcon from "./BookmarkIcon.vue";
   import Button from "./Button.vue";
+  import HelpIcon from "./HelpIcon.vue";
   import HStack from "./HStack.vue";
   import Modal from "./Modal.vue";
   import OptionsIcon from "./OptionsIcon.vue";
@@ -11,7 +12,6 @@
   defineProps<{ fullscreen?: boolean }>();
 
   const open = ref(false);
-  const help = ref(false);
 </script>
 
 <template>
@@ -22,25 +22,23 @@
 
   <OptionsIcon
     :open="open"
-    v-if="$slots.options || $slots.help"
+    v-if="$slots.options"
     :class="{ [$style.icon]: fullscreen }"
-    role="button"
-    @click="(open = true), (help = false)"
+    @click="open = true"
   />
 
-  <Modal :open="open">
-    <div class="help" v-if="!$slots.options || ($slots.help && help)">
-      <slot name="help" />
-    </div>
+  <HelpIcon
+    v-if="$slots.help"
+    :class="{ [$style.icon]: fullscreen, fullscreen }"
+  >
+    <slot name="help" />
+  </HelpIcon>
 
-    <slot name="options" v-else />
+  <Modal :open="open && !!$slots.options">
+    <slot name="options" />
 
     <template #buttons>
-      <Button cancel @click="open = !open" slot>OK</Button>
-
-      <Button @click="help = !help" v-if="$slots.help && $slots.options">
-        {{ help ? "Back to Options" : "Help" }}
-      </Button>
+      <Button cancel @click="open = !open">OK</Button>
 
       <slot name="buttons" />
     </template>
@@ -77,26 +75,6 @@
 </style>
 
 <style scoped lang="scss">
-  .help {
-    > :deep(*) {
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    > :deep(:first-child) {
-      margin-top: 0;
-    }
-
-    > :deep(:last-child) {
-      margin-bottom: 0;
-    }
-
-    :deep(h1) {
-      font-size: 1.2em;
-      margin-top: 1rem;
-    }
-  }
-
   .indicator {
     position: fixed;
     bottom: 0;

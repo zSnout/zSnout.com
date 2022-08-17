@@ -54,7 +54,7 @@
 
     .padding {
       padding-top: 0.75em;
-      overflow: hidden;
+      overflow: visible;
 
       @media screen and (max-width: 400px) {
         padding-top: 0.5em;

@@ -141,7 +141,7 @@
   <svg
     class="icon"
     role="button"
-    viewBox="100 0 403.511 603.511"
+    viewBox="100 0 393.511 603.511"
     xmlns="http://www.w3.org/2000/svg"
     @click="isOpen ? close() : open()"
     v-bind="$attrs"

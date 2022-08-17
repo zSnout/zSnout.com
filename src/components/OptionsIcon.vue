@@ -8,8 +8,9 @@
   <svg
     class="icon options"
     :class="{ open }"
-    viewBox="0 0 478.703 478.703"
+    viewBox="0 0 468.703 478.703"
     xmlns="http://www.w3.org/2000/svg"
+    role="button"
   >
     <path
       d="M454.2,189.101l-33.6-5.7c-3.5-11.3-8-22.2-13.5-32.6l19.8-27.7c8.4-11.8,7.1-27.9-3.2-38.1l-29.8-29.8
@@ -44,7 +45,7 @@
 
 <style lang="scss" scoped>
   .icon {
-    transform: scale(0.83);
+    transform: scale(0.85);
     cursor: pointer;
     transition: var(--transitions), transform 0.3s;
     fill: currentColor;
@@ -54,7 +55,7 @@
 
     .hover &:hover,
     &.open {
-      transform: scale(0.83) rotate(67.5deg);
+      transform: scale(0.85) rotate(67.5deg);
     }
 
     &.fullscreen {
