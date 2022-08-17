@@ -39,15 +39,36 @@ export function useCanvas(
           const { width, height } = useElementSize(el);
           const onResize: (() => void)[] = [];
 
-          onDispose.push(
-            watchEffect(() => {
-              el.width =
-                width.value * (useDevicePixelRatio ? devicePixelRatio : 1);
-              el.height =
-                height.value * (useDevicePixelRatio ? devicePixelRatio : 1);
-              onResize.forEach((hook) => hook());
-            })
-          );
+          const checkResize = () => {
+            el.width =
+              width.value *
+              (useDevicePixelRatio ? devicePixelRatio : 1) *
+              (resolution ?? 1);
+
+            el.height =
+              height.value *
+              (useDevicePixelRatio ? devicePixelRatio : 1) *
+              (resolution ?? 1);
+
+            onResize.forEach((hook) => hook());
+          };
+
+          let resolution = el.resolution ?? 1;
+
+          Object.defineProperty(el, "resolution", {
+            configurable: true,
+            enumerable: false,
+            writable: true,
+            get() {
+              return resolution;
+            },
+            set(v) {
+              resolution = v;
+              checkResize();
+            },
+          });
+
+          onDispose.push(watchEffect(checkResize));
 
           resolve({
             canvas: el,
