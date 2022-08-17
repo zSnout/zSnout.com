@@ -55,7 +55,7 @@
     &.fullscreen :deep(path) {
       transform: none;
       stroke: white;
-      stroke-width: 6%;
+      stroke-width: 8%;
       stroke-linecap: round;
       fill: none;
     }
