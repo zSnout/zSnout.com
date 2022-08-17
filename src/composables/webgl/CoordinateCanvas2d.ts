@@ -144,10 +144,7 @@ export class CoordinateCanvas2d extends WebGlCanvas {
   }
 
   mouseToCoords() {
-    return this.pxToCoords(
-      this.mouse.x / this.pixelRatio,
-      this.canvas.clientHeight - this.mouse.y / this.pixelRatio
-    );
+    return this.pxToCoords(this.pointer.x, this.pointer.y);
   }
 }
 

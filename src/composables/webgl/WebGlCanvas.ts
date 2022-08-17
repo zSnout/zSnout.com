@@ -1,4 +1,4 @@
-import { tryOnScopeDispose, useRafFn } from "@vueuse/core";
+import { tryOnScopeDispose, useEventListener, useRafFn } from "@vueuse/core";
 import {
   Canvas as GlslCanvas,
   ICanvasOptions,
@@ -33,24 +33,14 @@ export class WebGlCanvas extends GlslCanvas {
   }
 
   time = 0;
-  useDevicePixelRatio = true;
 
-  get pixelRatio() {
-    if (this.useDevicePixelRatio) {
-      return devicePixelRatio;
-    }
-
-    return 1;
-  }
-
-  set pixelRatio(v) {}
+  pointer: { x: number; y: number } = { x: 0, y: 0 };
 
   constructor(
     canvas: HTMLCanvasElement,
     {
       fragmentString: frag,
       vertexString: vert,
-      useDevicePixelRatio,
       ...options
     }: WebGlCanvas.Options = {}
   ) {
@@ -69,12 +59,17 @@ export class WebGlCanvas extends GlslCanvas {
       fragmentString: frag,
     });
 
-    this.useDevicePixelRatio = useDevicePixelRatio ?? true;
-
     tryOnScopeDispose(() => this.destroy());
 
     useRafFn(() => (this.time = Math.round(100 * this.time + 1) / 100));
     this.on("render", () => this.setUniform("time", this.time));
+
+    useEventListener("pointermove", (event) => {
+      event.preventDefault();
+
+      this.pointer.x = event.offsetX;
+      this.pointer.y = event.offsetY;
+    });
   }
 
   load(frag?: string, vert?: string) {
@@ -115,7 +110,5 @@ export class WebGlCanvas extends GlslCanvas {
 }
 
 export namespace WebGlCanvas {
-  export interface Options extends ICanvasOptions {
-    useDevicePixelRatio?: boolean;
-  }
+  export interface Options extends ICanvasOptions {}
 }
