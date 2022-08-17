@@ -71,7 +71,11 @@ declare global {
   }
 
   declare interface EventTarget
-    extends Pick<HTMLElement, "setPointerCapture"> {}
+    extends Pick<HTMLInputElement, "checked" | "setPointerCapture" | "value"> {}
+
+  declare interface HTMLCanvasElement {
+    resolution?: number;
+  }
 }
 
 export {};
