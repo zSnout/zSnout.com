@@ -55,7 +55,7 @@
     <slot name="options" v-else />
 
     <template #buttons>
-      <Button cancel @click="open = !open">OK</Button>
+      <Button cancel @click="open = !open" slot>OK</Button>
 
       <Button @click="help = !help" v-if="$slots.help">
         {{ help ? "Back to Options" : "Help" }}
@@ -171,6 +171,11 @@
   }
 
   .help {
+    > :deep(*) {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     > :deep(:first-child) {
       margin-top: 0;
     }
@@ -179,16 +184,9 @@
       margin-bottom: 0;
     }
 
-    > :deep(*) {
-      margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    :deep() {
-      h1 {
-        font-size: 1.2em;
-        margin-top: 1rem;
-      }
+    :deep(h1) {
+      font-size: 1.2em;
+      margin-top: 1rem;
     }
   }
 </style>

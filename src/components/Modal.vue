@@ -2,9 +2,7 @@
   import { MaybeElement, unrefElement, useEventListener } from "@vueuse/core";
   import { tabbable } from "tabbable";
   import { Ref, ref, toRef, unref, watchEffect } from "vue";
-  import Button from "./Button.vue";
   import HStack from "./HStack.vue";
-  import Spacer from "./Spacer.vue";
   import VStack from "./VStack.vue";
 
   const props = defineProps<{ open: boolean | { value: boolean } }>();
@@ -79,16 +77,21 @@
 <template>
   <Teleport to="body">
     <div :class="{ open }" class="wrapper" @click="cancel">
-      <VStack ref="dialog" class="modal second-layer" :space="0.75">
+      <VStack
+        ref="dialog"
+        class="modal second-layer"
+        :space="0.75"
+        :style="$slots.buttons ? 'padding-bottom: 0' : ''"
+      >
         <slot />
 
-        <Spacer />
+        <template v-if="$slots.buttons">
+          <div style="flex: 1; margin-top: -0.75 !important" />
 
-        <HStack ref="buttons" :space="0.75">
-          <slot name="buttons">
-            <Button cancel>OK</Button>
-          </slot>
-        </HStack>
+          <HStack ref="buttons" :space="0.75" class="buttons">
+            <slot name="buttons" />
+          </HStack>
+        </template>
       </VStack>
     </div>
   </Teleport>
@@ -114,7 +117,6 @@
     visibility: hidden;
     cursor: pointer;
     transition: var(--transitions), visibility 0.3s;
-    pointer-events: all;
     --padding: 2rem;
 
     @media (max-width: 400px) {
@@ -132,7 +134,8 @@
     top: 2em;
     width: min(500px, 100%);
     min-height: min(300px, 100%);
-    max-height: 100%;
+    max-height: min(600px, 100%);
+    height: 600px;
     padding: 0.75em;
     overflow: auto;
     cursor: initial;
@@ -142,6 +145,25 @@
     .open & {
       top: 0;
       opacity: 1;
+    }
+  }
+
+  .buttons {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    background-color: inherit;
+    padding-top: 1.5em;
+    padding-bottom: 0.75em;
+    margin-top: -1.5em !important;
+
+    .help + * + & {
+      margin-top: -1.2em !important;
+    }
+
+    @supports (backdrop-filter: blur(0.5em)) {
+      background: linear-gradient(transparent, var(--layer-background) 1em);
+      background-color: transparent;
     }
   }
 </style>
