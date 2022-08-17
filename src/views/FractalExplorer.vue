@@ -16,6 +16,7 @@
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
   import InlineRangeField from "../components/InlineRangeField.vue";
+  import { useEventListener } from "@vueuse/core";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
@@ -367,6 +368,59 @@
 
     syncOption("resolution", resolution);
 
+    const themes = [
+      "simple",
+      "gradient",
+      "rotation",
+      "trig",
+      "exp",
+      "newton",
+    ] as const;
+
+    useEventListener("keydown", (event) => {
+      if (!event.ctrlKey && !event.altKey && !event.metaKey) {
+        event.preventDefault();
+
+        switch (event.key) {
+          case "LeftArrow":
+            theme.value =
+              themes[
+                (themes.indexOf(theme.value) - 1 + themes.length) %
+                  themes.length
+              ];
+            break;
+
+          case "RightArrow":
+            theme.value =
+              themes[(themes.indexOf(theme.value) + 1) % themes.length];
+            break;
+
+          case "UpArrow":
+            detail.value = incrementDetail(detail.value);
+            break;
+
+          case "DownArrow":
+            detail.value = decrementDetail(detail.value);
+            break;
+
+          case "R":
+          case "r":
+            resetPosition.value?.();
+            break;
+        }
+      }
+    });
+
+    canvas.value.addEventListener("dblclick", (event) => {
+      event.preventDefault();
+
+      if (theme.value !== "newton" && !equation.value.includes("m")) {
+        initZ.value = !initZ.value;
+      } else if (equation.value.includes("m")) {
+        dualPlot.value = !dualPlot.value;
+      }
+    });
+
     canvas.value.addEventListener("contextmenu", (event) => {
       event.preventDefault();
 
@@ -567,7 +621,7 @@
 
       <p>
         If you zoom in for a while, the fractal will start to have flat edges.
-        To combat this, increase the "Detail Level". Increasing it makes your
+        To combat this, increase the "Detail Level." Increasing it makes your
         computer slower and uses more battery, so adjust this carefully.
       </p>
 
@@ -611,9 +665,9 @@
 
       <p>
         The Fractal Explorer has six different color themes. You may select one
-        via a dropdown. When using an equation without C or M (e.g. z - f(z) /
-        f'(z)), it is recommended to use "Newton's Method" or the "Simple" theme
-        with "Initialize Z" checked.
+        via a dropdown. When using an equation without C or M (e.g. z - (z^3 -
+        1) / 3z^2), it is recommended to use "Newton's Method" or check
+        "Initialize Z".
       </p>
 
       <h1>Theme Checkboxes</h1>
@@ -647,6 +701,26 @@
         may be shrunk. In this case, reload the page to fix this and any other
         issues that may occur.
       </p>
+
+      <h1>Quick Actions</h1>
+
+      <p>
+        Right-clicking the canvas modifies your equation. It will primarily swap
+        M and T for your current mouse position and time. If the current
+        equation does not contain M or T, right-clicking will swap all instances
+        of C for M.
+      </p>
+
+      <p>
+        Double clicking will toggle "Dual Coloring" or "Initialize Z," depending
+        on which one is currently shown.
+      </p>
+
+      <p>The left and right arrow keys swap through the various themes.</p>
+
+      <p>The up and down arrows adjust the detail level.</p>
+
+      <p>The R button resets the position of your fractal.</p>
     </template>
 
     <canvas ref="canvas" />
