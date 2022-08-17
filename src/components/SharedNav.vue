@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+  import { UseScreenSafeArea } from "@vueuse/components";
   import { ref } from "vue";
   import BookmarkIcon from "./BookmarkIcon.vue";
-  import OptionsIcon from "./OptionsIcon.vue";
-  import Modal from "./Modal.vue";
-  import SafeArea from "./SafeArea.vue";
+  import Button from "./Button.vue";
   import HStack from "./HStack.vue";
-  import { UseScreenSafeArea } from "@vueuse/components";
+  import Modal from "./Modal.vue";
+  import OptionsIcon from "./OptionsIcon.vue";
+  import SafeArea from "./SafeArea.vue";
 
   defineProps<{ fullscreen?: boolean }>();
 
@@ -15,15 +16,14 @@
 
 <template>
   <BookmarkIcon
-    class="bookmark-icon"
     :fullscreen="fullscreen"
-    :class="{ fullscreen }"
+    :class="{ [$style.icon]: fullscreen }"
   />
 
   <OptionsIcon
     :open="open"
     v-if="$slots.options || $slots.help"
-    class="options fullscreen"
+    :class="{ [$style.icon]: fullscreen }"
     role="button"
     @click="(open = true), (help = false)"
   />
@@ -55,9 +55,8 @@
   </UseScreenSafeArea>
 </template>
 
-<style scoped lang="scss">
-  .fullscreen.options,
-  .fullscreen.bookmark-icon {
+<style module lang="scss">
+  .icon {
     height: 2em;
     overflow: visible;
     cursor: pointer;
@@ -75,7 +74,9 @@
       paint-order: stroke fill markers;
     }
   }
+</style>
 
+<style scoped lang="scss">
   .help {
     > :deep(*) {
       margin-top: 0.5rem;
