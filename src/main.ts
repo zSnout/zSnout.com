@@ -178,9 +178,3 @@ socket.on(
   (value) => (timeLeftBeforeAccountDeletion.value = value)
 );
 
-declare global {
-  interface EventTarget {
-    checked: boolean;
-    value: string;
-  }
-}
