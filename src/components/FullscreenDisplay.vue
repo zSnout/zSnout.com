@@ -19,20 +19,20 @@
         <Spacer />
 
         <SharedNav fullscreen>
-          <template #buttons>
+          <template #buttons v-if="$slots.buttons">
             <slot name="buttons" />
           </template>
 
-          <template #indicator>
+          <template #help v-if="$slots.help">
+            <slot name="help" />
+          </template>
+
+          <template #indicator v-if="$slots.indicator">
             <slot name="indicator" />
           </template>
 
-          <template #options>
+          <template #options v-if="$slots.options">
             <slot name="options" />
-          </template>
-
-          <template #help>
-            <slot name="help" />
           </template>
         </SharedNav>
       </HStack>
