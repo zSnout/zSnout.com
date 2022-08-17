@@ -343,7 +343,7 @@
     },
     set(v) {
       realResolution.value = v;
-      gl?.setPixelRatio(1 / v);
+      gl?.setPixelRatio(v);
     },
   });
 
@@ -535,8 +535,8 @@
         <InlineCheckboxField v-model="dualPlot" />
       </Labeled>
 
-      <Labeled label="Resolution">
-        <InlineRangeField v-model="resolution" :min="1" :max="10" step="any" />
+      <Labeled label="Resolution:">
+        <InlineRangeField v-model="resolution" :min="0.1" :max="1" step="any" />
       </Labeled>
     </template>
 
@@ -594,6 +594,12 @@
       </p>
 
       <p>
+        Setting a new equation requires modifying several aspects of a program,
+        so it will not be automatically applied unless you select the "Apply"
+        button.
+      </p>
+
+      <p>
         If you have an equation with M and/or T, right-click the canvas to
         replace the M and T variables with their values.
       </p>
@@ -623,6 +629,21 @@
     "Grayscale" and "Overcoloring" only have effects in themes with gray colors
     ("Gradient", "Trigonometric", and "Exponential").'
       />
+
+      <h1>Resolution</h1>
+
+      <p>
+        If you have a device with a large screen, zSnout may start to drag down
+        the performance of your computer. To remedy this, decrease the
+        "Resolution" slider. Lowering this slider will increase render speed but
+        will decrease the image quality, so choose carefully.
+      </p>
+
+      <p>
+        If you start from a low resolution and switch to a high one, the canvas
+        may be shrunk. In this case, reload the page to fix this and any other
+        issues that may occur.
+      </p>
     </template>
 
     <canvas ref="canvas" />
