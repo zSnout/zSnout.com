@@ -64,11 +64,11 @@ export class WebGlCanvas extends GlslCanvas {
     useRafFn(() => (this.time = Math.round(100 * this.time + 1) / 100));
     this.on("render", () => this.setUniform("time", this.time));
 
-    useEventListener(canvas, "pointermove", (event) => {
+    useEventListener("pointermove", (event) => {
       event.preventDefault();
 
-      this.pointer.x = event.offsetX;
-      this.pointer.y = event.offsetY;
+      this.pointer.x = event.clientX - this.rect.x;
+      this.pointer.y = event.clientY - this.rect.y;
     });
   }
 
