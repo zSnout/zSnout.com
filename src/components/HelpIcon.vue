@@ -47,17 +47,18 @@
   .icon {
     transform: scale(0.83);
     cursor: pointer;
+    overflow: visible;
 
     :deep(path) {
-      fill: currentColor;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 9%;
     }
 
     &.fullscreen :deep(path) {
       transform: none;
       stroke: white;
-      stroke-width: 8%;
       stroke-linecap: round;
-      fill: none;
     }
   }
 
