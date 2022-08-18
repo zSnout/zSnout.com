@@ -27,12 +27,15 @@
       flex-wrap: wrap;
     }
 
-    &.stretch:not(.noCenter) > :deep(*) {
+    &.stretch > :deep(*) {
       flex: 1;
+
+    }
+
+    &.stretch:not(.noCenter) > :deep(*) {
       text-align: center;
     }
 
-    // We specify .stack twice to fix specificity issues.
     &.stack > :deep(*) {
       margin: 0;
     }
