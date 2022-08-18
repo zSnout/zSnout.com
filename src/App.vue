@@ -145,8 +145,8 @@
     }
 
     &.blur {
-      @supports (backdrop-filter: 0.5em) {
-        backdrop-filter: 0.5em;
+      @supports (backdrop-filter: blur(0.5em)) {
+        backdrop-filter: blur(0.5em);
         --layer-background: #ffffff80;
 
         .dark & {
