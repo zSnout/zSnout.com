@@ -15,9 +15,26 @@
   const email = ref("");
   const disabled = ref(false);
   const isSigningUp = ref(signUp || false);
+  const message = ref("");
   error.value = "";
 
-  socket.on("account:done:verify", () => emit("update:open", false));
+  socket.on("account:done:verify", () => {
+    if (isSigningUp.value) {
+      message.value =
+        "An email has been sent to you. Click the link to verify your account, or it will be deleted in 15 minutes. Go!";
+
+      setTimeout(() => {
+        emit("update:open", false);
+      }, 5000);
+
+      if (location.pathname === "/") {
+        scrollTo({ behavior: "smooth", left: 0, top: 0 });
+      }
+    } else {
+      emit("update:open", false);
+    }
+  });
+
   socket.on("error", () => (disabled.value = false));
 
   function logIn() {
@@ -65,6 +82,8 @@
         <Spacer :size="2" />
 
         <p v-if="error">Error: {{ error }}</p>
+
+        <p v-if="message">{{ message }}</p>
       </VStack>
     </form>
 

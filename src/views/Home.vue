@@ -16,7 +16,6 @@
     timeLeftBeforeAccountDeletion,
     username,
   } from "../main";
-  import Button from "../components/Button.vue";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
@@ -276,6 +275,12 @@
         to="/debug/"
       />
     </SearchableCardGrid>
+
+    <template #help>
+      Looks like you've found the Help menu! Many pages on zSnout have this
+      button in the top-right corner. Simply click it to reveal instructions and
+      more details about the page you're viewing.
+    </template>
   </DocumentDisplay>
 </template>
 
