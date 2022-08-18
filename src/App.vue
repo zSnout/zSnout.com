@@ -98,6 +98,10 @@
     }
   }
 
+  a.no-color {
+    color: inherit;
+  }
+
   a,
   button {
     touch-action: manipulation;
@@ -137,6 +141,25 @@
 
       .dark & {
         --layer-background: #0f0f0f;
+      }
+    }
+
+    &.blur {
+      @supports (backdrop-filter: 0.5em) {
+        backdrop-filter: 0.5em;
+        --layer-background: #ffffff80;
+
+        .dark & {
+          --layer-background: #1f1f1f80;
+        }
+
+        .second-layer & {
+          --layer-background: #f0f0f080;
+
+          .dark & {
+            --layer-background: #0f0f0f80;
+          }
+        }
       }
     }
   }
