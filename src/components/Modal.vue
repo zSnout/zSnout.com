@@ -88,7 +88,7 @@
         <template v-if="$slots.buttons">
           <div style="flex: 1; margin-top: -0.75 !important" />
 
-          <HStack ref="buttons" :space="0.75" class="buttons">
+          <HStack ref="buttons" class="buttons" :space="0.75">
             <slot name="buttons" />
           </HStack>
         </template>
@@ -151,10 +151,10 @@
     position: -webkit-sticky;
     position: sticky;
     bottom: 0;
-    background-color: inherit;
+    margin-top: -1.5em !important;
     padding-top: 1.5em;
     padding-bottom: 0.75em;
-    margin-top: -1.5em !important;
+    background-color: inherit;
 
     .help + * + & {
       margin-top: -1.2em !important;

@@ -3,12 +3,13 @@
     space?: number;
     stretch?: boolean;
     wraps?: boolean;
+    noCenter?: boolean;
   }>();
 </script>
 
 <template>
   <div
-    :class="{ stretch, wraps }"
+    :class="{ stretch, wraps, noCenter }"
     class="stack"
     :style="{ gap: `${space ?? 0.5}em` }"
   >
@@ -26,7 +27,7 @@
       flex-wrap: wrap;
     }
 
-    &.stretch > :deep(*) {
+    &.stretch:not(.noCenter) > :deep(*) {
       flex: 1;
       text-align: center;
     }

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
   import { ref } from "vue";
   import Button from "./Button.vue";
   import Modal from "./Modal.vue";
@@ -43,11 +43,11 @@
   </Modal>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
   .icon {
+    overflow: visible;
     transform: scale(0.83);
     cursor: pointer;
-    overflow: visible;
 
     :deep(path) {
       fill: none;
@@ -77,8 +77,8 @@
     }
 
     :deep(h1) {
-      font-size: 1.2em;
       margin-top: 1rem;
+      font-size: 1.2em;
     }
   }
 </style>

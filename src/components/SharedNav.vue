@@ -18,14 +18,14 @@
 
 <template>
   <BookmarkIcon
-    :fullscreen="fullscreen"
     :class="{ [$style.icon]: fullscreen }"
+    :fullscreen="fullscreen"
   />
 
   <OptionsIcon
-    :open="open"
     v-if="$slots.options"
     :class="{ [$style.icon]: fullscreen }"
+    :open="open"
     @click="open = true"
   />
 
@@ -55,7 +55,7 @@
   </UseScreenSafeArea>
 </template>
 
-<style module lang="scss">
+<style lang="scss" module>
   .icon {
     height: 2em;
     overflow: visible;
@@ -76,7 +76,7 @@
   }
 </style>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
   .indicator {
     position: fixed;
     bottom: 0;

@@ -6,11 +6,11 @@
 
 <template>
   <svg
-    class="icon options"
     :class="{ open }"
+    class="icon options"
+    role="button"
     viewBox="0 0 468.703 478.703"
     xmlns="http://www.w3.org/2000/svg"
-    role="button"
   >
     <path
       d="M454.2,189.101l-33.6-5.7c-3.5-11.3-8-22.2-13.5-32.6l19.8-27.7c8.4-11.8,7.1-27.9-3.2-38.1l-29.8-29.8

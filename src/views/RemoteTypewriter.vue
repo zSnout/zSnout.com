@@ -144,7 +144,7 @@
           {{ output || "Well, start typing something!" }}
         </p>
 
-        <HStack stretch class="characters">
+        <HStack class="characters" stretch>
           <p>{{ nextSets[0] }}</p>
           <p>{{ nextSets[1] }}</p>
           <p>{{ nextSets[2] }}</p>

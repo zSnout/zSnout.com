@@ -598,7 +598,7 @@
       </Labeled>
 
       <Labeled label="Resolution:">
-        <InlineRangeField v-model="resolution" :min="0.1" :max="1" step="any" />
+        <InlineRangeField v-model="resolution" :max="1" :min="0.1" step="any" />
       </Labeled>
     </template>
 
@@ -686,10 +686,10 @@
       </p>
 
       <ColorSlidersHelp
-        page="Fractal Explorer"
         note='Note that
     "Grayscale" and "Overcoloring" only have effects in themes with gray colors
     ("Gradient", "Trigonometric", and "Exponential").'
+        page="Fractal Explorer"
       />
 
       <h1>Resolution</h1>

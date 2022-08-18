@@ -14,8 +14,8 @@
   <Link
     v-if="to"
     class="card second-layer hoverline focusline"
-    :data-keywords="keywords"
     :to="to"
+    :data-keywords="keywords"
   >
     <p class="title text-color">{{ title }}</p>
     <p class="description">{{ description }}</p>

@@ -177,4 +177,3 @@ socket.on(
   "account:needs-verification",
   (value) => (timeLeftBeforeAccountDeletion.value = value)
 );
-
