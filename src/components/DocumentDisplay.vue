@@ -88,6 +88,16 @@
             zSnout promises never to share any of your personal information with
             third parties.
           </p>
+
+          <p>
+            All content of the zSnout website is copyrighted under the
+            <a
+              href="https://www.gnu.org/licenses/gpl-3.0.en.html"
+              target="_blank"
+            >
+              GNU General Public License.
+            </a>
+          </p>
         </VStack>
       </SafeArea>
     </UseScreenSafeArea>
