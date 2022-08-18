@@ -183,23 +183,40 @@
         <strong>once</strong>
         to go to the
         <strong>next slide,</strong>
-
         <br />
-
         <strong>twice</strong>
         to go to the
         <strong>previous slide,</strong>
-
         and
-
         <br />
-
         <strong>thrice</strong>
         to go to the
         <strong>first slide.</strong>
       </p>
 
       <p>Reload or close this app to exit.</p>
+
+      <h1>Alternative Setup</h1>
+
+      <p>
+        If you don't have a pair of AirPods 3 or Pro, you can use any set of
+        remote headphones. Simply tap the
+        <br />
+        <strong>play/pause</strong>
+        button to go to the next slide,
+        <br />
+        <strong>previous track</strong>
+        to go to the previous slide, and
+        <br />
+        <strong>next track</strong>
+        to go to the first slide.
+      </p>
+
+      <p>
+        For AirPods 1 and 2, you can modify the double-tap actions in Settings
+        to correspond to "play/pause" and "next track," allowing you to go to
+        the next and previous slides.
+      </p>
     </template>
   </DocumentDisplay>
 </template>

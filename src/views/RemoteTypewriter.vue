@@ -163,16 +163,25 @@
       <p>
         <strong>once</strong>
         to pick the first character set,
-
         <br />
-
         <strong>twice</strong>
         to pick the second set, and
-
         <br />
-
         <strong>thrice</strong>
         to pick the final set.
+      </p>
+
+      <h1>Alternative Setup</h1>
+
+      <p>
+        If you don't have a pair of AirPods 3 or Pro, grab another set of remote
+        earpods. Then check your earpods' guide for how to click the
+        <strong>play/pause,</strong>
+        <strong>previous track,</strong>
+        and
+        <strong>next track</strong>
+        buttons. zSnout uses these for the first, second, and third characters
+        sets, respectively.
       </p>
     </template>
   </DocumentDisplay>
