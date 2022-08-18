@@ -86,6 +86,10 @@ router.beforeEach(({ path }, _, next) => {
   next();
 });
 
+router.afterEach(() => {
+  scrollTo(0, 0);
+});
+
 const Prose = defineAsyncComponent(() => import("./components/Prose.vue"));
 
 export const app = createApp(App);
