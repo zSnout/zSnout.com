@@ -2,16 +2,19 @@
   defineProps<{
     space?: number;
     stretch?: boolean;
-    wraps?: boolean;
+    wraps?: boolean | string;
     noCenter?: boolean;
   }>();
 </script>
 
 <template>
   <div
-    :class="{ stretch, wraps, noCenter }"
+    :class="{ stretch, wraps: !!wraps, noCenter }"
     class="stack"
-    :style="{ gap: `${space ?? 0.5}em` }"
+    :style="{
+      'gap': `${space ?? 0.5}em`,
+      '--wrap-size': typeof wraps === 'string' ? wraps : undefined,
+    }"
   >
     <slot />
   </div>
@@ -25,11 +28,14 @@
 
     &.wraps {
       flex-wrap: wrap;
+
+      > :deep(*) {
+        min-width: min(var(--wrap-size), 100%);
+      }
     }
 
     &.stretch > :deep(*) {
       flex: 1;
-
     }
 
     &.stretch:not(.noCenter) > :deep(*) {
