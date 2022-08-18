@@ -149,40 +149,6 @@
             <Button @click="onSubmit">Start</Button>
           </HStack>
 
-          <p><em>How do I use this?</em></p>
-
-          <p>
-            This page lets you control a Google Slides presentation using an
-            AirPod as a remote.
-          </p>
-
-          <p>
-            Get a pair of AirPods 3 or Pro. To control your presentation, click
-            the stem:
-          </p>
-
-          <p>
-            <strong>once</strong>
-            to go to the
-            <strong>next slide,</strong>
-
-            <br />
-
-            <strong>twice</strong>
-            to go to the
-            <strong>previous slide,</strong>
-
-            and
-
-            <br />
-
-            <strong>thrice</strong>
-            to go to the
-            <strong>first slide.</strong>
-          </p>
-
-          <p>Reload or close this app to exit.</p>
-
           <p>
             <em v-if="event">
               {{
@@ -199,6 +165,42 @@
         </VStack>
       </form>
     </MiddleText>
+
+    <template #help>
+      <h1>How do I use this?</h1>
+
+      <p>
+        This page lets you control a Google Slides presentation using an AirPod
+        as a remote.
+      </p>
+
+      <p>
+        Get a pair of AirPods 3 or Pro. To control your presentation, click the
+        stem:
+      </p>
+
+      <p>
+        <strong>once</strong>
+        to go to the
+        <strong>next slide,</strong>
+
+        <br />
+
+        <strong>twice</strong>
+        to go to the
+        <strong>previous slide,</strong>
+
+        and
+
+        <br />
+
+        <strong>thrice</strong>
+        to go to the
+        <strong>first slide.</strong>
+      </p>
+
+      <p>Reload or close this app to exit.</p>
+    </template>
   </DocumentDisplay>
 </template>
 

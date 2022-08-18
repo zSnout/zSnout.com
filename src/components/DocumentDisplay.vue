@@ -25,12 +25,20 @@
 
 <template>
   <Navigation ref="navbar">
-    <template #options v-if="$slots.options">
-      <slot name="options" />
-    </template>
-
     <template #buttons v-if="$slots.buttons">
       <slot name="buttons" />
+    </template>
+
+    <template #help v-if="$slots.help">
+      <slot name="help" />
+    </template>
+
+    <template #indicator v-if="$slots.indicator">
+      <slot name="indicator" />
+    </template>
+
+    <template #options v-if="$slots.options">
+      <slot name="options" />
     </template>
   </Navigation>
 

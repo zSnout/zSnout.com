@@ -14,6 +14,8 @@
   const open = ref(false);
 </script>
 
+<!-- Make sure to update DocumentDisplay, FullscreenDisplay, and Navigation when changing slots. -->
+
 <template>
   <BookmarkIcon
     :fullscreen="fullscreen"
