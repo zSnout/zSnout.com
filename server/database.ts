@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { Bookmark, NoteRole } from "../shared.server";
+import { Bookmark } from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
@@ -33,6 +33,7 @@ export interface Database {
   accounts: {
     creation: number;
     username: string;
+    /** Passwords will be hashed using bcrypt before putting them into the database. */
     password: string;
     session: string;
     email: string;
