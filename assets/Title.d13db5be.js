@@ -1,0 +1,1 @@
+import{_ as t}from"./VStack.3d6ae560.js";import{o,f as r,q as a}from"./index.a8171189.js";const d={},c={class:"title"};function _(e,n){return o(),r("h1",c,[a(e.$slots,"default",{},void 0,!0)])}var i=t(d,[["render",_],["__scopeId","data-v-00c7d846"]]);export{i as T};
