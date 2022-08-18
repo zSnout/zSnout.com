@@ -141,6 +141,15 @@
       />
 
       <ImageCard
+        alt="A typewriter with the words 'Typed via zSnout magic' on the paper sheet"
+        description="Use a set of AirPods to type text on your screen without touching the keyboard."
+        keywords="airpods text"
+        src="/images/remote-typewriter.png"
+        title="Remote Typewriter"
+        to="/remote-typewriter"
+      />
+
+      <ImageCard
         alt="An ASCII art version of Zachary's face (the creator of zSnout)"
         description="Watch your own face and world transform into letters and symbols."
         keywords="camera live text"
@@ -157,15 +166,6 @@
         src="/images/my-notes.png"
         title="My Notes"
         to="/my-notes"
-      />
-
-      <ImageCard
-        alt="A black ball at a corner in a maze"
-        description="Twist and turn your phone or tablet to move a ball around in a randomly generated maze."
-        keywords="orientation mobile"
-        src="/images/maze-game.png"
-        title="Maze Game"
-        to="/maze-game"
       />
 
       <ImageCard
@@ -202,6 +202,15 @@
         src="/images/drawing/turntable.png"
         title="Turntable"
         to="/drawing/turntable"
+      />
+
+      <ImageCard
+        alt="A black ball at a corner in a maze"
+        description="Twist and turn your phone or tablet to move a ball around in a randomly generated maze."
+        keywords="orientation mobile"
+        src="/images/maze-game.png"
+        title="Maze Game"
+        to="/maze-game"
       />
 
       <ImageCard
