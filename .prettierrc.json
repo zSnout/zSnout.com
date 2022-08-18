@@ -28,7 +28,6 @@
   "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "ignore",
   "insertPragma": false,
-  "jsxBracketSameLine": false,
   "jsxSingleQuote": false,
   "printWidth": 80,
   "proseWrap": "always",
@@ -40,5 +39,8 @@
   "trailingComma": "es5",
   "useTabs": false,
   "vueIndentScriptAndStyle": true,
-  "plugins": ["prettier-plugin-organize-attributes", "prettier-plugin-style-order"]
+  "plugins": [
+    "prettier-plugin-organize-attributes",
+    "prettier-plugin-style-order"
+  ]
 }
