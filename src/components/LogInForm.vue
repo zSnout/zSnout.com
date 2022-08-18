@@ -40,6 +40,7 @@
   function logIn() {
     if (disabled.value) return;
     disabled.value = true;
+    error.value = "";
 
     if (isSigningUp.value) {
       socket.emit(
