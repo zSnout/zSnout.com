@@ -32,11 +32,15 @@ export const router = createRouter({
 });
 
 router.onError((error) => {
-  alert(
-    `An error occurred. zSnout will be reloaded once you close this message.\n\n${error}`
-  );
+  if (import.meta.hot) {
+    location.reload();
+  } else {
+    alert(
+      `An error occurred. zSnout will be reloaded once you close this message.\n\n${error}`
+    );
 
-  location.reload();
+    location.reload();
+  }
 });
 
 window.onerror = (_, source, line, col, error) => {
@@ -44,11 +48,15 @@ window.onerror = (_, source, line, col, error) => {
   // this is a workaround to prevent from reloading the page.
   if (source === location.href) return;
 
-  alert(
-    `An error occurred in ${source}:${line}:${col}. zSnout will be reloaded once you close this message.\n\n${error}`
-  );
+  if (import.meta.hot) {
+    location.reload();
+  } else {
+    alert(
+      `An error occurred in ${source}:${line}:${col}. zSnout will be reloaded once you close this message.\n\n${error}`
+    );
 
-  location.reload();
+    location.reload();
+  }
 };
 
 function simpleTitle(path: string) {
