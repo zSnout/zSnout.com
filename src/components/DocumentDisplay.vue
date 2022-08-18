@@ -73,6 +73,11 @@
               <RouterLink class="no-color" to="/privacy-policy">
                 Privacy Policy
               </RouterLink>
+
+              <p>
+                zSnout promises never to share any of your personal information
+                with third parties.
+              </p>
             </VStack>
 
             <VStack>
@@ -81,23 +86,18 @@
               <RouterLink v-if="session" class="no-color" to="/my-account">
                 My Account
               </RouterLink>
+
+              <p>
+                All content of the zSnout website is copyrighted under the
+                <a
+                  href="https://www.gnu.org/licenses/gpl-3.0.en.html"
+                  target="_blank"
+                >
+                  GNU General Public License.
+                </a>
+              </p>
             </VStack>
           </HStack>
-
-          <p>
-            zSnout promises never to share any of your personal information with
-            third parties.
-          </p>
-
-          <p>
-            All content of the zSnout website is copyrighted under the
-            <a
-              href="https://www.gnu.org/licenses/gpl-3.0.en.html"
-              target="_blank"
-            >
-              GNU General Public License.
-            </a>
-          </p>
         </VStack>
       </SafeArea>
     </UseScreenSafeArea>
