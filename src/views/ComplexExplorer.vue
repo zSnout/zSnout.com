@@ -102,6 +102,21 @@
 
   ${useColorSliders}
 
+  float cosh(float val) {
+    float tmp = exp(val);
+    return (tmp + 1.0 / tmp) / 2.0;
+  }
+
+  float tanh(float val) {
+    float tmp = exp(val);
+    return (tmp - 1.0 / tmp) / (tmp + 1.0 / tmp);
+  }
+
+  float sinh(float val) {
+    float tmp = exp(val);
+    return (tmp - 1.0 / tmp) / 2.0;
+  }
+
   #define cx_sin(a) vec2(sin(a.x) * cosh(a.y), cos(a.x) * sinh(a.y))
   #define cx_cos(a) vec2(cos(a.x) * cosh(a.y), -sin(a.x) * sinh(a.y))
 
