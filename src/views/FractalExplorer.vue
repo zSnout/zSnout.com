@@ -131,6 +131,8 @@
     addDarkness: "if (darkness && theme == 1) hsv.z = mod(i, 0.5);",
   })}
 
+  vec2 div(vec2 a, vec2 b);
+
   float cosh(float val) {
     float tmp = exp(val);
     return (tmp + 1.0 / tmp) / 2.0;

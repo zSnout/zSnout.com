@@ -102,6 +102,8 @@
 
   ${useColorSliders}
 
+  vec2 div(vec2 a, vec2 b);
+
   float cosh(float val) {
     float tmp = exp(val);
     return (tmp + 1.0 / tmp) / 2.0;
