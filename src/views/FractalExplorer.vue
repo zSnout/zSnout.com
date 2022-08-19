@@ -391,30 +391,15 @@
   const resetPosition = ref<() => void>();
   const setEquation = ref<() => void>();
 
-  const realResolution = ref(1);
-
-  let gl: MovableCanvas2d;
-  const resolution = computed({
-    get() {
-      return realResolution.value;
-    },
-    set(v) {
-      realResolution.value = v;
-      gl?.setPixelRatio(v);
-    },
-  });
-
   onMounted(() => {
     if (!canvas.value) return;
 
-    gl = new MovableCanvas2d(canvas.value, {
+    const gl = new MovableCanvas2d(canvas.value, {
       fragmentString: shader
         .replace("{{EQ}}", glsl(equation.value))
         .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c"))),
       saveBounds: true,
     });
-
-    syncOption("resolution", resolution);
 
     const themes = [
       "simple",
@@ -644,10 +629,6 @@
       <Labeled v-if="equation.includes('m')" label="Dual Coloring?">
         <InlineCheckboxField v-model="dualPlot" />
       </Labeled>
-
-      <Labeled label="Resolution:">
-        <InlineRangeField v-model="resolution" :max="1" :min="0.1" step="any" />
-      </Labeled>
     </template>
 
     <template #buttons>
@@ -739,21 +720,6 @@
     ("Gradient", "Trigonometric", and "Exponential").'
         page="Fractal Explorer"
       />
-
-      <h1>Resolution</h1>
-
-      <p>
-        If you have a device with a large screen, zSnout may start to drag down
-        the performance of your computer. To remedy this, decrease the
-        "Resolution" slider. Lowering this slider will increase render speed but
-        will decrease the image quality, so choose carefully.
-      </p>
-
-      <p>
-        If you start from a low resolution and switch to a high one, the canvas
-        may be shrunk. In this case, reload the page to fix this and any other
-        issues that may occur.
-      </p>
 
       <h1>Quick Actions</h1>
 
