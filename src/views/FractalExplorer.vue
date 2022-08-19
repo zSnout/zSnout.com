@@ -104,6 +104,8 @@
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
   // https://stackoverflow.com/a/17897228
+  // https://gist.github.com/DonKarlssonSan/f87ba5e4e5f1093cb83e39024a6a5e72
+  // https://github.com/julesb/glsl-util
 
   const shader = `
   uniform float detail;
@@ -116,10 +118,6 @@
   uniform bool dualPlot;
   uniform vec2 z_offset;
 
-  ${useColorSliders.toString({
-    addDarkness: "if (darkness && theme == 1) hsv.z = mod(i, 0.5);",
-  })}
-
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
@@ -128,6 +126,39 @@
 
   const float maxIterations = 1000.0;
   const float pi = 3.1415926535;
+
+  ${useColorSliders.toString({
+    addDarkness: "if (darkness && theme == 1) hsv.z = mod(i, 0.5);",
+  })}
+
+  #define cx_sin(a) vec2(sin(a.x) * cosh(a.y), cos(a.x) * sinh(a.y))
+  #define cx_cos(a) vec2(cos(a.x) * cosh(a.y), -sin(a.x) * sinh(a.y))
+
+  vec2 cx_tan(vec2 a) {
+    return div(cx_sin(a), cx_cos(a));
+  }
+
+  vec2 cx_log(vec2 a) {
+    float rpart = length(a);
+    float ipart = atan(a.y, a.x);
+    if (ipart > pi) ipart = ipart - 2.0 * pi;
+    return vec2(log(rpart), ipart);
+  }
+
+  // This power function is only meant for numbers of the form
+  // z ^ c, where c is a complex number like x + 0i.
+  vec2 cx_pow(vec2 a, vec2 b) {
+    float n = b.x;
+    float angle = atan(a.y, a.x);
+    float r = length(a);
+    float real = pow(r, n) * cos(n*angle);
+    float im = pow(r, n) * sin(n*angle);
+    return vec2(real, im);
+  }
+
+  vec2 cx_exp(vec2 n) {
+    return exp(n.x) * vec2(cos(n.y), sin(n.y));
+  }
 
   vec3 rgb2hsv(vec3 c) {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);

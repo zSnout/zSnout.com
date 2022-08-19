@@ -189,22 +189,23 @@ export function rpnToGLSL(rpn: (string | number)[]) {
         token === "max"
       ) {
         if (token === "/") token = "div";
-        else if (token === "^") token = "power";
+        else if (token === "^") token = "cx_pow";
         else if (token === "*" || token === "**") token = "mult";
 
         const t1 = stack.pop();
         const t2 = stack.pop();
 
         stack.push(`${token}(${t2}, ${t1})`);
+      } else if (token === "abs") {
+        stack.push(`abs(${stack.pop()})`);
       } else if (
         token === "sin" ||
         token === "cos" ||
         token === "tan" ||
         token === "exp" ||
-        token === "log" ||
-        token === "abs"
+        token === "log"
       ) {
-        stack.push(`${token}(${stack.pop()})`);
+        stack.push(`cx_${token}(${stack.pop()})`);
       } else if (token === ".x" || token === ".y") {
         stack.push(`vec2((${stack.pop()})${token}, 0)`);
       }
