@@ -58,12 +58,34 @@
     return length(point - center) - radius;
   }
 
-  float DE(vec3 point) {
-    point = mod(point, 5.0);
+  float mandelbulb(vec3 point) {
+    vec3 z = point;
+    float power = 2.0;
+    float dr = 1.0;
+    float r;
 
-    return min(
+    for (int i = 0; i < 50; i++) {
+      r = length(z);
+      if (r > 2.0) break;
+
+      float theta = acos(z.z / r) * power;
+      float phi = atan(z.y, z.x) * power;
+      float zr = pow(r, power);
+      dr = pow(r, power - 1.0) * power * dr + 1.0;
+
+      z = zr * vec3(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta));
+      z += point;
+    }
+
+    return 0.5 * log(r) * r / dr;
+  }
+
+  float DE(vec3 point) {
+    return mandelbulb(point);
+
+    return max(
       cube(point, vec3(0.0), min(u_scale.x, u_scale.y)),
-      cube(point - 5.0, vec3(0.0), min(u_scale.x, u_scale.y))
+      -sphere(point, vec3(0.1, -0.1, 0.0), min(u_scale.x, u_scale.y) * 0.6)
     );
   }
 
@@ -123,8 +145,8 @@
     vec3 color = ambientLight * k_a;
 
     {
-      vec3 position = vec3(4.0 * sin(time), 2.0, 4.0 * cos(time));
-      vec3 intensity = vec3(2.0);
+      vec3 position = camera;
+      vec3 intensity = vec3(0.5);
 
       color += phongContribForLight(
         k_d, k_s, alpha, mod(point, 10.0), camera,
@@ -151,8 +173,8 @@
   void main() {
     vec2 center = 0.5 * u_scale + u_offset;
 	  vec3 dir = rayDirection(45.0, u_resolution);
-    vec2 cam = 8.0 * vec2(sin(center.x), -cos(center.x));
-    vec3 camera = vec3(cam.x, center.y, cam.y);
+    vec2 cam = -4.0 * vec2(sin(center.x), cos(center.x));
+    vec3 camera = vec3(cam.x, 0.0, cam.y);
 
     mat4 viewToWorld = viewMatrix(camera, vec3(0.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0));
     dir = (viewToWorld * vec4(dir, 0.0)).xyz;
@@ -165,7 +187,13 @@
     }
 
     vec3 point = camera + dist * dir;
-    vec3 color = vec3(0.5 / point + vec3(0.0, 0.5, 0.75));
+
+    vec3 K_a = vec3(0.4);
+    vec3 K_d = vec3(0.7, 0.2, 0.2);
+    vec3 K_s = vec3(1.0, 1.0, 1.0);
+    float shininess = 10.0;
+
+    vec3 color = phongIllumination(K_a, K_d, K_s, shininess, point, camera);
     gl_FragColor = vec4(color, 1.0);
   }`;
 
