@@ -15,9 +15,8 @@ function transformRoutes(
   return Object.entries(routes).map<RouteRecordRaw>(([path, module]) => ({
     path: path
       .slice(7, -ext.length)
-      .replace(/(Index|Home)$/, "")
-      .replace(/\/[A-Z]/g, (char) => char.toLocaleLowerCase())
-      .replace(/[A-Z]/g, (char) => `-${char.toLocaleLowerCase()}`),
+      .replace(/(index|home)$/, "")
+      .replace(/\/\[(\w+)\](?=\/)/g, (char) => `/:${char.slice(2, -1)}`),
     component: module,
   }));
 }
@@ -63,10 +62,11 @@ function simpleTitle(path: string) {
   return path
     .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
     .replace(/^./, (match) => match.toLocaleUpperCase())
-    .replace(/Ai/g, "AI")
-    .replace(/Ascii/g, "ASCII")
-    .replace(/Os/g, "Operating System")
-    .replace(/Webgl/g, "WebGL");
+    .replace(/\bAi\b/g, "AI")
+    .replace(/\bAscii\b/g, "ASCII")
+    .replace(/\bOs\b/g, "Operating System")
+    .replace(/\bWebgl\b/g, "WebGL")
+    .replace(/\b3d\b/g, "3D");
 }
 
 function titleOf(path: string, deep = false): string {

@@ -61,7 +61,7 @@ in the `src/components` folder.
 ## Creating new pages
 
 To create a new page, add a new Vue file to `src/views`. If you want it to be
-the index for a folder, name it `folder/Index.vue`.
+the index for a folder, name it `folder/index.vue`.
 
 The system that assigns page titles and paths bases them on a page's file name,
 so make sure to use a short yet descriptive file name.
