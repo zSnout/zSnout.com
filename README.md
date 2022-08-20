@@ -122,3 +122,13 @@ You should also specify the email you are sending from with `ZSNOUT_MAIL_FROM`.
 
 zSnout uses Nodemailer to send emails. It will attempt a secure connection to
 your email server if the specified port is 465.
+
+## Our system for z-indices
+
+1. Background images
+2. Page content
+3. Page footer
+4. Indicator
+5. Bookmark window
+6. Navigation bar
+7. Modal windows

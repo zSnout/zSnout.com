@@ -69,10 +69,7 @@
       </VStack>
     </Cover>
 
-    <SearchableCardGrid
-      :sizes="['normal', 'small', 'icon']"
-      style="position: relative; z-index: 2"
-    >
+    <SearchableCardGrid :sizes="['normal', 'small', 'icon']">
       <ImageCard
         v-if="connected && session"
         alt="An outline of a person's head and upper body"
@@ -287,7 +284,6 @@
 <style scoped>
   .stack {
     position: relative;
-    z-index: 2;
     user-select: none;
     pointer-events: none;
   }

@@ -48,6 +48,7 @@
   </Navigation>
 
   <SafeArea
+    class="page-content"
     :explicit-height="explicitHeight"
     :flex="center"
     :max-width="maxWidth"
@@ -112,8 +113,12 @@
 </style>
 
 <style lang="scss" scoped>
-  .footer {
+  .page-content {
     z-index: 2;
+  }
+
+  .footer {
+    z-index: 3;
     border-radius: 0;
     box-shadow: none !important;
   }
