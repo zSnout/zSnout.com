@@ -63,7 +63,7 @@
           v-model="username"
           autocomplete="username"
           maxlength="32"
-          placeholder="Username"
+          placeholder="Username (not email address)"
         />
 
         <Field
@@ -80,6 +80,21 @@
           placeholder="Email Address"
         />
 
+        <Spacer />
+
+        <span
+          class="link"
+          role="button"
+          style="text-align: center"
+          @click="isSigningUp = !isSigningUp"
+        >
+          {{
+            isSigningUp
+              ? "Or log in to an existing account..."
+              : "Or create a new account..."
+          }}
+        </span>
+
         <Spacer :size="2" />
 
         <p v-if="error">Error: {{ error }}</p>
@@ -91,10 +106,6 @@
     <template #buttons>
       <Button :disabled="disabled" @click="logIn">
         {{ isSigningUp ? "Sign Up" : "Log In" }}
-      </Button>
-
-      <Button @click="isSigningUp = !isSigningUp">
-        {{ isSigningUp ? "Switch to Log In" : "Switch to Sign Up" }}
       </Button>
 
       <Button cancel @click="$emit('update:open', false)">Cancel</Button>
