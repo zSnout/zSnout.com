@@ -88,6 +88,7 @@
   .link {
     color: #008383;
     text-decoration: none;
+    cursor: pointer;
 
     :where(.hover) &:where(:hover:not(.no-link)) {
       text-decoration: underline;

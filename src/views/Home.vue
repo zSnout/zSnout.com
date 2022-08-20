@@ -87,7 +87,17 @@
         description="Create a new account on zSnout to save fractals, Storymatic projects, and more."
         keywords="account"
         src="/images/account/sign-up.png"
-        title="Sign Up or Log In"
+        title="Sign Up"
+        @click="open = true"
+      />
+
+      <ImageCard
+        v-if="connected && !session"
+        alt="A log in a fire that says 'Log In'"
+        description="Log in to an existing zSnout account to access your bookmarks and notes."
+        keywords="account"
+        src="/images/account/log-in.png"
+        title="Log In"
         @click="open = true"
       />
 
