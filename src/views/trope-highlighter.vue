@@ -136,7 +136,7 @@
       ...Type or paste some Hebrew text here
     </div>
 
-    <Button class="color light" @click="highlight">Add coloring</Button>
+    <Button class="color light" @click="highlight">Add Coloring</Button>
   </DocumentDisplay>
 </template>
 
