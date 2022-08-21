@@ -47,7 +47,7 @@
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
       sans-serif;
 
-    .dark &:not(.light) {
+    .dark &:where(:not(.light)) {
       color: white;
     }
   }
@@ -133,14 +133,14 @@
     border-radius: 0.25rem;
     --layer-background: white;
 
-    .dark &:not(.light) {
+    .dark &:where(:not(.light)) {
       --layer-background: #1f1f1f;
     }
 
     .second-layer {
       --layer-background: #f0f0f0;
 
-      .dark &:not(.light) {
+      .dark &:where(:not(.light)) {
         --layer-background: #0f0f0f;
       }
     }
@@ -150,14 +150,14 @@
         backdrop-filter: blur(0.5em);
         --layer-background: #ffffff80;
 
-        .dark &:not(.light) {
+        .dark &:where(:not(.light)) {
           --layer-background: #1f1f1f80;
         }
 
         .second-layer & {
           --layer-background: #f0f0f080;
 
-          .dark &:not(.light) {
+          .dark &:where(:not(.light)) {
             --layer-background: #0f0f0f80;
           }
         }
@@ -192,7 +192,7 @@
   .dark q,
   .dark.hover .hoverline:hover,
   .dark.hover .focusline:focus {
-    &:not(.light) {
+    &:where(:not(.light)) {
       border-color: #2c8d8d;
       outline-color: #2c8d8d;
     }
