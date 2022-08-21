@@ -63,6 +63,16 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "A bunch of colored Hebrew words from the Torah",
+      description:
+        "Study and learn Hebrew text more easily with zSnout's trope highlighter.",
+      keywords: "hebrew",
+      src: "/images/trope-highlighter.png",
+      title: "Trope Highlighter",
+      to: "/trope-highlighter",
+    },
+
+    {
       alt: "A sample Storymatic program about groceries",
       description:
         "Experiment with 4 versions of a programming language designed by zSnout.",
