@@ -1,13 +1,13 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
-  import { MaybeElement, useResizeObserver } from "@vueuse/core";
-  import { ref } from "vue";
+  import { useMediaQuery } from "@vueuse/core";
+  import { computed } from "vue";
   import { session } from "../main";
   import HStack from "./HStack.vue";
+  import Logo from "./Logo.vue";
   import Navigation from "./Navigation.vue";
   import SafeArea from "./SafeArea.vue";
   import VStack from "./VStack.vue";
-  import Logo from "./Logo.vue";
 
   defineProps<{
     center?: boolean;
@@ -15,21 +15,12 @@
     maxWidth?: boolean;
   }>();
 
-  const navbar = ref<MaybeElement>();
-  const navHeight = ref(58);
-
-  useResizeObserver(
-    navbar,
-    (entries) => {
-      const height = entries[0].borderBoxSize?.[0].blockSize;
-      if (typeof height === "number") navHeight.value = height;
-    },
-    { box: "border-box" }
-  );
+  const isMobile = useMediaQuery("(max-width: 400px)");
+  const navHeight = computed(() => (isMobile ? "3.5" : "2.5"));
 </script>
 
 <template>
-  <Navigation ref="navbar">
+  <Navigation>
     <template #buttons v-if="$slots.buttons">
       <slot name="buttons" />
     </template>
@@ -52,7 +43,7 @@
     :explicit-height="explicitHeight"
     :flex="center"
     :max-width="maxWidth"
-    :min-height="`calc(var(--app-height) - ${navHeight}px)`"
+    :min-height="`calc(var(--app-height) - ${navHeight}rem)`"
     bottom
     top
   >
