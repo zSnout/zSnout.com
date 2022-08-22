@@ -72,6 +72,7 @@
 
   html {
     height: var(--app-height);
+    scroll-behavior: smooth;
   }
 
   body {
