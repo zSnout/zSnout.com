@@ -1,5 +1,7 @@
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
+  import { useCssVar } from "@vueuse/core";
+  import { onUnmounted } from "vue";
   import { session } from "../main";
   import HStack from "./HStack.vue";
   import Logo from "./Logo.vue";
@@ -7,7 +9,9 @@
   import SafeArea from "./SafeArea.vue";
   import VStack from "./VStack.vue";
 
-  defineProps<{ snap?: boolean }>();
+  const props = defineProps<{ snap?: boolean }>();
+  const snap = useCssVar("--snap");
+  snap.value = props.snap ? "y mandatory" : "none";
 </script>
 
 <template>
@@ -86,7 +90,7 @@
   }
 
   html {
-    scroll-snap-type: v-bind("snap ? 'y mandatory': 'none'");
+    scroll-snap-type: var(--snap);
     scroll-padding-top: calc(3.5rem + 1px);
 
     @media (max-width: 400px) {
