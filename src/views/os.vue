@@ -1,8 +1,8 @@
 <script lang="ts" setup>
   import { reactive, ref } from "vue";
-  import MovableFrame from "../components/MovableFrame.vue";
-  import MiddleText from "../components/MiddleText.vue";
   import Button from "../components/Button.vue";
+  import MiddleText from "../components/MiddleText.vue";
+  import MovableFrame from "../components/MovableFrame.vue";
   import VStack from "../components/VStack.vue";
 
   const maxZIndex = ref(0);
