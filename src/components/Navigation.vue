@@ -1,54 +1,7 @@
-<script lang="ts">
-  const links = reactive<NavLink[]>([]);
-
-  interface NavLink {
-    id: number;
-    title: string;
-    onEnter?: boolean;
-    description?: string;
-    action?(): void;
-    secondaryAction?(): void;
-  }
-
-  function removeItem(item: NavLink) {
-    while (true) {
-      let index = links.indexOf(item);
-      if (index === -1) return;
-      links.splice(index, 1);
-    }
-  }
-
-  export function useNavLink(link: Omit<NavLink, "id">) {
-    let item: NavLink = reactive({ ...link, id: Math.random() });
-
-    links.push(item);
-    tryOnScopeDispose(() => removeItem(item));
-
-    return item;
-  }
-
-  useEventListener("keydown", (event) => {
-    if (
-      event.key === "Enter" &&
-      !event.shiftKey &&
-      !event.altKey &&
-      (navigator.userAgent.includes("Mac")
-        ? event.metaKey && !event.ctrlKey
-        : event.ctrlKey && !event.metaKey)
-    ) {
-      event.preventDefault();
-      links.forEach((link) => link.onEnter && link.action?.());
-    }
-  });
-</script>
-
 <script lang="ts" setup>
   import { UseScreenSafeArea } from "@vueuse/components";
-  import { tryOnScopeDispose, useEventListener } from "@vueuse/core";
-  import { reactive } from "vue";
   import { RouterLink } from "vue-router";
   import { isDark } from "../composables/isDark";
-  import Button from "./Button.vue";
   import GithubIcon from "./GithubIcon.vue";
   import HStack from "./HStack.vue";
   import LogoWithName from "./Logo.vue";
@@ -66,20 +19,6 @@
           <RouterLink class="logo-outer" to="/">
             <LogoWithName class="logo" invert />
           </RouterLink>
-
-          <Spacer />
-
-          <template v-for="item in links" :key="item.id">
-            <button
-              v-if="item.action || item.secondaryAction"
-              class="nav-item"
-              :title="item.description"
-              @click.exact="item.action"
-              @click.shift.exact="item.secondaryAction"
-            >
-              {{ item.title }}
-            </button>
-          </template>
 
           <Spacer />
 
@@ -159,20 +98,6 @@
 
     .dark.hover &:hover {
       filter: drop-shadow(1px 1px 2px #fffc);
-    }
-  }
-
-  .nav-item {
-    padding: 0 0.5em;
-    color: inherit;
-    font-size: 1rem;
-    background-color: transparent;
-    border: 0;
-    cursor: pointer;
-    appearance: none;
-
-    .hover &:hover {
-      text-decoration: underline;
     }
   }
 
