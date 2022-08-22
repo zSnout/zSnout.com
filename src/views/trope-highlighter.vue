@@ -2,7 +2,7 @@
   import { ref } from "vue";
   import Button from "../components/Button.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
-  import DocumentOverlay from "../components/DocumentOverlay.vue";
+  import Overlay from "../components/Overlay.vue";
 
   const field = ref<HTMLDivElement>();
 
@@ -138,9 +138,9 @@
     </div>
   </DocumentDisplay>
 
-  <DocumentOverlay>
+  <Overlay>
     <Button class="color light" @click="highlight">Add Coloring</Button>
-  </DocumentOverlay>
+  </Overlay>
 </template>
 
 <style lang="scss" scoped>
