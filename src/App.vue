@@ -146,7 +146,9 @@
     }
 
     &.blur {
-      @supports (backdrop-filter: blur(0.5em)) {
+      @supports (backdrop-filter: blur(0.5em)) or
+        (-webkit-backdrop-filter: blur(0.5em)) {
+        -webkit-backdrop-filter: blur(0.5em);
         backdrop-filter: blur(0.5em);
         --layer-background: #ffffff80;
 

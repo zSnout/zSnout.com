@@ -159,10 +159,5 @@
     .help + * + & {
       margin-top: -1.2em !important;
     }
-
-    @supports (backdrop-filter: blur(0.5em)) {
-      background: linear-gradient(transparent, var(--layer-background) 1em);
-      background-color: transparent;
-    }
   }
 </style>

@@ -119,7 +119,8 @@ watchEffect(() => {
   const metaThemeEl = document.querySelector("meta[name='theme-color']");
   metaThemeEl?.setAttribute(
     "content",
-    CSS.supports("backdrop-filter", "blur(8px)")
+    CSS.supports("backdrop-filter", "blur(0.5em)") ||
+      CSS.supports("-webkit-backdrop-filter", "blur(0.5em)")
       ? isDark.value
         ? "#171819"
         : "#f7f7f7"

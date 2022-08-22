@@ -299,6 +299,7 @@
     background-color: #0004;
     visibility: hidden;
     opacity: 0;
+    -webkit-backdrop-filter: blur(0.5em);
     backdrop-filter: blur(0.5em);
     transition: var(--transitions), opacity 0.3s;
 

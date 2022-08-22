@@ -151,12 +151,14 @@
       padding: 0.5em;
       background-color: #fff8;
       border-radius: 0.5em;
+      -webkit-backdrop-filter: blur(0.5em);
       backdrop-filter: blur(0.5em);
 
       .dark & {
-        background-color: #0004;
+        background-color: #0008;
 
-        @supports not (backdrop-filter: blur(0.5em)) {
+        @supports (backdrop-filter: blur(0.5em)) or
+          (-webkit-backdrop-filter: blur(0.5em)) {
           background-color: #0008;
         }
       }
@@ -189,7 +191,7 @@
     height: 100%;
     background-color: #dcecee;
     opacity: 0;
-    transition: opacity 1s, backdrop-filter 1s;
+    transition: opacity 1s, -webkit-backdrop-filter 1s, backdrop-filter 1s;
 
     .dark & {
       background-color: #2f3035;
@@ -208,6 +210,7 @@
 
       &.visible {
         opacity: 1;
+        -webkit-backdrop-filter: blur(0.5em);
         backdrop-filter: blur(0.5em);
       }
     }

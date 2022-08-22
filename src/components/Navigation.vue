@@ -68,9 +68,11 @@
       border-bottom-color: #5454547a;
     }
 
-    @supports (backdrop-filter: blur(8px)) {
+    @supports (backdrop-filter: blur(0.5em)) or
+      (-webkit-backdrop-filter: blur(0.5em)) {
       background-color: #ffffff80;
-      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(0.5em);
+      backdrop-filter: blur(0.5em);
 
       .dark & {
         background-color: #20212480;
