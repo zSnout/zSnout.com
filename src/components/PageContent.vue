@@ -9,17 +9,15 @@
 </script>
 
 <template>
-  <template v-if="center">
-    <div class="centered">
-      <Spacer />
+  <div v-if="center" class="centered">
+    <Spacer />
 
-      <SafeArea :max-width="maxWidth" bottom top>
-        <slot />
-      </SafeArea>
+    <SafeArea :max-width="maxWidth" bottom top>
+      <slot />
+    </SafeArea>
 
-      <Spacer />
-    </div>
-  </template>
+    <Spacer />
+  </div>
 
   <div v-else style="flex: 1; display: flex">
     <SafeArea :max-width="maxWidth" bottom style="flex: 1" top>
