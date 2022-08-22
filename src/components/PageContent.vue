@@ -21,9 +21,11 @@
     </div>
   </template>
 
-  <SafeArea v-else :max-width="maxWidth" bottom style="flex: 1" top>
-    <slot />
-  </SafeArea>
+  <div v-else style="flex: 1; display: flex">
+    <SafeArea :max-width="maxWidth" bottom style="flex: 1" top>
+      <slot />
+    </SafeArea>
+  </div>
 </template>
 
 <style scoped>
