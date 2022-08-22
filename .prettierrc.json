@@ -26,7 +26,7 @@
   "attributeSort": "ASC",
   "bracketSpacing": true,
   "endOfLine": "lf",
-  "htmlWhitespaceSensitivity": "css",
+  "htmlWhitespaceSensitivity": "ignore",
   "insertPragma": false,
   "jsxSingleQuote": false,
   "printWidth": 80,
