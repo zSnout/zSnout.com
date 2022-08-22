@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-  import DocumentDisplay from "../components/DocumentDisplay.vue";
-  import Button from "../components/Button.vue";
   import { ref } from "vue";
+  import Button from "../components/Button.vue";
+  import DocumentDisplay from "../components/DocumentDisplay.vue";
+  import DocumentOverlay from "../components/DocumentOverlay.vue";
 
   const field = ref<HTMLDivElement>();
 
@@ -135,9 +136,11 @@
     >
       ...Type or paste some Hebrew text here
     </div>
-
-    <Button class="color light" @click="highlight">Add Coloring</Button>
   </DocumentDisplay>
+
+  <DocumentOverlay>
+    <Button class="color light" @click="highlight">Add Coloring</Button>
+  </DocumentOverlay>
 </template>
 
 <style lang="scss" scoped>
@@ -229,11 +232,6 @@
   .color {
     position: absolute;
     right: 1.5em;
-    bottom: 3.5em;
-    z-index: 2;
-
-    @media (max-width: 400px) {
-      bottom: 3em;
-    }
+    bottom: 1.5em;
   }
 </style>

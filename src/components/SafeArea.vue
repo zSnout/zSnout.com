@@ -57,7 +57,6 @@
   }
 
   .content {
-    position: relative;
     width: 100%;
     min-height: v-bind(minHeight);
 
