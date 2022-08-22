@@ -71,6 +71,52 @@ be placed in the `public/images` directory. The file path of the image should
 match the output URL of the original path. If the page is an index, the image
 should be named `folder/index.png`.
 
+## Display modes
+
+Almost every page starts with a display mode. Displays add the navigation bar
+and create a consistent layout across all pages. Currently, there are three
+different display modes. Each mode has its pros and cons, and there are
+different use cases for each of them. Additionally, each display mode has
+additional features such as an indicator, help screen, and options menu.
+
+The first display mode is DocumentDisplay. DocumentDisplay is for pages that
+primarily have text with no background features. Two good examples of this are
+the [Same Number Generator](https://zsnout.com/same-number-generator) and the
+[Trope Highlighter](https://zsnout.com/trope-highlighter). Both of these pages
+have a maximum width of 1000 pixels and have no background elements that take up
+the entire page. This is also a good display mode for blog articles, as it adds
+padding on all edges and allows easy scrolling through a document. In fact,
+Markdown files automatically use this display mode. Additionally,
+DocumentDisplay handles rounded corners on certail mobile devices, making sure
+that your document looks good on all of them.
+
+For those who feel constrained by DocumentDisplay's short width, you may pass
+the `max-width` prop to its Vue component. This remove the 1000 pixel width
+constraint, but keeps padding on all edges. The
+[Storymatic editors](https://zsnout.com/storymatic/v4-editor) use this combined
+with a custom 1200 pixel width to allow more space for coding.
+
+The second display mode is FullscreenDisplay. This is primarily combined with an
+HTML5 canvas. FullscreenDisplay uses a floating navigation bar instead of a
+sticky one, and the bar doesn't have a background. FullscreenDisplay provides no
+padding or margins and may extend its contents in a device's rounded edges, if
+you're using an iPhone or another device with these corners. A good example of
+FullscreenDisplay is the
+[Fractal Explorer](https://zsnout.com/fractal-explorer).
+
+The third display mode is MultiPageDisplay. This is meant for layouts with
+multiple sections where each section has unique background elements. It also
+supports using CSS Scroll Snap to snap between different sections when its Vue
+component is passed a `snap` property. MultiPageDisplay has a sticky navigation
+bar and a footer at the bottom of the page.
+
+On a MultiPageDisplay, you must include Pages as children. Each Page takes up
+the size of the screen minus the navigation bar automatically. A page alone
+provides no padding or margins from the edge of the screen or nearby Pages.
+However, you may use a PageContent component to create the same effect that a
+DocumentDisplay has by default. A good example of MultiPageDisplay is the
+[About Us](https://zsnout.com/about-us) page.
+
 ## Enabling server features
 
 In development mode, a Socket.io server is automatically created on the same
