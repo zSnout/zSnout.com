@@ -9,15 +9,9 @@
   import LogInForm from "../components/LogInForm.vue";
   import SearchableCardGrid from "../components/SearchableCardGrid.vue";
   import VStack from "../components/VStack.vue";
-  import { useRandomItem } from "../composables/useRandomItem";
-  import {
-    connected,
-    session,
-    timeLeftBeforeAccountDeletion,
-    username,
-  } from "../main";
-
   import { homeIcons } from "../composables/useHomeIcons";
+  import { useRandomItem } from "../composables/useRandomItem";
+  import { timeLeftBeforeAccountDeletion, username } from "../main";
 
   const a = useRandomItem(images);
   const b = useRandomItem(images);
