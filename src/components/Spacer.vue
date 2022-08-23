@@ -12,5 +12,6 @@
   .spacer {
     flex: 1;
     color: transparent;
+    user-select: none;
   }
 </style>
