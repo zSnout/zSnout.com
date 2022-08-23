@@ -115,7 +115,7 @@ the size of the screen minus the navigation bar automatically. A page alone
 provides no padding or margins from the edge of the screen or nearby Pages.
 However, you may use a PageContent component to create the same effect that a
 DocumentDisplay has by default. A good example of MultiPageDisplay is the
-[About Us](https://zsnout.com/about-us) page.
+[Homepage](https://zsnout.com/) page.
 
 ## Enabling server features
 
