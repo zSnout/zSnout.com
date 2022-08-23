@@ -14,7 +14,7 @@
   import { shuffle } from "../composables/useShuffle";
   import { appHeight, appWidth } from "../main";
 
-  const isLarge = useMediaQuery("(min-width: 1000px)");
+  const isLarge = useMediaQuery("(min-width: 775px)");
   const images = shuffle(_images);
 
   const bg = computed<StyleValue>(() => {
@@ -66,8 +66,16 @@
         <HStack v-if="isLarge" :space="2">
           <Spacer />
 
+          <VStack :space="0">
+            <span class="text-color zsnout-is">zSnout is...</span>
+
+            <Spacer :size="4" />
+          </VStack>
+
           <a class="topic no-link" href="#open-source">
-            <VStack>
+            <VStack :space="0">
+              <Spacer />
+
               open source
 
               <Spacer :size="3" />
@@ -75,8 +83,8 @@
           </a>
 
           <a class="topic no-link" href="#free">
-            <VStack>
-              <Spacer />
+            <VStack :space="0">
+              <Spacer :size="2" />
 
               free
 
@@ -85,8 +93,8 @@
           </a>
 
           <a class="topic no-link" href="#adless">
-            <VStack>
-              <Spacer :size="2" />
+            <VStack :space="0">
+              <Spacer :size="3" />
 
               adless
 
@@ -95,8 +103,8 @@
           </a>
 
           <a class="topic no-link" href="#fun">
-            <VStack>
-              <Spacer :size="3" />
+            <VStack :space="0">
+              <Spacer :size="4" />
 
               fun
             </VStack>
@@ -106,6 +114,8 @@
         </HStack>
 
         <VStack v-else style="text-align: center">
+          <span class="zsnout-is">zSnout is...</span>
+
           <a class="topic no-link" href="#open-source">open source</a>
 
           <a class="topic no-link" href="#free">free</a>
@@ -120,7 +130,7 @@
           Read more by scrolling down,
           <br />
           or
-          <RouterLink to="/home">skip to the content</RouterLink>.
+          <RouterLink to="/home">explore the site</RouterLink>.
         </p>
       </PageContent>
     </Page>
@@ -226,6 +236,11 @@
 </template>
 
 <style lang="scss" scoped>
+  .zsnout-is {
+    font-weight: 300;
+    font-size: 1.5rem;
+  }
+
   .topic {
     font-weight: bold;
     font-size: 2em;
