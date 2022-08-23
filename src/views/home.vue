@@ -33,7 +33,7 @@
     <Cover>
       <VStack class="stack" :space="2">
         <LargeTitle v-if="username">
-          Welcome to zSnout, @{{ username }}.
+          Welcome to zSnout, {{ username }}.
         </LargeTitle>
 
         <LargeTitle v-else>Welcome to zSnout.</LargeTitle>
@@ -54,7 +54,7 @@
         </p>
 
         <p v-if="username && timeLeftBeforeAccountDeletion !== false">
-          Hey @{{ username }}! Your account will be deleted in
+          Hey {{ username }}! Your account will be deleted in
           {{
             timeLeftBeforeAccountDeletion >= 120 * 1000
               ? `${~~(timeLeftBeforeAccountDeletion / (60 * 1000))} minutes`

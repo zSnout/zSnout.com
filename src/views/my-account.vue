@@ -85,7 +85,7 @@
 
 <template>
   <DocumentDisplay>
-    <Title>@{{ username }}'s Account</Title>
+    <Title>{{ username }}'s Account</Title>
 
     <CardGrid>
       <Button @click="(username = ''), (session = ''), $router.push('/')">
