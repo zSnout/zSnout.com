@@ -15,7 +15,7 @@ function transformRoutes(
   return Object.entries(routes).map<RouteRecordRaw>(([path, module]) => ({
     path: path
       .slice(7, -ext.length)
-      .replace(/(index|home)$/i, "")
+      .replace(/index$/i, "")
       .replace(/\/\[(\w+)\](?=\/)/g, (char) => `/:${char.slice(2, -1)}`),
     component: module,
   }));
