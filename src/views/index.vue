@@ -72,31 +72,31 @@
             <Spacer :size="4" />
           </VStack>
 
-          <a class="topic no-link" href="#open-source">
+          <a class="topic no-link" href="#no-cost">
             <VStack :space="0">
               <Spacer />
 
+              no cost
+
+              <Spacer :size="3" />
+            </VStack>
+          </a>
+
+          <a class="topic no-link" href="#ad-free">
+            <VStack :space="0">
+              <Spacer :size="2" />
+
+              ad free
+
+              <Spacer :size="2" />
+            </VStack>
+          </a>
+
+          <a class="topic no-link" href="#open-source">
+            <VStack :space="0">
+              <Spacer :size="3" />
+
               open source
-
-              <Spacer :size="3" />
-            </VStack>
-          </a>
-
-          <a class="topic no-link" href="#free">
-            <VStack :space="0">
-              <Spacer :size="2" />
-
-              free
-
-              <Spacer :size="2" />
-            </VStack>
-          </a>
-
-          <a class="topic no-link" href="#adless">
-            <VStack :space="0">
-              <Spacer :size="3" />
-
-              adless
 
               <Spacer />
             </VStack>
@@ -116,11 +116,11 @@
         <VStack v-else style="text-align: center">
           <span class="zsnout-is">zSnout is...</span>
 
+          <a class="topic no-link" href="#no-cost">no cost</a>
+
+          <a class="topic no-link" href="#ad-free">ad free</a>
+
           <a class="topic no-link" href="#open-source">open source</a>
-
-          <a class="topic no-link" href="#free">free</a>
-
-          <a class="topic no-link" href="#adless">adless</a>
 
           <a class="topic no-link" href="#fun">fun</a>
         </VStack>
@@ -132,6 +132,48 @@
           or
           <RouterLink to="/home">explore the site</RouterLink>.
         </p>
+      </PageContent>
+    </Page>
+
+    <Page id="no-cost">
+      <PageContent class="content" center>
+        <div class="icon icon-free" @click="moveIcon">
+          <img
+            class="icon-image"
+            alt="A sticker saying '100% free'"
+            draggable="false"
+            src="/100-free.png"
+          />
+        </div>
+
+        <Title class="fit">No Cost</Title>
+
+        <!-- prettier-ignore -->
+        <MiddleText class="desc">
+          Making zSnout free is an important goal for us. We've seen too many
+          amazing websites ruined by price gates and high costs. zSnout aims to
+          be as free as possible. However, web hosting still costs a lot, so
+          <a href="https://store.zsnout.com/">buying a shirt would really help us</a>.
+        </MiddleText>
+      </PageContent>
+    </Page>
+
+    <Page id="ad-free">
+      <PageContent class="content" center>
+        <Title class="fit">Ad Free</Title>
+
+        <MiddleText class="desc">
+          Have you ever explored an amazing site but have found it peppered by
+          ads? Same here. At zSnout, we don't want to ruin your browsing
+          experience by creating intrusive ads, so we choose to omit them.
+        </MiddleText>
+
+        <!-- prettier-ignore -->
+        <MiddleText class="desc">
+          While ads usually help a developer with revenue from the site, we let
+          the user choose to help us out with
+          <a href="https://store.zsnout.com/">the zSnout store</a>.
+        </MiddleText>
       </PageContent>
     </Page>
 
@@ -173,48 +215,6 @@
           and
           <a href="https://vitejs.dev/">Vite</a>
           <span>.</span>
-        </MiddleText>
-      </PageContent>
-    </Page>
-
-    <Page id="free">
-      <PageContent class="content" center>
-        <div class="icon icon-free" @click="moveIcon">
-          <img
-            class="icon-image"
-            alt="A sticker saying '100% free'"
-            draggable="false"
-            src="/100-free.png"
-          />
-        </div>
-
-        <Title class="fit">Free</Title>
-
-        <!-- prettier-ignore -->
-        <MiddleText class="desc">
-          Making zSnout free is an important goal for us. We've seen too many
-          amazing websites ruined by price gates and high costs. zSnout aims to
-          be as free as possible. However, web hosting still costs a lot, so
-          <a href="https://store.zsnout.com/">buying a shirt would really help us</a>.
-        </MiddleText>
-      </PageContent>
-    </Page>
-
-    <Page id="adless">
-      <PageContent class="content" center>
-        <Title class="fit">Adless</Title>
-
-        <MiddleText class="desc">
-          Have you ever explored an amazing site but have found it peppered by
-          ads? Same here. At zSnout, we don't want to ruin your browsing
-          experience by creating intrusive ads, so we choose to omit them.
-        </MiddleText>
-
-        <!-- prettier-ignore -->
-        <MiddleText class="desc">
-          While ads usually help a developer with revenue from the site, we let
-          the user choose to help us out with
-          <a href="https://store.zsnout.com/">the zSnout store</a>.
         </MiddleText>
       </PageContent>
     </Page>
@@ -266,6 +266,12 @@
     background-image: url("/open-source-word-cloud.webp");
     background-position: center;
     background-size: cover;
+
+    .title,
+    .middle {
+      margin-left: auto;
+      text-align: right;
+    }
   }
 
   .fit {
@@ -312,13 +318,7 @@
     height: 132px;
   }
 
-  #free {
-    .title,
-    .middle {
-      margin-left: auto;
-      text-align: right;
-    }
-
+  #no-cost {
     background-image: url("/images/art/rectangles.png");
   }
 
@@ -332,17 +332,17 @@
     height: 165px;
   }
 
-  #adless {
+  #ad-free {
+    background-color: black;
+    background-image: url("/ad-wall.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+
     .title,
     .middle {
       margin-right: auto;
       margin-left: auto;
       text-align: center;
     }
-
-    background-color: black;
-    background-image: url("/ad-wall.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
   }
 </style>
