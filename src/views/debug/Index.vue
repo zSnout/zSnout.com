@@ -18,6 +18,12 @@
       />
 
       <Card
+        description="A short document with a sidebar."
+        title="Asides"
+        to="/debug/asides"
+      />
+
+      <Card
         description="Moves a yellow bar across the screen in a test of using Vue's refs with WebGL uniforms."
         keywords="webgl animations"
         title="Reactive Uniforms"
