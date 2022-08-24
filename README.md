@@ -178,3 +178,15 @@ your email server if the specified port is 465.
 5. Bookmark window
 6. Navigation bar
 7. Modal windows
+
+## Special breakpoints
+
+Any display with a width of at most 400px is considered `small`. At this point,
+the navigation bar shrinks and DocumentDisplay and PageContent paddings will be
+reduced.
+
+A typical DocumentDisplay or PageContent is at most 1000px wide. Displays with
+at least this many pixels (wide) are considered `medium`.
+
+Any display with a width of at least 1080px is considered `large`. Large
+displays will show Asides without needing a toggle button.
