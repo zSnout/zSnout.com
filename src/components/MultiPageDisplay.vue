@@ -28,7 +28,7 @@
     </template>
   </Navigation>
 
-  <div class="content">
+  <div :class="{ aside: $slots.aside }" class="content">
     <slot />
   </div>
 
