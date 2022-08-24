@@ -17,7 +17,7 @@
 </script>
 
 <template>
-  <Navigation>
+  <Navigation :aside="!!$slots.aside">
     <template #buttons v-if="$slots.buttons">
       <slot name="buttons" />
     </template>

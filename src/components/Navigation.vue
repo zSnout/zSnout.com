@@ -9,12 +9,14 @@
   import SharedNav from "./SharedNav.vue";
   import Spacer from "./Spacer.vue";
   import ThemeIcon from "./ThemeIcon.vue";
+
+  defineProps<{ aside?: boolean }>();
 </script>
 
 <template>
   <nav class="nav-root">
     <UseScreenSafeArea top>
-      <SafeArea>
+      <SafeArea :aside="aside">
         <HStack class="navbar">
           <RouterLink class="logo-outer" to="/">
             <LogoWithName class="logo" invert />

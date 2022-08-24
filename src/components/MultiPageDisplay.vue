@@ -10,7 +10,7 @@
 </script>
 
 <template>
-  <Navigation>
+  <Navigation :aside="!!$slots.aside">
     <template #buttons v-if="$slots.buttons">
       <slot name="buttons" />
     </template>
@@ -28,7 +28,7 @@
     </template>
   </Navigation>
 
-  <div :class="{ aside: $slots.aside }" class="content">
+  <div :class="{ aside: !!$slots.aside }" class="content">
     <slot />
   </div>
 

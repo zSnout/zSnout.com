@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   defineProps<{
+    aside?: boolean;
     explicitHeight?: boolean;
     minHeight?: string;
     maxWidth?: boolean;
@@ -13,7 +14,7 @@
   <div class="safe-area">
     <div class="padding">
       <div
-        :class="{ bottom, explicitHeight, flex, maxWidth, top }"
+        :class="{ bottom, explicitHeight, flex, maxWidth, top, aside }"
         class="content"
       >
         <slot />
@@ -74,6 +75,14 @@
 
     > :last-child {
       margin-bottom: 0;
+    }
+
+    &.aside {
+      @media (min-width: 1080px) {
+        position: relative;
+        left: calc(-100px - 2em);
+        width: min(1000px, 100% - 4em - 200px);
+      }
     }
   }
 
