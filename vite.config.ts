@@ -29,6 +29,10 @@ export default defineConfig({
 
         const render: (src: string, env?: any) => string = md.render;
         md.render = function (src: string, env?: any) {
+          let hasToc = !src.includes("[notoc]");
+          src = src.replace(/\[notoc\]|\[toc\]/g, "");
+          if (hasToc) src = "[toc]\n\n" + src;
+
           return render
             .call(this, src, env)
             .replace(/<pre(?:[^>]*)>/g, (match) =>
