@@ -49,9 +49,13 @@
     cursor: pointer;
     transition: var(--transitions), transform 0.3s;
     fill: currentColor;
-    stroke: white;
+    stroke: black;
     stroke-width: 0.5em;
     stroke-linecap: round;
+
+    .dark & {
+      stroke: white;
+    }
 
     .hover &:hover,
     &.open {
@@ -60,6 +64,7 @@
 
     &.fullscreen {
       transform: none;
+      stroke: white;
 
       .hover &:hover,
       &.open {
