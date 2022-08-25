@@ -115,7 +115,10 @@
 
   .shadow,
   .second-layer,
-  .shadow-force {
+  .shadow-force,
+  .prose table,
+  .prose code:not(pre code),
+  .prose pre {
     box-shadow: 0 3px 6px 1px #ddd;
 
     .dark & {
@@ -123,12 +126,18 @@
     }
 
     .shadow,
-    .second-layer {
+    .second-layer,
+    .prose table,
+    .prose code:not(pre code),
+    .prose pre {
       box-shadow: none;
     }
   }
 
-  .second-layer {
+  .second-layer,
+  .prose table,
+  .prose code:not(pre code),
+  .prose pre {
     padding: 0.5rem 0.75rem;
     background-color: var(--layer-background);
     border-radius: 0.25rem;
@@ -138,7 +147,10 @@
       --layer-background: #1f1f1f;
     }
 
-    .second-layer {
+    .second-layer,
+    .prose table,
+    .prose code:not(pre code),
+    .prose pre {
       --layer-background: #f0f0f0;
 
       .dark &:where(:not(.light)) {
