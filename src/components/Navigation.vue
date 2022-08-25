@@ -4,25 +4,28 @@
   import { isDark } from "../composables/isDark";
   import GithubIcon from "./GithubIcon.vue";
   import HStack from "./HStack.vue";
+  import ListIcon from "./ListIcon.vue";
   import LogoWithName from "./Logo.vue";
   import SafeArea from "./SafeArea.vue";
   import SharedNav from "./SharedNav.vue";
   import Spacer from "./Spacer.vue";
   import ThemeIcon from "./ThemeIcon.vue";
-
-  defineProps<{ aside?: boolean }>();
 </script>
 
 <template>
   <nav class="nav-root">
     <UseScreenSafeArea top>
-      <SafeArea :aside="aside">
+      <SafeArea :aside="!!$slots.aside">
         <HStack class="navbar">
           <RouterLink class="logo-outer" to="/">
             <LogoWithName class="logo" invert />
           </RouterLink>
 
           <Spacer />
+
+          <ListIcon v-if="$slots.aside">
+            <slot name="aside" />
+          </ListIcon>
 
           <SharedNav>
             <template #buttons v-if="$slots.buttons">
