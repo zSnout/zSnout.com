@@ -80,8 +80,8 @@
     .aside & {
       @media (min-width: 1080px) {
         position: relative;
-        left: calc(-100px - 1em);
-        width: min(1000px, 100% - 4em - 200px);
+        left: calc(-150px - 1em);
+        width: min(1000px, 100% - 4em - 300px);
       }
     }
   }
