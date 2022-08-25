@@ -4,7 +4,7 @@
   import Aside from "./Aside.vue";
 
   const open = ref(false);
-  const query = useMediaQuery("(max-width: 1080p)");
+  const query = useMediaQuery("(max-width: 1080px)");
 
   watchEffect(() => {
     if (query.value) {
