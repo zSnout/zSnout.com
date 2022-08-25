@@ -54,6 +54,7 @@
     "@types/nodemailer": "^6.4.5",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^2.3.4",
+    "@yankeeinlondon/builder-api": "^0.4.1",
     "esbuild": "^0.15.5",
     "happy-dom": "^6.0.4",
     "markdown-it-prism": "^2.2.5",
