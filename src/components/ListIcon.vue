@@ -70,14 +70,18 @@
   </Teleport>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .icon {
     display: inline-block;
     margin-right: 4px !important;
     cursor: pointer;
     fill: currentColor;
-    stroke: white;
+    stroke: black;
     stroke-width: 2px;
     stroke-linecap: round;
+
+    .dark & {
+      stroke: white;
+    }
   }
 </style>
