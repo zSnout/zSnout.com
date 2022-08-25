@@ -38,7 +38,9 @@ export default defineConfig({
             )
             .replace(/<code>/g, '<code class="second-layer">')
             .replace(/<table>/g, '<table class="second-layer">')
-            .replace(/<p>\s*<img/g, '<p class="non-text"><img');
+            .replace(/<p>\s*<img/g, '<p class="non-text"><img')
+            .replace(/<nav[^>]*>/g, "<template #aside>")
+            .replace(/<\/nav>/g, "</template>");
         };
       },
     }),
