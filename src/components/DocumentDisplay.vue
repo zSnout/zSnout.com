@@ -13,7 +13,7 @@
   }>();
 
   const isMobile = useMediaQuery("(max-width: 400px)");
-  const navHeight = computed(() => (isMobile ? "3.5" : "2.5"));
+  const navHeight = computed(() => (isMobile.value ? "2.5" : "3.5"));
 </script>
 
 <template>
