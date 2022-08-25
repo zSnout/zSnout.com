@@ -12,9 +12,9 @@
 
 <template>
   <div class="safe-area">
-    <div class="padding">
+    <div :class="{ aside }" class="padding">
       <div
-        :class="{ bottom, explicitHeight, flex, maxWidth, top, aside }"
+        :class="{ bottom, explicitHeight, flex, maxWidth, top }"
         class="content"
       >
         <slot />
@@ -77,7 +77,7 @@
       margin-bottom: 0;
     }
 
-    &.aside {
+    .aside & {
       @media (min-width: 1080px) {
         position: relative;
         left: calc(-100px - 1em);
