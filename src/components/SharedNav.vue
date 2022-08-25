@@ -80,7 +80,7 @@
   .indicator {
     position: fixed;
     bottom: 0;
-    z-index: 6;
+    z-index: 5;
     width: var(--app-width);
     touch-action: manipulation;
 
