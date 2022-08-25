@@ -232,6 +232,10 @@
         </MiddleText>
       </PageContent>
     </Page>
+
+    <template #aside>
+      <h1>abc</h1>
+    </template>
   </MultiPageDisplay>
 </template>
 

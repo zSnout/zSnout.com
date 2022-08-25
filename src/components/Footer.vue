@@ -58,7 +58,7 @@
 
 <style scoped>
   .footer {
-    z-index: 3;
+    z-index: 4;
     border-radius: 0;
     box-shadow: none !important;
   }
