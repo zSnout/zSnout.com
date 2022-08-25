@@ -23,35 +23,15 @@
     <div class="prose">
       <slot />
     </div>
+
+    <template #aside v-if="$slots.aside">
+      <slot name="aside" />
+    </template>
   </DocumentDisplay>
 </template>
 
 <style lang="scss" scoped>
   .prose :deep() {
-    .table-of-contents {
-      margin-bottom: 1em;
-
-      > ul {
-        margin: 0.75em 0;
-        list-style-type: disc;
-      }
-
-      a {
-        display: inline-block;
-        width: 100%;
-        padding-bottom: 0.25em;
-        color: inherit;
-      }
-
-      li ul {
-        margin-top: 0;
-      }
-
-      li + li {
-        margin-top: 0;
-      }
-    }
-
     img {
       position: relative;
       left: calc(min(-4rem, 1000px - var(--app-width)) / 2);
