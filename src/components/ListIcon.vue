@@ -1,19 +1,27 @@
 <script lang="ts" setup>
-  import { ref } from "vue";
+  import { useMediaQuery } from "@vueuse/core";
+  import { ref, watchEffect } from "vue";
   import Aside from "./Aside.vue";
 
   const open = ref(false);
+  const query = useMediaQuery("(max-width: 1080p)");
+
+  watchEffect(() => {
+    if (query.value) {
+      open.value = false;
+    }
+  });
 </script>
 
 <!-- https://www.svgrepo.com/svg/15213/list -->
 
 <template>
   <svg
+    v-if="!query"
     class="icon"
     viewBox="-4 0 64 64"
     xmlns="http://www.w3.org/2000/svg"
     @click="open = !open"
-    v-bind="$attrs"
   >
     <path
       d="M22.9840508,12.7494497h40c0.5522995,0,0.9995995-0.4471998,0.9995995-0.9994993
