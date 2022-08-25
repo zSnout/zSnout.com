@@ -4,7 +4,7 @@
   import SafeArea from "./SafeArea.vue";
 
   const isMobile = useMediaQuery("(max-width: 400px)");
-  const navHeight = computed(() => (isMobile ? "3.5" : "2.5"));
+  const navHeight = computed(() => (isMobile.value ? "2.5" : "3.5"));
 </script>
 
 <template>
@@ -28,6 +28,7 @@
     z-index: 2;
     width: var(--app-width);
     height: var(--app-height);
+    pointer-events: none;
 
     @media (max-width: 400px) {
       top: 2.5rem;
@@ -37,5 +38,9 @@
   .content {
     position: relative;
     height: 100%;
+
+    > :deep(*) {
+      pointer-events: all;
+    }
   }
 </style>
