@@ -17,7 +17,7 @@
     <UseScreenSafeArea top>
       <SafeArea :aside="!!$slots.aside">
         <HStack class="navbar">
-          <RouterLink class="logo-outer" to="/">
+          <RouterLink class="logo-outer" to="/home">
             <LogoWithName class="logo" invert />
           </RouterLink>
 
