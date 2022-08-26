@@ -1,5 +1,6 @@
 import Katex from "@traptitech/markdown-it-katex";
 import vue from "@vitejs/plugin-vue";
+import { createBuilder } from "@yankeeinlondon/builder-api";
 import { sync } from "fast-glob";
 import Prism from "markdown-it-prism";
 import TOC from "markdown-it-toc-done-right";
@@ -7,11 +8,48 @@ import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
-const jsfile = /\.([jt]sx?|vue|md)($|\?)/;
+const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 const publicFiles = sync("./public/**/*").filter(
   (e) => !e.startsWith("./public/images/") && !e.includes("404.html")
 );
+
+const addToc = createBuilder("post-markdown", "metaExtracted")
+  .options<{}>()
+  .initializer()
+  .handler(async (payload) => {
+    if (!payload.md.includes("[notoc]")) {
+      payload.md = `[toc]\n\n${payload.md}`;
+    } else {
+      payload.md = payload.md.replaceAll("[notoc]", "");
+    }
+
+    return payload;
+  })
+  .meta();
+
+const navStart = /<nav[^>]*>/;
+const navRegex = /<nav[^>]*>.*?<\/nav>/;
+
+const moveTocToAside = createBuilder("post-markdown", "sfcBlocksExtracted")
+  .options<{}>()
+  .initializer()
+  .handler(async (payload) => {
+    const nav = payload.templateBlock.match(navRegex);
+    if (nav) {
+      payload.templateBlock = payload.templateBlock
+        .replace(navRegex, "")
+        .replace(
+          "</prose>",
+          nav[0]
+            .replace(navStart, "<template #aside>")
+            .replace("</nav>", "</template>") + "</prose>"
+        );
+    }
+
+    return payload;
+  })
+  .meta();
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,28 +63,10 @@ export default defineConfig({
         md.use(TOC, {
           containerClass: "second-layer table-of-contents",
           listType: "ul",
+          level: 2,
         });
-
-        const render: (src: string, env?: any) => string = md.render;
-        md.render = function (src: string, env?: any) {
-          let hasToc = !src.includes("[notoc]");
-          src = src.replace(/\[notoc\]|\[toc\]/g, "");
-          if (hasToc) src = "[toc]\n\n" + src;
-
-          return render
-            .call(this, src, env)
-            .replace(/<pre(?:[^>]*)>/g, (match) =>
-              match.includes("class")
-                ? match.replace('class="', 'class="second-layer ')
-                : match.replace(">", ' class="second-layer">')
-            )
-            .replace(/<code>/g, '<code class="second-layer">')
-            .replace(/<table>/g, '<table class="second-layer">')
-            .replace(/<p>\s*<img/g, '<p class="non-text"><img')
-            .replace(/<nav[^>]*>/g, "<template #aside>")
-            .replace(/<\/nav>/g, "</template>");
-        };
       },
+      builders: [addToc(), moveTocToAside()],
     }),
     {
       name: "fix-storymatic",
