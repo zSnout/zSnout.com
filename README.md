@@ -8,14 +8,22 @@ interested in running and contributing to zSnout, here are some instructions.
 To download zSnout, clone it via Git.
 
 ```sh
-git clone https://github.com/zsnout/zsnout-next
+git clone https://github.com/zSnout/zSnout.com.git
 ```
 
 Once you've downloaded the project, install the dependencies using
 
 ```sh
-npm i --legacy-peer-deps
+npm i
 ```
+
+If you want to be absolutely sure that the project runs correctly, use
+
+```sh
+npm ci
+```
+
+By using `ci`, your zSnout installation will use the package versions from `package-lock.json` instead of `package.json`.
 
 ## Running the project
 
