@@ -129,6 +129,7 @@
     }
 
     h2 {
+      margin: 1em 0 0.75em 0;
       font-size: 1.5em;
       letter-spacing: 0.25px;
     }
