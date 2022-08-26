@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <UseScreenSafeArea class="nav" top>
+  <UseScreenSafeArea class="nav fullscreen" top>
     <SafeArea>
       <HStack class="padding">
         <RouterLink to="/home">
