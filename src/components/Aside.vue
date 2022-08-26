@@ -54,7 +54,35 @@
     }
   }
 
-  .content {
+  .content :deep() {
+    nav {
+      ul {
+        padding-left: 1em;
+        list-style-type: none;
+      }
+
+      > ul {
+        margin: 0;
+        padding-left: 0;
+      }
+
+      a {
+        display: inline-block;
+        width: 100%;
+        font-size: 0.875em;
+        line-height: 2em;
+        text-decoration: none;
+      }
+
+      li ul {
+        margin-top: 0;
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+
     > :deep(:first-child) {
       margin-top: 0;
     }
