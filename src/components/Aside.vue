@@ -55,6 +55,7 @@
   }
 
   .content :deep() {
+    &,
     nav {
       ul {
         padding-left: 1em;
