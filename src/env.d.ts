@@ -63,6 +63,14 @@ declare module "rangetouch" {
   export default RangeTouch;
 }
 
+declare module "vite-plugin-md" {
+  export interface Frontmatter {
+    author?: string;
+    date?: string;
+    hasToc?: boolean;
+  }
+}
+
 declare global {
   declare interface Window {
     [PyodideStderrSymbol](msg: string): void;
