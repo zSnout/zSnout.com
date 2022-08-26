@@ -7,6 +7,7 @@ import TOC from "markdown-it-toc-done-right";
 import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
+import anchor from "markdown-it-anchor";
 
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
@@ -60,8 +61,9 @@ export default defineConfig({
     Markdown({
       wrapperComponent: "Prose",
       markdownItSetup(md) {
-        md.use(Prism);
+        md.use(anchor);
         md.use(Katex, { throwOnError: false });
+        md.use(Prism);
         md.use(TOC, {
           containerClass: "second-layer table-of-contents",
           listType: "ul",
