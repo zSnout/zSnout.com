@@ -8,19 +8,26 @@
 </script>
 
 <script lang="ts" setup>
-  import "katex/dist/katex.css";
   import prismDark from "prismjs/themes/prism-okaidia.min.css?inline";
   import prismLight from "prismjs/themes/prism.min.css?inline";
+  import { Frontmatter } from "vite-plugin-md";
   import { watchEffect } from "vue";
   import { isDark } from "../composables/isDark";
   import DocumentDisplay from "./DocumentDisplay.vue";
 
-  defineProps<{ frontmatter?: any }>();
+  const { frontmatter } = defineProps<{ frontmatter?: Frontmatter }>();
+  const { author, date } = frontmatter || {};
 </script>
 
 <template>
   <DocumentDisplay>
     <div class="prose">
+      <p v-if="author" class="intro">By {{ author }}</p>
+
+      <p v-if="date" class="intro">
+        Published on {{ new Date(date).toLocaleDateString() }}
+      </p>
+
       <slot />
     </div>
 
@@ -30,8 +37,30 @@
   </DocumentDisplay>
 </template>
 
+<style>
+  @import "katex/dist/katex.css";
+</style>
+
 <style lang="scss" scoped>
   .prose :deep() {
+    .intro {
+      margin-bottom: 2em;
+      color: #404040;
+      font-weight: 600;
+      font-size: 0.875em;
+      line-height: 1.75em;
+      transition: var(--transitions), font-weight;
+
+      .dark & {
+        color: #c0c0c0;
+        font-weight: 500;
+      }
+
+      + .intro {
+        margin-top: -2em;
+      }
+    }
+
     .table-of-contents {
       margin-bottom: 1em;
 
