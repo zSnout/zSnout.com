@@ -11,6 +11,12 @@
       open.value = false;
     }
   });
+
+  function onClick(event: Event) {
+    if (open.value && event.target instanceof HTMLAnchorElement) {
+      open.value = false;
+    }
+  }
 </script>
 
 <!-- https://www.svgrepo.com/svg/15213/list -->
@@ -64,7 +70,7 @@
   </svg>
 
   <Teleport to="body">
-    <Aside :open="open">
+    <Aside :open="open" @click="onClick">
       <slot />
     </Aside>
   </Teleport>
