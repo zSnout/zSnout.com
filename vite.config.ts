@@ -18,10 +18,12 @@ const addToc = createBuilder("post-markdown", "metaExtracted")
   .options<{}>()
   .initializer()
   .handler(async (payload) => {
-    if (!payload.md.includes("[notoc]")) {
-      payload.md = `[toc]\n\n${payload.md}`;
-    } else {
+    if (payload.md.includes("[notoc]")) {
+      payload.frontmatter.hasToc = false;
       payload.md = payload.md.replaceAll("[notoc]", "");
+    } else {
+      payload.frontmatter.hasToc = true;
+      payload.md = `[toc]\n\n${payload.md}`;
     }
 
     return payload;
@@ -36,7 +38,7 @@ const moveTocToAside = createBuilder("post-markdown", "sfcBlocksExtracted")
   .initializer()
   .handler(async (payload) => {
     const nav = payload.templateBlock.match(navRegex);
-    if (nav) {
+    if (nav && payload.frontmatter.hasToc) {
       payload.templateBlock = payload.templateBlock
         .replace(navRegex, "")
         .replace(
