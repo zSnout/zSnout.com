@@ -32,6 +32,35 @@
 
 <style lang="scss" scoped>
   .prose :deep() {
+    .table-of-contents {
+      margin-bottom: 1em;
+
+      ul {
+        padding-left: 1.5em;
+        list-style-type: none;
+      }
+
+      > ul {
+        margin: 0.75em 0.75em;
+        padding-left: 0;
+      }
+
+      a {
+        display: inline-block;
+        width: 100%;
+        padding-bottom: 0.25em;
+        color: inherit;
+      }
+
+      li ul {
+        margin-top: 0;
+      }
+
+      li + li {
+        margin-top: 0;
+      }
+    }
+
     img {
       position: relative;
       left: calc(min(-4rem, 1000px - var(--app-width)) / 2);
