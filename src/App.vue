@@ -41,7 +41,9 @@
   button,
   input,
   select,
-  .text-color {
+  .text-color,
+  .prose *,
+  .aside * {
     color: black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
