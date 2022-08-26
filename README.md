@@ -192,3 +192,12 @@ at least this many pixels (wide) are considered `medium`.
 
 Any display with a width of at least 1080px is considered `large`. Large
 displays will show Asides without needing a toggle button.
+
+## Markdown support
+
+zSnout automatically compiles .md files into Vue components using
+`vite-plugin-md`. It automatically adds a sidebar with links to headings to any
+Markdown component. You can add `[notoc]` to the top of a file to disable this
+behavior. You may also add `[toc]` to add a table of contents within the main
+document instead of in a sidebar. You may use both `[notoc]` and `[toc]` within
+a document to include the inline TOC instead of the sidebar.
