@@ -42,8 +42,8 @@ const moveTocToAside = createBuilder("post-markdown", "sfcBlocksExtracted")
         .replace(
           "</prose>",
           nav[0]
-            .replace(navStart, "<template #aside>")
-            .replace("</nav>", "</template>") + "</prose>"
+            .replace(navStart, "<template #aside><nav>")
+            .replace("</nav>", "</nav></template>") + "</prose>"
         );
     }
 
