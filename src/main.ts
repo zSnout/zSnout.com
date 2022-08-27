@@ -95,7 +95,11 @@ router.beforeEach(({ path }, _, next) => {
 });
 
 router.afterEach(() => {
-  scrollTo(0, 0);
+  scrollTo({
+    behavior: "auto",
+    left: 0,
+    top: 0,
+  });
 });
 
 const Prose = defineAsyncComponent(() => import("./components/Prose.vue"));
