@@ -67,7 +67,8 @@
         padding-left: 0;
       }
 
-      a {
+      a,
+      .link {
         display: inline-block;
         width: 100%;
         font-size: 0.875em;
