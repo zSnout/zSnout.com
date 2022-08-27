@@ -102,6 +102,14 @@
     }
   }
 
+  .link.active {
+    color: #008383 !important;
+
+    .dark & {
+      color: #42b8b8;
+    }
+  }
+
   a.no-color {
     color: inherit;
   }
