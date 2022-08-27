@@ -22,6 +22,7 @@ interface Icon {
   alt: string;
   description: string;
   group: Group[];
+  isIndex?: boolean;
   keywords: string;
   src: string;
   title: string;
@@ -88,6 +89,7 @@ export const homeIcons = computed(() => {
       description:
         "See a carefully curated collection of various interactive fractals.",
       group: ["math", "art"],
+      isIndex: true,
       keywords: "math",
       src: "/images/fractal-presets/index.png",
       title: "Fractal Presets",
@@ -110,6 +112,7 @@ export const homeIcons = computed(() => {
       description:
         "See a collection of simple yet beautiful examples of abstract art.",
       group: ["art"],
+      isIndex: true,
       keywords: "gradients squares rectangles circles ellipses",
       src: "/images/art/index.png",
       title: "Art",
@@ -254,6 +257,7 @@ export const homeIcons = computed(() => {
       description:
         "Experiment with 4 versions of a programming language designed by zSnout.",
       group: ["programming"],
+      isIndex: true,
       keywords: "programming languages custom",
       src: "/images/storymatic/index.png",
       title: "Storymatic",
@@ -309,6 +313,7 @@ export const homeIcons = computed(() => {
       description:
         "A collection of pages used to debug and test interfaces such as the canvas APIs.",
       group: ["debug"],
+      isIndex: true,
       keywords: "webgl canvas",
       src: "/images/debug/index.png",
       title: "Debug Pages",

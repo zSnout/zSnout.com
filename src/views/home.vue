@@ -58,6 +58,7 @@
           v-if="!filter || card.group.includes(filter)"
           :alt="card.alt"
           :description="card.description"
+          :is-index="card.isIndex"
           :src="card.src"
           :title="card.title"
           :to="card.to === 'login' ? undefined : card.to"
