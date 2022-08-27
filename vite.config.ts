@@ -11,9 +11,6 @@ import anchor from "markdown-it-anchor";
 
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
-const publicFiles = sync("./public/**/*").filter(
-  (e) => !e.startsWith("./public/images/") && !e.includes("404.html")
-);
 
 const addToc = createBuilder("post-markdown", "metaExtracted")
   .options<{}>()
@@ -56,6 +53,9 @@ const moveTocToAside = createBuilder("post-markdown", "sfcBlocksExtracted")
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ["path"],
+  },
   plugins: [
     vue({ include: [/\.vue$/, /\.md$/] }),
     Markdown({
