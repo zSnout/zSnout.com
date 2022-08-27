@@ -11,6 +11,7 @@
     text-align: left;
     background-color: transparent;
     border: none;
+    box-shadow: none;
     appearance: none;
   }
 </style>
