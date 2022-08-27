@@ -122,6 +122,14 @@
     touch-action: none;
   }
 
+  .drop-shadow {
+    filter: drop-shadow(0 3px 6px #ddd);
+
+    .dark & {
+      filter: drop-shadow(0 3px 6px #151515);
+    }
+  }
+
   .shadow,
   .second-layer,
   .shadow-force,
