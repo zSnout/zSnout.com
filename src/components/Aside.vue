@@ -55,6 +55,18 @@
   }
 
   .content :deep() {
+    font-size: 0.875em;
+    line-height: 2em;
+
+    > p {
+      margin-bottom: 1em;
+
+      > strong {
+        font-weight: bold;
+        font-size: 0.875rem;
+      }
+    }
+
     &,
     nav {
       ul {
@@ -71,8 +83,6 @@
       .link {
         display: inline-block;
         width: 100%;
-        font-size: 0.875em;
-        line-height: 2em;
         text-decoration: none;
       }
 
@@ -85,11 +95,11 @@
       }
     }
 
-    > :deep(:first-child) {
+    > :first-child {
       margin-top: 0;
     }
 
-    > :deep(:last-child) {
+    > :last-child {
       margin-bottom: 0;
     }
 
