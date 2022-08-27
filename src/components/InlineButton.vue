@@ -1,5 +1,9 @@
+<script lang="ts" setup>
+  defineProps<{ active?: boolean }>();
+</script>
+
 <template>
-  <button class="link">
+  <button :class="{ active }" class="link">
     <slot />
   </button>
 </template>
