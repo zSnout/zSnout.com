@@ -17,7 +17,7 @@
 
   watch(
     toRef(props, "code"),
-    useDebounceFn((code) => (worker = createWorker(code, true)), 1000)
+    useDebounceFn((code: string) => (worker = createWorker(code, true)), 1000)
   );
 
   function isStringable(
