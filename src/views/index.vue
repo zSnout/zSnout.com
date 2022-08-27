@@ -237,9 +237,14 @@
       <nav>
         <ul>
           <li><a href="#no-cost">No Cost</a></li>
+
           <li><a href="#ad-free">Ad Free</a></li>
+
           <li><a href="#open-source">Open Source</a></li>
+
           <li><a href="#fun">Fun</a></li>
+
+          <li><RouterLink to="/home">Explore the Site</RouterLink></li>
         </ul>
       </nav>
     </template>
