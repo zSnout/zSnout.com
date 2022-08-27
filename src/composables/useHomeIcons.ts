@@ -73,16 +73,6 @@ export const homeIcons = computed(() => {
     },
 
     {
-      alt: "A sample Storymatic program about groceries",
-      description:
-        "Experiment with 4 versions of a programming language designed by zSnout.",
-      keywords: "programming languages custom",
-      src: "/images/storymatic/index.png",
-      title: "Storymatic",
-      to: "/storymatic/",
-    },
-
-    {
       alt: "Multicolored overlapping rectangles with unique border styles",
       description:
         "See a collection of simple yet beautiful examples of abstract art.",
@@ -185,6 +175,16 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "A stack of three elements: a field with the number '177', a canvas with a graph of the 3n+1 sequence for 177, and the list of 3n+1 numbers for 177",
+      description:
+        "View the famous 3n+1 sequence for any number and a graph of its peaks.",
+      keywords: "conjecture 3n 1 hailstones numbers",
+      src: "/images/collatz-evaluator.png",
+      title: "Collatz Evaluator",
+      to: "/collatz-evaluator",
+    },
+
+    {
       alt: "A sign saying 'Hi' with arrows pointing right",
       description:
         "Draw on a table that moves beneath your finger as you create.",
@@ -211,6 +211,16 @@ export const homeIcons = computed(() => {
       src: "/images/lambda-calculus/evaluator.png",
       title: "Lambda Calculus Evaluator",
       to: "/lambda-calculus/evaluator",
+    },
+
+    {
+      alt: "A sample Storymatic program about groceries",
+      description:
+        "Experiment with 4 versions of a programming language designed by zSnout.",
+      keywords: "programming languages custom",
+      src: "/images/storymatic/index.png",
+      title: "Storymatic",
+      to: "/storymatic/",
     },
 
     {
