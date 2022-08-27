@@ -1,19 +1,22 @@
 import { computed } from "vue";
 import { connected, session } from "../main";
 
-export type Group =
-  | "account"
-  | "art"
-  | "debug"
-  | "draw"
-  | "game"
-  | "generators"
-  | "learn"
-  | "leopard"
-  | "math"
-  | "tests"
-  | "programming"
-  | "wireless";
+export const groups = [
+  "account",
+  "art",
+  "debug",
+  "draw",
+  "game",
+  "generators",
+  "learn",
+  "leopard",
+  "math",
+  "tests",
+  "programming",
+  "wireless",
+] as const;
+
+export type Group = typeof groups extends readonly (infer T)[] ? T : never;
 
 interface Icon {
   alt: string;
