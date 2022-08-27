@@ -13,7 +13,11 @@
   });
 
   function onClick(event: Event) {
-    if (open.value && event.target instanceof HTMLAnchorElement) {
+    if (
+      open.value &&
+      (event.target instanceof HTMLAnchorElement ||
+        event.target instanceof HTMLButtonElement)
+    ) {
       open.value = false;
     }
   }
