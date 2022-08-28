@@ -6,7 +6,7 @@
   import Chessboard from "../components/Chessboard.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import InlineButton from "../components/InlineButton.vue";
-  import Spacer from "../components/Spacer.vue";
+  import { analyze } from "../composables/stockfish";
   import { syncOption } from "../composables/useOption";
   import { shuffle } from "../composables/useShuffle";
 
@@ -42,6 +42,10 @@
       }
 
       return moves;
+    },
+    async "Stockfish"() {
+      const { bestMove } = await analyze(game);
+      return bestMove;
     },
     "Random"() {
       const moves = game.moves({ verbose: true });
@@ -111,9 +115,13 @@
     game.reset();
     turn.value = "w";
     gameOver.value = false;
+    fen.value = game.fen();
+    orientation.value = "white";
+
+    api?.set({ turnColor: "white", fen: game.fen() });
 
     if (autoFlip.value) {
-      api?.set({ orientation: "white", fen: game.fen() });
+      api?.set({ orientation: "white" });
     }
 
     playTurn();
