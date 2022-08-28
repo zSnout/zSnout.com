@@ -120,6 +120,16 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "A chessboard with pieces scattered across its surface",
+      description: "Play chess with a friend or against an AI.",
+      group: ["game"],
+      keywords: "ais friends stockfish",
+      src: "/images/chess.png",
+      title: "Chess",
+      to: "/chess",
+    },
+
+    {
       alt: "A strangely colored bookshelf",
       description:
         "Use our color controls to make strange images from your camera",
