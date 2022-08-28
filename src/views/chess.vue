@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { Chess, ShortMove } from "chess.js";
+  import { Chess, ShortMove, SQUARES } from "chess.js";
   import { Api } from "chessground/api";
   import { Dests } from "chessground/types";
   import { ref } from "vue";
@@ -7,6 +7,7 @@
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import InlineButton from "../components/InlineButton.vue";
   import Spacer from "../components/Spacer.vue";
+  import { syncOption } from "../composables/useOption";
   import { shuffle } from "../composables/useShuffle";
 
   const game = Chess();
@@ -24,6 +25,23 @@
   > = {
     "Player"() {
       return game.moves({ verbose: true });
+    },
+    "Invincible"() {
+      const moves: ShortMove[] = [];
+
+      for (const from of SQUARES) {
+        const piece = game.get(from);
+        if (piece?.color !== game.turn()) continue;
+
+        for (const to of SQUARES) {
+          const piece = game.get(to);
+          if (piece?.color === game.turn() || piece?.type === "k") continue;
+
+          moves.push({ from, to, promotion: "q" });
+        }
+      }
+
+      return moves;
     },
     "Random"() {
       const moves = game.moves({ verbose: true });
@@ -74,8 +92,20 @@
   const black = ref("Player");
   const autoFlip = ref(false);
   const instant = ref(false);
-  const turn = ref<"w" | "b">("w");
   const gameOver = ref(false);
+  const orientation = ref<"white" | "black">("white");
+  const fen = ref(game.fen());
+  const turn = ref<"w" | "b">(game.turn());
+
+  syncOption("white", white);
+  syncOption("black", black);
+  syncOption("autoFlip", autoFlip);
+  syncOption("instant", instant);
+  syncOption("fen", fen);
+  syncOption("orientation", orientation);
+
+  game.load(fen.value);
+  turn.value = game.turn();
 
   function reset() {
     game.reset();
@@ -93,7 +123,8 @@
     autoFlip.value = flip;
 
     if (flip) {
-      api?.set({ orientation: game.turn() === "w" ? "white" : "black" });
+      orientation.value = game.turn() === "w" ? "white" : "black";
+      api?.set({ orientation: orientation.value });
     }
   }
 
@@ -103,6 +134,7 @@
     }
 
     api?.toggleOrientation();
+    orientation.value = api.state.orientation;
   }
 
   function makeDests(moves: ShortMove[]): Dests {
@@ -145,8 +177,21 @@
   function onReady(_api: Api) {
     api = _api;
 
-    api.state.blockTouchScroll = true;
-    api.state.premovable.enabled = false;
+    if (autoFlip.value) {
+      orientation.value = turn.value === "w" ? "white" : "black";
+    }
+
+    api.set({
+      blockTouchScroll: true,
+      fen: game.fen(),
+      orientation: orientation.value,
+      premovable: { enabled: false },
+      animation: { enabled: false },
+    });
+
+    requestAnimationFrame(() => {
+      api.set({ animation: { enabled: true } });
+    });
 
     playTurn();
   }
@@ -209,7 +254,7 @@
         if (
           piece.color === "w" &&
           piece.type === "p" &&
-          move.to.startsWith("h")
+          move.to.endsWith("8")
         ) {
           piece.type = "q";
         }
@@ -217,7 +262,7 @@
         if (
           piece.color === "b" &&
           piece.type === "p" &&
-          move.to.startsWith("a")
+          move.to.endsWith("1")
         ) {
           piece.type = "q";
         }
@@ -230,6 +275,7 @@
       game.fen().replace(/ [bw] /, () => (turn === "b" ? " w " : " b "))
     );
 
+    fen.value = game.fen();
     api.set({ fen: game.fen(), lastMove: [move.from, move.to] });
     playTurn();
   }
