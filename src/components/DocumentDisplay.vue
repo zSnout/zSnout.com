@@ -48,6 +48,7 @@
     :min-height="`calc(var(--app-height) - ${navHeight}rem)`"
     bottom
     top
+    v-bind="$attrs"
   >
     <slot />
   </SafeArea>
