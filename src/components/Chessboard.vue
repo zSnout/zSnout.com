@@ -1,11 +1,11 @@
 <script lang="ts" setup>
   import { useEventListener } from "@vueuse/core";
   import { Chessground } from "chessground";
-  import type { Api } from "chessground/api";
+  import { Api } from "chessground/api";
   import "chessground/assets/chessground.base.css";
   import "chessground/assets/chessground.brown.css";
   import "chessground/assets/chessground.cburnett.css";
-  import type { Config } from "chessground/config";
+  import { Config } from "chessground/config";
   import { onMounted, ref } from "vue";
 
   const { config } = defineProps<{ config?: Config }>();
