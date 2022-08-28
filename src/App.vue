@@ -30,7 +30,7 @@
     -webkit-text-size-adjust: none;
   }
 
-  :not(.ace-editor *) {
+  :not(.ace-editor *):not(.chessboard *) {
     transition: var(--transitions);
   }
 
