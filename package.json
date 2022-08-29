@@ -30,7 +30,7 @@
     "generate-maze": "^1.1.0",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
-    "katex": "^0.16.0",
+    "katex": "^0.16.1",
     "markdown-it-toc-done-right": "^4.2.0",
     "mix-css-color": "^0.2.0",
     "mongodb": "^4.9.0",
