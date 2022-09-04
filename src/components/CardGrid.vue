@@ -9,15 +9,15 @@
   import Button from "./Button.vue";
 
   const { sizes } = withDefaults(
-    defineProps<{ sizes?: ("normal" | "small" | "icon")[] }>(),
+    defineProps<{ sizes?: ("normal" | "list" | "small" | "icon")[] }>(),
     { sizes: () => ["normal"] }
   );
 
   const cols = ref(4);
   const grid = ref<HTMLElement>();
-  const size = ref<"normal" | "small" | "icon">(sizes[0]);
+  const size = ref<"normal" | "list" | "small" | "icon">(sizes[0]);
 
-  const preferred = useStorage<"normal" | "small" | "icon">(
+  const preferred = useStorage<"normal" | "list" | "small" | "icon">(
     "preferred-grid-size",
     size.value
   );
@@ -74,6 +74,7 @@
     :class="{
       'no-desc': size === 'small' || size === 'icon',
       'no-title': size === 'icon',
+      'list': size === 'list',
     }"
     class="grid"
   >
@@ -81,7 +82,7 @@
       Change Grid Size
     </Button>
 
-    <slot />
+    <slot :size="size" />
   </div>
 </template>
 
@@ -104,6 +105,10 @@
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
       }
+    }
+
+    &.list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

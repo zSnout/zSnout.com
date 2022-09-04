@@ -6,7 +6,7 @@
 
   defineProps<{
     placeholder?: string;
-    sizes?: ("normal" | "small" | "icon")[];
+    sizes?: ("normal" | "list" | "small" | "icon")[];
   }>();
 
   const field = ref("");
@@ -51,8 +51,8 @@
       type="search"
     />
 
-    <CardGrid ref="grid" class="grid" :sizes="sizes">
-      <slot />
+    <CardGrid ref="grid" class="grid" :sizes="sizes" v-slot="{ size }">
+      <slot :size="size" />
     </CardGrid>
   </div>
 </template>
