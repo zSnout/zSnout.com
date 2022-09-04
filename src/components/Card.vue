@@ -31,7 +31,7 @@
     :to="to"
     :data-keywords="keywords"
   >
-    <p class="title text-color">{{ title }}</p>
+    <p :class="{ hasLabel: !!label }" class="title text-color">{{ title }}</p>
 
     <p class="description">
       <span v-if="date" class="date">
@@ -133,6 +133,10 @@
     margin-top: 0;
     margin-bottom: 0.25em;
     font-weight: bold;
+
+    &.hasLabel {
+      width: calc(100% - 2.5rem);
+    }
   }
 
   .description {
