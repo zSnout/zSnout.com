@@ -34,12 +34,13 @@
     <p :class="{ hasLabel: !!label }" class="title text-color">{{ title }}</p>
 
     <p class="description">
-      <span v-if="date" class="date">
+      <span v-if="date" class="text-color">
         {{
           new Date(date).toLocaleDateString(undefined, { dateStyle: "medium" })
         }}
-        —
       </span>
+
+      <span v-if="date">&nbsp;—</span>
 
       {{ description }}
     </p>
