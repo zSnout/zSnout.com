@@ -3,7 +3,6 @@
   import images from "virtual:image-list";
   import { ref } from "vue";
   import BlurredImage from "../components/BlurredImage.vue";
-  import Cover from "../components/Cover.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import ImageCard from "../components/ImageCard.vue";
   import InlineButton from "../components/InlineButton.vue";
