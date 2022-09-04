@@ -74,7 +74,18 @@ export default defineConfig({
     exclude: ["path"],
   },
   plugins: [
-    vue({ include: [/\.vue$/, /\.md$/] }),
+    vue({
+      include: [/\.vue$/, /\.md$/],
+      template: {
+        compilerOptions: {
+          isCustomElement(tag) {
+            return (
+              tag === "semantics" || tag === "annotation" || tag.startsWith("m")
+            );
+          },
+        },
+      },
+    }),
     Markdown({
       wrapperComponent: "Prose",
       markdownItSetup(md) {
