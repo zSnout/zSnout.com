@@ -194,15 +194,21 @@ socket.on("disconnect", () => (connected.value = false));
 
 export const session = useStorage("session", "");
 export const username = useStorage("username", "");
+export const willNotifyForBlog = useStorage("willNotifyForBlog", false);
 
 export const error = ref("");
 
 if (session.value) {
   socket.emit("account:check-session", session.value);
+  socket.emit("blog:request:will-notify", session.value);
 }
 
 socket.on("account:update:session", (value) => (session.value = value));
 socket.on("account:update:username", (value) => (username.value = value));
+socket.on(
+  "blog:update:will-notify",
+  (value) => (willNotifyForBlog.value = value)
+);
 socket.on("error", (err) => (error.value = err));
 
 export const timeLeftBeforeAccountDeletion = ref<false | number>(false);
