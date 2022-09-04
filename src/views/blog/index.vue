@@ -6,16 +6,16 @@
   import DocumentDisplay from "../../components/DocumentDisplay.vue";
   import InlineButton from "../../components/InlineButton.vue";
   import LargeTitle from "../../components/LargeTitle.vue";
+  import LogInForm from "../../components/LogInForm.vue";
   import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
   import { dateOf } from "../../composables/useDateOf";
   import {
-    titleOf,
-    willNotifyForBlog,
-    socket,
     connected,
     session,
+    socket,
+    titleOf,
+    willNotifyForBlog,
   } from "../../main";
-  import LogInForm from "../../components/LogInForm.vue";
 
   const categories = articles
     .map((e) => e.frontmatter.category)
