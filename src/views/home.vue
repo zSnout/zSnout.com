@@ -58,6 +58,7 @@
           v-if="!filter || card.group.includes(filter)"
           :alt="card.alt"
           :description="card.description"
+          :keywords="card.keywords"
           :label="card.isIndex ? 'menu' : ''"
           :src="card.src"
           :title="card.title"

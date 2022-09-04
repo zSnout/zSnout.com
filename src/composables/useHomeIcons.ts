@@ -4,6 +4,7 @@ import { connected, session } from "../main";
 export const groups = [
   "account",
   "art",
+  "blog",
   "debug",
   "draw",
   "game",
@@ -23,7 +24,7 @@ interface Icon {
   description: string;
   group: Group[];
   isIndex?: boolean;
-  keywords: string;
+  keywords?: string;
   src: string;
   title: string;
   to: (string & {}) | "login";
@@ -72,6 +73,16 @@ export const homeIcons = computed(() => {
           to: "login",
         }
       : undefined,
+
+    {
+      alt: "The Mandelbrot Set in a raindow background",
+      description:
+        "View amazing fractal images and interact with them live on your computer.",
+      group: ["blog"],
+      src: "/images/blog.png",
+      title: "The zSnout Blog",
+      to: "/fractal-explorer",
+    },
 
     {
       alt: "The Mandelbrot Set in a raindow background",
