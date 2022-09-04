@@ -23,8 +23,8 @@ const articles = sync("./src/views/blog/**/*.md").map((src) => {
   return {
     path,
     frontmatter: {
-      ...frontmatter,
       excerpt,
+      ...frontmatter,
     },
   };
 });
