@@ -6,8 +6,8 @@ declare module "virtual:blog-articles" {
     frontmatter: Frontmatter;
   }
 
-  const articles: readonly Article[];
-  export default images;
+  const articles: Article[];
+  export default articles;
 }
 
 declare module "virtual:image-list" {
