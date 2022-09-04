@@ -11,6 +11,9 @@ export interface ClientToServer {
   "account:update:username"(session: string, username: string): void;
   "account:verify"(verifyCode: string): void;
 
+  "blog:request:will-notify"(session: string): void;
+  "blog:update:will-notify"(session: string, willNotify: boolean): void;
+
   "bookmarks:request"(session: string): void;
   "bookmarks:update"(session: string, bookmarks: Bookmark[]): void;
 
@@ -30,6 +33,9 @@ export interface ServerToClient {
   "account:done:update:username"(): void;
   "account:done:verify"(): void;
   "account:needs-verification"(timeLeft: false | number): void;
+
+  "blog:done:update:will-notify"(): void;
+  "blog:update:will-notify"(willNotify: boolean): void;
 
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
