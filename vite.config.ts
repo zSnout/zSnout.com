@@ -15,7 +15,10 @@ const images = sync("./public/images/**/*.png");
 
 const articles = sync("./src/views/blog/**/*.md").map((src) => {
   const path = src.slice("./src/views".length);
-  const { data: frontmatter, excerpt } = read(src);
+  const { data: frontmatter, excerpt } = read(src, {
+    excerpt: true,
+    excerpt_separator: "\n\n",
+  });
 
   return {
     path,
