@@ -1,15 +1,29 @@
 <script lang="ts" setup>
-  import { Ref } from "vue";
-  import Link from "./Link.vue";
+  import { create } from "random-seed";
+  import { computed, Ref } from "vue";
   import MaybeLink from "./MaybeLink.vue";
 
-  defineProps<{
+  const props = defineProps<{
     title: string | Ref<string>;
+    date?: string;
     description: string | Ref<string>;
     keywords?: string;
     label?: string;
     to?: string;
   }>();
+
+  const colors: Record<string, number> = {
+    "": 0,
+    "code": 5,
+    "math": 1,
+    "menu": 0,
+    "meta": 2,
+  };
+
+  const color = computed(() => {
+    return Math.floor(Math.random() * 6) + 1;
+    return colors[props.label || ""] || create(props.label).intBetween(1, 6);
+  });
 </script>
 
 <template>
@@ -19,14 +33,24 @@
     :data-keywords="keywords"
   >
     <p class="title text-color">{{ title }}</p>
-    <p class="description">{{ description }}</p>
+
+    <p class="description">
+      <span v-if="date" class="date">
+        {{
+          new Date(date).toLocaleDateString(undefined, { dateStyle: "medium" })
+        }}
+        —
+      </span>
+
+      {{ description }}
+    </p>
 
     <div
       v-if="label"
       class="corner drop-shadow"
       title="This page has a list of other subpages. Click to explore further."
     >
-      <div class="corner-clip">
+      <div :class="`color-${color}`" class="corner-clip">
         <div class="corner-text">{{ label }}</div>
       </div>
     </div>
@@ -51,13 +75,43 @@
     height: 4em;
   }
 
+  $colors-light: (
+    1: #990000,
+    2: #996300,
+    3: #999900,
+    4: #009900,
+    5: #000099,
+    6: #990099,
+  );
+
+  $colors-dark: (
+    1: #ff6666,
+    2: #ffc966,
+    3: #ffff66,
+    4: #66ff66,
+    5: #6666ff,
+    6: #ff66ff,
+  );
+
   .corner-clip {
     height: 100%;
     background-color: #1f1f1f;
     clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
 
+    @each $index, $color in $colors-light {
+      &.color-#{$index} {
+        background-color: $color;
+      }
+    }
+
     .dark & {
       background-color: white;
+
+      @each $index, $color in $colors-dark {
+        &.color-#{$index} {
+          background-color: $color;
+        }
+      }
     }
   }
 
