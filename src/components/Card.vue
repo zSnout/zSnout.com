@@ -15,13 +15,12 @@
   const colors: Record<string, number> = {
     "": 0,
     "code": 5,
-    "math": 1,
+    "math": 2,
     "menu": 0,
-    "meta": 2,
+    "meta": 4,
   };
 
   const color = computed(() => {
-    return Math.floor(Math.random() * 6) + 1;
     return colors[props.label || ""] || create(props.label).intBetween(1, 6);
   });
 </script>
