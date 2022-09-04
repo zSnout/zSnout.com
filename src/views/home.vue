@@ -75,7 +75,13 @@
       </p>
 
       <p>
-        Here's a tip for this page:
+        Some of the cards on the homepage are marked with a triangle that says
+        "menu." These pages lead to submenus with even more pages, such as
+        Storymatic or the blog.
+      </p>
+
+      <p>
+        You can also
         {{
           isDesktop
             ? "use the sidebar to filter the pages."
