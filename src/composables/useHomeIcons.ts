@@ -77,11 +77,11 @@ export const homeIcons = computed(() => {
     {
       alt: "The Mandelbrot Set in a raindow background",
       description:
-        "View amazing fractal images and interact with them live on your computer.",
+        "Read blog articles posted by zSnout's creator and get updated when they're released.",
       group: ["blog"],
       src: "/images/blog.png",
       title: "The zSnout Blog",
-      to: "/fractal-explorer",
+      to: "/blog/",
     },
 
     {
