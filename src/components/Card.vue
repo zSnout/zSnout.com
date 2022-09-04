@@ -35,7 +35,9 @@
 
 <style lang="scss" scoped>
   .card {
+    position: relative;
     display: block;
+    overflow: hidden;
     text-decoration: none;
     cursor: pointer;
   }
