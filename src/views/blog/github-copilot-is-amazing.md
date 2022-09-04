@@ -4,9 +4,9 @@ category: code
 date: 2021-12-09
 ---
 
-[GitHub Copilot][1] is an amazing tool that can autocomplete code snippets for
-you. In this article I share my experience using GitHub Copilot: the upsides,
-the downsides, and what I think it could become.
+GitHub Copilot is an amazing tool that can autocomplete code snippets for you.
+In this article I share my experience using GitHub Copilot: the upsides, the
+downsides, and what I think it could become.
 
 ## What is GitHub Copilot?
 
