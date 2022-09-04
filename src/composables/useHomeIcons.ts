@@ -79,6 +79,7 @@ export const homeIcons = computed(() => {
       description:
         "Read blog articles posted by zSnout's creator and get updated when they're released.",
       group: ["blog"],
+      isIndex: true,
       src: "/images/blog.png",
       title: "The zSnout Blog",
       to: "/blog/",
