@@ -8,9 +8,23 @@ import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 import anchor from "markdown-it-anchor";
+import { read } from "gray-matter";
 
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
+
+const articles = sync("./src/views/blog/**/*.md").map((src) => {
+  const path = src.slice("./src/views".length);
+  const { data: frontmatter, excerpt } = read(src);
+
+  return {
+    path,
+    frontmatter: {
+      ...frontmatter,
+      excerpt,
+    },
+  };
+});
 
 const addToc = createBuilder("post-markdown", "metaExtracted")
   .options<{}>()
@@ -92,6 +106,19 @@ export default defineConfig({
           return `export default ['${images
             .map((e) => e.slice(8))
             .join("', '")}']`;
+        }
+      },
+    },
+    {
+      name: "blog-articles",
+      resolveId(id) {
+        if (id === "virtual:blog-articles") {
+          return "\0virtual:blog-articles";
+        }
+      },
+      load(id) {
+        if (id === "\0virtual:blog-articles") {
+          return `export default ${JSON.stringify(articles)}`;
         }
       },
     },

@@ -1,3 +1,15 @@
+declare module "virtual:blog-articles" {
+  import { Frontmatter } from "vite-plugin-md";
+
+  export interface Article {
+    path: string;
+    frontmatter: Frontmatter;
+  }
+
+  const articles: readonly Article[];
+  export default images;
+}
+
 declare module "virtual:image-list" {
   const images: readonly string[];
   export default images;
