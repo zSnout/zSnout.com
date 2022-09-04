@@ -195,6 +195,27 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       );
     }
   },
+  async "blog:request:will-notify"(session) {
+    if (await verify(this, session)) {
+      this.emit(
+        "blog:update:will-notify",
+        (await getAccount(session))?.willNotifyForBlog || false
+      );
+    }
+  },
+  async "blog:update:will-notify"(session, willNotifyForBlog) {
+    if (await verify(this, session)) {
+      await updateAccount(session, { willNotifyForBlog });
+
+      this.emit("blog:update:will-notify", willNotifyForBlog);
+      this.to(`session-${session}`).emit(
+        "blog:update:will-notify",
+        willNotifyForBlog
+      );
+
+      this.emit("blog:done:update:will-notify");
+    }
+  },
   async "bookmarks:request"(session) {
     if (await verify(this, session)) {
       const bookmarks = (await getAccount(session))?.bookmarks;
