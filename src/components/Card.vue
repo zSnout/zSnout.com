@@ -60,10 +60,13 @@
   }
 
   .corner-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 50%;
     color: white;
-    text-align: right;
-    transform-origin: 50% 50%;
+    text-align: center;
+    transform-origin: 50% 100%;
     rotate: 45deg;
 
     .dark & {
