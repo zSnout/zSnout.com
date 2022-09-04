@@ -42,6 +42,7 @@ export interface Database {
     bookmarks: Bookmark[];
     notes: ObjectId[];
     chats: ObjectId[];
+    willNotifyForBlog?: boolean;
   };
   notes: {
     creation: number;
