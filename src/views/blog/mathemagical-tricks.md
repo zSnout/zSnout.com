@@ -1,5 +1,6 @@
 ---
 author: Zachary Sakowitz
+category: math
 date: 2022-04-03
 ---
 
