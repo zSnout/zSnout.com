@@ -2,6 +2,9 @@
 author: Zachary Sakowitz
 category: meta
 date: 2021-12-09
+excerpt:
+  Many things stand out about zSnout that aren't seen in other websites. Let's
+  explore zSnout's purpose, theme system, and offline capabilities.
 updated: 2022-09-04
 ---
 
