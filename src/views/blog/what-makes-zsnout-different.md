@@ -2,13 +2,17 @@
 author: Zachary Sakowitz
 category: meta
 date: 2021-12-09
+updated: 2022-09-04
 ---
 
-To me, many things stand out to me about zSnout that I simply don't see in other
+To me, many things stand out about zSnout that I simply don't see in other
 websites. For example, zSnout has many subsites for different purposes whereas
 most websites have one main purpose, it uses a different theming system that
 other websites, and it was designed from the ground up to work as an app. I
 think that's pretty cool, and I want to explore it more!
+
+_This article was written about zSnout 5, a previous version of the site. Some
+of these changes may no longer apply._
 
 ## zSnout Serves Multiple Purposes
 
