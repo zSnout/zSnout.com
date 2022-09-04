@@ -58,15 +58,31 @@ window.onerror = (_, source, line, col, error) => {
   }
 };
 
+const titleCache = new Map<string, string>();
+
 function simpleTitle(path: string) {
-  return path
+  if (titleCache.has(path)) {
+    return titleCache.get(path)!;
+  }
+
+  const title = path
     .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
     .replace(/^./, (match) => match.toLocaleUpperCase())
     .replace(/\bAi\b/g, "AI")
     .replace(/\bAscii\b/g, "ASCII")
+    .replace(/\bGithub\b/g, "GitHub")
     .replace(/\bOs\b/g, "Operating System")
     .replace(/\bWebgl\b/g, "WebGL")
-    .replace(/\b3d\b/g, "3D");
+    .replace(/\bZsnout\b/g, "zSnout")
+    .replace(/\b3d\b/g, "3D")
+    .replace(/(?!^)\bAny\b(?!$)/g, "any")
+    .replace(/(?!^)\bFor\b(?!$)/g, "for")
+    .replace(/(?!^)\bIs\b(?!$)/g, "is")
+    .replace(/(?!^)\bOf\b(?!$)/g, "of")
+    .replace(/(?!^)\bThe\b(?!$)/g, "the");
+
+  titleCache.set(path, title);
+  return title;
 }
 
 export function titleOf(path: string, deep = false): string {
