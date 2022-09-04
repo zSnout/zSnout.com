@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   import { create } from "random-seed";
   import { computed, Ref } from "vue";
+  import { dateOf } from "../composables/useDateOf";
   import MaybeLink from "./MaybeLink.vue";
 
   const props = defineProps<{
@@ -34,12 +35,7 @@
     <p :class="{ hasLabel: !!label }" class="title text-color">{{ title }}</p>
 
     <p class="description">
-      <span v-if="date" class="text-color">
-        {{
-          new Date(date).toLocaleDateString(undefined, { dateStyle: "medium" })
-        }}
-      </span>
-
+      <span v-if="date" class="text-color">{{ dateOf(date) }}</span>
       <span v-if="date">&nbsp;—</span>
 
       {{ description }}

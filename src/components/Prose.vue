@@ -13,6 +13,7 @@
   import { Frontmatter } from "vite-plugin-md";
   import { watchEffect } from "vue";
   import { isDark } from "../composables/isDark";
+  import { dateOf } from "../composables/useDateOf";
   import DocumentDisplay from "./DocumentDisplay.vue";
 
   const { frontmatter } = defineProps<{ frontmatter?: Frontmatter }>();
@@ -24,9 +25,7 @@
     <div class="prose">
       <p v-if="author" class="intro">By {{ author }}</p>
 
-      <p v-if="date" class="intro">
-        Published on {{ new Date(date).toLocaleDateString() }}
-      </p>
+      <p v-if="date" class="intro">Published on {{ dateOf(date) }}</p>
 
       <slot />
     </div>

@@ -7,6 +7,7 @@
   import InlineButton from "../../components/InlineButton.vue";
   import LargeTitle from "../../components/LargeTitle.vue";
   import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
+  import { dateOf } from "../../composables/useDateOf";
   import { titleOf } from "../../main";
 
   const categories = articles
@@ -32,14 +33,18 @@
   <DocumentDisplay>
     <LargeTitle>Blog Articles</LargeTitle>
 
-    <SearchableCardGrid :sizes="['normal', 'small']">
+    <SearchableCardGrid :sizes="['list', 'small']" v-slot="{ size }">
       <template v-for="article in articles" :key="article.path">
         <Card
           v-if="!filter || article.frontmatter.category?.includes(filter)"
           :date="article.frontmatter.date"
           :description="article.frontmatter.excerpt || ''"
           :label="article.frontmatter.category"
-          :title="titleOf(article.path.slice(6, -3))"
+          :title="
+            size === 'small'
+              ? dateOf(article.frontmatter.date)
+              : titleOf(article.path.slice(6, -3))
+          "
           :to="article.path.slice(0, -3)"
         />
       </template>
