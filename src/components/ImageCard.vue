@@ -71,37 +71,6 @@
     text-decoration: none;
     cursor: pointer;
 
-    .corner {
-      position: absolute;
-      top: -1px;
-      right: -1px;
-      display: block;
-      width: 4em;
-      height: 4em;
-    }
-
-    .corner-clip {
-      height: 100%;
-      background-color: #1f1f1f;
-      clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
-
-      .dark & {
-        background-color: white;
-      }
-    }
-
-    .corner-text {
-      height: 50%;
-      color: white;
-      text-align: right;
-      transform-origin: 50% 50%;
-      rotate: 45deg;
-
-      .dark & {
-        color: black;
-      }
-    }
-
     .no-title.no-title & {
       padding-bottom: 0;
       border-radius: 0;
@@ -110,6 +79,37 @@
       .hover &:hover {
         border: 0;
       }
+    }
+  }
+
+  .corner {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    display: block;
+    width: 4em;
+    height: 4em;
+  }
+
+  .corner-clip {
+    height: 100%;
+    background-color: #1f1f1f;
+    clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
+
+    .dark & {
+      background-color: white;
+    }
+  }
+
+  .corner-text {
+    height: 50%;
+    color: white;
+    text-align: right;
+    transform-origin: 50% 50%;
+    rotate: 45deg;
+
+    .dark & {
+      color: black;
     }
   }
 
