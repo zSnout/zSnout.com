@@ -6,7 +6,15 @@
   import Field from "../components/Field.vue";
   import Modal from "../components/Modal.vue";
   import Title from "../components/Title.vue";
-  import { error, session, socket, username } from "../main";
+  import {
+    connected,
+    error,
+    session,
+    socket,
+    username,
+    willNotifyForBlog,
+  } from "../main";
+  import InlineButton from "../components/InlineButton.vue";
 
   const isLogOutOtherDevicesOpen = ref(false);
   const logOutOtherDevicesMessage = ref("");
@@ -98,6 +106,35 @@
 
       <Button @click="change('password')">Change Password</Button>
     </CardGrid>
+
+    <p v-if="session">
+      You
+      {{ willNotifyForBlog ? "are currently receiving" : "will not receive" }}
+      notifications for updates to the zSnout blog.
+
+      <template v-if="connected">
+        Click
+        <InlineButton
+          @click="
+            socket.emit('blog:update:will-notify', session, !willNotifyForBlog)
+          "
+        >
+          here
+        </InlineButton>
+        to opt-{{ willNotifyForBlog ? "out of" : "in to" }} notifications.
+      </template>
+
+      <template v-else>
+        You cannot change notification settings when offline.
+      </template>
+    </p>
+
+    <p v-else>
+      <InlineButton @click="open = true">Log in</InlineButton>
+      to a zSnout account or
+      <InlineButton @click="open = true">sign up</InlineButton>
+      to receive notification for new blog posts.
+    </p>
   </DocumentDisplay>
 
   <Modal :open="isLogOutOtherDevicesOpen">
