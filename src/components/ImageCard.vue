@@ -7,8 +7,8 @@
     alt: string;
     description: string | Ref<string>;
     forceReload?: boolean;
-    isIndex?: boolean;
     keywords?: string;
+    label?: string;
     src: string;
     title: string | Ref<string>;
     to?: string;
@@ -52,12 +52,12 @@
     <p class="description">{{ description }}</p>
 
     <div
-      v-if="isIndex"
+      v-if="label"
       class="corner drop-shadow"
       title="This page has a list of other subpages. Click to explore further."
     >
       <div class="corner-clip">
-        <div class="corner-text">menu</div>
+        <div class="corner-text">{{ label }}</div>
       </div>
     </div>
   </MaybeLink>
