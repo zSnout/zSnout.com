@@ -8,7 +8,14 @@
   import LargeTitle from "../../components/LargeTitle.vue";
   import SearchableCardGrid from "../../components/SearchableCardGrid.vue";
   import { dateOf } from "../../composables/useDateOf";
-  import { titleOf } from "../../main";
+  import {
+    titleOf,
+    willNotifyForBlog,
+    socket,
+    connected,
+    session,
+  } from "../../main";
+  import LogInForm from "../../components/LogInForm.vue";
 
   const categories = articles
     .map((e) => e.frontmatter.category)
@@ -27,11 +34,43 @@
 
   const filter = ref<string>("");
   const isDesktop = useMediaQuery("(min-width: 1080px)");
+  const open = ref(false);
 </script>
 
 <template>
+  <LogInForm v-model:open="open" />
+
   <DocumentDisplay>
     <LargeTitle>Blog Articles</LargeTitle>
+
+    <p v-if="session">
+      You
+      {{ willNotifyForBlog ? "are currently receiving" : "will not receive" }}
+      notifications for updates to the zSnout blog.
+
+      <template v-if="connected">
+        Click
+        <InlineButton
+          @click="
+            socket.emit('blog:update:will-notify', session, !willNotifyForBlog)
+          "
+        >
+          here
+        </InlineButton>
+        to opt-{{ willNotifyForBlog ? "out of" : "in to" }} notifications.
+      </template>
+
+      <template v-else>
+        You cannot change notification settings when offline.
+      </template>
+    </p>
+
+    <p v-else>
+      <InlineButton @click="open = true">Log in</InlineButton>
+      to a zSnout account or
+      <InlineButton @click="open = true">sign up</InlineButton>
+      to receive notification for new blog posts.
+    </p>
 
     <SearchableCardGrid :sizes="['list', 'small']" v-slot="{ size }">
       <template v-for="article in articles" :key="article.path">
