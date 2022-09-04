@@ -69,7 +69,7 @@ function simpleTitle(path: string) {
     .replace(/\b3d\b/g, "3D");
 }
 
-function titleOf(path: string, deep = false): string {
+export function titleOf(path: string, deep = false): string {
   if (path.endsWith("/")) {
     return titleOf(path.slice(0, -1)) + " Pages";
   } else if (path.includes("/")) {
