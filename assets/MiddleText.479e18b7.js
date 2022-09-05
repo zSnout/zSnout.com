@@ -1,0 +1,1 @@
+import{_ as t}from"./plugin-vue_export-helper.21dcd24c.js";import{o as d,h as _,r}from"./index.8d3aa11b.js";const a={},n={class:"middle"};function o(e,s){return d(),_("div",n,[r(e.$slots,"default",{},void 0,!0)])}var l=t(a,[["render",o],["__scopeId","data-v-70bc5044"]]);export{l as M};

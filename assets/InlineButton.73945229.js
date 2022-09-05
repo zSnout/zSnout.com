@@ -1,0 +1,1 @@
+import{_ as t}from"./plugin-vue_export-helper.21dcd24c.js";import{d as o,o as a,h as r,r as s,n as i}from"./index.8d3aa11b.js";const l=o({__name:"InlineButton",props:{active:{type:Boolean}},setup(e){return(n,_)=>(a(),r("button",{class:i([{active:e.active},"link"])},[s(n.$slots,"default",{},void 0,!0)],2))}});var d=t(l,[["__scopeId","data-v-5805fb33"]]);export{d as I};
