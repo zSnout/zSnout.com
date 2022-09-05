@@ -20,7 +20,7 @@
     "@traptitech/markdown-it-katex": "^3.6.0",
     "@vueuse/components": "^9.1.1",
     "@vueuse/core": "^9.1.1",
-    "@vueuse/integrations": "^9.1.1",
+    "@vueuse/integrations": "^9.2.0",
     "@vueuse/math": "^9.1.1",
     "@vueuse/shared": "^9.1.1",
     "bcrypt": "^5.0.1",
