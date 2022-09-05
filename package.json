@@ -6,6 +6,7 @@
     "dev": "npx vite",
     "build": "npx vue-tsc --noEmit && npx vite build && npm run build-server",
     "build-server": "npx esbuild ./server/index.ts --bundle --platform=node --target=node16 --minify --format=esm --external:bcrypt --external:mongodb --external:nodemailer --external:socket.io --external:bson --external:./node_modules/* --outfile=./dist/server.mjs",
+    "cli": "npx esbuild ./server/cli.ts --bundle --platform=node --target=node16 --minify --format=esm --external:bcrypt --external:mongodb --external:nodemailer --external:socket.io --external:bson --external:./node_modules/* --outfile=./dist/cli.mjs && echo '\n' && node ./dist/cli.mjs",
     "preview": "npx vite preview"
   },
   "engines": {
