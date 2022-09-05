@@ -137,35 +137,7 @@ export default defineConfig({
       },
     },
     VitePWA({
-      workbox: {
-        runtimeCaching: [
-          {
-            urlPattern: ({ request }) => request.destination === "image",
-            handler: "StaleWhileRevalidate",
-            options: {
-              cacheName: "images-cache",
-              expiration: {
-                purgeOnQuotaError: true,
-                maxAgeSeconds: 30 * 24 * 60 * 60,
-              },
-            },
-          },
-          {
-            urlPattern: ({ url }) => url.pathname.startsWith("/socket.io"),
-            handler: "NetworkOnly",
-            options: {
-              cacheName: "api-cache",
-            },
-          },
-          {
-            urlPattern: ({ url }) => !url.pathname.startsWith("/socket.io"),
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "main-cache",
-            },
-          },
-        ],
-      },
+      registerType: "autoUpdate",
     }),
     {
       name: "socket.io",
