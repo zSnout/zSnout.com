@@ -8,8 +8,6 @@ Have you ever wanted to convince your friend that you have psychic powers? In
 this article you'll learn how to use amazing mathematical principles to help you
 on your noble quest.
 
-[toc]
-
 ## Performing the Trick
 
 1. The first step is to ask your friend to think of a 3-digit or 4-digit number.
