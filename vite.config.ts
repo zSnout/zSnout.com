@@ -9,6 +9,9 @@ import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 import anchor from "markdown-it-anchor";
 import { read } from "gray-matter";
+import { create } from "random-seed";
+import { PreRenderedChunk } from "rollup";
+import { createHash } from "node:crypto";
 
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
@@ -68,8 +71,56 @@ const moveTocToAside = createBuilder("post-markdown", "sfcBlocksExtracted")
   })
   .meta();
 
+function generateHash(source: {}) {
+  const hash = createHash("sha256");
+  hash.update(source.toString());
+
+  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 12);
+}
+
+function getHashOf(chunkInfo: PreRenderedChunk) {
+  const hash = createHash("sha256");
+
+  for (let key of Object.keys(chunkInfo.modules).sort()) {
+    hash.update(chunkInfo.modules[key].code || "");
+  }
+
+  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 12);
+}
+
 // https://vitejs.dev/config/
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames(chunkInfo) {
+          const hash = getHashOf(chunkInfo);
+          return `assets/${chunkInfo.name}.${hash}.js`;
+        },
+        chunkFileNames(chunkInfo) {
+          const hash = getHashOf(chunkInfo);
+          return `assets/${chunkInfo.name}.${hash}.js`;
+        },
+        assetFileNames(chunkInfo) {
+          const name = chunkInfo.name;
+          if (!name) {
+            return `assets/${chunkInfo.name}`;
+          }
+
+          const dotIndex = name.lastIndexOf(".");
+          if (dotIndex === -1) {
+            return `assets/${name}`;
+          }
+
+          const beforeDot = name.slice(0, dotIndex);
+          const afterDot = name.slice(dotIndex + 1);
+          const hash = generateHash(chunkInfo.source);
+
+          return `assets/${beforeDot}.${hash}.${afterDot}`;
+        },
+      },
+    },
+  },
   optimizeDeps: {
     exclude: ["path"],
   },
