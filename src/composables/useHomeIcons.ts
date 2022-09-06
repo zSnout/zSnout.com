@@ -143,6 +143,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "zSnout's bingo board with a few cells checked",
+      description:
+        "Use our quick and simple bingo board to play the game anytime.",
+      group: ["game"],
+      keywords: "board",
+      src: "/images/bingo.png",
+      title: "Bingo",
+      to: "/bingo",
+    },
+
+    {
       alt: "A strangely colored bookshelf",
       description:
         "Use our color controls to make strange images from your camera.",
