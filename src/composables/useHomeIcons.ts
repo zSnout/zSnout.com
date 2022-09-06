@@ -147,9 +147,9 @@ export const homeIcons = computed(() => {
         "Use our color controls to make strange images from your camera",
       group: ["art"],
       keywords: "colors editor image live overcolorifier",
-      src: "/images/camera-modifier.png",
+      src: "/images/camera/color-effects.png",
       title: "Camera Modifier",
-      to: "/camera-modifier",
+      to: "/camera/color-effects",
     },
 
     {
@@ -169,9 +169,9 @@ export const homeIcons = computed(() => {
         "Watch your own face and world transform into letters and symbols.",
       group: ["art"],
       keywords: "camera live text",
-      src: "/images/ascii-art.png",
+      src: "/images/camera/ascii-art.png",
       title: "ASCII Art",
-      to: "/ascii-art",
+      to: "/camera/ascii-art",
     },
 
     connected.value && session.value

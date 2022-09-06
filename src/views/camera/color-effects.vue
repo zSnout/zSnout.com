@@ -2,12 +2,12 @@
   import { ref } from "vue";
   import ColorSliders, {
     useColorSliders,
-  } from "../components/ColorSliders.vue";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useCanvas } from "../composables/useCanvas";
-  import { useSizedUserMedia } from "../composables/useSizedUserMedia";
-  import { useVideoFromStream } from "../composables/useVideoFromStream";
-  import { WebGlCanvas } from "../composables/webgl/WebGlCanvas";
+  } from "../../components/ColorSliders.vue";
+  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
+  import { useCanvas } from "../../composables/useCanvas";
+  import { useSizedUserMedia } from "../../composables/useSizedUserMedia";
+  import { useVideoFromStream } from "../../composables/useVideoFromStream";
+  import { WebGlCanvas } from "../../composables/webgl/WebGlCanvas";
 
   const canvas = ref<HTMLCanvasElement>();
   const sliders = useColorSliders();

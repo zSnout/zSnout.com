@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-  import { ref } from "vue";
-  import { useSizedUserMedia } from "../composables/useSizedUserMedia";
-  import { useVideoFromStream } from "../composables/useVideoFromStream";
-  import { currentFrame } from "../composables/useCurrentFrame";
-  import { useCanvas } from "../composables/useCanvas";
   import { useRafFn } from "@vueuse/core";
-  import FullscreenDisplay from "../components/FullscreenDisplay.vue";
+  import { ref } from "vue";
+  import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
+  import { useCanvas } from "../../composables/useCanvas";
+  import { currentFrame } from "../../composables/useCurrentFrame";
+  import { useSizedUserMedia } from "../../composables/useSizedUserMedia";
+  import { useVideoFromStream } from "../../composables/useVideoFromStream";
 
   const sizeH = 9;
   const sizeW = 7.5;
