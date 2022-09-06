@@ -41,7 +41,7 @@
   button,
   input,
   select,
-  .text-color,
+  .text-color.text-color,
   .prose *:not(a),
   aside.aside * {
     color: black;
