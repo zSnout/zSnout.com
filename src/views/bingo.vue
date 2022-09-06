@@ -44,14 +44,6 @@
       };
     }
   }
-
-  board[2][2] = {
-    value: "",
-    get checked() {
-      return true;
-    },
-    set checked(v) {},
-  };
 </script>
 
 <template>
