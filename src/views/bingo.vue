@@ -52,6 +52,10 @@
       <HStack class="row" :space="0.5">
         <div
           v-for="letter in 'BINGO'"
+          :class="{
+            lCheck: letter !== 'B',
+            rCheck: letter !== 'O',
+          }"
           class="cell header second-layer text-color checked"
         >
           {{ letter }}
@@ -82,6 +86,13 @@
 </template>
 
 <style lang="scss" scoped>
+  /**
+   * This set of styles uses ::before to add a segment on the left side of a
+   * cell and uses ::after to put a segment above a cell, making the board
+   * satisfying. In a 2x2 block, ::after is extended slightly to the left to
+   * fill in the corner between the cells.
+   */
+
   .cell {
     display: flex;
     align-items: center;
@@ -99,19 +110,34 @@
     }
   }
 
+  .cell::before,
+  .cell::after {
+    position: absolute;
+    display: block;
+    background: transparent;
+    background-color: transparent;
+    content: "";
+  }
+
+  .cell::before {
+    left: -0.5rem;
+    width: 1rem;
+    height: 3rem;
+  }
+
+  .cell::after {
+    top: -0.5rem;
+    width: 3rem;
+    height: 1rem;
+  }
+
   .checked.lCheck {
     position: relative;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 
     &::before {
-      position: absolute;
-      left: -0.5rem;
-      display: block;
-      width: 1rem;
-      height: 3rem;
       background-color: var(--layer-background);
-      content: "";
     }
   }
 
@@ -121,13 +147,7 @@
     border-top-right-radius: 0;
 
     &::after {
-      position: absolute;
-      top: -0.5rem;
-      display: block;
-      width: 3rem;
-      height: 1rem;
       background-color: var(--layer-background);
-      content: "";
     }
 
     &.lCheck.tlCheck::after {
