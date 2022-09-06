@@ -5,6 +5,7 @@ export const groups = [
   "account",
   "art",
   "blog",
+  "camera",
   "debug",
   "draw",
   "game",
@@ -144,12 +145,23 @@ export const homeIcons = computed(() => {
     {
       alt: "A strangely colored bookshelf",
       description:
-        "Use our color controls to make strange images from your camera",
-      group: ["art"],
-      keywords: "colors editor image live overcolorifier",
+        "Use our color controls to make strange images from your camera.",
+      group: ["art", "camera"],
+      keywords: "camera editor image live overcolorifier",
       src: "/images/camera/color-effects.png",
-      title: "Camera Modifier",
+      title: "Color Effects",
       to: "/camera/color-effects",
+    },
+
+    {
+      alt: "A snapshot of a car with only the edges highlighted",
+      description:
+        "Transform your world into one with only edges, not surfaces.",
+      group: ["camera"],
+      keywords: "camera image live",
+      src: "/images/camera/edges.png",
+      title: "Camera Edges",
+      to: "/camera/edges",
     },
 
     {
@@ -167,7 +179,7 @@ export const homeIcons = computed(() => {
       alt: "An ASCII art version of Zachary's face (the creator of zSnout)",
       description:
         "Watch your own face and world transform into letters and symbols.",
-      group: ["art"],
+      group: ["art", "camera"],
       keywords: "camera live text",
       src: "/images/camera/ascii-art.png",
       title: "ASCII Art",
