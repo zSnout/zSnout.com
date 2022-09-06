@@ -1,4 +1,4 @@
-import{F as o}from"./FullscreenDisplay.2pmkxxoua4y0.js";import{M as i}from"./MovableCanvas2d.3k2tk05z89m0.js";import{d as a,q as n,aM as r,o as c,c as s,w as l,a as v}from"./index.4mpvapbfrnu0.js";import"./SharedNav.1lm7nnzuivvk.js";import"./Button.32h7782uxra0.js";import"./plugin-vue_export-helper.62h235na3u80.js";import"./LogoLight.11xzt69hf600.js";import"./CoordinateCanvas2d.ui5o1n16sxs0.js";import"./useOption.ujvp9hcq9ds0.js";import"./WebGlCanvas.1rb17qef21sw.js";const D=a({__name:"3d",setup(p){const e=n(),t=`
+import{F as o}from"./FullscreenDisplay.2pmkxxoua4y0.js";import{M as i}from"./MovableCanvas2d.3k2tk05z89m0.js";import{d as a,q as n,aM as r,o as c,c as s,w as l,a as v}from"./index.5s3b6nbjrnk0.js";import"./SharedNav.1lm7nnzuivvk.js";import"./Button.32h7782uxra0.js";import"./plugin-vue_export-helper.62h235na3u80.js";import"./LogoLight.11xzt69hf600.js";import"./CoordinateCanvas2d.ui5o1n16sxs0.js";import"./useOption.ujvp9hcq9ds0.js";import"./WebGlCanvas.1rb17qef21sw.js";const D=a({__name:"3d",setup(p){const e=n(),t=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
