@@ -46,13 +46,15 @@
     </template>
   </Modal>
 
-  <UseScreenSafeArea v-if="$slots.indicator" class="indicator" bottom>
-    <SafeArea>
-      <HStack class="padding">
-        <slot name="indicator" />
-      </HStack>
-    </SafeArea>
-  </UseScreenSafeArea>
+  <Teleport to="body">
+    <UseScreenSafeArea v-if="$slots.indicator" class="indicator" bottom>
+      <SafeArea>
+        <HStack class="padding">
+          <slot name="indicator" />
+        </HStack>
+      </SafeArea>
+    </UseScreenSafeArea>
+  </Teleport>
 </template>
 
 <style lang="scss" module>
