@@ -65,6 +65,8 @@ function simpleTitle(path: string) {
     return titleCache.get(path)!;
   }
 
+  // Update server/cli.ts when this is changes.
+
   const title = path
     .replace(/-./g, (match) => " " + match[1].toLocaleUpperCase())
     .replace(/^./, (match) => match.toLocaleUpperCase())
