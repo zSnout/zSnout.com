@@ -4,6 +4,9 @@
   import { ref } from "vue";
   import { useEventListener } from "@vueuse/core";
   import HStack from "../components/HStack.vue";
+  import VStack from "../components/VStack.vue";
+  import Button from "../components/Button.vue";
+  import Spacer from "../components/Spacer.vue";
 
   function shuffle(array: string[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -48,9 +51,21 @@
 
 <template>
   <DocumentDisplay>
-    <HStack>
-      <div class="large">
-        {{ currentNum }}
+    <HStack style="min-height: 100%">
+      <div class="large" style="flex: 1; display: flex">
+        <VStack class="large-inner" style="flex: 1">
+          <div class="number">
+            {{ currentNum }}
+          </div>
+
+          <Spacer />
+
+          <HStack class="buttons">
+            <Button @click="showPrevious">Previous Number</Button>
+
+            <Button @click="showNext">Next Number</Button>
+          </HStack>
+        </VStack>
       </div>
 
       <div class="old">
@@ -68,12 +83,32 @@
   .large {
     width: 75%;
     font-weight: bold;
-    font-size: 12em;
     text-align: center;
 
     @media (max-width: 600px) {
       width: 66%;
       font-size: 8em;
+    }
+  }
+
+  .number {
+    position: sticky;
+    top: 6rem;
+    font-size: 12em;
+  }
+
+  .large-inner {
+    position: sticky;
+    top: 0;
+  }
+
+  .buttons {
+    position: sticky;
+    bottom: 2rem;
+    font-size: 1rem;
+
+    @media (max-width: 400px) {
+      bottom: 1.5rem;
     }
   }
 
