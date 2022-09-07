@@ -58,7 +58,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/nodemailer": "^6.4.5",
     "@types/random-seed": "^0.3.3",
-    "@vitejs/plugin-vue": "^2.3.4",
+    "@vitejs/plugin-vue": "^3.1.0",
     "@yankeeinlondon/builder-api": "^0.4.1",
     "esbuild": "^0.15.7",
     "gray-matter": "^4.0.3",
@@ -72,7 +72,7 @@
     "rollup": "^2.79.0",
     "sass": "^1.54.8",
     "typescript": "^4.8.2",
-    "vite": "^2.9.13",
+    "vite": "^3.1.0",
     "vite-plugin-md": "^0.20.4",
     "vite-plugin-pwa": "^0.12.6",
     "vue-tsc": "^0.40.9"
