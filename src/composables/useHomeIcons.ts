@@ -165,6 +165,15 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "zSnout's bingo master board",
+      description: "Call out bingo cards with zSnout's simple interface.",
+      group: ["game"],
+      src: "/images/bingo-master-board.png",
+      title: "Bingo Master Board",
+      to: "/bingo-master-board",
+    },
+
+    {
       alt: "A snapshot of a car with only the edges highlighted",
       description:
         "Transform your world into one with only edges, not surfaces.",
