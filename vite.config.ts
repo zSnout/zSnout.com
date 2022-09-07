@@ -75,7 +75,7 @@ function generateHash(source: {}) {
   const hash = createHash("sha256");
   hash.update(source.toString());
 
-  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 12);
+  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 8);
 }
 
 function getHashOf(chunkInfo: PreRenderedChunk) {
@@ -85,7 +85,7 @@ function getHashOf(chunkInfo: PreRenderedChunk) {
     hash.update(chunkInfo.modules[key].code || "");
   }
 
-  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 12);
+  return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 8);
 }
 
 // https://vitejs.dev/config/
@@ -102,9 +102,11 @@ export default defineConfig({
           return `assets/${chunkInfo.name}.${hash}.js`;
         },
         assetFileNames(chunkInfo) {
-          const name = chunkInfo.name;
+          const hash = generateHash(chunkInfo.source);
+
+          const name = chunkInfo.name?.split("/").at(-1) || undefined;
           if (!name) {
-            return `assets/${chunkInfo.name}`;
+            return `assets/${hash}`;
           }
 
           const dotIndex = name.lastIndexOf(".");
@@ -114,7 +116,6 @@ export default defineConfig({
 
           const beforeDot = name.slice(0, dotIndex);
           const afterDot = name.slice(dotIndex + 1);
-          const hash = generateHash(chunkInfo.source);
 
           return `assets/${beforeDot}.${hash}.${afterDot}`;
         },
