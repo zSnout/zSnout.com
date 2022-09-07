@@ -1,4 +1,4 @@
-import{F as d}from"./FullscreenDisplay.2pmkxxou.js";import{W as f}from"./WebGlCanvas.1rb17qef.js";import{d as m,q as x,aG as y,o as p,c as g,w as u,a as h}from"./index.5eygmsav.js";import"./SharedNav.3q0ndcho.js";import"./Button.32h7782u.js";import"./plugin-vue_export-helper.62h235na.js";import"./LogoLight.11xzt69h.js";const A=m({__name:"metaballs",setup(v){const e=Array.from({length:50},()=>{const t=Math.random(),o=Math.random(),n=Math.random()*5+5,a=(Math.random()-.5)*2/200,s=(Math.random()-.5)*2/200;return{x:t,y:o,r:n,dx:a,dy:s}}),r=x(),l=`
+import{F as d}from"./FullscreenDisplay.5h55kk3b.js";import{W as f}from"./WebGlCanvas.1rb17qef.js";import{d as m,q as x,aN as y,o as p,c as g,w as u,a as h}from"./index.5pilq1g7.js";import"./SharedNav.4wpq3a9c.js";import"./Button.3tf6rlyu.js";import"./_plugin-vue_export-helper.35ltfn2z.js";import"./LogoLight.539ztpd2.js";const A=m({__name:"metaballs",setup(v){const e=Array.from({length:50},()=>{const t=Math.random(),o=Math.random(),n=Math.random()*5+5,a=(Math.random()-.5)*2/200,s=(Math.random()-.5)*2/200;return{x:t,y:o,r:n,dx:a,dy:s}}),r=x(),l=`
   uniform float scale;
   uniform vec3 metaballs[50];
 

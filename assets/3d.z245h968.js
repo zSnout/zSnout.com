@@ -1,4 +1,4 @@
-import{F as o}from"./FullscreenDisplay.2pmkxxou.js";import{M as i}from"./MovableCanvas2d.3k2tk05z.js";import{d as a,q as n,aG as r,o as c,c as s,w as l,a as v}from"./index.5eygmsav.js";import"./SharedNav.3q0ndcho.js";import"./Button.32h7782u.js";import"./plugin-vue_export-helper.62h235na.js";import"./LogoLight.11xzt69h.js";import"./CoordinateCanvas2d.ui5o1n16.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const D=a({__name:"3d",setup(p){const e=n(),t=`
+import{F as o}from"./FullscreenDisplay.5h55kk3b.js";import{M as i}from"./MovableCanvas2d.3k2tk05z.js";import{d as a,q as n,aN as r,o as c,c as s,w as l,a as v}from"./index.5pilq1g7.js";import"./SharedNav.4wpq3a9c.js";import"./Button.3tf6rlyu.js";import"./_plugin-vue_export-helper.35ltfn2z.js";import"./LogoLight.539ztpd2.js";import"./CoordinateCanvas2d.ui5o1n16.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const D=a({__name:"3d",setup(p){const e=n(),t=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
