@@ -148,7 +148,13 @@ If you don't want to be notified anymore, change your notification preferences a
       address: email,
     }));
 
-    if (await send({ bcc: emails, text: email })) {
+    if (
+      await send({
+        bcc: emails,
+        text: email,
+        subject: `Blog Post: ${simpleTitle(articlePath)}`,
+      })
+    ) {
       console.log("An email has been sent!");
     } else {
       console.log("The email failed to send.");
