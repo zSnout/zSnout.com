@@ -18,7 +18,9 @@
     "code": 5,
     "math": 2,
     "menu": 0,
-    "meta": 4,
+    "meta": 6,
+    "camp": 1,
+    "saurs": 3,
   };
 
   const color = computed(() => {
@@ -46,7 +48,10 @@
       class="corner drop-shadow"
       title="This page has a list of other subpages. Click to explore further."
     >
-      <div :class="`color-${color}`" class="corner-clip">
+      <div
+        :class="{ [`color-${color}`]: true, bright: !!color }"
+        class="corner-clip"
+      >
         <div class="corner-text">{{ label }}</div>
       </div>
     </div>
@@ -85,7 +90,7 @@
     2: #ffc966,
     3: #ffff66,
     4: #66ff66,
-    5: #6666ff,
+    5: #8888ff,
     6: #ff66ff,
   );
 
@@ -94,7 +99,7 @@
     background-color: #1f1f1f;
     clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
 
-    @each $index, $color in $colors-light {
+    @each $index, $color in $colors-dark {
       &.color-#{$index} {
         background-color: $color;
       }
@@ -103,7 +108,7 @@
     .dark & {
       background-color: white;
 
-      @each $index, $color in $colors-dark {
+      @each $index, $color in $colors-light {
         &.color-#{$index} {
           background-color: $color;
         }
@@ -116,10 +121,18 @@
     align-items: center;
     justify-content: center;
     height: 50%;
-    color: white;
     text-align: center;
     transform-origin: 50% 100%;
     rotate: 45deg;
+    color: white;
+
+    .bright & {
+      color: black;
+
+      .dark & {
+        color: white;
+      }
+    }
 
     .dark & {
       color: black;
