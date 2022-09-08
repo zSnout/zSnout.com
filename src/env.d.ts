@@ -66,7 +66,7 @@ declare module "rangetouch" {
 declare module "vite-plugin-md" {
   export interface Frontmatter {
     author?: string;
-    date?: string;
+    date?: string | Date;
     hasToc?: boolean;
   }
 }
