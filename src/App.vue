@@ -220,6 +220,8 @@
 
   .dark .outline,
   .dark hr,
+  .dark blockquote,
+  .dark q,
   .dark.hover .hoverline:hover,
   .dark.hover .focusline:focus {
     &:where(:not(.light)) {
@@ -232,5 +234,10 @@
     margin: 1em 0;
     border: none;
     border-top: 1px solid #066567;
+  }
+
+  blockquote,
+  q {
+    border-left: 2px solid #066567;
   }
 </style>
