@@ -6,7 +6,7 @@
 
   const props = defineProps<{
     title: string | Ref<string>;
-    date?: string;
+    date?: number | string | Date;
     description: string | Ref<string>;
     keywords?: string;
     label?: string;
