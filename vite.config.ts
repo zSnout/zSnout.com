@@ -15,9 +15,15 @@ import { VitePWA } from "vite-plugin-pwa";
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 
+// There's some weird things going on with YAML dates so I'll just offset them...
+function offsetDate(dateStr: any) {
+  const date = new Date(dateStr);
+  return date.getTime() + 24 * 60 * 60 * 1000;
+}
+
 const articles = sync("./src/views/blog/**/*.md").map((src) => {
   const path = src.slice("./src/views".length);
-  const { data: frontmatter, excerpt } = read(src, {
+  const { data, excerpt } = read(src, {
     excerpt: true,
     excerpt_separator: "\n\n",
   });
@@ -26,7 +32,8 @@ const articles = sync("./src/views/blog/**/*.md").map((src) => {
     path,
     frontmatter: {
       excerpt,
-      ...frontmatter,
+      ...data,
+      date: data.date ? offsetDate(data.date) : undefined,
     },
   };
 });
@@ -41,6 +48,10 @@ const addToc = createBuilder("post-markdown", "metaExtracted")
     } else {
       payload.frontmatter.hasToc = true;
       payload.md = `[toc]\n\n${payload.md}`;
+    }
+
+    if (payload.frontmatter.date) {
+      payload.frontmatter.date = offsetDate(payload.frontmatter.date);
     }
 
     return payload;
