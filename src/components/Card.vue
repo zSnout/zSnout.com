@@ -20,7 +20,7 @@
     "menu": 0,
     "meta": 6,
     "camp": 1,
-    "saurs": 3,
+    "saurs": 4,
   };
 
   const color = computed(() => {
