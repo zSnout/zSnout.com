@@ -15,7 +15,7 @@ import { VitePWA } from "vite-plugin-pwa";
 const jsfile = /\.(tsx?|vue|md)($|\?)/;
 const images = sync("./public/images/**/*.png");
 
-// There's some weird things going on with YAML dates so I'll just offset them...
+// There's some weird thcaings going on with YAML dates so I'll just offset them...
 function offsetDate(dateStr: any) {
   const date = new Date(dateStr);
   return date.getTime() + 24 * 60 * 60 * 1000;
