@@ -90,13 +90,17 @@
     }
 
     img {
-      position: relative;
-      left: calc(min(-4rem, 1000px - var(--app-width)) / 2);
       display: block;
-      width: var(--app-width);
+      width: 100%;
       max-height: calc(var(--app-height) - /* navbar height */ 3.5rem - 1px);
       margin-bottom: 1rem;
       object-fit: cover;
+
+      @media (max-width: 1079px) {
+        position: relative;
+        left: -2rem;
+        width: var(--app-width);
+      }
 
       @media (max-width: 400px) {
         left: -1.5rem;
