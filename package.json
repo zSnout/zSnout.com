@@ -27,7 +27,7 @@
     "chess.js": "^0.13.4",
     "chessground": "^8.3.5",
     "error-stack-parser": "^2.1.4",
-    "fast-glob": "^3.2.11",
+    "fast-glob": "^3.2.12",
     "generate-maze": "^1.1.0",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
