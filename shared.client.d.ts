@@ -84,6 +84,8 @@ export interface ChatMessage {
   /** from: Username */
   from: string;
   content: string;
+  /** id: UUID */
+  id: string;
   timestamp: number;
 }
 
