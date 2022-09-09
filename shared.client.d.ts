@@ -17,6 +17,21 @@ export interface ClientToServer {
   "bookmarks:request"(session: string): void;
   "bookmarks:update"(session: string, bookmarks: Bookmark[]): void;
 
+  "chat:create"(session: string, title: string): void;
+  "chat:request:index"(session: string): void;
+  "chat:request:messages"(session: string, chatId: string): void;
+  "chat:update:defaultLevel"(
+    session: string,
+    chatId: string,
+    defaultLevel: string
+  ): void;
+  "chat:update:members"(
+    session: string,
+    chatId: string,
+    members: Record<string, ChatPermissionLevel>
+  ): void;
+  "chat:update:title"(session: string, chatId: string, title: string): void;
+
   "notes:create"(session: string, title: string): void;
   "notes:request:details"(session: string, noteId: string): void;
   "notes:request:index"(session: string): void;
@@ -39,6 +54,9 @@ export interface ServerToClient {
 
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
+  "chat:index"(chats: ChatPreview[]): void;
+  "chat:messages"(chatId: string, messages: ChatMessage[]): void;
+
   "error"(error: string): void;
 
   "notes:index"(notes: NotePreview[]): void;
@@ -60,6 +78,27 @@ export interface NotePreview {
   id: string;
   title: string;
   desc: string;
+}
+
+export interface ChatMessage {
+  /** from: Username */
+  from: string;
+  content: string;
+  timestamp: number;
+}
+
+export interface ChatDetails {
+  id: string;
+  title: string;
+  /** Record<Username, ChatPermissionLevel> */
+  members: Record<string, ChatPermissionLevel>;
+  defaultLevel: Exclude<ChatPermissionLevel, "manage">;
+}
+
+export interface ChatPreview {
+  id: string;
+  title: string;
+  level: ChatPermissionLevel;
 }
 
 export type ChatPermissionLevel = "none" | "view" | "comment" | "manage";
