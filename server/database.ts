@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { Bookmark } from "../shared.server";
+import { Bookmark, ChatMessage, ChatPermissionLevel } from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
@@ -49,5 +49,11 @@ export interface Database {
     owner: ObjectId;
     title: string;
     contents: string;
+  };
+  chats: {
+    creation: number;
+    members: Record<string, ChatPermissionLevel>;
+    messages: ChatMessage[];
+    title: string;
   };
 }
