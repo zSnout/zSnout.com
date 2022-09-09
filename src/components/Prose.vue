@@ -89,6 +89,10 @@
       }
     }
 
+    figure {
+      margin: 1em 2.5em;
+    }
+
     img {
       display: block;
       width: 100%;
@@ -105,6 +109,20 @@
       @media (max-width: 400px) {
         left: -1.5rem;
         max-height: calc(var(--app-height) - /* navbar height */ 2.5rem - 1px);
+      }
+
+      ::after {
+        content: attr("alt");
+      }
+    }
+
+    figure img {
+      @media (max-width: 1079px) {
+        left: -4.5rem;
+      }
+
+      @media (max-width: 400px) {
+        left: -4rem;
       }
     }
 
