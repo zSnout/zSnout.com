@@ -61,3 +61,5 @@ export interface NotePreview {
   title: string;
   desc: string;
 }
+
+export type ChatPermissionLevel = "none" | "view" | "comment" | "manage";
