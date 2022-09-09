@@ -1,4 +1,9 @@
-import { useCssVar, useStorage, useWindowSize } from "@vueuse/core";
+import {
+  tryOnScopeDispose,
+  useCssVar,
+  useStorage,
+  useWindowSize,
+} from "@vueuse/core";
 import { io, Socket } from "socket.io-client";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, defineAsyncComponent, ref, watchEffect } from "vue";
@@ -218,3 +223,14 @@ socket.on(
   "account:needs-verification",
   (value) => (timeLeftBeforeAccountDeletion.value = value)
 );
+
+export function useSocketListener<K extends keyof ServerToClient>(
+  event: K,
+  callback: ServerToClient[K]
+) {
+  socket.on(event, callback as any);
+  const stop = () => socket.off(event, callback as any);
+
+  tryOnScopeDispose(stop);
+  return stop;
+}
