@@ -1,7 +1,7 @@
 import { ObjectId } from "bson";
 import { NotePreview } from "../shared.server";
 import { checkSession, ReAuthStatus } from "./auth";
-import { collection, Database } from "./database";
+import { collection } from "./database";
 
 const _accounts = collection("accounts");
 const _notes = collection("notes");
@@ -11,13 +11,6 @@ async function addToMyNotes(noteId: ObjectId, userId: ObjectId) {
   if (!accounts) return;
 
   await accounts.updateOne({ _id: userId }, { $push: { notes: noteId } });
-}
-
-async function removeFromMyNotes(noteId: ObjectId, userId: ObjectId) {
-  const accounts = await _accounts;
-  if (!accounts) return;
-
-  await accounts.updateOne({ _id: userId }, { $pull: { notes: noteId } });
 }
 
 export async function allNotes(session: string): Promise<NotePreview[]> {
