@@ -89,17 +89,42 @@ export async function getChatInfo(
 
 export async function updateChatTitle(chatId: string, title: string) {
   if (chatId.length !== 24) return false;
-  if (title.length > 100) return false;
 
   const chats = await _chats;
   if (!chats) return false;
 
   const { acknowledged } = await chats.updateOne(
     { _id: /** SAFE */ ObjectId.createFromHexString(chatId) },
-    { $set: { title } }
+    { $set: { title: title.slice(0, 100) } }
   );
 
   return acknowledged;
+}
+
+export async function sendChatMessage(
+  chatId: string,
+  from: string,
+  content: string
+) {
+  if (chatId.length !== 24) return false;
+
+  const chats = await _chats;
+  if (!chats) return false;
+
+  const message = {
+    content: content.slice(0, 1000),
+    id: randomUUID(),
+    timestamp: Date.now(),
+    from,
+  };
+
+  const { acknowledged } = await chats.updateOne(
+    { _id: /** SAFE */ ObjectId.createFromHexString(chatId) },
+    { $push: { messages: message } }
+  );
+
+  if (!acknowledged) return false;
+  return message;
 }
 
 export type GetChatInfoResult =
