@@ -33,7 +33,7 @@ export interface ClientToServer {
   ): void;
   "chat:update:title"(session: string, chatId: string, title: string): void;
   "chat:watch:start"(session: string, chatId: string): void;
-  "chat:watch:stop"(session: string, chatId: string): void;
+  "chat:watch:stop"(chatId: string): void;
 
   "notes:create"(session: string, title: string): void;
   "notes:request:details"(session: string, noteId: string): void;
