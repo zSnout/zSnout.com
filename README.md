@@ -23,7 +23,8 @@ If you want to be absolutely sure that the project runs correctly, use
 npm ci
 ```
 
-By using `ci`, your zSnout installation will use the package versions from `package-lock.json` instead of `package.json`.
+By using `ci`, your zSnout installation will use the package versions from
+`package-lock.json` instead of `package.json`.
 
 ## Running the project
 
@@ -209,3 +210,13 @@ Markdown component. You can add `[notoc]` to the top of a file to disable this
 behavior. You may also add `[toc]` to add a table of contents within the main
 document instead of in a sidebar. You may use both `[notoc]` and `[toc]` within
 a document to include the inline TOC instead of the sidebar.
+
+## Dangerous edge cases
+
+Sometimes unsafe code is introduced. When you write unsafe code, prefix it with
+`/** SAFE */` once you've made it safe. Here are some cases when this happens:
+
+1. Using `ObjectId.createFromHexString(string)` is only safe if `string` is
+   EXACTLY 24 characters long. If it isn't, an error will be thrown, disrupting
+   the server connection. You may only write `/** SAFE */` after you've checked
+   that `string` matches this condition.

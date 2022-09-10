@@ -56,6 +56,8 @@ export async function createNote(session: string, title: string) {
 }
 
 export async function doesOwnNote(session: string, noteIdAsHex: string) {
+  if (noteIdAsHex.length !== 24) return { doesOwn: false as const };
+
   const { status, account } = await checkSession(session);
 
   if (status === ReAuthStatus.Failure) return { doesOwn: false as const };
@@ -65,7 +67,7 @@ export async function doesOwnNote(session: string, noteIdAsHex: string) {
   if (!notes) return { doesOwn: false as const };
 
   const note = await notes.findOne({
-    _id: ObjectId.createFromHexString(noteIdAsHex),
+    _id: /** SAFE */ ObjectId.createFromHexString(noteIdAsHex),
     owner: account._id,
   });
 
@@ -78,25 +80,29 @@ export async function doesOwnNote(session: string, noteIdAsHex: string) {
 }
 
 export async function setNoteContents(noteIdAsHex: string, contents: string) {
+  if (noteIdAsHex.length !== 24) return;
+
   if (contents.length >= 10000) return;
 
   const notes = await _notes;
   if (!notes) return;
 
   await notes.updateOne(
-    { _id: ObjectId.createFromHexString(noteIdAsHex) },
+    { _id: /** SAFE */ ObjectId.createFromHexString(noteIdAsHex) },
     { $set: { contents } }
   );
 }
 
 export async function setNoteTitle(noteIdAsHex: string, title: string) {
+  if (noteIdAsHex.length !== 24) return;
+
   if (title.length >= 100) return;
 
   const notes = await _notes;
   if (!notes) return;
 
   await notes.updateOne(
-    { _id: ObjectId.createFromHexString(noteIdAsHex) },
+    { _id: /** SAFE */ ObjectId.createFromHexString(noteIdAsHex) },
     { $set: { title } }
   );
 }
