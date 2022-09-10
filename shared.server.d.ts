@@ -20,6 +20,7 @@ export interface ClientToServer {
   "chat:create"(session: string, title: string): void;
   "chat:request:index"(session: string): void;
   "chat:request:messages"(session: string, chatId: string): void;
+  "chat:send"(session: string, chatId: string, content: string): void;
   "chat:update:defaultLevel"(
     session: string,
     chatId: string,
@@ -31,6 +32,8 @@ export interface ClientToServer {
     members: Record<string, ChatPermissionLevel>
   ): void;
   "chat:update:title"(session: string, chatId: string, title: string): void;
+  "chat:watch:start"(session: string, chatId: string): void;
+  "chat:watch:stop"(session: string, chatId: string): void;
 
   "notes:create"(session: string, title: string): void;
   "notes:request:details"(session: string, noteId: string): void;
@@ -55,7 +58,8 @@ export interface ServerToClient {
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
   "chat:index"(chats: ChatPreview[]): void;
-  "chat:messages"(chatId: string, messages: ChatMessage[]): void;
+  "chat:message:list"(chatId: string, messages: ChatMessage[]): void;
+  "chat:message:update"(chatId: string, message: ChatMessage): void;
 
   "error"(error: string): void;
 
