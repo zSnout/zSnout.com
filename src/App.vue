@@ -69,13 +69,11 @@
 
   html {
     height: var(--app-height);
-    overflow-x: hidden;
   }
 
   body,
   #app {
     min-height: var(--app-height);
-    overflow-x: hidden;
   }
 
   body {
