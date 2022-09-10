@@ -97,7 +97,7 @@ export async function createAccount(
   if (await accounts.findOne({ email }))
     return { status: AccountStatus.EmailTaken as const };
 
-  const account = {
+  const account: Database["accounts"] = {
     username,
     password: await hashPassword(password),
     email,
@@ -108,6 +108,8 @@ export async function createAccount(
     bookmarks: [],
     notes: [],
     chats: [],
+    invites: [],
+    willNotifyForBlog: true,
   };
 
   const result = await accounts.insertOne(account);
