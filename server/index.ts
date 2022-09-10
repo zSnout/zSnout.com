@@ -16,11 +16,7 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import {
-  createChat,
-  getChatIndex,
-  getChatMessages as getChatMessages,
-} from "./chat";
+import { createChat, getChatIndex, getChatInfo, updateChatTitle } from "./chat";
 import {
   allNotes,
   createNote,
@@ -248,15 +244,30 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       this.emit("chat:index", await getChatIndex(session));
     }
   },
+  async "chat:update:title"(session, chatId, title) {
+    if (this.rooms.has(`chat-${chatId}`) || (await verify(this, session))) {
+      const { permission } = await getChatInfo(session, chatId);
+
+      if (permission === "manage") {
+        if (await updateChatTitle(chatId, title)) {
+          this.to(`chat-${chatId}`).emit("chat:update:title", chatId, title);
+        }
+      }
+    }
+  },
   async "chat:watch:start"(session, chatId) {
     if (await verify(this, session)) {
-      const { permission, messages } = await getChatMessages(session, chatId);
+      const { title, messages, permission } = await getChatInfo(
+        session,
+        chatId
+      );
 
       this.emit("chat:permission", chatId, permission);
       if (permission === "none") return;
 
       this.join(`chat-${chatId}`);
       this.emit("chat:message:list", chatId, messages);
+      this.emit("chat:update:title", chatId, title);
     }
   },
   async "chat:watch:stop"(chatId) {
