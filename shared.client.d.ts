@@ -60,6 +60,7 @@ export interface ServerToClient {
   "chat:message:list"(chatId: string, messages: ChatMessage[]): void;
   "chat:message:update"(chatId: string, message: ChatMessage): void;
   "chat:permission"(chatId: string, level: ChatPermissionLevel): void;
+  "chat:update:title"(chatId: string, title: string): void;
 
   "error"(error: string): void;
 
