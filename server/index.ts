@@ -16,6 +16,7 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
+import { createChat, getChatIndex } from "./chat";
 import {
   allNotes,
   createNote,
@@ -229,6 +230,18 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
           this.to(`session:${session}`).emit("bookmarks:list", bookmarks);
         }
       }
+    }
+  },
+  async "chat:create"(session, title) {
+    if (await verify(this, session)) {
+      if (await createChat(session, title)) {
+        this.emit("chat:index", await getChatIndex(session));
+      }
+    }
+  },
+  async "chat:request:index"(session) {
+    if (await verify(this, session)) {
+      this.emit("chat:index", await getChatIndex(session));
     }
   },
   async "notes:create"(session, title) {
