@@ -1,11 +1,11 @@
 <template>
-  <header>
+  <div class="sticky">
     <slot />
-  </header>
+  </div>
 </template>
 
 <style lang="scss" scoped>
-  header {
+  .sticky {
     position: sticky;
     top: calc(3.5rem + 1px);
     width: calc(100% + 2rem);
