@@ -67,13 +67,15 @@
     user-select: text;
   }
 
+  html {
+    height: var(--app-height);
+    overflow-x: hidden;
+  }
+
   body,
   #app {
     min-height: var(--app-height);
-  }
-
-  html {
-    height: var(--app-height);
+    overflow-x: hidden;
   }
 
   body {
