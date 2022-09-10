@@ -19,7 +19,6 @@ export interface ClientToServer {
 
   "chat:create"(session: string, title: string): void;
   "chat:request:index"(session: string): void;
-  "chat:request:messages"(session: string, chatId: string): void;
   "chat:send"(session: string, chatId: string, content: string): void;
   "chat:update:defaultLevel"(
     session: string,
