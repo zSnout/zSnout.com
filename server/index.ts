@@ -16,7 +16,11 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import { createChat, getChatIndex } from "./chat";
+import {
+  createChat,
+  getChatIndex,
+  getChatMessage as getChatMessages,
+} from "./chat";
 import {
   allNotes,
   createNote,
@@ -243,6 +247,20 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
     if (await verify(this, session)) {
       this.emit("chat:index", await getChatIndex(session));
     }
+  },
+  async "chat:watch:start"(session, chatId) {
+    if (await verify(this, session)) {
+      const { permission, messages } = await getChatMessages(session, chatId);
+
+      this.emit("chat:permission", chatId, permission);
+      if (permission === "none") return;
+
+      this.join(`chat-${chatId}`);
+      this.emit("chat:message:list", chatId, messages);
+    }
+  },
+  async "chat:watch:stop"(chatId) {
+    this.leave(`chat-${chatId}`);
   },
   async "notes:create"(session, title) {
     if (await verify(this, session)) {
