@@ -31,6 +31,7 @@
 
 <style lang="scss" scoped>
   .field {
+    font-weight: inherit;
     font-size: inherit;
     background-color: transparent;
     border: 0;
