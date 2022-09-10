@@ -53,7 +53,7 @@ export interface Database {
   };
   chats: {
     creation: number;
-    members: Record<string, ChatPermissionLevel>;
+    members: Record<string, ChatPermissionLevel | undefined>;
     messages: ChatMessage[];
     title: string;
   };
