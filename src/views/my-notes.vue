@@ -30,7 +30,7 @@
 
 <template>
   <DocumentDisplay>
-    <Title>{{ username ? `@${username}'s` : "My" }} Notes</Title>
+    <Title>{{ username ? `${username}'s` : "My" }} Notes</Title>
 
     <p v-if="!session">
       Looks like you're not logged in.
