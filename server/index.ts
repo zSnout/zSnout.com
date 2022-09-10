@@ -16,7 +16,13 @@ import {
   verifyAccount,
   VerifyStatus,
 } from "./auth";
-import { createChat, getChatIndex, getChatInfo, updateChatTitle } from "./chat";
+import {
+  createChat,
+  getChatIndex,
+  getChatInfo,
+  sendChatMessage,
+  updateChatTitle,
+} from "./chat";
 import {
   allNotes,
   createNote,
@@ -54,7 +60,7 @@ async function verify(socket: Socket, session: string) {
 
     socket.join(`session:${(socket.data.oldSession = session)}`);
 
-    return true;
+    return account;
   } else {
     socket.emit("account:update:session", "");
     socket.emit("account:update:username", "");
@@ -242,6 +248,22 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
   async "chat:request:index"(session) {
     if (await verify(this, session)) {
       this.emit("chat:index", await getChatIndex(session));
+    }
+  },
+  async "chat:send"(session, chatId, content) {
+    if (!content) return;
+
+    const account = await verify(this, session);
+    if (!account) return;
+
+    const { permission } = await getChatInfo(session, chatId);
+
+    if (permission === "manage" || permission === "comment") {
+      const message = await sendChatMessage(chatId, account.username, content);
+      if (!message) return;
+
+      this.to(`chat-${chatId}`).emit("chat:message:update", chatId, message);
+      this.emit("chat:message:update", chatId, message);
     }
   },
   async "chat:update:title"(session, chatId, title) {
