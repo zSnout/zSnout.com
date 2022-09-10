@@ -42,7 +42,7 @@ export async function createChat(
     return false;
   }
 
-  const result = await chats.insertOne({
+  const { acknowledged } = await chats.insertOne({
     _id,
     creation: Date.now(),
     members: { [account._id.toHexString()]: "manage" },
@@ -54,20 +54,17 @@ export async function createChat(
         timestamp: Date.now(),
       },
     ],
-    title,
+    title: title.slice(0, 100),
+    defaultLevel: "none",
   });
 
-  if (!result.acknowledged) {
-    return false;
-  }
-
-  return true;
+  return acknowledged;
 }
 
-export async function getChatMessages(
+export async function getChatInfo(
   session: string,
   chatId: string
-): Promise<GetChatMessagesResult> {
+): Promise<GetChatInfoResult> {
   if (chatId.length !== 24) return { permission: "none" };
 
   const [chats, account] = await Promise.all([_chats, getAccount(session)]);
@@ -80,21 +77,39 @@ export async function getChatMessages(
   });
   if (!chat) return { permission: "none" };
 
-  const permission = chat.members[myId];
+  const permission = chat.members[myId] || chat.defaultLevel;
   if (!permission || permission === "none") return { permission: "none" };
 
   return {
     permission,
     messages: chat.messages,
+    title: chat.title,
   };
 }
 
-export type GetChatMessagesResult =
+export async function updateChatTitle(chatId: string, title: string) {
+  if (chatId.length !== 24) return false;
+  if (title.length > 100) return false;
+
+  const chats = await _chats;
+  if (!chats) return false;
+
+  const { acknowledged } = await chats.updateOne(
+    { _id: /** SAFE */ ObjectId.createFromHexString(chatId) },
+    { $set: { title } }
+  );
+
+  return acknowledged;
+}
+
+export type GetChatInfoResult =
   | {
       permission: "none";
       messages?: undefined;
+      title?: undefined;
     }
   | {
       permission: Exclude<ChatPermissionLevel, "none">;
       messages: ChatMessage[];
+      title: string;
     };
