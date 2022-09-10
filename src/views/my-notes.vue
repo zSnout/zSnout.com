@@ -50,13 +50,13 @@
       v-if="session && notes.length"
       placeholder="Search your notes..."
     >
-      <RouterLink v-for="note in notes" :to="`/note?id=${note.id}`">
-        <Card
-          class="card text-color"
-          :description="htmlToText(note.desc)"
-          :title="note.title"
-        />
-      </RouterLink>
+      <Card
+        v-for="note in notes"
+        class="card text-color"
+        :description="htmlToText(note.desc)"
+        :title="note.title"
+        :to="`/note?id=${note.id}`"
+      />
     </SearchableCardGrid>
   </DocumentDisplay>
 
@@ -91,9 +91,3 @@
     </template>
   </Modal>
 </template>
-
-<style scoped>
-  .card :deep(*) {
-    text-decoration: none !important;
-  }
-</style>
