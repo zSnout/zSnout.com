@@ -1,6 +1,10 @@
 import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
-import { ChatPreview } from "../shared.server";
+import {
+  ChatMessage,
+  ChatPermissionLevel,
+  ChatPreview,
+} from "../shared.server";
 import { getAccount, updateAccount } from "./auth";
 import { collection } from "./database";
 
@@ -17,11 +21,12 @@ export async function getChatIndex(session: string): Promise<ChatPreview[]> {
     .map((chat) => {
       return {
         id: chat._id.toHexString(),
-        level: chat.members[myId],
+        // The ! is validated in the .filter
+        level: chat.members[myId]!,
         title: chat.title,
       };
     })
-    .filter((chat) => chat.level !== "none");
+    .filter((chat) => chat.level && chat.level !== "none");
 }
 
 export async function createChat(
@@ -58,3 +63,38 @@ export async function createChat(
 
   return true;
 }
+
+export async function getChatMessages(
+  session: string,
+  chatId: string
+): Promise<GetChatMessagesResult> {
+  if (chatId.length !== 24) return { permission: "none" };
+
+  const [chats, account] = await Promise.all([_chats, getAccount(session)]);
+  if (!chats || !account) return { permission: "none" };
+
+  const myId = account._id.toHexString();
+
+  const chat = await chats.findOne({
+    _id: /** SAFE */ ObjectId.createFromHexString(chatId),
+  });
+  if (!chat) return { permission: "none" };
+
+  const permission = chat.members[myId];
+  if (!permission || permission === "none") return { permission: "none" };
+
+  return {
+    permission,
+    messages: chat.messages,
+  };
+}
+
+export type GetChatMessagesResult =
+  | {
+      permission: "none";
+      messages?: undefined;
+    }
+  | {
+      permission: Exclude<ChatPermissionLevel, "none">;
+      messages: ChatMessage[];
+    };

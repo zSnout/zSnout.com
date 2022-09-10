@@ -19,7 +19,7 @@ import {
 import {
   createChat,
   getChatIndex,
-  getChatMessage as getChatMessages,
+  getChatMessages as getChatMessages,
 } from "./chat";
 import {
   allNotes,
