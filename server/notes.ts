@@ -81,8 +81,7 @@ export async function doesOwnNote(session: string, noteIdAsHex: string) {
 
 export async function setNoteContents(noteIdAsHex: string, contents: string) {
   if (noteIdAsHex.length !== 24) return;
-
-  if (contents.length >= 10000) return;
+  if (contents.length > 10000) return;
 
   const notes = await _notes;
   if (!notes) return;
@@ -95,8 +94,7 @@ export async function setNoteContents(noteIdAsHex: string, contents: string) {
 
 export async function setNoteTitle(noteIdAsHex: string, title: string) {
   if (noteIdAsHex.length !== 24) return;
-
-  if (title.length >= 100) return;
+  if (title.length > 100) return;
 
   const notes = await _notes;
   if (!notes) return;
