@@ -48,7 +48,7 @@ export async function createChat(
     members: { [account._id.toHexString()]: "manage" },
     messages: [
       {
-        content: "Welcome to your new chat, ",
+        content: `Welcome to your new chat, ${account.username}!`,
         from: "zSnout",
         id: randomUUID(),
         timestamp: Date.now(),
