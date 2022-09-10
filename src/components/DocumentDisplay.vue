@@ -1,7 +1,6 @@
 <script lang="ts" setup>
   import { useMediaQuery } from "@vueuse/core";
   import { computed } from "vue";
-  import Aside from "./Aside.vue";
   import Footer from "./Footer.vue";
   import Navigation from "./Navigation.vue";
   import SafeArea from "./SafeArea.vue";
@@ -40,6 +39,7 @@
   </Navigation>
 
   <SafeArea
+    :class="{ center }"
     class="page-content"
     :aside="!!$slots.aside"
     :explicit-height="explicitHeight"
