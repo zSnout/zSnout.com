@@ -94,13 +94,12 @@ export async function setNoteContents(noteIdAsHex: string, contents: string) {
 
 export async function setNoteTitle(noteIdAsHex: string, title: string) {
   if (noteIdAsHex.length !== 24) return;
-  if (title.length > 100) return;
 
   const notes = await _notes;
   if (!notes) return;
 
   await notes.updateOne(
     { _id: /** SAFE */ ObjectId.createFromHexString(noteIdAsHex) },
-    { $set: { title } }
+    { $set: { title: title.slice(0, 100) } }
   );
 }
