@@ -31,6 +31,7 @@ export interface ClientToServer {
     content: string
   ): void;
   "chat:request:index"(session: string): void;
+  "chat:request:members"(session: string, chatId: string): void;
   "chat:update:defaultLevel"(
     session: string,
     chatId: string,
@@ -72,6 +73,10 @@ export interface ServerToClient {
   "chat:message:list"(chatId: string, messages: ChatMessage[]): void;
   "chat:message:update"(chatId: string, message: ChatMessage): void;
   "chat:permission"(chatId: string, level: ChatPermissionLevel): void;
+  "chat:update:members"(
+    chatId: string,
+    members: Record<string, ChatPermissionLevel>
+  ): void;
   "chat:update:title"(chatId: string, title: string): void;
 
   "error"(error: string): void;
