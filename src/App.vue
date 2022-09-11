@@ -80,9 +80,11 @@
     margin: 0;
     line-height: 1.5;
     background-color: #f0f0f0;
+    --background-color: #f0f0f0;
 
     .dark & {
       background-color: #0f0f0f;
+      --background-color: #0f0f0f;
     }
   }
 
