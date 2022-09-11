@@ -189,7 +189,7 @@ your email server if the specified port is 465.
 7. Mobile aside
 8. Bookmark window
 9. Navigation bar
-10. Modal windows
+10. Modal windows and context menus
 
 ## Special breakpoints
 
