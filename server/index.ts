@@ -18,6 +18,7 @@ import {
 } from "./auth";
 import {
   createChat,
+  deleteChatMessage,
   getChatIndex,
   getChatInfo,
   sendChatMessage,
@@ -245,12 +246,18 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       }
     }
   },
-  async "chat:request:index"(session) {
-    if (await verify(this, session)) {
-      this.emit("chat:index", await getChatIndex(session));
+  async "chat:message:delete"(session, chatId, messageId) {
+    if (chatId.length !== 24) return;
+
+    const account = await verify(this, session);
+    if (!account) return;
+
+    if (await deleteChatMessage(account.username, chatId, messageId)) {
+      this.to(`chat-${chatId}`).emit("chat:message:delete", chatId, messageId);
+      this.emit("chat:message:delete", chatId, messageId);
     }
   },
-  async "chat:send"(session, chatId, content) {
+  async "chat:message:send"(session, chatId, content) {
     if (!content) return;
 
     const account = await verify(this, session);
@@ -264,6 +271,11 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
       this.to(`chat-${chatId}`).emit("chat:message:update", chatId, message);
       this.emit("chat:message:update", chatId, message);
+    }
+  },
+  async "chat:request:index"(session) {
+    if (await verify(this, session)) {
+      this.emit("chat:index", await getChatIndex(session));
     }
   },
   async "chat:update:title"(session, chatId, title) {

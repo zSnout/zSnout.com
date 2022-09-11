@@ -127,6 +127,24 @@ export async function sendChatMessage(
   return message;
 }
 
+export async function deleteChatMessage(
+  username: string,
+  chatId: string,
+  messageId: string
+) {
+  if (chatId.length !== 24) return false;
+
+  const chats = await _chats;
+  if (!chats) return false;
+
+  const { acknowledged } = await chats.updateOne(
+    { _id: /** SAFE */ ObjectId.createFromHexString(chatId) },
+    { $pull: { messages: { id: messageId, from: username } } }
+  );
+
+  return acknowledged;
+}
+
 export type GetChatInfoResult =
   | {
       permission: "none";
