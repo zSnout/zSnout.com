@@ -11,7 +11,6 @@
     width: calc(100% + 2rem);
     margin-top: -2rem !important;
     padding: 1rem;
-    padding-bottom: 2rem;
     font-weight: 300;
     font-size: 1.5em;
     -webkit-backdrop-filter: blur(0.5rem);
