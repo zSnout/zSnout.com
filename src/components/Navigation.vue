@@ -86,7 +86,7 @@
   }
 
   .navbar {
-    height: 3.5rem;
+    height: calc(3.5rem - 1px);
     padding: 0.75rem 0;
     touch-action: manipulation;
   }
@@ -112,9 +112,9 @@
     height: 100%;
   }
 
-  @media screen and (max-width: 400px) {
+  @media (max-width: 400px) {
     .navbar {
-      height: 2.5rem;
+      height: calc(2.5rem - 1px);
       padding: 0.5rem 0;
     }
 
