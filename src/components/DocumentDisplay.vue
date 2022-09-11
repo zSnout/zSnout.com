@@ -9,6 +9,7 @@
     center?: boolean;
     explicitHeight?: boolean;
     maxWidth?: boolean;
+    noFooter?: boolean;
   }>();
 
   const isMobile = useMediaQuery("(max-width: 400px)");
@@ -53,7 +54,7 @@
     <slot />
   </SafeArea>
 
-  <Footer :aside="!!$slots.aside" />
+  <Footer v-if="!noFooter" :aside="!!$slots.aside" />
 </template>
 
 <style lang="scss">
