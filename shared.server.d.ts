@@ -18,8 +18,15 @@ export interface ClientToServer {
   "bookmarks:update"(session: string, bookmarks: Bookmark[]): void;
 
   "chat:create"(session: string, title: string): void;
+  "chat:message:delete"(session: string, messageId: string): void;
+  "chat:message:send"(session: string, chatId: string, content: string): void;
+  "chat:message:update"(
+    session: string,
+    chatId: string,
+    messageId: string,
+    content: string
+  ): void;
   "chat:request:index"(session: string): void;
-  "chat:send"(session: string, chatId: string, content: string): void;
   "chat:update:defaultLevel"(
     session: string,
     chatId: string,
@@ -57,6 +64,7 @@ export interface ServerToClient {
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
   "chat:index"(chats: ChatPreview[]): void;
+  "chat:message:delete"(chatId: string, /** UUID */ messageId: string): void;
   "chat:message:list"(chatId: string, messages: ChatMessage[]): void;
   "chat:message:update"(chatId: string, message: ChatMessage): void;
   "chat:permission"(chatId: string, level: ChatPermissionLevel): void;
