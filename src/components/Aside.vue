@@ -13,7 +13,7 @@
 <style lang="scss" scoped>
   .aside {
     position: fixed;
-    z-index: 3;
+    z-index: 4;
     overflow: auto;
 
     @media (min-width: 1080px) {
@@ -32,7 +32,7 @@
     @media (max-width: 1079px) {
       top: 3.5em;
       left: max(-400px, -100%);
-      z-index: 5;
+      z-index: 6;
       width: calc(100% + min(400px, 100%));
       height: calc(100% - 3.5em);
       visibility: hidden;

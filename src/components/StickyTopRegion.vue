@@ -8,6 +8,7 @@
   .sticky {
     position: sticky;
     top: calc(3.5rem + 1px);
+    z-index: 3;
     width: calc(100% + 2rem);
     margin-top: -2rem !important;
     padding: 1rem;

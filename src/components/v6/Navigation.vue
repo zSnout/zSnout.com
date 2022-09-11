@@ -89,7 +89,7 @@
     top: 0;
     right: 0;
     left: 0;
-    z-index: 7;
+    z-index: 8;
     box-sizing: content-box;
     height: 2em;
     padding: 12px 0;
@@ -177,7 +177,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 5;
+    z-index: 6;
     width: 100vw;
     height: 100vh;
   }

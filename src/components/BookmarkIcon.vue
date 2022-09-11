@@ -293,7 +293,7 @@
     position: fixed;
     top: calc(3.5em + 1px);
     left: 0;
-    z-index: 7;
+    z-index: 8;
     width: var(--app-width);
     height: calc(var(--app-height) - 3.5em - 1px);
     background-color: #0004;

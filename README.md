@@ -182,13 +182,14 @@ your email server if the specified port is 465.
 
 1. Background images
 2. Page content
-3. Desktop aside
-4. Page footer
-5. Indicator
-6. Mobile aside
-7. Bookmark window
-8. Navigation bar
-9. Modal windows
+3.
+4. Desktop aside
+5. Page footer
+6. Indicator
+7. Mobile aside
+8. Bookmark window
+9. Navigation bar
+10. Modal windows
 
 ## Special breakpoints
 
