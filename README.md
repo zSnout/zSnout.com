@@ -182,7 +182,7 @@ your email server if the specified port is 465.
 
 1. Background images
 2. Page content
-3.
+3. Sticky regions
 4. Desktop aside
 5. Page footer
 6. Indicator
