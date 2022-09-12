@@ -29,6 +29,10 @@
     }
   });
 
+  useEventListener("blur", () => {
+    emit("update:open", false);
+  });
+
   const menu = ref<HTMLElement>();
   const { height } = useElementSize(menu, undefined, { box: "border-box" });
 </script>
