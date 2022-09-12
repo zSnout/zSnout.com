@@ -18,12 +18,14 @@ import {
 } from "./auth";
 import {
   changeIdsToUsername,
+  changeUsernamesToIds,
   createChat,
   deleteChatMessage,
   getChatIndex,
   getChatInfo,
   sendChatMessage,
   updateChatTitle,
+  updateMemberList,
 } from "./chat";
 import {
   allNotes,
@@ -284,14 +286,31 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       const { members, permission } = await getChatInfo(session, chatId);
 
       this.emit("chat:permission", chatId, permission);
-      if (permission === "none") return;
+      if (permission !== "manage") return;
 
-      this.join(`chat-${chatId}`);
       this.emit(
         "chat:update:members",
         chatId,
         await changeIdsToUsername(members)
       );
+    }
+  },
+  async "chat:update:members"(session, chatId, members) {
+    if (await verify(this, session)) {
+      const { permission } = await getChatInfo(session, chatId);
+
+      this.emit("chat:permission", chatId, permission);
+      if (permission !== "manage") return;
+
+      const result = await changeUsernamesToIds(members);
+
+      this.emit(
+        "chat:update:members",
+        chatId,
+        await changeIdsToUsername(result)
+      );
+
+      await updateMemberList(chatId, result);
     }
   },
   async "chat:update:title"(session, chatId, title) {
