@@ -1,4 +1,5 @@
 import { compare, hash } from "bcrypt";
+import { UpdateFilter } from "mongodb";
 import { randomUUID } from "node:crypto";
 import { collection, Database } from "./database";
 import { send } from "./email";
@@ -172,14 +173,21 @@ export async function getAccount(session: string) {
   return (await (await _accounts)?.findOne({ session })) || undefined;
 }
 
+export async function updateAtomic(
+  session: string,
+  update: UpdateFilter<Database["accounts"]>
+) {
+  return (
+    (await (await _accounts)?.updateOne({ session }, update))?.acknowledged ||
+    false
+  );
+}
+
 export async function updateAccount(
   session: string,
   update: Partial<Database["accounts"]>
 ) {
-  return (
-    (await (await _accounts)?.updateOne({ session }, { $set: update }))
-      ?.acknowledged || false
-  );
+  return updateAtomic(session, { $set: update });
 }
 
 export async function updateUsername(session: string, username: string) {
