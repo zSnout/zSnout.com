@@ -5,6 +5,7 @@ import {
   useWindowSize,
 } from "@vueuse/core";
 import { io, Socket } from "socket.io-client";
+import { DisconnectDescription } from "socket.io-client/build/esm/socket";
 import { useRegisterSW } from "virtual:pwa-register/vue";
 import { createApp, defineAsyncComponent, ref, watchEffect } from "vue";
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
@@ -224,10 +225,24 @@ socket.on(
   (value) => (timeLeftBeforeAccountDeletion.value = value)
 );
 
+interface SocketReservedEvents {
+  connect: () => void;
+  connect_error: (err: Error) => void;
+  disconnect: (
+    reason: Socket.DisconnectReason,
+    description?: DisconnectDescription
+  ) => void;
+}
+
 export function useSocketListener<K extends keyof ServerToClient>(
   event: K,
   callback: ServerToClient[K]
-) {
+): () => void;
+export function useSocketListener<K extends keyof SocketReservedEvents>(
+  event: K,
+  callback: SocketReservedEvents[K]
+): () => void;
+export function useSocketListener(event: any, callback: any) {
   socket.on(event, callback as any);
   const stop = () => socket.off(event, callback as any);
 
