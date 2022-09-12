@@ -23,8 +23,9 @@
     } catch {}
   }
 
-  export function addThis() {
-    const url = location.pathname + location.search + location.hash;
+  export function addThis(
+    url = location.pathname + location.search + location.href
+  ) {
     if (bookmarks.some((e) => e.url === url)) return;
 
     bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
