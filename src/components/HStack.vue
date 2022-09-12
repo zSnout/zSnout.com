@@ -13,7 +13,7 @@
     class="stack"
     :style="{
       'gap': `${space ?? 0.5}em`,
-      '--wrap-size': typeof wraps === 'string' ? wraps : undefined,
+      '--wrap-size': typeof wraps === 'string' ? wraps : 0,
     }"
   >
     <slot />
