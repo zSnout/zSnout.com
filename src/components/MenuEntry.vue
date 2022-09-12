@@ -1,5 +1,9 @@
+<script lang="ts" setup>
+  defineProps<{ disabled?: boolean }>();
+</script>
+
 <template>
-  <button class="entry">
+  <button :class="{ disabled }" class="entry" :disabled="disabled">
     <slot />
   </button>
 </template>
@@ -16,12 +20,16 @@
     border-radius: 0.125em;
     transition: 0s;
 
-    .hover &:hover {
+    &.disabled {
+      opacity: 0.5;
+    }
+
+    .hover &:not(.disabled):hover {
       color: white;
       background-color: rgb(95 150 249);
     }
 
-    .dark.hover &:hover {
+    .dark.hover &:not(.disabled):hover {
       background-color: rgb(94 132 228);
     }
   }
