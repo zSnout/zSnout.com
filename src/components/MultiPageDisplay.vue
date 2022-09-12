@@ -1,6 +1,5 @@
 <script lang="ts" setup>
   import { useCssVar } from "@vueuse/core";
-  import Aside from "./Aside.vue";
   import Footer from "./Footer.vue";
   import Navigation from "./Navigation.vue";
 
