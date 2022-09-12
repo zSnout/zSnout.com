@@ -296,22 +296,21 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
     }
   },
   async "chat:update:members"(session, chatId, members) {
-    if (await verify(this, session)) {
-      const { permission } = await getChatInfo(session, chatId);
+    const account = await verify(this, session);
+    if (!account) return;
 
-      this.emit("chat:permission", chatId, permission);
-      if (permission !== "manage") return;
+    const { permission } = await getChatInfo(session, chatId);
 
-      const result = await changeUsernamesToIds(members);
+    this.emit("chat:permission", chatId, permission);
+    if (permission !== "manage") return;
+    if (members[account.username] !== "manage") return;
 
-      this.emit(
-        "chat:update:members",
-        chatId,
-        await changeIdsToUsername(result)
-      );
+    const result = await changeUsernamesToIds(members);
+    if (result[account._id.toHexString()] !== "manage") return;
 
-      await updateMemberList(chatId, result);
-    }
+    this.emit("chat:update:members", chatId, await changeIdsToUsername(result));
+
+    await updateMemberList(chatId, result);
   },
   async "chat:update:title"(session, chatId, title) {
     if (this.rooms.has(`chat-${chatId}`) || (await verify(this, session))) {
