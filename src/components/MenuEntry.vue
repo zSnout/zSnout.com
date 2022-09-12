@@ -18,7 +18,7 @@
     background-color: transparent;
     border: 0;
     border-radius: 0.125em;
-    transition: 0s;
+    transition: 0s !important;
 
     &.disabled {
       opacity: 0.5;
