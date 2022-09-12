@@ -12,8 +12,8 @@
 
   function onMove(event: MouseEvent) {
     if (!props.open || event.type === "contextmenu") {
-      x.value = event.pageX;
-      y.value = event.pageY;
+      x.value = event.clientX;
+      y.value = event.clientY;
     }
   }
 
