@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
@@ -11,6 +12,7 @@ import {
   logInUser,
   ReAuthStatus,
   updateAccount,
+  updateAtomic as updateAccountAtomic,
   updatePassword,
   updateUsername,
   verifyAccount,
@@ -23,6 +25,7 @@ import {
   deleteChatMessage,
   getChatIndex,
   getChatInfo,
+  removeMember,
   sendChatMessage,
   updateChatTitle,
   updateMemberList,
@@ -248,6 +251,24 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
         this.emit("chat:index", await getChatIndex(session));
       }
     }
+  },
+  async "chat:leave"(session, chatId) {
+    if (chatId.length !== 24) return;
+
+    const account = await verify(this, session);
+    if (!account) return;
+
+    if (
+      !(await updateAccountAtomic(session, {
+        $pull: {
+          chats: /** SAFE */ ObjectId.createFromHexString(chatId),
+        },
+      }))
+    ) {
+      return;
+    }
+
+    await removeMember(chatId, account._id.toHexString());
   },
   async "chat:message:delete"(session, chatId, messageId) {
     if (chatId.length !== 24) return;
