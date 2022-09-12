@@ -2,12 +2,13 @@
   defineProps<{
     cancel?: boolean;
     center?: boolean;
+    pre?: boolean;
   }>();
 </script>
 
 <template>
   <button
-    :class="{ cancel, center }"
+    :class="{ cancel, center, pre }"
     class="button hoverline focusline second-layer"
     type="button"
   >
@@ -25,6 +26,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    &.pre {
+      white-space: pre;
     }
   }
 </style>
