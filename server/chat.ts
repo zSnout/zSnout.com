@@ -8,6 +8,7 @@ import {
 import { getAccount, updateAccount } from "./auth";
 import { collection } from "./database";
 
+const _accounts = collection("accounts");
 const _chats = collection("chats");
 
 export async function getChatIndex(session: string): Promise<ChatPreview[]> {
@@ -61,29 +62,33 @@ export async function createChat(
   return acknowledged;
 }
 
-export async function getChatInfo(
-  session: string,
-  chatId: string
-): Promise<GetChatInfoResult> {
-  if (chatId.length !== 24) return { permission: "none" };
+export async function getChatInfo(session: string, chatId: string) {
+  if (chatId.length !== 24) {
+    return { permission: "none" as const };
+  }
 
   const [chats, account] = await Promise.all([_chats, getAccount(session)]);
-  if (!chats || !account) return { permission: "none" };
+  if (!chats || !account) {
+    return { permission: "none" as const };
+  }
 
   const myId = account._id.toHexString();
 
   const chat = await chats.findOne({
     _id: /** SAFE */ ObjectId.createFromHexString(chatId),
   });
-  if (!chat) return { permission: "none" };
+  if (!chat) return { permission: "none" as const };
 
   const permission = chat.members[myId] || chat.defaultLevel;
-  if (!permission || permission === "none") return { permission: "none" };
+  if (!permission || permission === "none") {
+    return { permission: "none" as const };
+  }
 
   return {
     permission,
     messages: chat.messages,
     title: chat.title,
+    members: chat.members,
   };
 }
 
@@ -145,14 +150,80 @@ export async function deleteChatMessage(
   return acknowledged;
 }
 
-export type GetChatInfoResult =
-  | {
-      permission: "none";
-      messages?: undefined;
-      title?: undefined;
-    }
-  | {
-      permission: Exclude<ChatPermissionLevel, "none">;
-      messages: ChatMessage[];
-      title: string;
-    };
+export async function changeIdsToUsername(
+  members: Record<string, ChatPermissionLevel | undefined>
+): Promise<Record<string, ChatPermissionLevel>> {
+  const accounts = (await _accounts)?.find({
+    _id: {
+      $in: Object.keys(members)
+        .filter((id) => id.length === 24)
+        .map((id) => /** SAFE */ ObjectId.createFromHexString(id)),
+    },
+  });
+  if (!accounts) return Object.create(null);
+
+  const values = await accounts.toArray();
+
+  return Object.fromEntries(
+    values
+      .map(({ _id, username }) => [username, members[_id.toHexString()]!])
+      .filter((e) => e[1])
+  );
+}
+
+export async function changeUsernamesToIds(
+  members: Record<string, ChatPermissionLevel>
+): Promise<Record<string, ChatPermissionLevel>> {
+  const accounts = (await _accounts)?.find({
+    username: { $in: Object.keys(members) },
+  });
+  if (!accounts) return Object.create(null);
+
+  const values = await accounts.toArray();
+
+  return Object.fromEntries(
+    values
+      .map(({ _id }) => [_id.toHexString(), members[_id.toHexString()]!])
+      .filter((e) => e[1])
+  );
+}
+
+export async function updateMemberList(
+  chatIdAsHex: string,
+  members: Record<string, ChatPermissionLevel>
+) {
+  if (chatIdAsHex.length !== 24) return false;
+
+  for (let key in members) if (key.length !== 24) return false;
+
+  const [accounts, chats] = await Promise.all([_accounts, _chats]);
+  if (!accounts || !chats) return false;
+
+  const chatId = ObjectId.createFromHexString(chatIdAsHex);
+
+  let { acknowledged } = await accounts.updateMany(
+    {},
+    { $pull: { chats: chatId } }
+  );
+  if (!acknowledged) return false;
+
+  ({ acknowledged } = await accounts.updateMany(
+    {
+      _id: {
+        $in: Object.keys(members)
+          .filter((id) => id.length === 24)
+          .filter((id) => members[id] !== "none")
+          .map((id) => /** SAFE */ ObjectId.createFromHexString(id)),
+      },
+    },
+    { $push: { chats: chatId } }
+  ));
+  if (!acknowledged) return false;
+
+  ({ acknowledged } = await chats.updateOne(
+    { _id: chatId },
+    { $set: { members } }
+  ));
+
+  return acknowledged;
+}
