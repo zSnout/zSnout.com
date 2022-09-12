@@ -18,6 +18,7 @@ export interface ClientToServer {
   "bookmarks:update"(session: string, bookmarks: Bookmark[]): void;
 
   "chat:create"(session: string, title: string): void;
+  "chat:leave"(session: string, chatId: string): void;
   "chat:message:delete"(
     session: string,
     chatId: string,
