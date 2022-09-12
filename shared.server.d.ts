@@ -40,7 +40,7 @@ export interface ClientToServer {
   "chat:update:members"(
     session: string,
     chatId: string,
-    members: Record<string, ChatPermissionLevel>
+    members: Record<string, ChatPermissionLevel | undefined>
   ): void;
   "chat:update:title"(session: string, chatId: string, title: string): void;
   "chat:watch:start"(session: string, chatId: string): void;
@@ -75,7 +75,7 @@ export interface ServerToClient {
   "chat:permission"(chatId: string, level: ChatPermissionLevel): void;
   "chat:update:members"(
     chatId: string,
-    members: Record<string, ChatPermissionLevel>
+    members: Record<string, ChatPermissionLevel | undefined>
   ): void;
   "chat:update:title"(chatId: string, title: string): void;
 
