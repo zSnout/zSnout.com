@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-  import { useElementSize, useEventListener } from "@vueuse/core";
-  import { ref } from "vue";
+  import { vOnClickOutside } from "@vueuse/components";
+  import { useDebounce, useElementSize, useEventListener } from "@vueuse/core";
+  import { ref, toRef } from "vue";
 
   const props = defineProps<{ open: boolean }>();
   const emit = defineEmits<(event: "update:open", value: boolean) => void>();
+  const oldOpen = useDebounce(toRef(props, "open"), 500);
 
   const x = ref(0);
   const y = ref(0);
@@ -40,6 +42,7 @@
       top: `min(${Math.max(y, 8)}px, var(--app-height) - 0.5rem - ${height}px)`,
       left: `min(${Math.max(x, 8)}px, var(--app-width) - 0.5rem - 10rem)`,
     }"
+    v-on-click-outside="() => oldOpen && emit('update:open', false)"
   >
     <slot />
   </div>
