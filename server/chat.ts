@@ -177,13 +177,13 @@ export async function changeUsernamesToIds(
   const accounts = (await _accounts)?.find({
     username: { $in: Object.keys(members) },
   });
-  if (!accounts) return Object.create(null);
+  if (!accounts) return {};
 
   const values = await accounts.toArray();
 
   return Object.fromEntries(
     values
-      .map(({ _id }) => [_id.toHexString(), members[_id.toHexString()]!])
+      .map(({ _id, username }) => [_id.toHexString(), members[username]!])
       .filter((e) => e[1])
   );
 }
@@ -193,18 +193,19 @@ export async function updateMemberList(
   members: Record<string, ChatPermissionLevel>
 ) {
   if (chatIdAsHex.length !== 24) return false;
-
-  for (let key in members) if (key.length !== 24) return false;
+  for (const key in members) if (key.length !== 24) return false;
 
   const [accounts, chats] = await Promise.all([_accounts, _chats]);
   if (!accounts || !chats) return false;
 
   const chatId = ObjectId.createFromHexString(chatIdAsHex);
 
-  let { acknowledged } = await accounts.updateMany(
+  let acknowledged: boolean;
+
+  ({ acknowledged } = await accounts.updateMany(
     {},
     { $pull: { chats: chatId } }
-  );
+  ));
   if (!acknowledged) return false;
 
   ({ acknowledged } = await accounts.updateMany(
