@@ -17,6 +17,7 @@ import {
   VerifyStatus,
 } from "./auth";
 import {
+  changeIdsToUsername,
   createChat,
   deleteChatMessage,
   getChatIndex,
@@ -276,6 +277,21 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
   async "chat:request:index"(session) {
     if (await verify(this, session)) {
       this.emit("chat:index", await getChatIndex(session));
+    }
+  },
+  async "chat:request:members"(session, chatId) {
+    if (await verify(this, session)) {
+      const { members, permission } = await getChatInfo(session, chatId);
+
+      this.emit("chat:permission", chatId, permission);
+      if (permission === "none") return;
+
+      this.join(`chat-${chatId}`);
+      this.emit(
+        "chat:update:members",
+        chatId,
+        await changeIdsToUsername(members)
+      );
     }
   },
   async "chat:update:title"(session, chatId, title) {
