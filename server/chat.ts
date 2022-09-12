@@ -1,6 +1,10 @@
 import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
-import { ChatPermissionLevel, ChatPreview } from "../shared.server";
+import {
+  ChatMessage,
+  ChatPermissionLevel,
+  ChatPreview,
+} from "../shared.server";
 import { getAccount, updateAccount } from "./auth";
 import { collection } from "./database";
 
@@ -244,4 +248,39 @@ export async function removeMember(chatId: string, userId: string) {
     { _id: ObjectId.createFromHexString(chatId) },
     { $set: { members } }
   );
+}
+
+export async function updateChatMessage(
+  username: string,
+  chatId: string,
+  messageId: string,
+  content: string
+): Promise<ChatMessage | undefined> {
+  if (chatId.length !== 24) return;
+
+  const chats = await _chats;
+  if (!chats) return;
+
+  const { messages } =
+    (await chats.findOne({
+      _id: /** SAFE */ ObjectId.createFromHexString(chatId),
+    })) || {};
+
+  if (!messages) return;
+
+  const message = messages.find(({ id }) => id === messageId);
+  if (!message) return;
+  if (message.from !== username) return;
+
+  message.content = content;
+
+  const { acknowledged } = await chats.updateOne(
+    {
+      _id: /** SAFE */ ObjectId.createFromHexString(chatId),
+    },
+    { $set: { messages } }
+  );
+  if (!acknowledged) return;
+
+  return message;
 }

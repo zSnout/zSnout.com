@@ -27,6 +27,7 @@ import {
   getChatInfo,
   removeMember,
   sendChatMessage,
+  updateChatMessage,
   updateChatTitle,
   updateMemberList,
 } from "./chat";
@@ -295,6 +296,23 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
       this.to(`chat-${chatId}`).emit("chat:message:update", chatId, message);
       this.emit("chat:message:update", chatId, message);
+    }
+  },
+  async "chat:message:update"(session, chatId, messageId, content) {
+    if (chatId.length !== 24) return;
+
+    const account = await verify(this, session);
+    if (!account) return;
+
+    const result = await updateChatMessage(
+      account.username,
+      chatId,
+      messageId,
+      content
+    );
+
+    if (result) {
+      this.to(`chat-${chatId}`).emit("chat:message:update", chatId, result);
     }
   },
   async "chat:request:index"(session) {
