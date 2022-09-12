@@ -23,6 +23,14 @@
     } catch {}
   }
 
+  export function addThis() {
+    const url = location.pathname + location.search + location.hash;
+    if (bookmarks.some((e) => e.url === url)) return;
+
+    bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
+    socket.emit("bookmarks:update", session.value, bookmarks);
+  }
+
   const bookmarks = reactive<Bookmark[]>([]);
   getBookmarks();
 
@@ -94,14 +102,6 @@
     isOpen.value = false;
     editing.value = false;
     setTimeout(() => visible.value && (visible.value = false), 300);
-  }
-
-  function addThis() {
-    const url = location.pathname + location.search + location.hash;
-    if (bookmarks.some((e) => e.url === url)) return;
-
-    bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
-    socket.emit("bookmarks:update", session.value, bookmarks);
   }
 
   const updateMessage = ref("");
