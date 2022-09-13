@@ -1,7 +1,16 @@
 <script lang="ts" setup>
-  import { useCssVar } from "@vueuse/core";
-  import { onMounted } from "vue";
+  import { useCssVar, useEventListener } from "@vueuse/core";
+  import { onMounted, ref } from "vue";
   import { RouterView } from "vue-router";
+  import ContextMenu from "./components/ContextMenu.vue";
+  import MenuEntry from "./components/MenuEntry.vue";
+  import { isDark } from "./composables/isDark";
+
+  const addThis = ref<(url?: string) => void>();
+
+  import("./components/BookmarkIcon.vue").then(
+    (module) => (addThis.value = module.addThis)
+  );
 
   const colorable = "color background-color shadow box-shadow text-shadow";
 
@@ -12,10 +21,74 @@
   onMounted(() => {
     transitions.value = colorable.split(" ").join(" 0.3s, ") + " 0.3s";
   });
+
+  const isCtxOpen = ref(false);
+  const link = ref<Element>();
+  const hide = () => (isCtxOpen.value = false);
+
+  useEventListener("contextmenu", (event) => {
+    event.preventDefault();
+    isCtxOpen.value = true;
+
+    link.value = undefined;
+    for (const el of event.composedPath()) {
+      if (
+        el instanceof HTMLAnchorElement ||
+        el instanceof HTMLButtonElement ||
+        (el instanceof Element && el.role === "button")
+      ) {
+        link.value = el;
+        break;
+      }
+    }
+  });
+
+  const { HTMLAnchorElement, HTMLButtonElement } = window;
+  const nextTick = () => new Promise((resolve) => setTimeout(resolve, 10));
+
+  async function spamIt() {
+    if (link.value) {
+      const button = link.value;
+
+      for (const _ of Array<void>(100).fill()) {
+        await nextTick();
+        button.dispatchEvent(new MouseEvent("click"));
+      }
+    }
+  }
+
+  function is<Element>(
+    a: unknown,
+    b: new (...args: any[]) => Element
+  ): a is Element {
+    return a instanceof b;
+  }
 </script>
 
 <template>
   <RouterView />
+
+  <ContextMenu v-model:open="isCtxOpen">
+    <MenuEntry @click="hide(), addThis?.()">Bookmark Page</MenuEntry>
+
+    <MenuEntry
+      v-if="is(link, HTMLAnchorElement)"
+      @click="addThis?.((link as HTMLAnchorElement).href), hide()"
+    >
+      Bookmark Link
+    </MenuEntry>
+
+    <MenuEntry
+      v-if="is(link, HTMLButtonElement) || link?.role === 'button'"
+      @click="hide(), spamIt()"
+    >
+      Spam It
+    </MenuEntry>
+
+    <MenuEntry @click="hide(), (isDark = !isDark)">
+      {{ isDark ? "Light" : "Dark" }} Mode
+    </MenuEntry>
+  </ContextMenu>
 </template>
 
 <style lang="scss">
