@@ -27,11 +27,12 @@
   const hide = () => (isCtxOpen.value = false);
 
   useEventListener("contextmenu", (event) => {
-    event.preventDefault();
-    isCtxOpen.value = true;
-
     link.value = undefined;
     for (const el of event.composedPath()) {
+      if (el instanceof HTMLInputElement) {
+        return;
+      }
+
       if (
         el instanceof HTMLAnchorElement ||
         el instanceof HTMLButtonElement ||
@@ -41,6 +42,9 @@
         break;
       }
     }
+
+    event.preventDefault();
+    isCtxOpen.value = true;
   });
 
   const { HTMLAnchorElement, HTMLButtonElement } = window;
