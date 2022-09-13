@@ -1,1 +1,1 @@
-import{_ as t}from"./_plugin-vue_export-helper.35ltfn2z.js";import{o as _,h as o,r as s}from"./index.3wtsgydi.js";const c={},n={class:"title"};function r(e,a){return _(),o("h1",n,[s(e.$slots,"default",{},void 0,!0)])}const i=t(c,[["render",r],["__scopeId","data-v-ce305be4"]]);export{i as T};
+import{_ as t,o as _,h as s,r as c}from"./index.w2xoota4.js";const o={},n={class:"title"};function r(e,a){return _(),s("h1",n,[c(e.$slots,"default",{},void 0,!0)])}const d=t(o,[["render",r],["__scopeId","data-v-ce305be4"]]);export{d as T};
