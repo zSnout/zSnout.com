@@ -84,6 +84,10 @@ declare global {
   declare interface HTMLCanvasElement {
     resolution?: number;
   }
+
+  declare interface Element {
+    role?: string;
+  }
 }
 
 export {};
