@@ -244,6 +244,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "Multiple zSnout icons stacked over each other in a screensaver",
+      description:
+        "View a mesmerizing screensaver of zSnout icons floating on top of each other.",
+      group: ["art"],
+      keywords: "icons",
+      src: "/images/screensaver.png",
+      title: "Screensaver",
+      to: "/screensaver",
+    },
+
+    {
       alt: "Leopards stacked on top of each other",
       description:
         "A leap of leopards (look it up) appear and fill your device's screen.",
