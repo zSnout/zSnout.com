@@ -285,7 +285,7 @@
 
     &.fullscreen {
       transform: none;
-      stroke: white;
+      stroke: white !important;
       stroke-width: 0.5em;
       stroke-linecap: round;
     }
@@ -295,7 +295,7 @@
     position: fixed;
     top: calc(3.5em + 1px);
     left: 0;
-    z-index: 8;
+    z-index: 9;
     width: var(--app-width);
     height: calc(var(--app-height) - 3.5em - 1px);
     background-color: #0004;

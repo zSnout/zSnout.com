@@ -72,7 +72,7 @@
       to receive notification for new blog posts.
     </p>
 
-    <SearchableCardGrid :sizes="['list', 'small']" v-slot="{ size }">
+    <SearchableCardGrid :sizes="['list']" v-slot="{ size }">
       <template v-for="article in articles" :key="article.path">
         <Card
           v-if="!filter || article.frontmatter.category?.includes(filter)"

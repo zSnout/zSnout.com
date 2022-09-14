@@ -1,16 +1,22 @@
 <script lang="ts" setup>
-  import { useCssVar, useEventListener } from "@vueuse/core";
+  import { useCssVar, useEventListener, useOnline } from "@vueuse/core";
+  import { syncRefs } from "@vueuse/shared";
   import { onMounted, ref } from "vue";
   import { RouterView } from "vue-router";
   import ContextMenu from "./components/ContextMenu.vue";
   import MenuEntry from "./components/MenuEntry.vue";
   import { isDark } from "./composables/isDark";
+  import Notification from "./components/Notification.vue";
 
+  const online = useOnline();
   const addThis = ref<(url?: string) => void>();
 
-  import("./components/BookmarkIcon.vue").then(
-    (module) => (addThis.value = module.addThis)
-  );
+  import("./components/BookmarkIcon.vue").then((module) => {
+    addThis.value = module.addThis;
+  });
+
+  const connected = ref(false);
+  import("./main").then((module) => syncRefs(module.connected, connected));
 
   const colorable = "color background-color shadow box-shadow text-shadow";
 
@@ -27,6 +33,10 @@
   const hide = () => (isCtxOpen.value = false);
 
   useEventListener("contextmenu", (event) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     link.value = undefined;
     for (const el of event.composedPath()) {
       if (el instanceof HTMLInputElement) {
@@ -93,6 +103,10 @@
       {{ isDark ? "Light" : "Dark" }} Mode
     </MenuEntry>
   </ContextMenu>
+
+  <Notification :open="online && !connected">
+    Connecting to zServer...
+  </Notification>
 </template>
 
 <style lang="scss">
