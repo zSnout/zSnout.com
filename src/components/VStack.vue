@@ -2,11 +2,16 @@
   defineProps<{
     center?: boolean;
     space?: number;
+    stretch?: boolean;
   }>();
 </script>
 
 <template>
-  <div :class="{ center }" class="stack" :style="{ gap: `${space ?? 0.5}em` }">
+  <div
+    :class="{ center, stretch }"
+    class="stack"
+    :style="{ gap: `${space ?? 0.5}em` }"
+  >
     <slot />
   </div>
 </template>
@@ -16,12 +21,17 @@
     display: flex;
     flex-direction: column;
 
-    &.center > :deep(*) {
+    &.center > :deep(*),
+    &.stretch > :deep(*) {
       text-align: center;
     }
 
     &.stack > :deep(*) {
       margin: 0;
+    }
+
+    &.stretch > :deep(*) {
+      flex: 1;
     }
   }
 </style>
