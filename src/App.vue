@@ -218,7 +218,7 @@
   .drop-shadow {
     filter: drop-shadow(0 3px 6px #ddd);
 
-    .dark & {
+    .dark &:not(.light) {
       filter: drop-shadow(0 3px 6px #151515);
     }
   }
@@ -231,7 +231,7 @@
   .prose pre {
     box-shadow: 0 3px 6px 1px #ddd;
 
-    .dark & {
+    .dark &:not(.light) {
       box-shadow: 0 3px 6px 1px #151515;
     }
 
