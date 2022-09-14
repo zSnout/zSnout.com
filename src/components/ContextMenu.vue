@@ -55,7 +55,7 @@
 <style lang="scss" scoped>
   .menu {
     position: fixed;
-    z-index: 10;
+    z-index: 11;
     width: 10em;
     padding: 0.3rem !important;
 

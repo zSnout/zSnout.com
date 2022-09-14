@@ -64,7 +64,7 @@
   .nav-root {
     position: sticky;
     top: 0;
-    z-index: 9;
+    z-index: 10;
     background-color: white;
     border-bottom: 1px solid #3c3c3c1f;
 

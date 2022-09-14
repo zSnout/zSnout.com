@@ -48,7 +48,7 @@
   .nav {
     position: fixed;
     top: 0;
-    z-index: 9;
+    z-index: 10;
     width: var(--app-width);
     touch-action: manipulation;
 

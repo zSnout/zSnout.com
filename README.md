@@ -186,10 +186,11 @@ your email server if the specified port is 465.
 4. Desktop aside
 5. Page footer
 6. Indicator
-7. Mobile aside
-8. Bookmark window
-9. Navigation bar
-10. Modal windows and context menus
+7. Notification
+8. Mobile aside
+9. Bookmark window
+10. Navigation bar
+11. Modal windows and context menus
 
 ## Special breakpoints
 
