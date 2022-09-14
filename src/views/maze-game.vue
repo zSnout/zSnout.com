@@ -1,9 +1,11 @@
 <script lang="ts" setup>
-  import { useDeviceOrientation, usePointer, useRafFn } from "@vueuse/core";
+  import { useEventListener, useRafFn } from "@vueuse/core";
   import generate, { MazeCell } from "generate-maze";
   import { computed, ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import { useCanvas } from "../composables/useCanvas";
+  import VStack from "../components/VStack.vue";
+  import HStack from "../components/HStack.vue";
 
   const canvas = ref<HTMLCanvasElement>();
   const mazeImage = ref<HTMLCanvasElement>();
@@ -12,31 +14,29 @@
   const size = 32;
   const ball = 12;
   const diff = size / 2;
-  const indic = size / 4; // amount to move to indicate direction
   let maxX = 0;
   let maxY = 0;
 
   const playerX = ref(0);
   const playerY = ref(0);
 
-  (window.DeviceMotionEvent as any)?.requestPermission?.();
-  const { beta, gamma } = useDeviceOrientation();
-  const { x: px, y: py } = usePointer();
+  function move(x: number, y: number, force = false) {
+    if (!maze.value) return;
+    if (x && y) return;
 
-  const x = computed(() => beta.value ?? (180 * px.value) / innerWidth - 90);
-  const y = computed(() => gamma.value ?? (180 * py.value) / innerWidth - 90);
+    const c = maze.value?.[playerY.value][playerX.value];
 
-  const dir = computed(() =>
-    x.value < -30 && x.value < -Math.abs(y.value)
-      ? "right"
-      : x.value > 30 && x.value > Math.abs(y.value)
-      ? "left"
-      : y.value < -30 && y.value < -Math.abs(x.value)
-      ? "down"
-      : y.value > 30 && y.value > Math.abs(x.value)
-      ? "up"
-      : "none"
-  );
+    if (force) {
+      playerX.value += x;
+      playerY.value += y;
+    } else {
+      playerX.value += x === -1 && !c.left ? -1 : x === 1 && !c.right ? 1 : 0;
+      playerY.value += y === -1 && !c.top ? -1 : y === 1 && !c.bottom ? 1 : 0;
+    }
+
+    playerX.value = Math.max(0, Math.min(maxX, playerX.value));
+    playerY.value = Math.max(0, Math.min(maxY, playerY.value));
+  }
 
   useCanvas(canvas, { useDevicePixelRatio: false }).then((info) => {
     const { canvas, onResize } = info;
@@ -61,11 +61,8 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.beginPath();
 
-      let px = playerX.value * size + size + diff;
-      let py = playerY.value * size + size + diff;
-
-      px += dir.value === "left" ? -indic : dir.value === "right" ? indic : 0;
-      py += dir.value === "up" ? -indic : dir.value === "down" ? indic : 0;
+      const px = playerX.value * size + size + diff;
+      const py = playerY.value * size + size + diff;
 
       ctx.fillStyle = "black";
 
@@ -74,22 +71,6 @@
 
       ctx.fill();
     });
-
-    setInterval(() => {
-      if (!maze.value) return;
-
-      const d = dir.value;
-      const c = maze.value?.[playerY.value][playerX.value];
-
-      playerX.value +=
-        d === "left" && !c.left ? -1 : d === "right" && !c.right ? 1 : 0;
-
-      playerY.value +=
-        d === "up" && !c.top ? -1 : d === "down" && !c.bottom ? 1 : 0;
-
-      playerX.value = Math.max(0, Math.min(maxX, playerX.value));
-      playerY.value = Math.max(0, Math.min(maxY, playerY.value));
-    }, 1000);
   });
 
   useCanvas(mazeImage, { useDevicePixelRatio: false }).then((info) => {
@@ -142,6 +123,29 @@
     drawMaze();
     onResize(() => setTimeout(drawMaze, 100));
   });
+
+  const w = "ArrowUp W w".split(" ");
+  const a = "ArrowLeft A a".split(" ");
+  const s = "ArrowDown S s".split(" ");
+  const d = "ArrowRight D d".split(" ");
+
+  useEventListener("keydown", (event) => {
+    if (!event.ctrlKey && !event.metaKey) {
+      if (a.includes(event.key)) {
+        event.preventDefault();
+        move(-1, 0, event.altKey);
+      } else if (d.includes(event.key)) {
+        event.preventDefault();
+        move(1, 0, event.altKey);
+      } else if (w.includes(event.key)) {
+        event.preventDefault();
+        move(0, -1, event.altKey);
+      } else if (s.includes(event.key)) {
+        event.preventDefault();
+        move(0, 1, event.altKey);
+      }
+    }
+  });
 </script>
 
 <template>
@@ -149,10 +153,30 @@
     <canvas ref="mazeImage" class="maze-image" />
 
     <canvas ref="canvas" class="main" />
+
+    <VStack class="controls dark" :space="1 / 16" stretch>
+      <HStack :space="1 / 16" stretch>
+        <div />
+        <div class="btn second-layer w" @click="move(0, -1)">^</div>
+        <div />
+      </HStack>
+
+      <HStack :space="1 / 16" stretch>
+        <div class="btn second-layer a" @click="move(-1, 0)">&lt;</div>
+        <div />
+        <div class="btn second-layer d" @click="move(1, 0)">&gt;</div>
+      </HStack>
+
+      <HStack :space="1 / 16" stretch>
+        <div />
+        <div class="btn second-layer s" @click="move(0, 1)">v</div>
+        <div />
+      </HStack>
+    </VStack>
   </FullscreenDisplay>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .maze-image {
     z-index: 1;
   }
@@ -160,5 +184,50 @@
   .main {
     z-index: 2;
     background-color: transparent;
+  }
+
+  .controls {
+    position: fixed;
+    bottom: 1em;
+    left: 1em;
+    z-index: 3;
+    width: 10em;
+    height: 10em;
+    padding: 0 !important;
+    user-select: none;
+  }
+
+  .spacer,
+  .btn {
+    padding: 0 !important;
+    color: white;
+    font-size: 2em;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .w,
+  .d {
+    border-bottom-left-radius: 0.5em;
+  }
+
+  .s,
+  .d {
+    border-top-left-radius: 0.5em;
+  }
+
+  .w,
+  .a {
+    border-bottom-right-radius: 0.5em;
+  }
+
+  .s,
+  .a {
+    border-top-right-radius: 0.5em;
   }
 </style>
