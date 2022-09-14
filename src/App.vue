@@ -33,6 +33,10 @@
   const hide = () => (isCtxOpen.value = false);
 
   useEventListener("contextmenu", (event) => {
+    if (event.defaultPrevented) {
+      return;
+    }
+
     link.value = undefined;
     for (const el of event.composedPath()) {
       if (el instanceof HTMLInputElement) {
