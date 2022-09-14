@@ -321,6 +321,16 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "Some text in an input field with reversed text below it",
+      description: "Enter any text into zSnout's backwards page to reverse it.",
+      group: ["game"],
+      keywords: "backwards texts",
+      src: "/images/sdrawkcab.png",
+      title: "Sdrawkcab",
+      to: "/sdrawkcab",
+    },
+
+    {
       alt: "A clock with flames trailing behind it",
       description: "See what your reaction time is with our simple tester.",
       group: ["tests"],
