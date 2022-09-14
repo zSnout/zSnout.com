@@ -141,6 +141,7 @@
 
 <template>
   <svg
+    :class="{ fullscreen }"
     class="icon"
     role="button"
     viewBox="100 0 403.511 603.511"
@@ -285,6 +286,7 @@
 
     &.fullscreen {
       transform: none;
+      fill: white !important;
       stroke: white !important;
       stroke-width: 0.5em;
       stroke-linecap: round;
