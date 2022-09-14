@@ -285,7 +285,7 @@
 
     &.fullscreen {
       transform: none;
-      stroke: white;
+      stroke: white !important;
       stroke-width: 0.5em;
       stroke-linecap: round;
     }
