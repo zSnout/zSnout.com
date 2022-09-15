@@ -72,7 +72,7 @@
     "rollup": "^2.79.0",
     "sass": "^1.54.9",
     "typescript": "^4.8.3",
-    "vite": "^3.1.0",
+    "vite": "^3.1.1",
     "vite-plugin-md": "^0.20.4",
     "vite-plugin-pwa": "^0.12.7",
     "vue-tsc": "^0.40.13"
