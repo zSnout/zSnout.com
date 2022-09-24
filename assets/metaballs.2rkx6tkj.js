@@ -1,4 +1,4 @@
-import{F as d}from"./FullscreenDisplay.421pqk6v.js";import{W as f}from"./WebGlCanvas.1rb17qef.js";import{d as m,q as x,Y as y,o as p,c as g,w as u,a as h}from"./index.4yzzgtk3.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.3yzrssnp.js";const A=m({__name:"metaballs",setup(v){const e=Array.from({length:50},()=>{const t=Math.random(),o=Math.random(),n=Math.random()*5+5,a=(Math.random()-.5)*2/200,s=(Math.random()-.5)*2/200;return{x:t,y:o,r:n,dx:a,dy:s}}),r=x(),l=`
+import{F as d}from"./FullscreenDisplay.421pqk6v.js";import{W as f}from"./WebGlCanvas.1rb17qef.js";import{d as m,q as x,Y as y,o as p,c as g,w as u,a as h}from"./index.158tmzqu.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.3yzrssnp.js";const A=m({__name:"metaballs",setup(v){const e=Array.from({length:50},()=>{const t=Math.random(),o=Math.random(),n=Math.random()*5+5,a=(Math.random()-.5)*2/200,s=(Math.random()-.5)*2/200;return{x:t,y:o,r:n,dx:a,dy:s}}),r=x(),l=`
   uniform float scale;
   uniform vec3 metaballs[50];
 
