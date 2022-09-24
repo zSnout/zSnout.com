@@ -56,7 +56,7 @@
     <slot />
   </SafeArea>
 
-  <Footer v-if="!noFooter" :aside="!!$slots.aside" />
+  <Footer v-if="!noFooter" :aside="!!$slots.aside" :small="small" />
 </template>
 
 <style lang="scss">

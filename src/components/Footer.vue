@@ -6,19 +6,22 @@
   import SafeArea from "./SafeArea.vue";
   import VStack from "./VStack.vue";
 
-  defineProps<{ aside?: boolean }>();
+  defineProps<{
+    aside?: boolean;
+    small?: boolean;
+  }>();
 </script>
 
 <template>
   <footer class="blur footer second-layer">
     <UseScreenSafeArea bottom>
-      <SafeArea :aside="aside" bottom top>
+      <SafeArea :aside="aside" :small="small" bottom top>
         <VStack :space="1">
           <p>
             <Logo invert style="height: 2em" />
           </p>
 
-          <HStack no-center stretch wraps="400px">
+          <HStack no-center stretch wraps="250px">
             <VStack>
               <p>&copy; {{ new Date().getFullYear() }} Zachary Sakowitz</p>
 
