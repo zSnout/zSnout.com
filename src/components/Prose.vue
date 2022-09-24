@@ -48,7 +48,6 @@
       font-weight: 600;
       font-size: 0.875em;
       line-height: 1.75em;
-      transition: var(--transitions), font-weight;
 
       .dark & {
         color: #c0c0c0;
