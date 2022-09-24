@@ -133,7 +133,7 @@
   input,
   select,
   .text-color.text-color,
-  .prose *:not(a),
+  .prose :not(a):not(pre *),
   aside.aside * {
     color: black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
