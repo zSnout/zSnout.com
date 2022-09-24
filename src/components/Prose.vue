@@ -249,8 +249,6 @@
     }
 
     code {
-      position: relative;
-      top: -2px;
       padding: 0.2em 0.4em;
       font-weight: 500;
       font-size: 0.85em;
