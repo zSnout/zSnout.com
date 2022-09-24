@@ -21,7 +21,7 @@
 </script>
 
 <template>
-  <DocumentDisplay>
+  <DocumentDisplay small>
     <div class="prose">
       <p v-if="author" class="intro">By {{ author }}</p>
 

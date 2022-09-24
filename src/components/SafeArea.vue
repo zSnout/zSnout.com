@@ -66,7 +66,7 @@
       width: min(1000px, 100%);
 
       &.small {
-        width: min(600px, 100%);
+        width: min(800px, 100%);
       }
     }
 
@@ -87,13 +87,9 @@
         position: relative;
         left: calc(-150px - 1em);
         width: min(1000px, 100% - 4em - 300px);
-      }
 
-      &.small {
-        @media (min-width: 880px) {
-          position: relative;
-          left: calc(-150px - 1em);
-          width: min(600px, 100% - 4em - 300px);
+        &.small {
+          width: min(800px, 100% - 4em - 300px);
         }
       }
     }
