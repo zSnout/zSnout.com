@@ -10,6 +10,7 @@
     explicitHeight?: boolean;
     maxWidth?: boolean;
     noFooter?: boolean;
+    small?: boolean;
   }>();
 
   const isMobile = useMediaQuery("(max-width: 400px)");
@@ -17,7 +18,7 @@
 </script>
 
 <template>
-  <Navigation>
+  <Navigation :small="small">
     <template #aside v-if="$slots.aside">
       <slot name="aside" />
     </template>
@@ -47,6 +48,7 @@
     :flex="center"
     :max-width="maxWidth"
     :min-height="`calc(var(--app-height) - ${navHeight}rem)`"
+    :small="small"
     bottom
     top
     v-bind="$attrs"

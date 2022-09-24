@@ -1,12 +1,13 @@
 <script lang="ts" setup>
   defineProps<{
     aside?: boolean;
+    bottom?: boolean;
     explicitHeight?: boolean;
+    flex?: boolean;
     minHeight?: string;
     maxWidth?: boolean;
+    small?: boolean;
     top?: boolean;
-    bottom?: boolean;
-    flex?: boolean;
   }>();
 </script>
 
@@ -14,7 +15,7 @@
   <div class="safe-area">
     <div :class="{ aside }" class="padding">
       <div
-        :class="{ bottom, explicitHeight, flex, maxWidth, top }"
+        :class="{ bottom, explicitHeight, flex, maxWidth, small, top }"
         class="content"
       >
         <slot />
@@ -63,6 +64,10 @@
 
     &:not(.maxWidth) {
       width: min(1000px, 100%);
+
+      &.small {
+        width: min(600px, 100%);
+      }
     }
 
     &.explicitHeight {
@@ -82,6 +87,14 @@
         position: relative;
         left: calc(-150px - 1em);
         width: min(1000px, 100% - 4em - 300px);
+      }
+
+      &.small {
+        @media (min-width: 880px) {
+          position: relative;
+          left: calc(-150px - 1em);
+          width: min(600px, 100% - 4em - 300px);
+        }
       }
     }
   }

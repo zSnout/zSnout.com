@@ -3,6 +3,10 @@
   import { ref, watchEffect } from "vue";
   import Aside from "./Aside.vue";
 
+  defineProps<{
+    small?: boolean;
+  }>();
+
   const open = ref(false);
   const query = useMediaQuery("(min-width: 1080px)");
 
@@ -74,7 +78,7 @@
   </svg>
 
   <Teleport to="body">
-    <Aside :open="open" @click="onClick">
+    <Aside :open="open" :small="small" @click="onClick">
       <slot />
     </Aside>
   </Teleport>

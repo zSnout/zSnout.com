@@ -10,12 +10,16 @@
   import SharedNav from "./SharedNav.vue";
   import Spacer from "./Spacer.vue";
   import ThemeIcon from "./ThemeIcon.vue";
+
+  defineProps<{
+    small?: boolean;
+  }>();
 </script>
 
 <template>
   <nav class="nav-root">
     <UseScreenSafeArea top>
-      <SafeArea :aside="!!$slots.aside">
+      <SafeArea :aside="!!$slots.aside" :small="small">
         <HStack class="navbar">
           <RouterLink class="logo-outer" to="/home">
             <LogoWithName class="logo" invert />
@@ -23,7 +27,7 @@
 
           <Spacer />
 
-          <ListIcon v-if="$slots.aside">
+          <ListIcon v-if="$slots.aside" :small="small">
             <slot name="aside" />
           </ListIcon>
 
