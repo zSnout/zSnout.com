@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-  import { create } from "random-seed";
-  import { computed, Ref } from "vue";
+  import { Ref } from "vue";
   import { dateOf } from "../composables/useDateOf";
   import MaybeLink from "./MaybeLink.vue";
 
-  const props = defineProps<{
+  defineProps<{
     title: string | Ref<string>;
     date?: number | string | Date;
     description: string | Ref<string>;
@@ -12,20 +11,6 @@
     label?: string;
     to?: string;
   }>();
-
-  const colors: Record<string, number> = {
-    "": 0,
-    "code": 5,
-    "math": 2,
-    "menu": 0,
-    "meta": 6,
-    "camp": 1,
-    "saurs": 4,
-  };
-
-  const color = computed(() => {
-    return colors[props.label || ""] || create(props.label).intBetween(1, 6);
-  });
 </script>
 
 <template>
@@ -48,10 +33,7 @@
       class="corner drop-shadow"
       title="This page has a list of other subpages. Click to explore further."
     >
-      <div
-        :class="{ [`color-${color}`]: true, bright: !!color }"
-        class="corner-clip"
-      >
+      <div class="corner-clip">
         <div class="corner-text">{{ label }}</div>
       </div>
     </div>
@@ -76,43 +58,13 @@
     height: 4em;
   }
 
-  $colors-light: (
-    1: #990000,
-    2: #996300,
-    3: #999900,
-    4: #009900,
-    5: #000099,
-    6: #990099,
-  );
-
-  $colors-dark: (
-    1: #ff6666,
-    2: #ffc966,
-    3: #ffff66,
-    4: #66ff66,
-    5: #8888ff,
-    6: #ff66ff,
-  );
-
   .corner-clip {
     height: 100%;
     background-color: #1f1f1f;
     clip-path: polygon(100% 0%, 100% 100%, 0% 0%);
 
-    @each $index, $color in $colors-dark {
-      &.color-#{$index} {
-        background-color: $color;
-      }
-    }
-
     .dark & {
       background-color: white;
-
-      @each $index, $color in $colors-light {
-        &.color-#{$index} {
-          background-color: $color;
-        }
-      }
     }
   }
 
@@ -121,18 +73,10 @@
     align-items: center;
     justify-content: center;
     height: 50%;
+    color: white;
     text-align: center;
     transform-origin: 50% 100%;
     rotate: 45deg;
-    color: white;
-
-    .bright & {
-      color: black;
-
-      .dark & {
-        color: white;
-      }
-    }
 
     .dark & {
       color: black;
