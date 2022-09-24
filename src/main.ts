@@ -79,6 +79,7 @@ function simpleTitle(path: string) {
     .replace(/\bAi\b/g, "AI")
     .replace(/\bAscii\b/g, "ASCII")
     .replace(/\bGithub\b/g, "GitHub")
+    .replace(/\bLets\b/g, "Let's")
     .replace(/\bOs\b/g, "Operating System")
     .replace(/\bWebgl\b/g, "WebGL")
     .replace(/\bZsnout\b/g, "zSnout")
