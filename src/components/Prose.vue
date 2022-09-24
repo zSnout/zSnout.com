@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts" setup>
-  import prismDark from "prismjs/themes/prism-okaidia.min.css?inline";
+  import prismDark from "prismjs/themes/prism-tomorrow.min.css?inline";
   import prismLight from "prismjs/themes/prism.min.css?inline";
   import { Frontmatter } from "vite-plugin-md";
   import { watchEffect } from "vue";
@@ -252,8 +252,9 @@
       position: relative;
       top: -2px;
       padding: 0.2em 0.4em;
+      font-weight: 500;
       font-size: 0.85em;
-      font-family: "Courier New", Courier, monospace;
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
     }
 
     pre {
@@ -262,7 +263,6 @@
       padding: 1.5em 1.5em 1em 1.5em;
       overflow-x: auto;
       font-size: 0.85rem;
-      font-family: "Courier New", Courier, monospace;
       white-space: pre-wrap;
       background-color: white;
       border: 0;
@@ -273,6 +273,7 @@
 
       code {
         padding: 0;
+        font-weight: normal;
         font-size: 0.85rem;
       }
     }
