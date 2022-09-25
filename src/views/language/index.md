@@ -19,7 +19,7 @@ not perfect, but it will do.
 
 In lang's alphabet, the letter order is this: a e i o u j k l m n p s t w.
 Notice how the vowels are placed before consonants instead of being sporadically
-placed.
+placed like in English and other languages.
 
 ## Capitalization
 
@@ -29,4 +29,4 @@ beginning of sentences, titles, and the word god.
 ## Relationals
 
 After reading about the conlang Kēlen and how it uses relationals instead of
-verbs, I thought it would be a cool idea to add to my own language. 
+verbs, I thought it would be a cool idea to add to my own language.
