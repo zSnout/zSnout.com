@@ -24,7 +24,7 @@
 
   <OptionsIcon
     v-if="$slots.options"
-    :class="{ [$style.icon]: fullscreen }"
+    :class="{ [$style.icon]: fullscreen, fullscreen }"
     :open="open"
     @click="open = true"
   />

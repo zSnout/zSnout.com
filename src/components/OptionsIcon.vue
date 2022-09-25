@@ -54,7 +54,8 @@
     stroke-linecap: round;
 
     .dark & {
-      stroke: white !important;
+      fill: white !important;
+      stroke: white;
     }
 
     .hover &:hover,
@@ -64,6 +65,7 @@
 
     &.fullscreen {
       transform: none;
+      fill: white !important;
       stroke: white !important;
 
       .hover &:hover,
