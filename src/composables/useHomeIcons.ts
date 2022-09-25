@@ -89,7 +89,7 @@ export const homeIcons = computed(() => {
       : undefined,
 
     {
-      alt: "The Mandelbrot Set in a raindow background",
+      alt: "A list of two blog articles with their titles, colors, and descriptions",
       description:
         "Read blog articles posted by zSnout's creator and get updated when they're released.",
       group: ["blog"],
@@ -100,7 +100,17 @@ export const homeIcons = computed(() => {
     },
 
     {
-      alt: "The Mandelbrot Set in a raindow background",
+      alt: "A three dimensional tunnel filled with colors and lasers",
+      description:
+        "View an amazing interactive and animated 3D tunnel of colors and lasers. Will be moved to 'Art' section soon.",
+      group: ["art"],
+      src: "/images/art/the-tunnel.png",
+      title: "The Tunnel",
+      to: "/art/the-tunnel",
+    },
+
+    {
+      alt: "The Mandelbrot Set in a rainbow background",
       description:
         "View amazing fractal images and interact with them live on your computer.",
       group: ["math", "art"],

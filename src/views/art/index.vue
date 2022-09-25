@@ -22,7 +22,15 @@
         description="Watch a live animation of multicolored puddles moving across your screen."
         src="/images/art/rainbow-blobs.png"
         title="Rainbow Blobs"
-        to="/art/rainbow-blobs?darkness=true&split=true"
+        to="/art/rainbow-blobs"
+      />
+
+      <ImageCard
+        alt="A three dimensional tunnel filled with colors and lasers"
+        description="View an amazing interactive and animated 3D tunnel of colors and lasers."
+        src="/images/art/the-tunnel.png"
+        title="The Tunnel"
+        to="/art/the-tunnel"
       />
 
       <ImageCard
