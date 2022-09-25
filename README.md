@@ -31,7 +31,7 @@ By using `ci`, your zSnout installation will use the package versions from
 If you've downloaded the dependencies, you can use a variety of commands to run
 zSnout locally.
 
-To start a devlopment server, run
+To start a development server, run
 
 ```sh
 npm run dev
@@ -60,8 +60,9 @@ names are their URLs, files and folders in the `public` folder should adhere to
 this syntax.
 
 Files and folders in the `src` folder should use camelCase. If they are Vue
-components, they should begin with an uppercase letter. zSnout has a page titler
-and path assigner system that assumes views are using this syntax.
+components, they should begin with an uppercase letter. zSnout has a page
+titling system and path assigner system that assumes views are using this
+syntax.
 
 All utilities should go in the `src/composables` folder, even if they do not
 accept refs. However, utilities tightly coupled with their components may stay
@@ -75,10 +76,10 @@ the index for a folder, name it `folder/index.vue`.
 The system that assigns page titles and paths bases them on a page's file name,
 so make sure to use a short yet descriptive file name.
 
-If a page has an associated cover image, it should be a square 320x320 PNG and
-be placed in the `public/images` directory. The file path of the image should
-match the output URL of the original path. If the page is an index, the image
-should be named `folder/index.png`.
+If a page has an associated cover image, it should be a square 320x320 WebP
+image and be placed in the `public/images` directory. The file path of the image
+should match the output URL of the original path. If the page is an index, the
+image should be named `folder/index.webp`.
 
 ## Display modes
 
@@ -96,7 +97,7 @@ have a maximum width of 1000 pixels and have no background elements that take up
 the entire page. This is also a good display mode for blog articles, as it adds
 padding on all edges and allows easy scrolling through a document. In fact,
 Markdown files automatically use this display mode. Additionally,
-DocumentDisplay handles rounded corners on certail mobile devices, making sure
+DocumentDisplay handles rounded corners on certain mobile devices, making sure
 that your document looks good on all of them.
 
 For those who feel constrained by DocumentDisplay's short width, you may pass
