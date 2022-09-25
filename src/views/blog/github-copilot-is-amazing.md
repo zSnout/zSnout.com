@@ -14,7 +14,7 @@ GitHub Copilot basically completes sections of code for you. There are other
 autocompleters, but they'll only complete a single variable or function name,
 whereas Copilot completes the entire line. Here's an example:
 
-![An example of Copilot in action](/blog/copilot-account.png)
+![An example of Copilot in action](/blog/copilot-account.webp)
 
 The picture above shows me writing a `getPassword` function for the account
 system. Once I wrote the function signature, Copilot suggested a function body,
@@ -23,7 +23,7 @@ which I got completely correct. You can also see the previously written
 
 Let's look at another example.
 
-![Another example of Copilot](/blog/copilot-schema.png)
+![Another example of Copilot](/blog/copilot-schema.webp)
 
 In this picture it's completing some stuff from a custom schema system into a
 Fastify schema. Copilot completes the entire line of code and even recognizes

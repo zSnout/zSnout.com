@@ -12,10 +12,10 @@ import { defineConfig } from "vite";
 import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
-const jsfile = /\.(tsx?|vue|md)($|\?)/;
-const images = sync("./public/images/**/*.png");
+const jsFile = /\.(tsx?|vue|md)($|\?)/;
+const images = sync("./public/images/**/*.webp");
 
-// There's some weird thcaings going on with YAML dates so I'll just offset them...
+// There's some weird things going on with YAML dates so I'll just offset them...
 function offsetDate(dateStr: any) {
   const date = new Date(dateStr);
   return date.getTime() + 24 * 60 * 60 * 1000;
@@ -165,7 +165,7 @@ export default defineConfig({
     {
       name: "fix-storymatic",
       transform(code, id) {
-        if (jsfile.test(id)) {
+        if (jsFile.test(id)) {
           return code.replace(/_Storymatic/g, "Storymatic");
         }
       },

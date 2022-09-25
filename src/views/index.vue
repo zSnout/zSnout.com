@@ -142,7 +142,7 @@
             class="icon-image"
             alt="A sticker saying '100% free'"
             draggable="false"
-            src="/100-free.png"
+            src="/100-free.webp"
           />
         </div>
 
@@ -184,7 +184,7 @@
             class="icon-image"
             alt="The GitHub logo"
             draggable="false"
-            src="/github.png"
+            src="/github.webp"
           />
 
           <div class="icon-label">
@@ -335,7 +335,7 @@
   }
 
   #no-cost {
-    background-image: url("/images/art/rectangles.png");
+    background-image: url("/images/art/rectangles.webp");
   }
 
   .icon-free {

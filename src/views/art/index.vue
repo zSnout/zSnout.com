@@ -20,7 +20,7 @@
       <ImageCard
         alt="A gradient of differently sized rainbow blobs in puddles of darkness"
         description="Watch a live animation of multicolored puddles moving across your screen."
-        src="/images/art/rainbow-blobs.png"
+        src="/images/art/rainbow-blobs.webp"
         title="Rainbow Blobs"
         to="/art/rainbow-blobs"
       />
@@ -28,7 +28,7 @@
       <ImageCard
         alt="A three dimensional tunnel filled with colors and lasers"
         description="View an amazing interactive and animated 3D tunnel of colors and lasers."
-        src="/images/art/the-tunnel.png"
+        src="/images/art/the-tunnel.webp"
         title="The Tunnel"
         to="/art/the-tunnel"
       />
@@ -37,7 +37,7 @@
         alt="A gradient being created from thick paint strokes"
         description="Create your own blobby gradient with a custom size and color scheme."
         keywords="circles"
-        src="/images/art/blobby-gradient.png"
+        src="/images/art/blobby-gradient.webp"
         title="Blobby Gradient"
         to="/art/blobby-gradient"
       />
@@ -46,7 +46,7 @@
         alt="Several fires stacked on each other with a red border and yellow flames"
         description="Watch some simple yet entrancing fires bounce across your screen."
         keywords="fires multi"
-        src="/images/art/fireline.png"
+        src="/images/art/fireline.webp"
         title="Fireline"
         to="/art/fireline"
       />
@@ -55,7 +55,7 @@
         alt="A rainbow gradient created by randomizing pixel colors and their lightness."
         description="A rainbow gradient created by randomizing pixel colors and their lightness."
         keywords="gradient randomized"
-        src="/images/art/pixelated-rainbow.png"
+        src="/images/art/pixelated-rainbow.webp"
         title="Pixelated Rainbow"
         to="/art/pixelated-rainbow"
       />
@@ -64,7 +64,7 @@
         alt="A black background with some white blobs that merge together"
         description="Watch this real-time animation of bouncing and merging circles. It's great as a screensaver."
         keywords="bouncing screensavers"
-        src="/images/art/metaballs.png"
+        src="/images/art/metaballs.webp"
         title="Metaballs"
         to="/art/metaballs"
       />
@@ -73,7 +73,7 @@
         alt="Multicolored overlapping rectangles with unique border styles"
         description="Watch an amazing display of colorful rectangles and change their sizes."
         keywords="squares"
-        src="/images/art/rectangles.png"
+        src="/images/art/rectangles.webp"
         title="Rectangles"
         to="/art/rectangles"
       />
@@ -82,7 +82,7 @@
         alt="Multicolored overlapping ellipses with unique border styles"
         description="View a vast and vivid variety of vibrant ellipses (and V-words)."
         keywords="circles"
-        src="/images/art/ellipses.png"
+        src="/images/art/ellipses.webp"
         title="Ellipses"
         to="/art/ellipses"
       />

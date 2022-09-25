@@ -19,7 +19,7 @@
       <ImageCard
         alt="The homepage of zSnout 6"
         description="The first version to use the Vue framework."
-        src="/images/evolution/v6.png"
+        src="/images/evolution/v6.webp"
         title="zSnout 6"
         to="/evolution/v6"
       />

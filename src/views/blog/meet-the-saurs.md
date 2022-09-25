@@ -25,7 +25,7 @@ found by somebody else.
 
 <figure>
 
-![The six main Saurs huddled together.](/blog/saurs.png)
+![The six main Saurs huddled together.](/blog/saurs.webp)
 
 <figcaption>The green one is Bulba, the small blue one is Ivy, the big blue one is Vena, the tiny dog is Sam, the larger doglike creature is Hyacinth, and the big orange creature is Char.</figcaption>
 
