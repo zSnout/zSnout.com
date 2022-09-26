@@ -1,4 +1,4 @@
-import{F as l}from"./FullscreenDisplay.421pqk6v.js";import{W as t}from"./WebGlCanvas.1rb17qef.js";import{d as n,q as c,Y as i,al as f,g as u,o as p,c as m,w as v,a as _}from"./index.4n0lca12.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.2mn301v0.js";const w=n({__name:"uniforms",setup(g){const e=c(),a=`
+import{F as t}from"./FullscreenDisplay.421pqk6v.js";import{W as l}from"./WebGlCanvas.1rb17qef.js";import{d as n,q as c,Y as i,am as f,g as u,o as p,c as m,w as v,a as _}from"./index.3j8l6v6z.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.6b66y862.js";const w=n({__name:"uniforms",setup(g){const e=c(),a=`
   uniform vec2 u_resolution;
   uniform float left;
 
@@ -18,4 +18,4 @@ import{F as l}from"./FullscreenDisplay.421pqk6v.js";import{W as t}from"./WebGlCa
     } else {
       gl_FragColor = vec4(pos.xy, 0.5, 1);
     }
-  }`;return i(()=>{if(!e.value)return;const o=new t(e.value,{fragmentString:a}),r=f(10),s=u(()=>r.value/1e3%1);o.useUniform("left",s)}),(o,r)=>(p(),m(l,null,{default:v(()=>[_("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{w as default};
+  }`;return i(()=>{if(!e.value)return;const o=new l(e.value,{fragmentString:a}),r=f(10),s=u(()=>r.value/1e3%1);o.useUniform("left",s)}),(o,r)=>(p(),m(t,null,{default:v(()=>[_("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{w as default};
