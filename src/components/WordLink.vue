@@ -10,7 +10,9 @@
 
 <!-- prettier-ignore -->
 <template>
-  <template v-if="isText">{{ word }}</template>
+  <template v-if="isText || word[0].toUpperCase() === word[0]">
+    {{ word }}{{ comma ? ", " : "" }}
+  </template>
 
   <template v-else>
     <a :href="`#word-${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
