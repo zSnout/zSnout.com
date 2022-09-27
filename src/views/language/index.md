@@ -1,6 +1,10 @@
 <script setup lang="ts">
-  import { output, splitParagraph } from "./index.ts";
+  import { ref } from "vue";
+  import { matches, output, splitParagraph } from "./index.ts";
+  import Field from "../../components/Field.vue";
   import WordLink from "../../components/WordLink.vue";
+
+  const field = ref("");
 </script>
 
 # The zSnout Language (aka Lang)
@@ -37,6 +41,11 @@ In Lang, nothing has a gender by default. When describing relatives, the ma- and
 pa- prefixes may be added to indicate a female or male person. In other cases,
 the words <WordLink word="man" /> and <WordLink word="pan" /> may be used.
 
+## Sentences
+
+In Lang, a sentence ends with a `.` if it is a statement, `?` if it is a request
+or question, and `!` if it is an exclamation.
+
 ## Pronouns
 
 Each pronoun is labeled using its role (1st, 2nd, or 3rd) person as well as a
@@ -60,14 +69,24 @@ persons.
 
 ## The Dictionary
 
+<p class="field-outer"> <Field
+  v-model="field"
+  placeholder="Type to search the dictionary..."
+  type="search"
+/> </p>
+
+<template v-for="(info, word) in output">
+
 <div
-  v-for="(info, word) in output"
+  v-if="matches(field, word, info)"
   :id="`word-${word}`"
   style="margin-top: 2em"
   tabindex="-1"
 >
 
-**{{ word }}** ({{ info.category }}) ⇒ **{{ info.translation }}**
+**{{ word }}**
+({{ Array.isArray(info.category) ? info.category.join(", ") : info.category }})
+⇒ **{{ info.translation }}**
 
 <p>
   <WordLink
@@ -117,3 +136,25 @@ persons.
     :is-text="word.isText" :word="word.word"
   />
 </p>
+
+</div>
+
+</template>
+
+<style scoped>
+  .field-outer {
+    position: sticky;
+    top: calc(3.5em + 1px + 2em);
+    width: calc(100% - 4em);
+    z-index: 2;
+    margin-left: 2em;
+  }
+
+  @media (max-width: 400px) {
+    .field-outer {
+      top: calc(2.5em + 1px + 1.5em);
+      margin-left: 1em;
+      width: calc(100% - 2em);
+    }
+  }
+</style>
