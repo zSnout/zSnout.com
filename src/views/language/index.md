@@ -31,6 +31,12 @@ placed like in English and other languages.
 In Lang, the only capitalized words are proper nouns. This excludes the
 beginning of sentences and titles.
 
+## Gender
+
+In Lang, nothing has a gender by default. When describing relatives, the ma- and
+pa- prefixes may be added to indicate a female or male person. In other cases,
+the words <WordLink word="man" /> and <WordLink word="pan" /> may be used.
+
 ## Pronouns
 
 Each pronoun is labeled using its role (1st, 2nd, or 3rd) person as well as a
@@ -51,8 +57,6 @@ persons.
 | nas  | 1st + 2nd       | me and you          |
 | nes  | 1st + 2nd + 3rd | me and you and them |
 | nos  | 1st + 3rd       | me and them         |
-
-<!-- 3rd person should be similar to this/that -->
 
 ## The Dictionary
 
