@@ -166,7 +166,7 @@ persons.
   <WordLink :word="info.antonym" />
 </p>
 
-**Examples:**
+<b v-if="info.examples">Examples:</b>
 
 <p v-for="[source, trans] in info.examples" style="margin-left: 1em">
   <WordLink
