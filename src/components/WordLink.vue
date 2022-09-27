@@ -1,3 +1,5 @@
+<!-- Used in language/index.md. -->
+
 <script lang="ts" setup>
   defineProps<{
     comma?: boolean;
