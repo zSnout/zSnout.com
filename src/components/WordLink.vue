@@ -13,6 +13,6 @@
   <template v-if="isText">{{ word }}</template>
 
   <template v-else>
-    <a :href="`#${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
+    <a :href="`#word-${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
   </template>
 </template>
