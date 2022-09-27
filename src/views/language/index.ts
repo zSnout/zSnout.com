@@ -30,11 +30,14 @@ export function splitParagraph(text: string, isSource?: boolean) {
 }
 
 interface WordInfo {
+  antonym?: string[] | string;
   category: string | string[];
   examples?: [source: string, translation: string][];
-  notes: string;
+  notes?: string;
   plural?: string[] | string;
+  similar?: string[] | string;
   singular?: string[] | string;
+  synonym?: string[] | string;
   translation: string;
 }
 
