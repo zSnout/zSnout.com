@@ -103,10 +103,9 @@ persons.
 ({{ Array.isArray(info.category) ? info.category.join(", ") : info.category }})
 ⇒ **{{ info.translation }}**
 
-<p>
+<p v-for="note in info.notes?.split(/\n+/g)">
   <WordLink
-    v-if="info.notes"
-    v-for="word in splitParagraph(info.notes)"
+    v-for="word in splitParagraph(note)"
     :is-text="word.isText" :word="word.word"
   />
 </p>
