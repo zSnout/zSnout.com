@@ -90,9 +90,24 @@ persons.
 
 <p>
   <WordLink
+    v-if="info.notes"
     v-for="word in splitParagraph(info.notes)"
     :is-text="word.isText" :word="word.word"
   />
+</p>
+
+<p v-if="Array.isArray(info.similar)">
+  <b>Similar to:</b>{{" "}}
+  <WordLink
+    v-for="(word, index) in info.similar"
+    :comma="index !== info.similar.length - 1"
+    :word="word"
+  />
+</p>
+
+<p v-if="typeof info.similar === 'string'">
+  <b>Similar to:</b>{{" "}}
+  <WordLink :word="info.similar" />
 </p>
 
 <p v-if="Array.isArray(info.plural)">
@@ -121,6 +136,34 @@ persons.
 <p v-if="typeof info.singular === 'string'">
   <b>Singular form:</b>{{" "}}
   <WordLink :word="info.singular" />
+</p>
+
+<p v-if="Array.isArray(info.synonym)">
+  <b>Synonyms:</b>{{" "}}
+  <WordLink
+    v-for="(word, index) in info.synonym"
+    :comma="index !== info.synonym.length - 1"
+    :word="word"
+  />
+</p>
+
+<p v-if="typeof info.synonym === 'string'">
+  <b>Synonym:</b>{{" "}}
+  <WordLink :word="info.synonym" />
+</p>
+
+<p v-if="Array.isArray(info.antonym)">
+  <b>Antonyms:</b>{{" "}}
+  <WordLink
+    v-for="(word, index) in info.antonym"
+    :comma="index !== info.antonym.length - 1"
+    :word="word"
+  />
+</p>
+
+<p v-if="typeof info.antonym === 'string'">
+  <b>Antonym:</b>{{" "}}
+  <WordLink :word="info.antonym" />
 </p>
 
 **Examples:**
