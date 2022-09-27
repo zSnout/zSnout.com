@@ -1,4 +1,4 @@
-import{F as t}from"./FullscreenDisplay.421pqk6v.js";import{W as l}from"./WebGlCanvas.1rb17qef.js";import{d as n,q as c,Y as i,am as f,g as u,o as p,c as m,w as v,a as _}from"./index.3j8l6v6z.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.6b66y862.js";const w=n({__name:"uniforms",setup(g){const e=c(),a=`
+import{F as t}from"./FullscreenDisplay.421pqk6v.js";import{W as l}from"./WebGlCanvas.1rb17qef.js";import{d as n,q as c,Y as i,am as f,g as u,o as p,c as m,w as v,a as _}from"./index.4nlty64r.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.6b66y862.js";const w=n({__name:"uniforms",setup(g){const e=c(),a=`
   uniform vec2 u_resolution;
   uniform float left;
 
