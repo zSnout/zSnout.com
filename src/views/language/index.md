@@ -80,7 +80,7 @@ persons.
 <div
   v-if="matches(field, word, info)"
   :id="`word-${word}`"
-  style="margin-top: 2em"
+  style="margin-top: 2em; scroll-margin-top: 8.5em"
   tabindex="-1"
 >
 
