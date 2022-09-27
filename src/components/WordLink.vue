@@ -3,11 +3,16 @@
 <script lang="ts" setup>
   defineProps<{
     comma?: boolean;
+    isText?: boolean;
     word: string;
   }>();
 </script>
 
 <!-- prettier-ignore -->
 <template>
-  <a :href="`#${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
+  <template v-if="isText">{{ word }}</template>
+
+  <template v-else>
+    <a :href="`#${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
+  </template>
 </template>
