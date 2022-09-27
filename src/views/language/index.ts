@@ -28,3 +28,21 @@ export function splitParagraph(text: string, isSource?: boolean) {
     return { isText: true, word: text };
   });
 }
+
+interface WordInfo {
+  category: string | string[];
+  examples?: [source: string, translation: string][];
+  notes: string;
+  plural?: string[] | string;
+  singular?: string[] | string;
+  translation: string;
+}
+
+export function matches(field: string, word: string, info: WordInfo) {
+  const query = field.trim().split(/\s+/g);
+  if (query.length === 0 || !query[0]) return true;
+
+  return query.every((query) => {
+    return word.includes(query) || info.translation.includes(query);
+  });
+}
