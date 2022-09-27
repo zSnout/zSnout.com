@@ -49,3 +49,40 @@ export function matches(field: string, word: string, info: WordInfo) {
     return word.includes(query) || info.translation.includes(query);
   });
 }
+
+export function getReferences() {
+  return new Set(
+    [...document.querySelectorAll("[href^='#word-']")]
+      .filter((e): e is HTMLAnchorElement => e instanceof HTMLAnchorElement)
+      .map((link) => link.hash.slice(6))
+      .sort()
+  );
+}
+
+export function getActiveWords() {
+  return new Set(
+    [...document.querySelectorAll("[id^='word-']")]
+      .map((el) => el.id.slice(5))
+      .sort()
+  );
+}
+
+export function broken() {
+  const references = getReferences();
+
+  for (const word of getActiveWords()) {
+    references.delete(word);
+  }
+
+  for (const word of references) {
+    document
+      .querySelectorAll(`a[href='#word-${word}']`)
+      .forEach((node) => ((node as HTMLAnchorElement).style.color = "red"));
+  }
+
+  return references;
+}
+
+export function dev() {
+  return import.meta.env.DEV;
+}

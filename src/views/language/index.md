@@ -1,10 +1,21 @@
 <script setup lang="ts">
-  import { ref } from "vue";
-  import { matches, output, splitParagraph } from "./index.ts";
+  import { reactive, ref } from "vue";
+  import { broken, dev, matches, output, splitParagraph } from "./index.ts";
   import Field from "../../components/Field.vue";
   import WordLink from "../../components/WordLink.vue";
 
+  const brokenWords = reactive(new Set<string>());
   const field = ref("");
+
+  function checkBrokenLinks() {
+    brokenWords.clear();
+
+    for (const word of broken()) {
+      brokenWords.add(word);
+    }
+  }
+
+  setTimeout(checkBrokenLinks, 100);
 </script>
 
 # The zSnout Language (aka Lang)
@@ -68,6 +79,10 @@ persons.
 | nos  | 1st + 3rd       | me and them         |
 
 ## The Dictionary
+
+<p v-if="dev()" style="margin-bottom: 2em" @click="checkBrokenLinks">
+  Broken words: {{ [...brokenWords].join(", ") }}
+</p>
 
 <p class="field-outer"> <Field
   v-model="field"
