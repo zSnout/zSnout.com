@@ -21,7 +21,7 @@
     laser4: string
   ] = Array<void>(9).fill().map(randomColor) as any;
 
-  let tickId = 0;
+  let tickId: any = 0;
   let shadeLevel = 0;
 
   let laser1 = -40;
