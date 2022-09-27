@@ -80,6 +80,10 @@ persons.
 
 ## The Dictionary
 
+<p style="margin-bottom: 2em">
+  Today, the dictionary has {{ Object.keys(output).length }} words.
+</p>
+
 <p v-if="dev()" style="margin-bottom: 2em" @click="checkBrokenLinks">
   Broken words: {{ [...brokenWords].join(", ") }}
 </p>
