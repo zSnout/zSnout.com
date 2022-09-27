@@ -31,6 +31,7 @@
     "generate-maze": "^1.1.0",
     "glsl-canvas-js": "^0.2.9",
     "hoodmane-pyodide": "^0.20.0-m",
+    "js-yaml": "^4.1.0",
     "katex": "^0.16.2",
     "markdown-it-toc-done-right": "^4.2.0",
     "mix-css-color": "^0.2.0",
