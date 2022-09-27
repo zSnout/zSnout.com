@@ -158,12 +158,17 @@
       font-size: 1.25em;
     }
 
+    h4 {
+      margin-bottom: 1em;
+    }
+
     p {
       margin-top: 0;
       margin-bottom: 1em;
     }
 
-    p:not(.non-text) + p {
+    p:not(.non-text) + p,
+    h4 + p {
       margin-top: -0.5em;
     }
 
