@@ -66,7 +66,7 @@ gender.
 | ----------- | -------- | --------------- |
 | 1st person  | me       | nas / nes / nos |
 | 2nd person  | te       | tos             |
-| 3rd person  | lat      | los             |
+| 3rd person  | le       | los             |
 
 The 1st person plural, denoted by "we" in English, has three different forms in
 Lang, depending on whether you are including or excluding the 2nd and 3rd
