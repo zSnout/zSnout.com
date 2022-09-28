@@ -6,6 +6,13 @@
     isText?: boolean;
     word: string;
   }>();
+
+  function clearField() {
+    const field = document.getElementById("language-field");
+    if (!field) return;
+
+    field.value = "";
+  }
 </script>
 
 <!-- prettier-ignore -->
@@ -15,6 +22,6 @@
   </template>
 
   <template v-else>
-    <a :href="`#word-${word}`">{{ word }}</a>{{ comma ? ", " : "" }}
+    <a :href="`#word-${word}`" @click="clearField">{{ word }}</a>{{ comma ? ", " : "" }}
   </template>
 </template>
