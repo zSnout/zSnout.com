@@ -12,6 +12,7 @@
     if (!field) return;
 
     field.value = "";
+    field.dispatchEvent(new Event("input"));
   }
 </script>
 
