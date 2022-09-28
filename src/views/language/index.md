@@ -25,7 +25,7 @@ language and we're still thinking of a good name for it.
 
 ## The Alphabet
 
-Lang uses _j_, _k_, _l_, _m_, _n_, _p_, _s_, _t_, and _w_ as consonants. In
+Lang uses _j_, _k_, _l_, _m_, _n_, _p_, _r_, _s_, _t_, and _w_ as consonants. In
 Lang, the letter _j_ makes the same sound as English's "y". We use these
 consonants because they are easily distinguishable and are used in many popular
 languages. For vowels, Lang has _a_ (ah in English), _e_ (eh) _i_ (eee), _o_ (aw
@@ -37,7 +37,7 @@ makes the `ee` sound in zee, and the a and o combined make the `ah o` sound of
 `zee sn ah oh t`. Lang doesn't have a z sound, so we'll make do with an s. It's
 not perfect, but it will do.
 
-In Lang's alphabet, the letter order is this: _a e i o u j k l m n p s t w_.
+In Lang's alphabet, the letter order is this: a e i o u j k l m n p r s t w.
 Notice how the vowels are placed before consonants instead of being sporadically
 placed like in English and other languages.
 
@@ -57,16 +57,23 @@ the words <WordLink word="man" /> and <WordLink word="pan" /> may be used.
 In Lang, a sentence ends with a `.` if it is a statement, `?` if it is a request
 or question, and `!` if it is an exclamation.
 
+## Grammatical Constructs
+
+In Lang, a verb is denoted by its `-li` or `-ali` suffix. This suffix transforms
+a noun or adjective into a verb. For example, <WordLink word="ka" /> means "a
+greeting," but <WordLink word="kali" /> means "to greet." To use verbs, write
+them before a subject. For example, <WordLink word="kali" />
+
 ## Pronouns
 
 Each pronoun is labeled using its role (1st, 2nd, or 3rd) person as well as a
 gender.
 
-| Participant | Singular | Plural          |
-| ----------- | -------- | --------------- |
-| 1st person  | me       | nas / nes / nos |
-| 2nd person  | te       | tos             |
-| 3rd person  | lat      | los             |
+| Participant | Singular               | Plural                                                                      |
+| ----------- | ---------------------- | --------------------------------------------------------------------------- |
+| 1st person  | <WordLink word="me" /> | <WordLink word="nas" /> / <WordLink word="nes" /> / <WordLink word="nos" /> |
+| 2nd person  | <WordLink word="te" /> | <WordLink word="tos" />                                                     |
+| 3rd person  | <WordLink word="le" /> | <WordLink word="los" />                                                     |
 
 The 1st person plural, denoted by "we" in English, has three different forms in
 Lang, depending on whether you are including or excluding the 2nd and 3rd
