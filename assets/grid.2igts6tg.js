@@ -1,4 +1,4 @@
-import{F as s}from"./FullscreenDisplay.421pqk6v.js";import{C as r}from"./CoordinateCanvas2d.ui5o1n16.js";import{d as n,q as i,Y as l,o as c,c as f,w as t,a as e}from"./index.4nlty64r.js";import"./BookmarkIcon.108uetaj.js";import"./VStack.6d7g92uw.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.6b66y862.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const u=e("h1",null,"What is this?",-1),p=e("p",null," This is a WebGL debug page. A gradient should be contained within these with a bottom-left corner of blue, a top-left of mint, a top-right of yellow, and a bottom-right of magenta. There should also be a grid of black lines. ",-1),k=n({__name:"grid",setup(m){const o=i(),a=`
+import{F as s}from"./FullscreenDisplay.421pqk6v.js";import{C as r}from"./CoordinateCanvas2d.ui5o1n16.js";import{d as n,q as i,Y as l,o as c,c as f,w as t,a as e}from"./index.49e43vj6.js";import"./BookmarkIcon.3wmuqdow.js";import"./VStack.6d7g92uw.js";import"./Field.2ydu2jt8.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.238jku1n.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const p=e("h1",null,"What is this?",-1),u=e("p",null," This is a WebGL debug page. A gradient should be contained within these with a bottom-left corner of blue, a top-left of mint, a top-right of yellow, and a bottom-right of magenta. There should also be a grid of black lines. ",-1),B=n({__name:"grid",setup(m){const o=i(),a=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
@@ -13,4 +13,4 @@ import{F as s}from"./FullscreenDisplay.421pqk6v.js";import{C as r}from"./Coordin
     ) {
       gl_FragColor = vec4(0, 0, 0, 1);
     }
-  }`;return l(()=>{!o.value||new r(o.value,{fragmentString:a})}),(_,d)=>(c(),f(s,null,{help:t(()=>[u,p]),default:t(()=>[e("canvas",{ref_key:"canvas",ref:o},null,512)]),_:1}))}});export{k as default};
+  }`;return l(()=>{!o.value||new r(o.value,{fragmentString:a})}),(_,d)=>(c(),f(s,null,{help:t(()=>[p,u]),default:t(()=>[e("canvas",{ref_key:"canvas",ref:o},null,512)]),_:1}))}});export{B as default};
