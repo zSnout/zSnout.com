@@ -110,23 +110,22 @@ core words, <WordLink word="ban" />, <WordLink word="lan" />, and
 <WordLink word="nal" />, that respectively mean spouse, parent, and child. The
 first two letters of each of these words (ba-, la-, and na-) may be used as
 prefixes on each other. For example, a grandparent may be referred to as
-<WordLink word="lalan" />. It directly translates as "parent of parent," or
-"grandparents." To say sibling, we would write <WordLink word="nalan" />, or
-"child of parent." While "child of parent" could mean the original target (e.g.
-you), we assume that these paths exclude anyone who could be written in a
-shorter way. Since "me" could be written as <WordLink word="me" />, which is
-shorter, they're not matched by this genealogical path.
+_lalan_. It directly translates as "parent of parent," or "grandparents." To say
+sibling, we would write <WordLink word="nalan" />, or "child of parent." While
+"child of parent" could mean the original target (e.g. you), we assume that
+these paths exclude anyone who could be written in a shorter way. Since "me"
+could be written as <WordLink word="me" />, which is shorter, they're not
+matched by this genealogical path.
 
 These paths combine extremely well and are easy to write. For example, an aunt
 or uncle is the sibling of a parent, or the <WordLink word="nalan" /> of a
-<WordLink word="lan" />. Thus, we write an uncle or aunt as a
-<WordLink word="nalalan" />. However, lalan may be cumbersome to write and say,
-so we introduce a shorter form. Instead of writing <WordLink word="lalan" />, we
-may write <WordLink word="lun" />, and instead of <WordLink word="nanal" />, we
-may write <WordLink word="nul" />. The u-forms also introduce the word for
-ex-spouse, or <WordLink word="bun" />. This means we could write an aunt or
-uncle as a <WordLink word="nalun" />. Similarly, a cousin would be
-<WordLink word="nulun" />.
+<WordLink word="lan" />. Thus, we write an uncle or aunt as a _nalalan_.
+However, lalan may be cumbersome to write and say, so we introduce a shorter
+form. Instead of writing _lalan_, we may write <WordLink word="lun" />, and
+instead of _nanal_, we may write <WordLink word="nul" />. The u-forms also
+introduce the word for ex-spouse, or <WordLink word="bun" />. This means we
+could write an aunt or uncle as a <WordLink word="nalun" />. Similarly, a cousin
+would be <WordLink word="nulun" />.
 
 You may notice that all of these word are genderless. This is on purpose and
 matches one of the core goals of Lang. If you need to specify the gender of a
@@ -134,16 +133,15 @@ relative, however, you may use the ma- and pa- prefixes to mean female and male,
 respectively. Lang does not include a gender neutral prefix as gender neutrality
 is the default for all words.
 
-For example, "father" may be written as <WordLink word="palan" />, or "male
-parent." Similarly, "grandmother" may be written as <WordLink word="malun" />,
-or "female grandparent." You can also express "grandfather on my mother's side"
-in one short word: <WordLink word="palamalan" />, or "male parent of female
-parent."
+For example, "father" may be written as _palan_, or "male parent." Similarly,
+"grandmother" may be written as _malun_, or "female grandparent." You can also
+express "grandfather on my mother's side" in one short word: palamalan, or "male
+parent of female parent."
 
 <WordLink word="ban" /> also allows you to easily write in-law relationships.
-For example, "my parent in-law" would be written as <WordLink word="laban" />,
-or "parent of spouse". You can also use <WordLink word="bun" />, or "ex-spouse,"
-for other relationships.
+For example, "my parent in-law" would be written as _laban_, or "parent of
+spouse". You can also use <WordLink word="bun" />, or "ex-spouse," for other
+relationships.
 
 ## Pronouns
 
