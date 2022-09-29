@@ -37,7 +37,7 @@ makes the `ee` sound in zee, and the a and o combined make the `ah o` sound of
 `zee sn ah oh t`. Lang doesn't have a z sound, so we'll make do with an s. It's
 not perfect, but it will do.
 
-In Lang's alphabet, the letter order is this: a e i o u d j k l m n p r s t w.
+In Lang's alphabet, the letter order is this: a e i o u b d j k l m n p r s t w.
 Notice how the vowels are placed before consonants instead of being sporadically
 placed like in English and other languages.
 
@@ -71,7 +71,7 @@ to act on (an object), write "verb subject a target." For example,
 ## The Relative System
 
 Lang takes a unique approach to describing relatives. In Lang, there are three
-core words, <WordLink word="san" />, <WordLink word="lan" />, and
+core words, <WordLink word="ban" />, <WordLink word="lan" />, and
 <WordLink word="nal" />, that respectively mean spouse, parent, and child. The
 first two letters of each of these words (ba-, la-, and na-) may be used as
 prefixes on each other. For example, a grandparent may be referred to as
@@ -89,7 +89,7 @@ or uncle is the sibling of a parent, or the <WordLink word="nalan" /> of a
 so we introduce a shorter form. Instead of writing <WordLink word="lalan" />, we
 may write <WordLink word="lun" />, and instead of <WordLink word="nanal" />, we
 may write <WordLink word="nul" />. The u-forms also introduce the word for
-ex-spouse, or <WordLink word="sun" />. This means we could write an aunt or
+ex-spouse, or <WordLink word="bun" />. This means we could write an aunt or
 uncle as a <WordLink word="nalun" />. Similarly, a cousin would be
 <WordLink word="nulun" />.
 
@@ -105,9 +105,9 @@ or "female grandparent." You can also express "grandfather on my mother's side"
 in one short word: <WordLink word="palamalan" />, or "male parent of female
 parent."
 
-<WordLink word="san" /> also allows you to easily write in-law relationships.
-For example, "my parent in-law" would be written as <WordLink word="lasan" />,
-or "parent of spouse". You can also use <WordLink word="sun" />, or "ex-spouse,"
+<WordLink word="ban" /> also allows you to easily write in-law relationships.
+For example, "my parent in-law" would be written as <WordLink word="laban" />,
+or "parent of spouse". You can also use <WordLink word="bun" />, or "ex-spouse,"
 for other relationships.
 
 ## Pronouns
