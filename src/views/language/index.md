@@ -57,18 +57,53 @@ the words <WordLink word="man" /> and <WordLink word="pan" /> may be used.
 In Lang, a sentence ends with a `.` if it is a statement, `?` if it is a request
 or question, and `!` if it is an exclamation.
 
-## Grammatical Constructs
+## Verbs and Actions
 
 In Lang, a verb is denoted by its `-li` or `-ali` suffix. This suffix transforms
 a noun or adjective into a verb. For example, <WordLink word="ka" /> means "a
 greeting," but <WordLink word="kali" /> means "to greet." To use verbs, write
 them before a subject. For example, "<WordLink word="kali" /> {{}}
 <WordLink word="soro" />" means "A dog greets." If the action requires something
-to act on (an object), write "verb subject a target." For example,
-"<WordLink word="kali" /> <WordLink word="soro" /> <WordLink word="a" /> {{}}
-<WordLink word="kato" />." means "A dog greets a cat."
+to act on (an object), write "verb subject <WordLink word="a" /> target." For
+example, "<WordLink word="kali" /> <WordLink word="soro" /> {{}}
+<WordLink word="a" /> <WordLink word="kato" />." means "A dog greets a cat."
 
-## The Relative System
+## Numbers
+
+Numbers are really annoying in most languages. For example, 100 in Spanish is
+"cien," but only if it's alone. If it's 101 then it's "cientos uno" and it's
+impossible to remember when you need to add "y" ("cientos y uno"). English is
+worse in some ways. It has a clear pattern for 13-19 in the form of "thirteen,
+fourteen, ..., nineteen." But "fourteen" and "nineteen" use the words "four" and
+"nine" whereas "thirteen" uses "thir" instead of "three." It even has exceptions
+for "eleven" and "twelve!" Why do numbers need to be this confusing? Why can't
+we just say "one two?"
+
+Lang uses a system where you just say the digits of whatever number you want to
+enunciate. To say 1, you write <WordLink word="sam" />. To say 3, you write
+<WordLink word="nak" />. And to say 13, you write <WordLink word="sam" />
+<WordLink word="nak" />. Easy!
+
+We do recognize that large numbers pose a challenge, as you would need to write
+<WordLink word="sam" /> <WordLink word="lo" /> <WordLink word="lo" /> {{}}
+<WordLink word="lo" /> <WordLink word="lo" /> <WordLink word="lo" /> {{}}
+<WordLink word="lo" /> <WordLink word="lo" /> <WordLink word="lo" /> {{}}
+<WordLink word="lo" /> to say "one billion." Because of this, we allow the use
+of the "-ol" suffix on any digit to mean one followed by n many zeroes. For
+example, <WordLink word="nakol" /> means 1000, or 10 to the
+<WordLink word="nak" />th (3rd) power. Thus, four thousand is a measly
+<WordLink word="wan" /> <WordLink word="nakol" /> (4 \* 1000). That's nine
+characters compared to English's thirteen!
+
+An important note: to say 3,000,400, you would NOT write 3,000,000 400. Instead,
+you write 3,000 400, or <WordLink word="nak" /> <WordLink word="nakol" /> {{}}
+<WordLink word="wan" /> <WordLink word="nadol" />.
+
+It is generally preferred to use -ol over <WordLink word="lo" /> whenever you
+have two or more <WordLink word="lo" />s in a row. However, don't use
+<WordLink word="samol" /> unless you're writing the number 10.
+
+## Describing Relatives
 
 Lang takes a unique approach to describing relatives. In Lang, there are three
 core words, <WordLink word="ban" />, <WordLink word="lan" />, and
