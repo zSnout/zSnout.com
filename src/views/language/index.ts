@@ -11,7 +11,11 @@ const wordRegex = /\w/;
 
 export function splitParagraph(text: string, isSource?: boolean) {
   if (isSource) {
-    return (text.match(/\w+|[^\w]+/g) || []).map((text) => {
+    return (text.match(/_\w+_|(?:(?!_)\w)+|[^\w_]+/g) || []).map((text) => {
+      if (text.startsWith("_")) {
+        return { isText: true, word: text.slice(1, -1) };
+      }
+
       if (wordRegex.test(text)) {
         return { word: text };
       }
