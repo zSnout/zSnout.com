@@ -28,9 +28,11 @@ language and we're still thinking of a good name for it.
 Lang uses _d_, _j_, _k_, _l_, _m_, _n_, _p_, _s_, _t_, and _w_ as consonants. In
 Lang, the letter _j_ makes the same sound as English's "y". We use these
 consonants because they are easily distinguishable and are used in many popular
-languages. For vowels, Lang has _a_ (ah in English), _e_ (eh) _i_ (eee), _o_ (aw
-in awkward), and _u_ (oo). This is the classing five-vowel system employed by
-Spanish and Swahili.
+languages. Additionally, the consonant _w_ may be pronounced as an English R,
+but beware that not all cultures have an R sound and may not be able to
+understand the R noise. For vowels, Lang has _a_ (ah in English), _e_ (eh) _i_
+(eee), _o_ (aw in awkward), and _u_ (oo). This is the classing five-vowel system
+employed by Spanish and Swahili.
 
 To write zSnout in Lang using the native symbols, we would type Sisnaot. The `i`
 makes the `ee` sound in zee, and the a and o combined make the `ah o` sound of
