@@ -1,13 +1,37 @@
 import { load } from "js-yaml";
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 
-export const output = reactive({});
+export const output = reactive<[string, WordInfo][]>([]);
+export const field = ref("");
 
 import("./words.yml?raw").then((doc) => {
-  Object.assign(output, load(doc.default));
+  const result = load(doc.default) as Record<string, WordInfo>;
+  output.push(...Object.entries(result));
 });
 
 const wordRegex = /\w/;
+
+export function sort() {
+  output.sort(([a], [b]) => (a === b ? 0 : a < b ? -1 : 1));
+  if (!field.value.trim()) return output;
+
+  return output.sort(([a, ai], [b, bi]) => {
+    const am = matches(a, ai);
+    const bm = matches(b, bi);
+    const ae = matchesExact(a, ai);
+    const be = matchesExact(b, bi);
+
+    if (ae && be) {
+      return am && bm ? 0 : am ? -1 : bm ? 1 : 0;
+    } else if (ae) {
+      return -1;
+    } else if (be) {
+      return 1;
+    } else {
+      return am && bm ? 0 : am ? -1 : bm ? 1 : 0;
+    }
+  });
+}
 
 export function splitParagraph(text: string, isSource?: boolean) {
   if (isSource) {
@@ -45,12 +69,27 @@ interface WordInfo {
   translation: string;
 }
 
-export function matches(field: string, word: string, info: WordInfo) {
-  const query = field.trim().split(/\s+/g);
+export function matches(word: string, info: WordInfo) {
+  const query = field.value.trim().toLowerCase().split(/\s+/g);
   if (query.length === 0 || !query[0]) return true;
 
   return query.every((query) => {
-    return word.includes(query) || info.translation.includes(query);
+    return (
+      word.toLowerCase().includes(query) ||
+      info.translation.toLowerCase().includes(query)
+    );
+  });
+}
+
+export function matchesExact(word: string, info: WordInfo) {
+  const query = field.value.trim().toLowerCase().split(/\s+/g);
+  if (query.length === 0 || !query[0]) return true;
+
+  return query.every((query) => {
+    return (
+      word.toLowerCase() === query ||
+      info.translation.toLowerCase().split(" ").includes(query)
+    );
   });
 }
 
