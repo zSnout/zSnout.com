@@ -1,5 +1,7 @@
 <script setup lang="ts">
-  import { reactive, ref } from "vue";
+  import { reactive } from "vue";
+  import Field from "../../components/Field.vue";
+  import WordLink from "../../components/WordLink.vue";
   import {
     broken,
     dev,
@@ -8,9 +10,7 @@
     output,
     sort,
     splitParagraph,
-  } from "./index.ts";
-  import Field from "../../components/Field.vue";
-  import WordLink from "../../components/WordLink.vue";
+  } from "./index.js";
 
   const brokenWords = reactive(new Set<string>());
 
@@ -170,6 +170,18 @@ persons.
 | nas  | 1st + 2nd       | me and you          |
 | nes  | 1st + 2nd + 3rd | me and you and them |
 | nos  | 1st + 3rd       | me and them         |
+
+## About the Dictionary
+
+The dictionary lists every word in Lang with an (approximate) English
+translation and a category (adjective, noun, verb, ...). Some words also have
+antonyms, synonyms, similar words, examples, and additional notes. Each example
+has a sentence or phrase in Lang with an English translation below it. Each word
+in the Lang phrase is clickable and leads to the definition of that word.
+
+Some examples use placeholders (X, Y, Z) instead of phrases to highlight how a
+phrase transforms into its English equivalent. The placeholders may be replaced
+with actual phrases to create a valid sentence.
 
 ## The Dictionary
 
