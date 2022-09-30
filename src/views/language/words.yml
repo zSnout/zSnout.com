@@ -567,6 +567,16 @@ nulun:
   category: [noun, relative]
   translation: cousin
 
+pali:
+  category: verb
+  examples:
+    - [pali X a Y a Z., X gives Y a Z.]
+    - [pali X a Y., X gives a Y to someone.]
+    - [pali X a Y., X gives something to Y.]
+    - [pali te a il sowo a me., You give a dog to me.]
+  notes: This verb requires more than two arguments.
+  translation: to give
+
 pam:
   category: number
   similar: pamol
@@ -587,6 +597,10 @@ pan:
     _pan_ may also be used in its prefix form of pa- before another word
     describing a relative.
   translation: female
+
+pilat:
+  category: adverb
+  translation: please
 
 pon:
   category: noun
@@ -629,8 +643,8 @@ seku:
 si:
   category: conjunction
   examples:
-    - [E si A., E if A.]
-    - [saneli me si teneli me a sowo., I am happy if I have a dog.]
+    - [X si Y., X if Y.]
+    - [saneli me si teneli me a il sowo., I am happy if I have a dog.]
   translation: if
 
 sowo:
@@ -678,6 +692,30 @@ tos:
   notes: The plural second person pronoun.
   singular: te
   translation: you all
+
+wa:
+  category: preposition
+  examples:
+    - [wa wakeli te., Start walking.]
+    - [wa pali te a il kato a me., Give me a cat.]
+  notes:
+    This transforms the following phrase into a request to perform the action.
+    If _pali_ _te_ _a_ _il_ _kato_ _a_ _me_ means "you give me a cat," then
+    prefixing it with _wa_ transforms it into a request to "give me a cat."
+  similar: wali
+  translation: (a request)
+
+wali:
+  category: verb
+  examples:
+    - [wali X a Y., X requests Y.]
+    - [wali le a wakeli te., They request you to start walking.]
+    - [
+        wali los a pali te a il kato a me.,
+        They (all) request you to give me a cat.,
+      ]
+  similar: wa
+  translation: to request
 
 wake:
   category: noun
