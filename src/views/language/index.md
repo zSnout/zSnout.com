@@ -1,11 +1,18 @@
 <script setup lang="ts">
   import { reactive, ref } from "vue";
-  import { broken, dev, matches, output, splitParagraph } from "./index.ts";
+  import {
+    broken,
+    dev,
+    field,
+    matches,
+    output,
+    sort,
+    splitParagraph,
+  } from "./index.ts";
   import Field from "../../components/Field.vue";
   import WordLink from "../../components/WordLink.vue";
 
   const brokenWords = reactive(new Set<string>());
-  const field = ref("");
 
   function checkBrokenLinks() {
     brokenWords.clear();
@@ -179,12 +186,13 @@ persons.
   id="language-field"
   placeholder="Type to search the dictionary..."
   type="search"
+  @input="sort"
 /> </p>
 
-<template v-for="(info, word) in output">
+<template v-for="[word, info] in output">
 
 <div
-  v-if="matches(field, word, info)"
+  v-if="matches(word, info)"
   :id="`word-${word}`"
   style="margin-top: 2em; scroll-margin-top: 8.5em"
   tabindex="-1"
