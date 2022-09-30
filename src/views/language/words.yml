@@ -698,10 +698,11 @@ wa:
   examples:
     - [wa wakeli te., Start walking.]
     - [wa pali te a il kato a me., Give me a cat.]
-  notes:
-    This transforms the following phrase into a request to perform the action.
-    If _pali_ _te_ _a_ _il_ _kato_ _a_ _me_ means "you give me a cat," then
-    prefixing it with _wa_ transforms it into a request to "give me a cat."
+  notes: This transforms the following phrase into a request to perform the
+    action. If _pali_ _te_ _a_ _il_ _kato_ _a_ _me_ means "you give me a cat,"
+    then prefixing it with _wa_ transforms it into a request to "give me a cat."
+
+    _wa_ can usually be replaced with _wa_ _me_ _a_.
   similar: wali
   translation: (a request)
 
