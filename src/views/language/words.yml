@@ -98,6 +98,13 @@ eto:
   category: noun
   translation: a month
 
+i:
+  category: conjunction
+  examples:
+    - [il soro i kato., A dog and cat.]
+    - [il soro i kato i leopado., "A dog, cat and leopard."]
+  translation: and
+
 il:
   category: determiner
   examples:
@@ -127,6 +134,8 @@ o:
   category: conjunction
   examples:
     - [il soro o kato., A dog or cat.]
+    - [il soro o kato o leopado., "A dog, cat or leopard."]
+  similar: ko
   translation: or
 
 oda:
@@ -278,6 +287,14 @@ kewaili:
 kia:
   category: noun
   translation: a day
+
+ko:
+  category: conjunction
+  examples:
+    - [il soro ko kato., Either a dog or a cat.]
+    - [il soro ko kato ko leopado., "Either a dog, a cat or a leopard."]
+  similar: o
+  translation: exclusive or
 
 kolow:
   category: noun
