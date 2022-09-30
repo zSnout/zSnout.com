@@ -14,7 +14,7 @@
     "npm": ">=8.5.0"
   },
   "dependencies": {
-    "@tiptap/extension-collaboration": "^2.0.0-beta.197",
+    "@tiptap/extension-collaboration": "^2.0.0-beta.199",
     "@tiptap/starter-kit": "^2.0.0-beta.197",
     "@tiptap/vue-3": "^2.0.0-beta.197",
     "@traptitech/markdown-it-katex": "^3.6.0",
