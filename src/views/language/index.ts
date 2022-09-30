@@ -1,25 +1,38 @@
 import { load } from "js-yaml";
 import { reactive, ref } from "vue";
 
+const source: [string, WordInfo][] = [];
 export const output = reactive<[string, WordInfo][]>([]);
 export const field = ref("");
 
 import("./words.yml?raw").then((doc) => {
   const result = load(doc.default) as Record<string, WordInfo>;
+  source.push(...Object.entries(result));
+  output.length = 0;
   output.push(...Object.entries(result));
+  Object.assign(source, result);
 });
 
 const wordRegex = /\w/;
 
+const matchCache = new Map<string, boolean>();
+const matchExactCache = new Map<string, boolean>();
 export function sort() {
-  output.sort(([a], [b]) => (a === b ? 0 : a < b ? -1 : 1));
-  if (!field.value.trim()) return output;
+  output.length = 0;
+  output.push(...source);
 
-  return output.sort(([a, ai], [b, bi]) => {
-    const am = matches(a, ai);
-    const bm = matches(b, bi);
-    const ae = matchesExact(a, ai);
-    const be = matchesExact(b, bi);
+  if (!field.value.trim()) return;
+
+  for (const [word, info] of output) {
+    matchCache.set(word, matches(word, info));
+    matchExactCache.set(word, matchesExact(word, info));
+  }
+
+  output.sort(([a], [b]) => {
+    const am = matchCache.get(a);
+    const bm = matchCache.get(b);
+    const ae = matchExactCache.get(a);
+    const be = matchExactCache.get(b);
 
     if (ae && be) {
       return am && bm ? 0 : am ? -1 : bm ? 1 : 0;
