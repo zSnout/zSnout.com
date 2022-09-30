@@ -32,8 +32,8 @@ al:
 
     _al_ is used when the identity of something is known to the reader. For
     example, if a dog was already introduced into a conversation (e.g. _wakeli_
-    _il_ _soro_), you would use _al_ for the remaining instances of the same dog
-    (e.g. _wakeli_ _il_ _soro_. _teneli_ _me_ _a_ _al_ _soro_.)
+    _il_ _sowo_), you would use _al_ for the remaining instances of the same dog
+    (e.g. _wakeli_ _il_ _sowo_. _teneli_ _me_ _a_ _al_ _sowo_.)
   similar: il
   translation: the
 
@@ -101,8 +101,8 @@ eto:
 i:
   category: conjunction
   examples:
-    - [il soro i kato., A dog and cat.]
-    - [il soro i kato i leopado., "A dog, cat and leopard."]
+    - [il sowo i kato., A dog and cat.]
+    - [il sowo i kato i leopado., "A dog, cat and leopard."]
   translation: and
 
 il:
@@ -116,7 +116,7 @@ il:
 
     _il_ is used when the identity of something is not known to the reader. For
     example, if you introduced a dog into a conversation that was not mentioned
-    before, you would call it _il_ _soro_.
+    before, you would call it _il_ _sowo_.
   similar: al
   translation: a
 
@@ -133,8 +133,8 @@ itoli:
 o:
   category: conjunction
   examples:
-    - [il soro o kato., A dog or cat.]
-    - [il soro o kato o leopado., "A dog, cat or leopard."]
+    - [il sowo o kato., A dog or cat.]
+    - [il sowo o kato o leopado., "A dog, cat or leopard."]
   similar: ko
   translation: or
 
@@ -172,9 +172,9 @@ danol:
 de:
   category: preposition
   examples:
-    - [soro de te., The dog owned by you.]
-    - [soro de te., Your dog.]
-    - [wakeli soro de te., Your dog walks.]
+    - [sowo de te., The dog owned by you.]
+    - [sowo de te., Your dog.]
+    - [wakeli sowo de te., Your dog walks.]
   similar: mi
   translation: of / owned by / inside of
 
@@ -183,7 +183,7 @@ du:
   examples:
     - [mi du kato., My many cats.]
     - [du mi kato., Many of my cats.]
-    - [du soro., Many dogs.]
+    - [du sowo., Many dogs.]
   translation: many of
 
 ja:
@@ -291,8 +291,8 @@ kia:
 ko:
   category: conjunction
   examples:
-    - [il soro ko kato., Either a dog or a cat.]
-    - [il soro ko kato ko leopado., "Either a dog, a cat or a leopard."]
+    - [il sowo ko kato., Either a dog or a cat.]
+    - [il sowo ko kato ko leopado., "Either a dog, a cat or a leopard."]
   similar: o
   translation: exclusive or
 
@@ -498,7 +498,7 @@ nas:
   category: pronoun
   examples:
     - [wakeli nas., Me and you walk.]
-    - [leapali soro de nes., Our (my and your) dog leaps.]
+    - [leapali sowo de nes., Our (my and your) dog leaps.]
   notes:
     One of the plural first person pronouns. It includes the 1st and 2nd persons
     in the conversation.
@@ -630,10 +630,10 @@ si:
   category: conjunction
   examples:
     - [E si A., E if A.]
-    - [saneli me si teneli me a soro., I am happy if I have a dog.]
+    - [saneli me si teneli me a sowo., I am happy if I have a dog.]
   translation: if
 
-soro:
+sowo:
   category: noun
   translation: dog
 
