@@ -117,6 +117,9 @@
     }
 
     function init() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       const boxPc = Math.random() * 0.15 + 0.8;
       boxWidth = Math.floor(boxPc * canvas.width);
       boxHeight = Math.floor(boxPc * canvas.height);
@@ -130,7 +133,8 @@
     }
 
     function initEdges() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.fillStyle = colors[0];
       ctx.fillRect(0, 0, 20, canvas.height);
