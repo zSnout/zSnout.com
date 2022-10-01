@@ -102,7 +102,11 @@
       if (!blob) return;
 
       const url = URL.createObjectURL(blob);
-      download(url);
+      const path = location.pathname.split("/");
+      const name = path[path.length - 1] || path[path.length - 2] || "picture";
+      // If we're in an index file, the path ends with `/` so we default to the segment before it.
+
+      download(url, `${name}.png`);
     }, "image/png");
   }
 </script>
