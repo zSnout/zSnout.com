@@ -448,15 +448,13 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
 
       details.thumbnails.sort((a, b) => b.height - a.height);
       const { url: thumbnailURL } = details.thumbnails[0];
-      const thumbnail = await fetch(thumbnailURL).then((r) => r.arrayBuffer());
-      const thumbnailData = Buffer.from(thumbnail).toString("base64");
 
       this.emit("youtube:results", id, {
         title: details.title,
         description: details.description,
         isLive: details.isLiveContent,
         channel: details.ownerChannelName,
-        thumbnail: `data:image/jpeg;base64,${thumbnailData}`,
+        thumbnail: thumbnailURL,
         formats: formats.map(
           ({ url, hasAudio, hasVideo, qualityLabel, audioQuality }) => ({
             url,
