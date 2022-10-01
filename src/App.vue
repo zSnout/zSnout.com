@@ -84,6 +84,16 @@
     return a instanceof b;
   }
 
+  function download(url: string, name = "") {
+    const anchor = document.createElement("a");
+    anchor.style.display = "none";
+    anchor.href = url;
+    anchor.download = name;
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+  }
+
   function saveCanvas() {
     const { value: cv } = canvas;
     if (!cv) return;
@@ -91,13 +101,8 @@
     cv.toBlob((blob) => {
       if (!blob) return;
 
-      const anchor = document.createElement("a");
       const url = URL.createObjectURL(blob);
-      anchor.href = url;
-      anchor.target = "_blank";
-      document.body.append(anchor);
-
-      anchor.click();
+      download(url);
     }, "image/png");
   }
 </script>
