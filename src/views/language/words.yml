@@ -574,7 +574,15 @@ pali:
     - [pali X a Y., X gives a Y to someone.]
     - [pali X a Y., X gives something to Y.]
     - [pali te a il sowo a me., You give a dog to me.]
-  notes: This verb requires more than two arguments.
+    - [
+        pali le a il sowo.,
+        They give a dog to someone.,
+        They give something to a dog.,
+      ]
+  notes:
+    This verb requires more than two arguments. If it only has one _a_ clause,
+    it is implied whether it is the thing to be given or the person the thing is
+    given to.
   translation: to give
 
 pam:
