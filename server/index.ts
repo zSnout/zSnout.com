@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
+import { getInfo } from "ytdl-core";
 import { ClientToServer, ServerToClient } from "../shared.server";
 import {
   AccountStatus,
@@ -438,6 +439,35 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
         });
       }
     }
+  },
+  async "youtube:request"(id) {
+    try {
+      const info = await getInfo(`https://youtube.com/watch?v=${id}`);
+      const details = info.videoDetails;
+      const formats = info.formats;
+
+      details.thumbnails.sort((a, b) => b.height - a.height);
+      const { url: thumbnailURL } = details.thumbnails[0];
+      const thumbnail = await fetch(thumbnailURL).then((r) => r.arrayBuffer());
+      const thumbnailData = Buffer.from(thumbnail).toString("base64");
+
+      this.emit("youtube:results", id, {
+        title: details.title,
+        description: details.description,
+        isLive: details.isLiveContent,
+        channel: details.ownerChannelName,
+        thumbnail: `data:image/jpeg;base64,${thumbnailData}`,
+        formats: formats.map(
+          ({ url, hasAudio, hasVideo, qualityLabel, audioQuality }) => ({
+            url,
+            hasAudio,
+            hasVideo,
+            quality: qualityLabel,
+            audio: audioQuality,
+          })
+        ),
+      });
+    } catch {}
   },
 };
 
