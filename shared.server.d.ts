@@ -1,5 +1,3 @@
-import { videoInfo } from "ytdl-core";
-
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -90,7 +88,24 @@ export interface ServerToClient {
   "notes:note"(noteId: string, contents: string | false): void;
   "notes:details"(details: NoteDetails): void;
 
-  "youtube:results"(id: string, info: videoInfo): void;
+  "youtube:results"(id: string, info: YouTubeResults): void;
+}
+
+export interface YouTubeResults {
+  title: string;
+  description: string | null;
+  isLive: boolean;
+  channel: string;
+  thumbnail: string;
+  formats: VideoFormat[];
+}
+
+export interface VideoFormat {
+  url: string;
+  hasAudio: boolean;
+  hasVideo: boolean;
+  quality: string;
+  audio: "AUDIO_QUALITY_LOW" | "AUDIO_QUALITY_MEDIUM" | undefined;
 }
 
 export interface Bookmark {
