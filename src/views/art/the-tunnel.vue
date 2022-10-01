@@ -43,6 +43,8 @@
   let boxWidth = 1;
   let boxHeight = 1;
 
+  let adjustment = 0;
+
   const depthLasers: [xPercent: number, yPercent: number][] = [];
 
   useCanvas(canvas, { useDevicePixelRatio: false }).then((data) => {
@@ -93,7 +95,7 @@
         ctx.beginPath();
         ctx.fillStyle = colors[7];
         ctx.arc(
-          canvas.width / 2 + laser3Max - l / 2,
+          canvas.width / 2 + laser3Max - l / 2 + adjustment,
           canvas.height - l,
           20,
           0,
@@ -201,6 +203,10 @@
     laser2++;
     laser3++;
     laser4++;
+
+    if (laser3 > 0) {
+      adjustment -= 0.25;
+    }
   });
 </script>
 
