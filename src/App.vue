@@ -95,7 +95,6 @@
       const url = URL.createObjectURL(blob);
       anchor.href = url;
       anchor.target = "_blank";
-      anchor.download = "";
       document.body.append(anchor);
 
       anchor.click();
