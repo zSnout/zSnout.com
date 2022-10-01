@@ -276,7 +276,7 @@ export const homeIcons = computed(() => {
     },
 
     {
-      alt: "A flower created from a rainbow gradient with a vignette on its exterior.",
+      alt: "A flower created from a rainbow gradient with a vignette on its exterior",
       description:
         "Experiment with amazing transformations of the complex plane.",
       group: ["math"],
@@ -284,6 +284,17 @@ export const homeIcons = computed(() => {
       src: "/images/complex-explorer.webp",
       title: "Complex Explorer",
       to: "/complex-explorer",
+    },
+
+    {
+      alt: "A YouTube thumbnail with a list of video formats and download buttons",
+      description:
+        "Download YouTube videos quickly, easily, and safely using our tool.",
+      group: ["utilities"],
+      keywords: "videos",
+      src: "/images/youtube-downloader.webp",
+      title: "YouTube Downloader",
+      to: "/youtube-downloader",
     },
 
     {
