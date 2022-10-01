@@ -30,11 +30,17 @@
 
   const isCtxOpen = ref(false);
   const link = ref<Element>();
+  const canvas = ref<HTMLCanvasElement>();
   const hide = () => (isCtxOpen.value = false);
 
   useEventListener("contextmenu", (event) => {
     if (event.defaultPrevented) {
       return;
+    }
+
+    canvas.value = undefined;
+    if (event.target instanceof HTMLCanvasElement) {
+      canvas.value = event.target;
     }
 
     link.value = undefined;
@@ -77,6 +83,23 @@
   ): a is Element {
     return a instanceof b;
   }
+
+  function saveCanvas() {
+    const { value: cv } = canvas;
+    if (!cv) return;
+
+    cv.toBlob((blob) => {
+      if (!blob) return;
+
+      const anchor = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      anchor.href = url;
+      anchor.target = "_blank";
+      document.body.append(anchor);
+
+      anchor.click();
+    }, "image/png");
+  }
 </script>
 
 <template>
@@ -97,6 +120,10 @@
       @click="hide(), spamIt()"
     >
       Spam It
+    </MenuEntry>
+
+    <MenuEntry v-if="canvas" @click="hide(), saveCanvas()">
+      Save Picture
     </MenuEntry>
 
     <MenuEntry @click="hide(), (isDark = !isDark)">
