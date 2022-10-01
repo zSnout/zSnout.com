@@ -15,6 +15,7 @@ export const groups = [
   "math",
   "tests",
   "programming",
+  "utilities",
   "wireless",
 ] as const;
 
