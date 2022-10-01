@@ -18,27 +18,29 @@
 </script>
 
 <template>
-  <Navigation :small="small">
-    <template #aside v-if="$slots.aside">
-      <slot name="aside" />
-    </template>
+  <slot name="navigation">
+    <Navigation :small="small">
+      <template #aside v-if="$slots.aside">
+        <slot name="aside" />
+      </template>
 
-    <template #buttons v-if="$slots.buttons">
-      <slot name="buttons" />
-    </template>
+      <template #buttons v-if="$slots.buttons">
+        <slot name="buttons" />
+      </template>
 
-    <template #help v-if="$slots.help">
-      <slot name="help" />
-    </template>
+      <template #help v-if="$slots.help">
+        <slot name="help" />
+      </template>
 
-    <template #indicator v-if="$slots.indicator">
-      <slot name="indicator" />
-    </template>
+      <template #indicator v-if="$slots.indicator">
+        <slot name="indicator" />
+      </template>
 
-    <template #options v-if="$slots.options">
-      <slot name="options" />
-    </template>
-  </Navigation>
+      <template #options v-if="$slots.options">
+        <slot name="options" />
+      </template>
+    </Navigation>
+  </slot>
 
   <SafeArea
     :class="{ center }"
