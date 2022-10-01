@@ -1,3 +1,5 @@
+import { videoInfo } from "ytdl-core";
+
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -53,6 +55,8 @@ export interface ClientToServer {
   "notes:request:note"(session: string, noteId: string): void;
   "notes:update:note"(session: string, noteId: string, contents: string): void;
   "notes:update:title"(session: string, noteId: string, title: string): void;
+
+  "youtube:request"(id: string): void;
 }
 
 export interface ServerToClient {
@@ -85,6 +89,8 @@ export interface ServerToClient {
   "notes:index"(notes: NotePreview[]): void;
   "notes:note"(noteId: string, contents: string | false): void;
   "notes:details"(details: NoteDetails): void;
+
+  "youtube:results"(id: string, info: videoInfo): void;
 }
 
 export interface Bookmark {
