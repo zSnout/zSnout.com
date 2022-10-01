@@ -447,7 +447,9 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       const formats = info.formats;
 
       details.thumbnails.sort((a, b) => b.height - a.height);
-      const { url: thumbnailURL } = details.thumbnails[0];
+      const { url: thumbnailURL } = details.thumbnails.sort(
+        (a, b) => b.width - a.width
+      )[0];
 
       this.emit("youtube:results", id, {
         title: details.title,
