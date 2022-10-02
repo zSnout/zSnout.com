@@ -89,19 +89,20 @@
   }
 
   .content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: var(--app-width);
-    height: var(--app-height);
-
-    > :deep(canvas) {
+    #app > & {
       position: fixed;
       top: 0;
       left: 0;
       width: var(--app-width);
       height: var(--app-height);
+    }
+
+    width: 100%;
+    height: 100%;
+
+    > :deep(canvas) {
+      width: 100%;
+      height: 100%;
     }
   }
 </style>
