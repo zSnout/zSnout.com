@@ -15,7 +15,7 @@
   import ScratchPad from "./ScratchPad.vue";
 
   const { id } = defineProps<{ id: Id }>();
-  const module = useLocalStorage<ModuleName>(`module-${id}`, "");
+  const module = useLocalStorage<ModuleName>(`dashboard:module:${id}`, "");
 </script>
 
 <template>
