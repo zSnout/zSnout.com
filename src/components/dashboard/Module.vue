@@ -2,6 +2,7 @@
   export const modules = {
     "": "Blank Space",
     "scratch-pad": "Scratch Pad",
+    "fractals": "Fractals",
   } as const;
 
   export type ModuleName = keyof typeof modules;
@@ -12,6 +13,7 @@
 
 <script lang="ts" setup>
   import { useLocalStorage } from "@vueuse/core";
+  import Fractals from "./Fractals.vue";
   import ScratchPad from "./ScratchPad.vue";
 
   const { id } = defineProps<{ id: Id }>();
@@ -20,5 +22,6 @@
 
 <template>
   <ScratchPad v-if="module === 'scratch-pad'" />
+  <Fractals v-else-if="module === 'fractals'" />
   <div v-else />
 </template>

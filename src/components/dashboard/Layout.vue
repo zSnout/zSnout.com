@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <VStack no-center stretch v-bind="$attrs">
+  <VStack class="stack" no-center stretch v-bind="$attrs">
     <Module v-if="layout === 'dual'" :id="1" />
 
     <HStack v-else no-center stretch>
@@ -27,3 +27,11 @@
     </HStack>
   </VStack>
 </template>
+
+<style scoped>
+  .stack {
+    width: min(100%, 1200px);
+    height: 100%;
+    overflow-y: hidden;
+  }
+</style>
