@@ -10,7 +10,7 @@
 
 <template>
   <VStack class="stack" no-center stretch v-bind="$attrs">
-    <Module v-if="layout === 'dualVert'" :id="1" />
+    <Module v-if="layout === 'dualVert' || layout === 'single'" :id="1" />
 
     <HStack v-else no-center stretch>
       <Module :id="1" />
