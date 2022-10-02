@@ -8,7 +8,7 @@
 
   const editor = new Editor({
     extensions: [StarterKit],
-    content: content.value,
+    content: content.value || "Edit your scratch pad...",
   });
 
   const syncNote = useDebounceFn(
@@ -23,10 +23,16 @@
 </script>
 
 <template>
-  <EditorContent :editor="editor" />
+  <div class="second-layer dashboard-sp">
+    <EditorContent :editor="editor" />
+  </div>
 </template>
 
 <style lang="scss">
+  .dashboard-sp > * {
+    height: 100%;
+  }
+
   .ProseMirror {
     height: 100%;
 
