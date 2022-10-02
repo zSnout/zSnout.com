@@ -23,13 +23,28 @@
 </script>
 
 <template>
-  <EditorContent class="editor" :editor="editor" />
+  <EditorContent :editor="editor" />
 </template>
 
 <style lang="scss">
-  .editor,
-  .editor > * {
+  .ProseMirror {
     height: 100%;
-    outline: none;
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+
+    &-focused {
+      outline: none;
+    }
+
+    li > * {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
   }
 </style>
