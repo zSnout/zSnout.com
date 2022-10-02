@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+  import { useEventListener } from "@vueuse/core";
   import { useClamp } from "@vueuse/math";
   import { computed, onMounted, ref } from "vue";
   import Button from "../components/Button.vue";
@@ -15,8 +16,6 @@
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
-  import InlineRangeField from "../components/InlineRangeField.vue";
-  import { useEventListener } from "@vueuse/core";
 
   const detail = useClamp(100, 5, 1000);
   syncOption("detail", detail);
