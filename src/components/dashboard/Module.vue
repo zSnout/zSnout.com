@@ -3,6 +3,7 @@
     "": "Blank Space",
     "scratch-pad": "Scratch Pad",
     "fractals": "Fractals",
+    "screensaver": "Screensaver",
   } as const;
 
   export type ModuleName = keyof typeof modules;
@@ -15,6 +16,7 @@
   import { useLocalStorage } from "@vueuse/core";
   import Fractals from "./Fractals.vue";
   import ScratchPad from "./ScratchPad.vue";
+  import Screensaver from "./Screensaver.vue";
 
   const { id } = defineProps<{ id: Id }>();
   const module = useLocalStorage<ModuleName>(`dashboard:module:${id}`, "");
@@ -23,5 +25,6 @@
 <template>
   <ScratchPad v-if="module === 'scratch-pad'" />
   <Fractals v-else-if="module === 'fractals'" />
+  <Screensaver v-else-if="module === 'screensaver'" />
   <div v-else />
 </template>
