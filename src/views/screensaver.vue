@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-  import { useRafFn } from "@vueuse/core";
+  import { MaybeElement, useElementBounding, useRafFn } from "@vueuse/core";
   import { useIntervalFn } from "@vueuse/shared";
   import images from "virtual:image-list";
-  import { reactive } from "vue";
+  import { reactive, ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
   import { useRandomItem } from "../composables/useRandomItem";
   import { appWidth } from "../main";
@@ -37,14 +37,14 @@
       size,
       speed: size / 160,
       src: useRandomItem(images),
-      x: Math.floor(Math.random() * (innerWidth - size)),
+      x: Math.random(), // Math.floor(Math.random() * (innerWidth - size)),
       y: innerHeight + 16,
     });
   }
 
   function updateImages() {
     for (const image of alive) {
-      if (image.y < -image.size - 16) {
+      if (image.y < -image.size - 60) {
         alive.splice(alive.indexOf(image), 1);
       }
 
@@ -55,17 +55,19 @@
   createImage();
   useIntervalFn(createImage, () => (1920 / appWidth.value) * 1000);
   useRafFn(updateImages);
+
+  const parent = ref<MaybeElement>();
 </script>
 
 <template>
-  <FullscreenDisplay>
+  <FullscreenDisplay ref="parent">
     <img
       v-for="image in alive"
       :key="image.id"
       class="image shadow"
       :src="image.src"
       :style="{
-        left: `${image.x}px`,
+        left: `calc(${image.x} * (100% - ${image.size}px))`,
         top: `${image.y}px`,
         width: `${image.size}px`,
         height: `${image.size}px`,
@@ -75,12 +77,8 @@
 </template>
 
 <style scoped>
-  #app {
-    overflow: hidden;
-  }
-
   .image {
-    position: fixed;
+    position: absolute;
     background-color: white;
   }
 </style>
