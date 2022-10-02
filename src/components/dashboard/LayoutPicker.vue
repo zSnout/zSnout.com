@@ -1,7 +1,8 @@
 <script lang="ts">
   export const layouts = {
     quad: "2 by 2 grid",
-    dual: "2 modules stacked on top of each other",
+    dualVert: "2 modules stacked on top of each other",
+    dualHoriz: "2 modules stacked next to each other",
   };
 
   export type Layout = keyof typeof layouts;
@@ -24,7 +25,7 @@
   </Dropdown>
 
   <VStack stretch v-bind="$attrs">
-    <ModulePicker v-if="layout === 'dual'" :id="1" />
+    <ModulePicker v-if="layout === 'dualVert'" :id="1" />
 
     <HStack v-else stretch>
       <ModulePicker :id="1" />
@@ -32,9 +33,9 @@
       <ModulePicker :id="3" />
     </HStack>
 
-    <ModulePicker v-if="layout === 'dual'" :id="2" />
+    <ModulePicker v-if="layout === 'dualVert'" :id="2" />
 
-    <HStack v-else stretch>
+    <HStack v-else-if="layout === 'quad'" stretch>
       <ModulePicker :id="2" />
 
       <ModulePicker :id="4" />
