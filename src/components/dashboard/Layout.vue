@@ -30,7 +30,7 @@
 
 <style scoped>
   .stack {
-    width: min(100%, 1200px);
+    width: min(100%, 1600px);
     height: 100%;
     max-height: calc(var(--app-height) - 3.5em - 4em);
   }
