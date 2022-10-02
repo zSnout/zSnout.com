@@ -23,12 +23,23 @@
 </script>
 
 <template>
-  <div class="second-layer dashboard-sp">
-    <EditorContent :editor="editor" />
+  <div class="container">
+    <div class="second-layer dashboard-sp">
+      <EditorContent :editor="editor" />
+    </div>
   </div>
 </template>
 
 <style lang="scss">
+  .container {
+    display: flex;
+    height: 100%;
+  }
+
+  .dashboard-sp {
+    flex: 1;
+  }
+
   .dashboard-sp > * {
     height: 100%;
   }
