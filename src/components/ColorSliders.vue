@@ -1,25 +1,29 @@
 <script lang="ts">
-  export function useColorSliders(): ColorSliders {
+  export function useColorSliders({
+    save = true,
+  }: {
+    save?: boolean;
+  }): ColorSliders {
     const colorOffset = ref(0);
-    syncOption("colorOffset", colorOffset);
+    if (save) syncOption("colorOffset", colorOffset);
 
     const grayscale = ref(0);
-    syncOption("grayscale", grayscale);
+    if (save) syncOption("grayscale", grayscale);
 
     const repetition = ref(1);
-    syncOption("repetition", repetition);
+    if (save) syncOption("repetition", repetition);
 
     const noiseLevel = ref(0);
-    syncOption("noise", noiseLevel);
+    if (save) syncOption("noise", noiseLevel);
 
     const separation = ref(0);
-    syncOption("separation", separation);
+    if (save) syncOption("separation", separation);
 
     const spectrum = ref(1);
-    syncOption("spectrum", spectrum);
+    if (save) syncOption("spectrum", spectrum);
 
     const overcolor = ref(0);
-    syncOption("overcolor", overcolor);
+    if (save) syncOption("overcolor", overcolor);
 
     const time = ref(Math.random() * 10000);
     useRafFn(() => (time.value += 0.01));

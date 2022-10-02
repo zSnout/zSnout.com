@@ -17,8 +17,11 @@
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
 
+  const { noSave } = defineProps<{ noSave?: boolean }>();
+  const save = !noSave;
+
   const detail = useClamp(100, 5, 1000);
-  syncOption("detail", detail);
+  if (save) syncOption("detail", detail);
 
   function decrementDetail(value: number) {
     if (value <= 10) {
@@ -45,7 +48,7 @@
   }
 
   const limit = useClamp(2, 0.1, Infinity);
-  syncOption("limit", limit);
+  if (save) syncOption("limit", limit);
 
   function decrementLimit(value: number) {
     if (value <= 2) {
@@ -64,13 +67,13 @@
   }
 
   const equation = ref("z^2+c");
-  syncOption("equation", equation);
+  if (save) syncOption("equation", equation);
 
   const theme = ref<
     "simple" | "gradient" | "rotation" | "newton" | "trig" | "exp"
   >("simple");
 
-  syncOption("theme", theme);
+  if (save) syncOption("theme", theme);
 
   const themeIntMap = {
     simple: 1,
@@ -83,22 +86,22 @@
 
   const themeInt = computed(() => themeIntMap[theme.value]);
 
-  const sliders = useColorSliders();
+  const sliders = useColorSliders({ save });
 
   const darkness = ref(false);
-  syncOption("darkness", darkness);
+  if (save) syncOption("darkness", darkness);
 
   const split = ref(false);
-  syncOption("split", split);
+  if (save) syncOption("split", split);
 
   const altColors = ref(false);
-  syncOption("altColors", altColors);
+  if (save) syncOption("altColors", altColors);
 
   const initZ = ref(false);
-  syncOption("initZ", initZ);
+  if (save) syncOption("initZ", initZ);
 
   const dualPlot = ref(false);
-  syncOption("dualPlot", dualPlot);
+  if (save) syncOption("dualPlot", dualPlot);
 
   // Some shader code was modified from these sources:
   // https://github.com/NSGolova/FractalSoundWeb
@@ -397,7 +400,7 @@
       fragmentString: shader
         .replace("{{EQ}}", glsl(equation.value))
         .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c"))),
-      saveBounds: true,
+      saveBounds: save,
     });
 
     const themes = [
