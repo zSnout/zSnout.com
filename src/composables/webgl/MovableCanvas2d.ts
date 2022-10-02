@@ -6,6 +6,8 @@ export class MovableCanvas2d extends CoordinateCanvas2d {
     super(canvas, options);
 
     useEventListener(canvas, "wheel", (event) => {
+      event.preventDefault();
+
       this.setBounds(
         this.getZoomRegion(
           (Math.sqrt(Math.abs(event.deltaY)) * -Math.sign(event.deltaY)) / 10
