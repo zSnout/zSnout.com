@@ -9,10 +9,10 @@
 </script>
 
 <template>
-  <VStack stretch v-bind="$attrs">
+  <VStack no-center stretch v-bind="$attrs">
     <Module v-if="layout === 'dual'" :id="1" />
 
-    <HStack v-else stretch>
+    <HStack v-else no-center stretch>
       <Module :id="1" />
 
       <Module :id="3" />
@@ -20,7 +20,7 @@
 
     <Module v-if="layout === 'dual'" :id="2" />
 
-    <HStack v-else stretch>
+    <HStack v-else no-center stretch>
       <Module :id="2" />
 
       <Module :id="4" />
