@@ -37,14 +37,14 @@
       size,
       speed: size / 160,
       src: useRandomItem(images),
-      x: Math.random(), // Math.floor(Math.random() * (innerWidth - size)),
+      x: Math.random(),
       y: innerHeight + 16,
     });
   }
 
   function updateImages() {
     for (const image of alive) {
-      if (image.y < -image.size - 60) {
+      if (image.y < -image.size - 100) {
         alive.splice(alive.indexOf(image), 1);
       }
 
