@@ -1,6 +1,7 @@
 <script lang="ts" setup>
   defineProps<{
     center?: boolean;
+    noCenter?: boolean;
     space?: number;
     stretch?: boolean;
   }>();
@@ -8,7 +9,7 @@
 
 <template>
   <div
-    :class="{ center, stretch }"
+    :class="{ center, noCenter, stretch }"
     class="stack"
     :style="{ gap: `${space ?? 0.5}em` }"
   >
@@ -22,7 +23,7 @@
     flex-direction: column;
 
     &.center > :deep(*),
-    &.stretch > :deep(*) {
+    &.stretch:not(.noCenter) > :deep(*) {
       text-align: center;
     }
 
