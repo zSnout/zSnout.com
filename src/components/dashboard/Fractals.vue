@@ -4,7 +4,7 @@
 
 <template>
   <div class="explorer second-layer">
-    <FractalExplorer />
+    <FractalExplorer no-save />
   </div>
 </template>
 
