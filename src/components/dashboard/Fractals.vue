@@ -10,6 +10,7 @@
 
 <style scoped>
   .second-layer {
+    position: relative;
     padding: 0 !important;
     overflow: hidden;
   }
