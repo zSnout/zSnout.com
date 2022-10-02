@@ -39,6 +39,30 @@
     </SafeArea>
   </UseScreenSafeArea>
 
+  <div class="embed-nav">
+    <HStack class="padding">
+      <Spacer />
+
+      <SharedNav fullscreen no-bookmark>
+        <template #buttons v-if="$slots.buttons">
+          <slot name="buttons" />
+        </template>
+
+        <template #help v-if="$slots.help">
+          <slot name="help" />
+        </template>
+
+        <template #indicator v-if="$slots.indicator">
+          <slot name="indicator" />
+        </template>
+
+        <template #options v-if="$slots.options">
+          <slot name="options" />
+        </template>
+      </SharedNav>
+    </HStack>
+  </div>
+
   <div class="content">
     <slot />
   </div>
@@ -57,6 +81,26 @@
     touch-action: manipulation;
 
     .padding {
+      padding-top: 0.75em;
+      overflow: visible;
+
+      @media screen and (max-width: 400px) {
+        padding-top: 0.5em;
+      }
+    }
+  }
+
+  .embed-nav {
+    display: none;
+
+    .embed & {
+      position: absolute;
+      display: block;
+      width: 100%;
+    }
+
+    .padding {
+      padding: 0 1em;
       padding-top: 0.75em;
       overflow: visible;
 

@@ -9,7 +9,7 @@
   import OptionsIcon from "./OptionsIcon.vue";
   import SafeArea from "./SafeArea.vue";
 
-  defineProps<{ fullscreen?: boolean }>();
+  defineProps<{ fullscreen?: boolean; noBookmark?: boolean }>();
 
   const open = ref(false);
 </script>
@@ -18,6 +18,7 @@
 
 <template>
   <BookmarkIcon
+    v-if="!noBookmark"
     :class="{ [$style.icon]: fullscreen }"
     :fullscreen="fullscreen"
   />
