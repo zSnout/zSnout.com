@@ -16,6 +16,7 @@
   import { glsl } from "../composables/useGlsl";
   import { syncOption } from "../composables/useOption";
   import { MovableCanvas2d } from "../composables/webgl/MovableCanvas2d";
+  import InlineRangeField from "../components/InlineRangeField.vue";
 
   const { noSave } = defineProps<{ noSave?: boolean }>();
   const save = !noSave;
@@ -88,6 +89,9 @@
 
   const sliders = useColorSliders({ save });
 
+  const minIter = ref(0);
+  if (save) syncOption("minIter", minIter);
+
   const darkness = ref(false);
   if (save) syncOption("darkness", darkness);
 
@@ -113,6 +117,7 @@
   uniform float detail;
   uniform float limit;
   uniform int theme;
+  uniform float minIter;
   uniform bool darkness;
   uniform bool split;
   uniform bool altColors;
@@ -332,6 +337,8 @@
       iter++;
 
       if (length(z) > limit) {
+        if (iter < minIter) return vec4(1.0, 1.0, 1.0, 1.0);
+
         if (theme == 1) {
           return vec4(simplePalette(iter), 1.0);
         } else if (theme == 2) {
@@ -501,6 +508,7 @@
       gl.setUniform("limit", limit.value);
       gl.setUniformOfInt("theme", [themeInt.value]);
       gl.setUniformOfInt("darkness", [darkness.value]);
+      gl.setUniform("minIter", minIter.value);
       gl.setUniformOfInt("split", [
         (theme.value === "simple" && equation.value.includes("m")) ||
           split.value,
@@ -630,6 +638,10 @@
 
       <Labeled v-if="equation.includes('m')" label="Dual Coloring?">
         <InlineCheckboxField v-model="dualPlot" />
+      </Labeled>
+
+      <Labeled label="Minimum Iterations">
+        <InlineRangeField v-model="minIter" :max="detail" :min="0" />
       </Labeled>
     </template>
 
