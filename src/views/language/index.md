@@ -70,9 +70,9 @@ In Lang, a verb is denoted by its `-li` or `-ali` suffix. This suffix transforms
 a noun or adjective into a verb. For example, <WordLink word="ka" /> means "a
 greeting," but <WordLink word="kali" /> means "to greet." To use verbs, write
 them before a subject. For example, "<WordLink word="kali" /> {{}}
-<WordLink word="soro" />" means "A dog greets." If the action requires something
+<WordLink word="sowo" />" means "A dog greets." If the action requires something
 to act on (an object), write "verb subject <WordLink word="a" /> target." For
-example, "<WordLink word="kali" /> <WordLink word="soro" /> {{}}
+example, "<WordLink word="kali" /> <WordLink word="sowo" /> {{}}
 <WordLink word="a" /> <WordLink word="kato" />." means "A dog greets a cat."
 
 ## Numbers
