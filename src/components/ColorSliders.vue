@@ -3,7 +3,7 @@
     save = true,
   }: {
     save?: boolean;
-  }): ColorSliders {
+  } = {}): ColorSliders {
     const colorOffset = ref(0);
     if (save) syncOption("colorOffset", colorOffset);
 
