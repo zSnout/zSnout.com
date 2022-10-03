@@ -78,8 +78,8 @@ example, "<WordLink word="kali" /> <WordLink word="soro" /> {{}}
 ## Numbers
 
 Numbers are really annoying in most languages. For example, 100 in Spanish is
-"cien," but only if it's alone. If it's 101 then it's "cientos uno" and it's
-impossible to remember when you need to add "y" ("cientos y uno"). English is
+"cien," but only if it's alone. If it's 101 then it's "ciento uno" and it's
+impossible to remember when you need to add "y" ("ciento y uno"). English is
 worse in some ways. It has a clear pattern for 13-19 in the form of "thirteen,
 fourteen, ..., nineteen." But "fourteen" and "nineteen" use the words "four" and
 "nine" whereas "thirteen" uses "thir" instead of "three." It even has exceptions
