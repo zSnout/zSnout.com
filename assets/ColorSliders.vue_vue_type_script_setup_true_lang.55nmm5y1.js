@@ -1,4 +1,4 @@
-import{q as a,L as z,d as g,o as b,h as w,e as r,w as v,u as t,M as n,F as V}from"./index.2hvd2i9k.js";import{s as c}from"./useOption.ujvp9hcq.js";import{I as i}from"./InlineRangeField.4poaov81.js";import{L as m}from"./Labeled.29mn7ohi.js";function _(){const o=a(0);c("colorOffset",o);const u=a(0);c("grayscale",u);const e=a(1);c("repetition",e);const x=a(0);c("noise",x);const f=a(0);c("separation",f);const d=a(1);c("spectrum",d);const p=a(0);c("overcolor",p);const h=a(Math.random()*1e4);return z(()=>h.value+=.01),{colorOffset:o,grayscale:u,noiseLevel:x,overcolor:p,repetition:e,separation:f,spectrum:d,time:h,setGlsl:U}}(o=>{function u(e){return`
+import{q as t,L as z,d as g,o as b,h as w,e as r,w as a,u as v,M as n,F as V}from"./index.472zx6ds.js";import{s as c}from"./useOption.ujvp9hcq.js";import{I as i}from"./InlineRangeField.4poaov81.js";import{L as m}from"./Labeled.29mn7ohi.js";function _({save:e=!0}={}){const u=t(0);e&&c("colorOffset",u);const o=t(0);e&&c("grayscale",o);const x=t(1);e&&c("repetition",x);const f=t(0);e&&c("noise",f);const d=t(0);e&&c("separation",d);const p=t(1);e&&c("spectrum",p);const h=t(0);e&&c("overcolor",h);const y=t(Math.random()*1e4);return z(()=>y.value+=.01),{colorOffset:u,grayscale:o,noiseLevel:f,overcolor:h,repetition:x,separation:d,spectrum:p,time:y,setGlsl:U}}(e=>{function u(o){return`
 uniform float colorOffset;
 uniform float grayscale_amount;
 uniform float noiseLevel;
@@ -143,7 +143,7 @@ vec3 use_color_sliders(float i) {
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
 
-  ${(e==null?void 0:e.addDarkness)||""}
+  ${(o==null?void 0:o.addDarkness)||""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
@@ -159,7 +159,7 @@ vec3 use_color_sliders(vec3 rgb) {
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
 
-  ${(e==null?void 0:e.addDarkness)||""}
+  ${(o==null?void 0:o.addDarkness)||""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
@@ -174,10 +174,10 @@ vec3 use_color_sliders(vec3 rgb, bool no_repetition) {
   if (separation > 0.0) hsv.x = hsv.x - mod(hsv.x, separation);
   hsv.x = mod(hsv.x + colorOffset, 1.0);
 
-  ${(e==null?void 0:e.addDarkness)||""}
+  ${(o==null?void 0:o.addDarkness)||""}
 
   if (overcolor_amount > 0.0) hsv = overcolor(hsv);
   else if (grayscale_amount > 0.0) hsv = grayscale(hsv);
   return c_hsv2rgb(hsv);
 }
-      `}o.toString=u})(_||(_={}));function U(o){o.setUniform("colorOffset",this.colorOffset.value),o.setUniform("grayscale_amount",this.grayscale.value),o.setUniform("noiseLevel",this.noiseLevel.value),o.setUniform("repetition",this.repetition.value),o.setUniform("separation",this.separation.value),o.setUniform("overcolor_amount",this.overcolor.value),o.setUniform("spectrum",this.spectrum.value),o.setUniform("c_time",this.time.value)}const N=g({__name:"ColorSliders",props:{sliders:null},setup(o){const{sliders:u}=o,{colorOffset:e,grayscale:x,noiseLevel:f,overcolor:d,repetition:p,separation:h,spectrum:y}=u;return(C,s)=>(b(),w(V,null,[r(m,{label:"Color Offset:"},{default:v(()=>[r(i,{modelValue:t(e),"onUpdate:modelValue":s[0]||(s[0]=l=>n(e)?e.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Color Repetition:"},{default:v(()=>[r(i,{modelValue:t(p),"onUpdate:modelValue":s[1]||(s[1]=l=>n(p)?p.value=l:null),max:10,min:1,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Color Spectrum:"},{default:v(()=>[r(i,{modelValue:t(y),"onUpdate:modelValue":s[2]||(s[2]=l=>n(y)?y.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Separation:"},{default:v(()=>[r(i,{modelValue:t(h),"onUpdate:modelValue":s[3]||(s[3]=l=>n(h)?h.value=l:null),max:.5,min:0,step:"any"},null,8,["modelValue","max"])]),_:1}),r(m,{label:"Randomness:"},{default:v(()=>[r(i,{modelValue:t(f),"onUpdate:modelValue":s[4]||(s[4]=l=>n(f)?f.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Grayscale:"},{default:v(()=>[r(i,{modelValue:t(x),"onUpdate:modelValue":s[5]||(s[5]=l=>n(x)?x.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Overcoloring:"},{default:v(()=>[r(i,{modelValue:t(d),"onUpdate:modelValue":s[6]||(s[6]=l=>n(d)?d.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1})],64))}});export{N as _,_ as u};
+      `}e.toString=u})(_||(_={}));function U(e){e.setUniform("colorOffset",this.colorOffset.value),e.setUniform("grayscale_amount",this.grayscale.value),e.setUniform("noiseLevel",this.noiseLevel.value),e.setUniform("repetition",this.repetition.value),e.setUniform("separation",this.separation.value),e.setUniform("overcolor_amount",this.overcolor.value),e.setUniform("spectrum",this.spectrum.value),e.setUniform("c_time",this.time.value)}const N=g({__name:"ColorSliders",props:{sliders:null},setup(e){const{sliders:u}=e,{colorOffset:o,grayscale:x,noiseLevel:f,overcolor:d,repetition:p,separation:h,spectrum:y}=u;return(C,s)=>(b(),w(V,null,[r(m,{label:"Color Offset:"},{default:a(()=>[r(i,{modelValue:v(o),"onUpdate:modelValue":s[0]||(s[0]=l=>n(o)?o.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Color Repetition:"},{default:a(()=>[r(i,{modelValue:v(p),"onUpdate:modelValue":s[1]||(s[1]=l=>n(p)?p.value=l:null),max:10,min:1,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Color Spectrum:"},{default:a(()=>[r(i,{modelValue:v(y),"onUpdate:modelValue":s[2]||(s[2]=l=>n(y)?y.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Separation:"},{default:a(()=>[r(i,{modelValue:v(h),"onUpdate:modelValue":s[3]||(s[3]=l=>n(h)?h.value=l:null),max:.5,min:0,step:"any"},null,8,["modelValue","max"])]),_:1}),r(m,{label:"Randomness:"},{default:a(()=>[r(i,{modelValue:v(f),"onUpdate:modelValue":s[4]||(s[4]=l=>n(f)?f.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Grayscale:"},{default:a(()=>[r(i,{modelValue:v(x),"onUpdate:modelValue":s[5]||(s[5]=l=>n(x)?x.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1}),r(m,{label:"Overcoloring:"},{default:a(()=>[r(i,{modelValue:v(d),"onUpdate:modelValue":s[6]||(s[6]=l=>n(d)?d.value=l:null),max:1,min:0,step:"any"},null,8,["modelValue"])]),_:1})],64))}});export{N as _,_ as u};
