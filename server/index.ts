@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
-import { getInfo } from "ytdl-core";
+import ytdl from "ytdl-core";
 import { ClientToServer, ServerToClient } from "../shared.server";
 import {
   AccountStatus,
@@ -104,7 +104,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
         "error",
         {
           [AccountStatus.BadEmail]:
-            "Your email address is invalid. Make sure it is formatted properly and can recieve emails.",
+            "Your email address is invalid. Make sure it is formatted properly and can receive emails.",
           [AccountStatus.BadPassword]: badPasswordMessage,
           [AccountStatus.BadUsername]: badUsernameMessage,
           [AccountStatus.EmailTaken]: `${email} is already registered with another account.`,
@@ -442,7 +442,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
   },
   async "youtube:request"(id) {
     try {
-      const info = await getInfo(`https://youtube.com/watch?v=${id}`);
+      const info = await ytdl.getInfo(`https://youtube.com/watch?v=${id}`);
       const details = info.videoDetails;
       const formats = info.formats;
 
