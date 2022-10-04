@@ -266,6 +266,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "Multiple sections of an image in the wrong places",
+      description:
+        "Try to solve a game where you move pieces from an image around in the correct places.",
+      group: ["game"],
+      keywords: "pictures images slicing slices",
+      src: "/images/slide-puzzle.webp",
+      title: "Slide Puzzle",
+      to: "/slide-puzzle",
+    },
+
+    {
       alt: "Leopards stacked on top of each other",
       description:
         "A leap of leopards (look it up) appear and fill your device's screen.",
