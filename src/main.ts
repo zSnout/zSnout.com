@@ -89,6 +89,7 @@ function simpleTitle(path: string) {
     .replace(/(?!^)\bFor\b(?!$)/g, "for")
     .replace(/(?!^)\bIs\b(?!$)/g, "is")
     .replace(/(?!^)\bOf\b(?!$)/g, "of")
+    .replace(/(?!^)\bOn\b(?!$)/g, "on")
     .replace(/(?!^)\bThe\b(?!$)/g, "the");
 
   titleCache.set(path, title);
