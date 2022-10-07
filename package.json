@@ -23,7 +23,7 @@
     "@vueuse/integrations": "^9.3.0",
     "@vueuse/math": "^9.3.0",
     "@vueuse/shared": "^9.3.0",
-    "bcrypt": "^5.0.1",
+    "bcrypt": "^5.1.0",
     "chess.js": "^0.13.4",
     "chessground": "^8.3.5",
     "error-stack-parser": "^2.1.4",
