@@ -33,18 +33,19 @@ language and we're still thinking of a good name for it.
 ## The Alphabet
 
 Lang uses _b_, _d_, _j_, _k_, _l_, _m_, _n_, _p_, _s_, _t_, and _w_ as
-consonants. In Lang, the letter _j_ makes the same sound as English's "y". We
-use these consonants because they are easily distinguishable and are used in
-many popular languages. For vowels, Lang has _a_ (ah in English), _e_ (eh) _i_
-(eee), _o_ (aw in awkward), and _u_ (oo). This is the same five-vowel system
-employed by Spanish and Swahili.
+consonants. We have these consonants because they are easily distinguishable and
+are used in many popular languages. For vowels, Lang has _a_, _e_, _i_, _o_, and
+_u_. This is the same five-vowel system employed by Spanish and Swahili. Each of
+these letters makes the same sound as its IPA (International Phonetic Alphabet)
+symbol. English speakers should note that _j_ makes the sound of an English "y,"
+as that is the pronounciation of _j_ in the IPA.
 
 To write zSnout in Lang using the native symbols, we would type Sisnaot. The `i`
 makes the `ee` sound in zee, and the a and o combined make the `ah o` sound of
 `zee sn ah oh t`. Lang doesn't have a z sound, so we'll make do with an s. It's
 not perfect, but it will do.
 
-In Lang's alphabet, the letter order is this: a e i o u b d j k l m n p s t w.
+In Lang's alphabet, the letter order is this: a b d e i j k l m n o p s t u w.
 Notice how the vowels are placed before consonants instead of being sporadically
 placed like in English and other languages.
 
