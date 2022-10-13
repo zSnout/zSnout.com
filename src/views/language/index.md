@@ -58,7 +58,7 @@ pretty simple.
 
 ## Capitalization
 
-In Lang, the only capitalized words are proper nouns. This excludes the
+In Lang, the only capitalized words are proper adjectives. This excludes the
 beginning of sentences and titles.
 
 ## Gender
@@ -87,7 +87,14 @@ additional content words after it. If _sowo_ means "dog," then _sowo_ _me_ would
 mean "my dog," and _sowo_ _wile_ _me_ means "my strange dog." Notice how _me_'s
 adjective form means "my." If we use a noun as a modifier, then it means "X
 owned by Y." If we use an adjective as a modifier, then it means "X that is Y."
-This is a general pattern.
+
+## Proper Adjectives
+
+Because people from different communities may not know what certain proper nouns
+refer to, Lang requires that they be a modifier on another noun. For example,
+"jan X" refers to "the person X," while "lano X" refers to "the place X." This
+provides extra information about the proper adjective in question and
+incorporates them into the language better.
 
 ## Verbs
 
@@ -99,6 +106,9 @@ them before a subject. For example, "<WordLink word="kali" /> {{}}
 to act on (an object), write "verb subject <WordLink word="a" /> target." For
 example, "<WordLink word="kali" /> <WordLink word="sowo" /> {{}}
 <WordLink word="a" /> <WordLink word="kato" />." means "A dog greets a cat."
+
+There is no tense specified on verbs by default. While it is usually inferred by
+context, a _ki_ clause can be used to explicitly specify the time.
 
 ## Numbers
 
@@ -233,7 +243,7 @@ with actual phrases to create a valid sentence.
 <template v-for="[word, info] in output">
 
 <div
-  v-if="matches(word, info)"
+  v-show="matches(word, info)"
   :id="`word-${word}`"
   style="margin-top: 2em; scroll-margin-top: 8.5em"
   tabindex="-1"
@@ -322,16 +332,18 @@ with actual phrases to create a valid sentence.
 
 <b v-if="info.examples">Examples:</b>
 
-<p v-for="[source, trans] in info.examples" style="margin-left: 1em">
+<p v-for="[source, ...translations] in info.examples" style="margin-left: 1em">
   <WordLink
     v-for="word in splitParagraph(source, true)"
     :is-text="word.isText" :word="word.word"
   />
   <br>
+  <div v-for="trans in translations">
   <WordLink
     v-for="word in splitParagraph(trans)"
     :is-text="word.isText" :word="word.word"
   />
+  </div>
 </p>
 
 </div>

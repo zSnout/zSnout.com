@@ -114,7 +114,8 @@ ja:
   category: [content, exclamation, content]
   notes:
     This word has multiple meanings based on the context. When standing alone,
-    it means "Yes," the exclamation. However, _il_ _ja_ means a truth.
+    it means "Yes," the exclamation. However, if used as a noun, it means "a
+    truth."
   similar: jali
   translation: yes / true / truth
 
@@ -156,10 +157,14 @@ jali:
   translation: to speak the truth, to be true
 
 jan:
-  category: [content, preposition]
+  category: content
   examples:
     - [teneli jan a leopato., A person has a leopard.]
-    - [jan Misali., An epic YouTube channel that helped me get into conlanging.]
+    - [
+        jan Misali.,
+        The person who runs a great YouTube channel that introduced me to
+        conlangs.,
+      ]
   translation: person
 
 jani:
@@ -182,14 +187,10 @@ ka:
   category: [exclamation, verb]
   examples:
     - [ka!, Hello!]
+    - [ka X., "Hello X."]
     - [ka lan., "Hello parents."]
-  notes: _ka_ on its own never means "greeting." However, it may be combined
-    with _il_ to produce _il_ _ka_, which means "a greeting." It may also be
-    used to form _kali_, which means "to greet."
-
-    If _ka_ is present before a content, it means "Hello (content)."
   similar: kali
-  translation: hello / greeting
+  translation: hello / a greeting
 
 kali:
   antonym: awali
@@ -221,6 +222,18 @@ kewali:
   category: verb
   similar: kewa
   translation: to silence / to whisper
+
+ki:
+  category: particle
+  examples:
+    - [X ki Y., X happens when Y happens.]
+    - [X ki Y., X when Y.]
+    - [X ki tenpo Y., X happend at time Y.]
+  notes:
+    To use _ki_, place a complete sentence before _ki_ and a context phrase
+    after it. The context phrase can be a word for the past, present, or future,
+    or another sentence.
+  translation: when (approximately)
 
 kia:
   category: content
@@ -287,6 +300,10 @@ lan:
     describing a relative.
   similar: lun
   translation: parent(s)
+
+lano:
+  category: content
+  translation: land, place
 
 lap:
   category: number
@@ -460,13 +477,26 @@ nes:
   singular: me
   translation: me and you and them
 
+newa:
+  category: content
+  similar: newali
+  translation: that which has left
+
+newali:
+  category: verb
+  similar: newa
+  translation: to leave
+
 ni:
   antonym: ja
-  category: [content, exclamation, content, preposition]
+  category: [content, exclamation]
+  examples:
+    - [ni!, No!]
+    - [nola se ni., The lie disappears.]
   notes:
     This word has multiple meanings based on the context. When standing alone,
-    it means "No," the exclamation. However, _il_ _ni_ means a lie. If it's
-    before another phrase, it means "not _____."
+    it means "No," the exclamation. It can also mean a lie. When used as a
+    modifier, it means "not ____."
   similar: nili
   translation: no / not / false / falsehood
 
@@ -492,6 +522,16 @@ nipali:
   antonym: kewali
   category: verb
   translation: to shout
+
+nola:
+  category: content
+  similar: nolali
+  translation: cloak, veil, hidden
+
+nolali:
+  category: verb
+  similar: nola
+  translation: to hide, to cloak oneself
 
 nos:
   category: [content, pronoun]
@@ -601,7 +641,7 @@ saneli:
   translation: to be happy
 
 se:
-  category: verb
+  category: particle
   examples:
     - [Zachary se nama me., My name is Zachary.]
     - [jat se me., I am happy.]
@@ -657,6 +697,13 @@ teneli:
     - [teneli me a kato., I have a cat.]
   translation: to have / to own
 
+tenpo:
+  category: content
+  examples:
+    - [tenpo jat., A good time.]
+    - [tenpo newa., The past., The time that has left.]
+  translation: time of
+
 tos:
   category: [content, pronoun]
   examples:
@@ -671,8 +718,8 @@ wa:
     - [wa wakeli te., Start walking.]
     - [wa pali te a kato a me., Give me a cat.]
   notes: This transforms the following phrase into a request to perform the
-    action. If _pali_ _te_ _a_ _il_ _kato_ _a_ _me_ means "you give me a cat,"
-    then prefixing it with _wa_ transforms it into a request to "give me a cat."
+    action. If _pali_ _te_ _a_ _kato_ _a_ _me_ means "you give me a cat," then
+    prefixing it with _wa_ transforms it into a request to "give me a cat."
 
     _wa_ can usually be replaced with _wa_ _me_ _a_.
   similar: wali
