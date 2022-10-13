@@ -1,7 +1,7 @@
 const n=`# antonym?: string[] | string
 # category:
-#   adjective, adverb, conjunction, determiner, exclamation, noun, number,
-#   preposition, pronoun, relative, verb
+#   content, adverb, conjunction, determiner, exclamation, number,
+#   particle, preposition, pronoun, relative
 # examples?: [source: string, translation: string][]
 # notes?: string
 # plural?: string[] | string
@@ -21,24 +21,8 @@ a:
     subject performing it.
   translation: to / (no English equivalent)
 
-al:
-  category: determiner
-  examples:
-    - [al ja., The truth.]
-    - [al wakeli., The thing that walks.]
-    - [nili al kato., The cat lies.]
-  notes: If _al_ is before a noun, it means "the _____." If before an adjective
-    or verb, it means "the thing that is _____."
-
-    _al_ is used when the identity of something is known to the reader. For
-    example, if a dog was already introduced into a conversation (e.g. _wakeli_
-    _il_ _sowo_), you would use _al_ for the remaining instances of the same dog
-    (e.g. _wakeli_ _il_ _sowo_. _teneli_ _me_ _a_ _al_ _sowo_.)
-  similar: il
-  translation: the
-
 amo:
-  category: noun
+  category: content
   similar: amoli
   translation: love
 
@@ -50,7 +34,7 @@ amoli:
   translation: to love
 
 ano:
-  category: noun
+  category: content
   translation: a year
 
 awa:
@@ -59,7 +43,7 @@ awa:
   examples:
     - [awa!, Goodbye!]
     - [awa _panalan_., "Goodbye brother."]
-  notes: If _awa_ is present before a noun, it means "Goodbye (noun)."
+  notes: If _awa_ is present before a content, it means "Goodbye (content)."
   similar: awali
   translation: goodbye
 
@@ -67,61 +51,56 @@ awali:
   antonym: kali
   category: verb
   examples:
-    - [awali du kato., Many cats greet.]
-    - [awali leopado a te., A leopard greets you.]
+    - [awali mani kato., Many cats greet.]
+    - [awali leopato a te., A leopard greets you.]
   similar: awa
   translation: to
 
 emoso:
-  category: noun
+  category: content
   translation: emotion
 
 es:
   category: verb
   examples:
-    - [Zachary es mi nama?, Is my name Zachary?]
+    - [Zachary es nama me?, Is my name Zachary?]
     - [leapali es te?, Are you leaping?]
-    - [es kewai?, Does quiet exist?]
-    - [es kewai?, Is it quiet?]
+    - [es kewa?, Does quiet exist?]
+    - [es kewa?, Is it quiet?]
   notes: 1. If _es_ is between two phrases, it marks a question. For example, "A
     _es_ E." would translate to "Is E A?" The reversed argument order may be
     confusing to native English speakers, but it fits with the
     verb-subject-object order of Lang.
 
-    2. If _es_ is before a noun, it questions the noun's existence. If before an
-    adjective or verb, is questions whether _____ exists. This can take many
-    forms based on the verb at hand.
+    2. If _es_ is before a content, it questions the content's existence. If
+    before an content or verb, is questions whether _____ exists. This can take
+    many forms based on the verb at hand.
   similar: se
   translation: is / does it exist
 
 eto:
-  category: noun
+  category: content
   translation: a month
+
+ewi:
+  category: content
+  similar: ewili
+  translation: dislike
+
+ewili:
+  category: verb
+  similar: ewi
+  translation: to dislike
 
 i:
   category: conjunction
   examples:
-    - [il sowo i kato., A dog and cat.]
-    - [il sowo i kato i leopado., "A dog, cat and leopard."]
+    - [sowo i kato., A dog and cat.]
+    - [sowo i kato i leopato., "A dog, cat and leopard."]
   translation: and
 
-il:
-  category: determiner
-  examples:
-    - [il ja., A truth.]
-    - [il wakeli., Something that walks.]
-    - [nili il kato., A cat lies.]
-  notes: If _il_ is before a noun, it means "a _____." If before an adjective or
-    verb, it means "something that is _____."
-
-    _il_ is used when the identity of something is not known to the reader. For
-    example, if you introduced a dog into a conversation that was not mentioned
-    before, you would call it _il_ _sowo_.
-  similar: al
-  translation: a
-
 ito:
-  category: noun
+  category: content
   similar: itoli
   translation: a person
 
@@ -130,77 +109,22 @@ itoli:
   similar: ito
   translation: to personify
 
-o:
-  category: conjunction
-  examples:
-    - [il sowo o kato., A dog or cat.]
-    - [il sowo o kato o leopado., "A dog, cat or leopard."]
-  similar: ko
-  translation: or
-
-oda:
-  category: noun
-  translation: an hour
-
-ban:
-  category: [noun, relative]
-  notes:
-    This word can also be used in its prefix form of ba- before another word
-    describing a relative.
-  similar: bun
-  translation: spouse
-
-bun:
-  category: [noun, relative]
-  notes:
-    This word can also be used in its prefix form of bu- before another word
-    describing a relative.
-  similar: ban
-  translation: ex-spouse
-
-dan:
-  category: number
-  similar: danol
-  translation: five
-
-danol:
-  category: number
-  notes: If used after a number, it multiplies the number by 100,000.
-  similar: dan
-  translation: one hundred thousand
-
-de:
-  category: preposition
-  examples:
-    - [sowo de te., The dog owned by you.]
-    - [sowo de te., Your dog.]
-    - [wakeli sowo de te., Your dog walks.]
-  similar: mi
-  translation: of / owned by / inside of
-
-du:
-  category: [adjective, determiner]
-  examples:
-    - [mi du kato., My many cats.]
-    - [du mi kato., Many of my cats.]
-    - [du sowo., Many dogs.]
-  translation: many of
-
 ja:
   antonym: ni
-  category: [adjective, exclamation, noun]
+  category: [content, exclamation, content]
   notes:
     This word has multiple meanings based on the context. When standing alone,
-    it means "Yes," the exclamation. However, _il_ _ja_ means a truth.
+    it means "Yes," the exclamation. However, if used as a noun, it means "a
+    truth."
   similar: jali
   translation: yes / true / truth
 
-jad:
-  antonym: kad
-  category: [adjective, noun]
+jat:
+  antonym: kat
+  category: content
   notes:
-    This can mean the noun "good" or the quality of being good, depending on the
-    context.
+    This can mean the content "good" or the quality of being good, depending on
+    the context.
   translation: good
 
 jak:
@@ -210,7 +134,7 @@ jak:
 
 jaka:
   antonym: sane
-  category: [adjective, noun]
+  category: content
   similar: jakali
   translation: sad / sadness
 
@@ -233,10 +157,14 @@ jali:
   translation: to speak the truth, to be true
 
 jan:
-  category: [noun, preposition]
+  category: content
   examples:
-    - [teneli il jan a il leopado., A person has a leopard.]
-    - [jan Misali., An epic YouTube channel that helped me get into conlanging.]
+    - [teneli jan a leopato., A person has a leopard.]
+    - [
+        jan Misali.,
+        The person who runs a great YouTube channel that introduced me to
+        conlangs.,
+      ]
   translation: person
 
 jani:
@@ -246,71 +174,87 @@ jani:
     also a combination of _ja_ and _ni_, or yes and no.
   translation: maybe
 
+kan:
+  category: [content, relative]
+  notes:
+    This word can also be used in its prefix form of ba- before another word
+    describing a relative.
+  similar: kun
+  translation: spouse
+
 ka:
   antonym: awa
   category: [exclamation, verb]
   examples:
     - [ka!, Hello!]
+    - [ka X., "Hello X."]
     - [ka lan., "Hello parents."]
-  notes: _ka_ on its own never means "greeting." However, it may be combined
-    with _il_ to produce _il_ _ka_, which means "a greeting." It may also be
-    used to form _kali_, which means "to greet."
-
-    If _ka_ is present before a noun, it means "Hello (noun)."
   similar: kali
-  translation: hello / greeting
+  translation: hello / a greeting
 
 kali:
   antonym: awali
   category: verb
   examples:
     - [kali Zachary., Zachary greets.]
-    - [kali leopado a te., A leopard greets you.]
+    - [kali leopato a te., A leopard greets you.]
   similar: ka
   translation: to greet
 
-kad:
-  antonym: jad
-  category: adjective
+kat:
+  antonym: jat
+  category: content
   notes: The quality of being bad.
   translation: bad
 
 kato:
-  category: noun
+  category: content
   translation: cat
 
-kewai:
-  antonym: nikai
-  category: adjective
-  similar: kewaili
+kewa:
+  antonym: nipa
+  category: content
+  similar: kewali
   translation: quiet, silence
 
-kewaili:
-  antonym: nikaili
+kewali:
+  antonym: nipali
   category: verb
-  similar: kewai
+  similar: kewa
   translation: to silence / to whisper
 
+ki:
+  category: particle
+  examples:
+    - [X ki Y., X happens when Y happens.]
+    - [X ki Y., X when Y.]
+    - [X ki tenpo Y., X happend at time Y.]
+  notes:
+    To use _ki_, place a complete sentence before _ki_ and a context phrase
+    after it. The context phrase can be a word for the past, present, or future,
+    or another sentence.
+  translation: when (approximately)
+
 kia:
-  category: noun
+  category: content
   translation: a day
 
 ko:
   category: conjunction
   examples:
-    - [il sowo ko kato., Either a dog or a cat.]
-    - [il sowo ko kato ko leopado., "Either a dog, a cat or a leopard."]
+    - [sowo ko kato., Either a dog or a cat.]
+    - [sowo ko kato ko leopato., "Either a dog, a cat or a leopard."]
   similar: o
   translation: exclusive or
 
 kolow:
-  category: noun
+  category: content
   examples:
-    - [kolow de kato., The color of the cat.]
+    - [kolow kato., The cat's color.]
   translation: color
 
 konsi:
-  category: noun
+  category: content
   similar: konsili
   translation: a thought
 
@@ -319,8 +263,16 @@ konsili:
   similar: konsi
   translation: to consider / to think
 
+kun:
+  category: [content, relative]
+  notes:
+    This word can also be used in its prefix form of bu- before another word
+    describing a relative.
+  similar: kan
+  translation: ex-spouse
+
 laka:
-  category: noun
+  category: content
   similar: lakali
   translation: tears
 
@@ -342,12 +294,16 @@ lamol:
 
 lan:
   antonym: nal
-  category: [noun, relative]
+  category: [content, relative]
   notes:
     This word can also be used in its prefix form of la- before another word
     describing a relative.
   similar: lun
   translation: parent(s)
+
+lano:
+  category: content
+  translation: land, place
 
 lap:
   category: number
@@ -361,13 +317,13 @@ lapol:
   translation: one hundred million
 
 le:
-  category: pronoun
+  category: [content, pronoun]
   notes: The singular third person pronoun.
   plural: los
   translation: they
 
 leap:
-  category: noun
+  category: content
   similar: leapali
   translation: jump / leap
 
@@ -376,12 +332,12 @@ leapali:
   similar: leap
   translation: to jump / to leap
 
-leopado:
-  category: noun
+leopato:
+  category: content
   translation: leopard
 
 lis:
-  category: noun
+  category: content
   similar: lisali
   translation: a book
 
@@ -395,14 +351,14 @@ lo:
   translation: zero
 
 los:
-  category: pronoun
+  category: [content, pronoun]
   notes: The plural third person pronoun.
   singular: le
   translation: they all
 
 lun:
   antonym: nul
-  category: [noun, relative]
+  category: [content, relative]
   notes:
     This word can also be used in its prefix form of lu- before another word
     describing a relative.
@@ -411,7 +367,7 @@ lun:
 
 man:
   antonym: pan
-  category: [adjective, relative]
+  category: [content, relative]
   notes: When used before a phrase, it indicates that the phrase has a female
     gender.
 
@@ -419,30 +375,38 @@ man:
     describing a relative.
   translation: female
 
+mani:
+  category: content
+  examples:
+    - [kato mani me., My many cats.]
+    - [sowo mani., Many dogs.]
+  translation: many of
+
 me:
-  category: pronoun
+  category: [content, pronoun]
   examples:
     - [nili me., I lie.]
     - [kali me pan ito., I greet a male person.]
+    - [sowo me., My dog.]
   notes:
     The singular first person pronoun. The "me" pronoun is the only pronoun to
     have multiple plural forms. See _nas_, _nes_, and _nos_ for more.
     information.
   plural: [nas, nes, nos]
-  translation: me
+  translation: me, my
 
-mede:
-  category: noun
-  similar: medeli
+mete:
+  category: content
+  similar: meteli
   translation: a hug
 
-medeli:
+meteli:
   category: verb
-  similar: mede
+  similar: mete
   translation: to hug
 
 mena:
-  category: noun
+  category: content
   similar: menali
   translation: a kiss
 
@@ -450,24 +414,6 @@ menali:
   category: verb
   similar: mena
   translation: to kiss
-
-mi:
-  category: determiner
-  examples:
-    - [mi kato., My cat.]
-    - [leapali mi leopado., My leopard leaps.]
-  translation: my
-
-nad:
-  category: number
-  similar: nadol
-  translation: two
-
-nadol:
-  category: number
-  notes: If used after a number, it multiplies the number by 100.
-  similar: nad
-  translation: one hundred
 
 nak:
   category: number
@@ -482,7 +428,7 @@ nakol:
 
 nal:
   antonym: lan
-  category: [noun, relative]
+  category: [content, relative]
   notes:
     This word can also be used in its prefix form of na- before another word
     describing a relative.
@@ -490,55 +436,69 @@ nal:
   translation: child(ren)
 
 nalan:
-  category: [noun, relative]
+  category: [content, relative]
   translation: sibling
 
 nalun:
-  category: [noun, relative]
+  category: [content, relative]
   translation: uncle or aunt
 
 nama:
-  category: noun
+  category: content
   translation: name
 
 nas:
-  category: pronoun
+  category: [content, pronoun]
   examples:
     - [wakeli nas., Me and you walk.]
-    - [leapali sowo de nes., Our (my and your) dog leaps.]
+    - [leapali sowo pi nes., Our (my and your) dog leaps.]
   notes:
     One of the plural first person pronouns. It includes the 1st and 2nd persons
     in the conversation.
   singular: me
   translation: me and you
 
+nat:
+  category: number
+  similar: natol
+  translation: two
+
+natol:
+  category: number
+  notes: If used after a number, it multiplies the number by 100.
+  similar: nat
+  translation: one hundred
+
 nes:
-  category: pronoun
+  category: [content, pronoun]
   notes:
     One of the plural first person pronouns. It includes the 1st, 2nd, and 3rd
     persons in the conversation.
   singular: me
   translation: me and you and them
 
+newa:
+  category: content
+  similar: newali
+  translation: that which has left
+
+newali:
+  category: verb
+  similar: newa
+  translation: to leave
+
 ni:
   antonym: ja
-  category: [adjective, exclamation, noun, preposition]
+  category: [content, exclamation]
+  examples:
+    - [ni!, No!]
+    - [nola se ni., The lie disappears.]
   notes:
     This word has multiple meanings based on the context. When standing alone,
-    it means "No," the exclamation. However, _il_ _ni_ means a lie. If it's
-    before another phrase, it means "not _____."
+    it means "No," the exclamation. It can also mean a lie. When used as a
+    modifier, it means "not ____."
   similar: nili
   translation: no / not / false / falsehood
-
-nikai:
-  antonym: kewai
-  category: adjective
-  translation: loud
-
-nikaili:
-  antonym: kewaili
-  category: verb
-  translation: to shout
 
 nili:
   antonym: jali
@@ -550,11 +510,31 @@ nili:
   translation: to lie
 
 nim:
-  category: noun
+  category: content
   translation: a minute
 
+nipa:
+  antonym: kewa
+  category: content
+  translation: loud
+
+nipali:
+  antonym: kewali
+  category: verb
+  translation: to shout
+
+nola:
+  category: content
+  similar: nolali
+  translation: cloak, veil, hidden
+
+nolali:
+  category: verb
+  similar: nola
+  translation: to hide, to cloak oneself
+
 nos:
-  category: pronoun
+  category: [content, pronoun]
   notes:
     One of the plural first person pronouns. It includes the 1st and 3rd persons
     in the conversation.
@@ -563,7 +543,7 @@ nos:
 
 nul:
   antonym: lun
-  category: [noun, relative]
+  category: [content, relative]
   notes:
     This word can also be used in its prefix form of nu- before another word
     describing a relative.
@@ -571,8 +551,20 @@ nul:
   translation: grandchild(ren)
 
 nulun:
-  category: [noun, relative]
+  category: [content, relative]
   translation: cousin
+
+o:
+  category: conjunction
+  examples:
+    - [sowo o kato., A dog or cat.]
+    - [sowo o kato o leopato., "A dog, cat or leopard."]
+  similar: ko
+  translation: or
+
+owa:
+  category: content
+  translation: an hour
 
 pali:
   category: verb
@@ -580,9 +572,9 @@ pali:
     - [pali X a Y a Z., X gives Y a Z.]
     - [pali X a Y., X gives a Y to someone.]
     - [pali X a Y., X gives something to Y.]
-    - [pali te a il sowo a me., You give a dog to me.]
+    - [pali te a sowo a me., You give a dog to me.]
     - [
-        pali le a il sowo.,
+        pali le a sowo.,
         They give a dog to someone.,
         They give something to a dog.,
       ]
@@ -605,7 +597,7 @@ pamol:
 
 pan:
   antonym: man
-  category: [adjective, relative]
+  category: [content, relative]
   notes: When used before a phrase, it indicates that the phrase has a male
     gender.
 
@@ -613,28 +605,32 @@ pan:
     describing a relative.
   translation: female
 
-pilat:
-  category: adverb
-  translation: please
+pi:
+  category: particle
+  examples:
+    - [sowo pi te., The dog owned by you.]
+    - [sowo pi te., Your dog.]
+    - [wakeli sowo pi te., Your dog walks.]
+  translation: of / owned by / inside of
 
 pon:
-  category: noun
+  category: content
   translation: an hour
 
 sam:
   category: number
   similar: samol
-  translation: one
+  translation: four
 
 samol:
   category: number
-  notes: If used after a number, it multiplies the number by 10.
+  notes: If used after a number, it multiplies the number by 10,000.
   similar: sam
-  translation: ten
+  translation: ten thousand
 
 sane:
   antonym: jaka
-  category: [adjective, noun]
+  category: content
   similar: saneli
   translation: happy / happiness
 
@@ -645,39 +641,29 @@ saneli:
   translation: to be happy
 
 se:
-  category: verb
+  category: particle
   examples:
-    - [Zachary se mi nama., My name is Zachary.]
-    - [jad se me., I am happy.]
+    - [Zachary se nama me., My name is Zachary.]
+    - [jat se me., I am happy.]
   translation: is
 
 seku:
-  category: noun
+  category: content
   translation: a second
 
 si:
   category: conjunction
   examples:
     - [X si Y., X if Y.]
-    - [saneli me si teneli me a il sowo., I am happy if I have a dog.]
+    - [saneli me si teneli me a sowo., I am happy if I have a dog.]
   translation: if
 
 sowo:
-  category: noun
+  category: content
   translation: dog
 
-tad:
-  category: adjective
-  similar: tadali
-  translation: dislike
-
-tadali:
-  category: verb
-  similar: tad
-  translation: to dislike
-
 taka:
-  category: noun
+  category: content
   similar: takali
   translation: anger
 
@@ -686,8 +672,19 @@ takali:
   similar: taka
   translation: to be angry
 
+tam:
+  category: number
+  similar: tamol
+  translation: five
+
+tamol:
+  category: number
+  notes: If used after a number, it multiplies the number by 100,000.
+  similar: tam
+  translation: one hundred thousand
+
 te:
-  category: pronoun
+  category: [content, pronoun]
   examples:
     - [nili te., You lie.]
   notes: The singular second person pronoun.
@@ -697,13 +694,20 @@ te:
 teneli:
   category: verb
   examples:
-    - [teneli me a il kato., I have a cat.]
+    - [teneli me a kato., I have a cat.]
   translation: to have / to own
 
-tos:
-  category: pronoun
+tenpo:
+  category: content
   examples:
-    - [es tos du nalan?, Are you all siblings?]
+    - [tenpo jat., A good time.]
+    - [tenpo newa., The past., The time that has left.]
+  translation: time of
+
+tos:
+  category: [content, pronoun]
+  examples:
+    - [es tos mani nalan?, Are you all siblings?]
   notes: The plural second person pronoun.
   singular: te
   translation: you all
@@ -712,10 +716,10 @@ wa:
   category: preposition
   examples:
     - [wa wakeli te., Start walking.]
-    - [wa pali te a il kato a me., Give me a cat.]
+    - [wa pali te a kato a me., Give me a cat.]
   notes: This transforms the following phrase into a request to perform the
-    action. If _pali_ _te_ _a_ _il_ _kato_ _a_ _me_ means "you give me a cat,"
-    then prefixing it with _wa_ transforms it into a request to "give me a cat."
+    action. If _pali_ _te_ _a_ _kato_ _a_ _me_ means "you give me a cat," then
+    prefixing it with _wa_ transforms it into a request to "give me a cat."
 
     _wa_ can usually be replaced with _wa_ _me_ _a_.
   similar: wali
@@ -727,14 +731,14 @@ wali:
     - [wali X a Y., X requests Y.]
     - [wali le a wakeli te., They request you to start walking.]
     - [
-        wali los a pali te a il kato a me.,
+        wali los a pali te a kato a me.,
         They (all) request you to give me a cat.,
       ]
   similar: wa
   translation: to request
 
 wake:
-  category: noun
+  category: content
   similar: wakeli
   translation: walk
 
@@ -746,11 +750,19 @@ wakeli:
 wan:
   category: number
   similar: wanol
-  translation: four
+  translation: one
 
 wanol:
   category: number
-  notes: If used after a number, it multiplies the number by 10,000.
+  notes: If used after a number, it multiplies the number by 10.
   similar: wan
-  translation: ten thousand
+  translation: ten
+
+wile:
+  category: content
+  translation: strange, weird
+
+wilo:
+  category: [color, content]
+  translation: green
 `;export{n as default};
