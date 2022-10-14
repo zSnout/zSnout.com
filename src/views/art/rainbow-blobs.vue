@@ -2,14 +2,14 @@
   import { useRafFn } from "@vueuse/core";
   import { onMounted, ref } from "vue";
   import Button from "../../components/Button.vue";
-  import { useColorSliders } from "../../components/ColorSliders.vue";
+  import ColorSliders, {
+    useColorSliders,
+  } from "../../components/ColorSliders.vue";
   import FullscreenDisplay from "../../components/FullscreenDisplay.vue";
   import InlineCheckboxField from "../../components/InlineCheckboxField.vue";
-  import InlineRangeField from "../../components/InlineRangeField.vue";
   import Labeled from "../../components/Labeled.vue";
   import { syncOption } from "../../composables/useOption";
   import { MovableCanvas2d } from "../../composables/webgl/MovableCanvas2d";
-  import ColorSliders from "../../components/ColorSliders.vue";
 
   const sliders = useColorSliders();
 
