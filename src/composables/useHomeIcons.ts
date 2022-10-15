@@ -299,6 +299,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "A sample of the Ulam Spiral, a simple yet complex object of mathematics",
+      description:
+        "View and interact with the amazing Ulam Spiral in real time.",
+      group: ["art", "generators", "math"],
+      keywords: "math number equation",
+      src: "/images/ulam-spiral.webp",
+      title: "Ulam Spiral",
+      to: "/ulam-spiral",
+    },
+
+    {
       alt: "A YouTube thumbnail with a list of video formats and download buttons",
       description:
         "Download YouTube videos quickly, easily, and safely using our tool.",
