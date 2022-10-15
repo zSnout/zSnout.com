@@ -63,9 +63,10 @@ beginning of sentences and titles.
 
 ## Gender
 
-In Lang, nothing has a gender by default. When describing relatives, the ma- and
-pa- prefixes may be added to indicate a female or male person. In other cases,
-the words <WordLink word="man" /> and <WordLink word="pan" /> may be used.
+In Lang, nothing has a gender by default. When describing relatives, the ma-,
+pa-, and ta- prefixes may be added to indicate a female, male, or non-binary
+person. In other cases, the words <WordLink word="man" />,
+<WordLink word="pan" />, and <WordLink word="tan" /> may be used.
 
 ## Sentences
 

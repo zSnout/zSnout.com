@@ -247,10 +247,11 @@ ko:
   similar: o
   translation: exclusive or
 
-kolow:
+kolo:
   category: content
   examples:
-    - [kolow kato., The cat's color.]
+    - [kolo kato., The cat's color.]
+    - [wilo se kolo kato., The cat's color is green.]
   translation: color
 
 konsi:
@@ -316,6 +317,14 @@ lapol:
   similar: lap
   translation: one hundred million
 
+laso:
+  category: [color, content]
+  translation: black
+
+lato:
+  category: [color, content]
+  translation: dark gray
+
 le:
   category: [content, pronoun]
   notes: The singular third person pronoun.
@@ -366,13 +375,11 @@ lun:
   translation: grandparent(s)
 
 man:
-  antonym: pan
   category: [content, relative]
-  notes: When used before a phrase, it indicates that the phrase has a female
-    gender.
-
+  notes:
     _man_ may also be used in its prefix form of ma- before another word
     describing a relative.
+  similar: [pan, tan]
   translation: female
 
 mani:
@@ -414,6 +421,10 @@ menali:
   category: verb
   similar: mena
   translation: to kiss
+
+najo:
+  category: [color, content]
+  translation: magenta
 
 nak:
   category: number
@@ -566,6 +577,10 @@ owa:
   category: content
   translation: an hour
 
+paja:
+  category: [color, content]
+  translation: orange
+
 pali:
   category: verb
   examples:
@@ -596,14 +611,20 @@ pamol:
   translation: ten million
 
 pan:
-  antonym: man
   category: [content, relative]
-  notes: When used before a phrase, it indicates that the phrase has a male
-    gender.
-
+  notes:
     _pan_ may also be used in its prefix form of pa- before another word
     describing a relative.
+  similar: [man, tan]
   translation: female
+
+paso:
+  category: [color, content]
+  translation: light gray
+
+pato:
+  category: [color, content]
+  translation: white
 
 pi:
   category: particle
@@ -658,6 +679,10 @@ si:
     - [saneli me si teneli me a sowo., I am happy if I have a dog.]
   translation: if
 
+silo:
+  category: [color, content]
+  translation: yellow
+
 sowo:
   category: content
   translation: dog
@@ -683,6 +708,14 @@ tamol:
   similar: tam
   translation: one hundred thousand
 
+tan:
+  category: [content, relative]
+  notes:
+    _tan_ may also be used in its prefix form of ta- before another word
+    describing a relative.
+  similar: [man, pan]
+  translation: non-binary
+
 te:
   category: [content, pronoun]
   examples:
@@ -704,6 +737,14 @@ tenpo:
     - [tenpo newa., The past., The time that has left.]
   translation: time of
 
+tema:
+  category: [color, content]
+  translation: blue
+
+tuna:
+  category: [color, content]
+  translation: purple
+
 tos:
   category: [content, pronoun]
   examples:
@@ -713,7 +754,7 @@ tos:
   translation: you all
 
 wa:
-  category: preposition
+  category: particle
   examples:
     - [wa wakeli te., Start walking.]
     - [wa pali te a kato a me., Give me a cat.]
@@ -765,3 +806,7 @@ wile:
 wilo:
   category: [color, content]
   translation: green
+
+wojo:
+  category: [color, content]
+  translation: red

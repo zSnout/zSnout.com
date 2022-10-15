@@ -89,6 +89,7 @@ export function matches(word: string, info: WordInfo) {
   return query.every((query) => {
     return (
       word.toLowerCase().includes(query) ||
+      info.category.toString().toLowerCase().includes(query) ||
       info.translation.toLowerCase().includes(query)
     );
   });
