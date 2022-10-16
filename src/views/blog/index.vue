@@ -38,10 +38,11 @@
   const open = ref(false);
 
   const colors: Record<string, number> = {
+    camp: 0,
     code: 4,
+    language: 2,
     math: 1,
     meta: 5,
-    camp: 0,
     saurs: 3,
   };
 
@@ -61,7 +62,7 @@
   const darkColors = [
     "#ff6666",
     "#ffc966",
-    "#ffff66",
+    "#f0f060",
     "#66ff66",
     "#8888ff",
     "#ff66ff",
