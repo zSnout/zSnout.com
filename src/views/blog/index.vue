@@ -149,7 +149,7 @@
             Published on {{ dateOf(article.frontmatter.date) }}
           </p>
 
-          <p class="spacer" />
+          <p v-if="article.frontmatter.excerpt" class="spacer" />
 
           <p class="text-color">{{ article.frontmatter.excerpt }}</p>
         </VStack>
