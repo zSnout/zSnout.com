@@ -41,7 +41,7 @@
     "random-seed": "^0.3.0",
     "rangetouch": "^2.0.1",
     "socket.io": "^4.5.2",
-    "socket.io-client": "^4.5.2",
+    "socket.io-client": "^4.5.3",
     "stockfish.js": "^10.0.2",
     "storymatic": "^2.0.85",
     "tabbable": "^6.0.0",
