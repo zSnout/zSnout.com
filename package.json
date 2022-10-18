@@ -65,7 +65,7 @@
     "@yankeeinlondon/builder-api": "^0.4.1",
     "esbuild": "^0.15.11",
     "gray-matter": "^4.0.3",
-    "happy-dom": "^7.5.12",
+    "happy-dom": "^7.5.13",
     "markdown-it-anchor": "^8.6.5",
     "markdown-it-prism": "^2.3.0",
     "postcss-scss": "^4.0.5",
