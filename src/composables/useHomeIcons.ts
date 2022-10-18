@@ -310,6 +310,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "A five by five grid of circles; some are filled and some are not",
+      description:
+        "Try to fill the whole board of this simple yet addicting light game.",
+      group: ["game"],
+      keywords: "lightbulbs",
+      src: "/images/light-the-bulbs.webp",
+      title: "Light the Bulbs",
+      to: "/light-the-bulbs",
+    },
+
+    {
       alt: "A YouTube thumbnail with a list of video formats and download buttons",
       description:
         "Download YouTube videos quickly, easily, and safely using our tool.",
