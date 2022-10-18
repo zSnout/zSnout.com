@@ -2,8 +2,7 @@ import Katex from "@traptitech/markdown-it-katex";
 import vue from "@vitejs/plugin-vue";
 import { createBuilder } from "@yankeeinlondon/builder-api";
 import { sync } from "fast-glob";
-import { readFileSync } from "fs";
-import main from "gray-matter";
+import { read } from "gray-matter";
 import anchor from "markdown-it-anchor";
 import Prism from "markdown-it-prism";
 import TOC from "markdown-it-toc-done-right";
@@ -25,12 +24,7 @@ function offsetDate(dateStr: any) {
 const articles = sync("./src/views/blog/**/*.md").map((src) => {
   const path = src.slice("./src/views".length);
 
-  const content = readFileSync(src, { encoding: "utf8" }).replaceAll(
-    /\[(?:no)?toc\]\n\n/g,
-    ""
-  );
-
-  const { data, excerpt } = main(content, {
+  const { data, excerpt } = read(src, {
     excerpt: true,
     excerpt_separator: "\n\n",
   });

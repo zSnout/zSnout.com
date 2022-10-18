@@ -4,8 +4,6 @@ date: 2022-10-17
 category: language
 ---
 
-[notoc]
-
 Recently, I have been learning a language known as toki pona, also known as the
 language of good. toki pona's goal is to be a minimalistic language that still
 allows its speakers to communicate effectively. toki pona is one of the most
@@ -14,6 +12,8 @@ around 300 fluent speakers and over 10,000 people who can effectively read and
 understand it. My goal is to become one of those people who are fluent in the
 language. Today we'll explore my journey in learning toki pona and how you can
 learn it for yourself.
+
+[notoc]
 
 ## First Steps
 
