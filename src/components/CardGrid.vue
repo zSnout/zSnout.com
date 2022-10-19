@@ -94,6 +94,7 @@
 
     &.no-desc {
       grid-template-columns: repeat(auto-fill, minmax(min(8em, 100%), 1fr));
+      gap: 0.5rem;
     }
 
     &.no-title {
