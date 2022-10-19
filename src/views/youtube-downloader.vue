@@ -114,7 +114,9 @@
             <Spacer />
             <Spacer />
 
-            <a class="second-layer" :href="format.url" download>Download</a>
+            <a class="second-layer" :href="format.url" target="_blank">
+              Download
+            </a>
           </HStack>
         </VStack>
       </template>
