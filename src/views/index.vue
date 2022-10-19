@@ -2,6 +2,7 @@
   import { useMediaQuery } from "@vueuse/core";
   import _images from "virtual:image-list";
   import { computed, ref, StyleValue } from "vue";
+  import Button from "../components/Button.vue";
   import HStack from "../components/HStack.vue";
   import LargeTitle from "../components/LargeTitle.vue";
   import MiddleText from "../components/MiddleText.vue";
@@ -58,7 +59,7 @@
 <!-- Update README if this gets moved to be the homepage. -->
 
 <template>
-  <MultiPageDisplay snap>
+  <MultiPageDisplay>
     <Page :style="bg">
       <PageContent class="content" center>
         <LargeTitle>Welcome to zSnout.</LargeTitle>
@@ -129,8 +130,12 @@
         <p class="read-more">
           Read more by scrolling down,
           <br />
-          or
-          <RouterLink to="/home">explore the site</RouterLink>.
+          or{{ " " }}
+          <RouterLink class="no-link" to="/home">
+            <Button class="link" style="display: inline; text-decoration: none">
+              explore the main site
+            </Button>
+          </RouterLink>.
         </p>
       </PageContent>
     </Page>
@@ -350,7 +355,7 @@
 
   #ad-free {
     background-color: black;
-    background-image: url("/ad-wall.jpg");
+    background-image: url("/ad-wall.webp");
     background-repeat: no-repeat;
     background-position: center;
 
