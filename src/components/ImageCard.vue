@@ -17,14 +17,23 @@
   const image = ref<HTMLImageElement>();
   const { height } = useElementSize(image);
 
+  const titleEl = ref<HTMLElement>();
+  const { height: titleHeight } = useElementSize(titleEl);
+
   const loaded = ref(false);
+
+  const enableTransitions = ref(false);
+  setTimeout(() => (enableTransitions.value = true), 100);
 </script>
 
 <template>
   <MaybeLink
+    :class="{ t: enableTransitions }"
     class="card second-layer hoverline focusline"
     :force-reload="forceReload"
     :to="to"
+    style="padding: 0"
+    tabindex="0"
     :data-keywords="keywords"
   >
     <img
@@ -38,18 +47,25 @@
     />
 
     <div
-      class="filter"
-      :style="{
-        height: `${height}px`,
-        top: `calc(-${height}px - 0.5em)`,
-        marginBottom: `calc(-${height}px)`,
-        display: loaded ? undefined : 'none',
-      }"
-      aria-hidden="true"
-    />
+      class="overlay"
+      :style="{ 'height': `${height}px`, '--title-height': `${titleHeight}px` }"
+    >
+      <div class="flex-top" />
 
-    <p class="title text-color">{{ title }}</p>
-    <p class="description">{{ description }}</p>
+      <div class="subtitle text-color">
+        <p ref="titleEl" class="large">
+          <span class="subtitle-inner">
+            {{ title }}
+          </span>
+        </p>
+
+        <div class="flex-inner" />
+
+        <p class="description">
+          {{ description }}
+        </p>
+      </div>
+    </div>
 
     <div
       v-if="label"
@@ -66,10 +82,15 @@
 <style lang="scss" scoped>
   .card {
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
     text-decoration: none;
     cursor: pointer;
+
+    .no-desc & {
+      display: block;
+    }
 
     .no-title.no-title & {
       padding-bottom: 0;
@@ -117,22 +138,14 @@
   }
 
   .image,
-  .filter {
-    width: calc(100% + 1.5em);
-    margin-right: -0.75em;
-    margin-bottom: 0.125em;
-    margin-left: -0.75em;
+  .overlay {
+    top: 0;
+    width: 100%;
+    margin-bottom: -0.375em;
     background-color: white;
 
     .no-title & {
       margin-bottom: -0.5em;
-    }
-
-    .hover .card:hover > & {
-      width: calc(100% + 1.5em - 2px);
-      margin-right: calc(-0.75em + 1px);
-      margin-bottom: calc(0.125em + 2px);
-      margin-left: calc(-0.75em + 1px);
     }
 
     .hover .no-title .card:hover > & {
@@ -141,8 +154,6 @@
   }
 
   .image {
-    margin-top: -0.5em;
-
     .dark & {
       opacity: 0.8;
     }
@@ -152,19 +163,37 @@
     }
   }
 
-  .filter {
-    position: relative;
-    background: linear-gradient(to bottom, transparent, transparent 60%, white),
-      transparent;
+  .overlay {
+    position: absolute;
+    top: calc(100% - var(--title-height) - 0.25em);
+    display: flex;
+    flex-direction: column;
+    width: calc(100% + 1px);
+    height: 100%;
+    background: transparent;
 
-    .dark & {
-      background: linear-gradient(
-          to bottom,
-          transparent,
-          transparent 75%,
-          #1f1f1f
-        ),
-        transparent;
+    .t & {
+      transition: var(--transitions), top 0.3s;
+    }
+  }
+
+  .subtitle {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 0.5em;
+    padding-top: 0.125em;
+    color: white;
+    filter: contrast(5);
+    -webkit-backdrop-filter: blur(0.5em);
+    backdrop-filter: blur(0.5em);
+    mix-blend-mode: difference;
+    transition: var(--transitions);
+
+    .no-desc & {
+      padding-bottom: 0.125em;
+      font-size: 0.75em;
     }
 
     .no-title & {
@@ -172,27 +201,69 @@
     }
   }
 
-  .title {
+  .large {
+    display: flex;
+    flex-direction: row;
     margin: 0;
     font-weight: bold;
+    font-size: 1.25em;
+    text-align: center;
+  }
 
-    .no-title & {
-      display: none;
-    }
+  .subtitle-inner {
+    flex: 1;
+    white-space: pre;
   }
 
   .description {
     margin: 0;
-    margin-top: 0.25em;
-    color: #666;
+    padding-bottom: 0.25em;
+    color: black;
+    font-weight: bold;
     font-size: 0.9em;
-
-    .dark & {
-      color: #aaa;
-    }
+    filter: invert(1);
+    mix-blend-mode: difference;
 
     .no-desc & {
       display: none;
+    }
+  }
+
+  .flex-top,
+  .flex-inner,
+  .subtitle-inner {
+    transition: var(--transitions), flex 0.3s;
+  }
+
+  .flex-top {
+    flex: 1;
+  }
+
+  .flex-inner {
+    flex: 0;
+  }
+
+  .card:active,
+  .card:focus,
+  .hover :not(.no-desc) .card:hover {
+    .overlay {
+      top: 0;
+    }
+
+    .subtitle {
+      height: 100%;
+    }
+
+    .subtitle-inner {
+      flex: initial;
+    }
+
+    .flex-top {
+      flex: 0;
+    }
+
+    .flex-inner {
+      flex: 1;
     }
   }
 </style>
