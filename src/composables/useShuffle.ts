@@ -2,18 +2,21 @@
 
 export function shuffle<T>(array: readonly T[]): T[] {
   const _array = [...array];
-  let currentIndex = _array.length;
+  shuffleInPlace([...array]);
+  return _array;
+}
+
+export function shuffleInPlace<T>(array: T[]) {
+  let currentIndex = array.length;
   let randomIndex: number;
 
   while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
-    [_array[currentIndex], _array[randomIndex]] = [
-      _array[randomIndex],
-      _array[currentIndex],
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
     ];
   }
-
-  return _array;
 }
