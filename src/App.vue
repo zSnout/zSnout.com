@@ -262,6 +262,7 @@
 
   .shadow,
   .second-layer:not([disabled]),
+  .second-layer.selected[disabled],
   .shadow-force,
   .prose table,
   .prose code:not(pre code),
@@ -290,7 +291,7 @@
     border-radius: 0.25rem;
     --layer-background: white;
 
-    &[disabled] {
+    &[disabled]:not(.selected) {
       opacity: 0.5;
     }
 
