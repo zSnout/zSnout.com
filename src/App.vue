@@ -260,7 +260,7 @@
   }
 
   .shadow,
-  .second-layer,
+  .second-layer:not([disabled]),
   .shadow-force,
   .prose table,
   .prose code:not(pre code),
@@ -288,6 +288,10 @@
     background-color: var(--layer-background);
     border-radius: 0.25rem;
     --layer-background: white;
+
+    &[disabled] {
+      opacity: 0.5;
+    }
 
     .dark &:where(:not(.light)) {
       --layer-background: #1f1f1f;
@@ -334,8 +338,8 @@
   }
 
   .outline,
-  .hover .hoverline:hover,
-  .hover .focusline:focus {
+  .hover .hoverline:not([disabled]):hover,
+  .hover .focusline:not([disabled]):focus {
     &.second-layer {
       padding: calc(0.5rem - 1px) calc(0.75rem - 1px);
       border: 1px solid #066567;

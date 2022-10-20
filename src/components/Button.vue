@@ -20,7 +20,10 @@
   .button {
     display: block;
     font-size: inherit;
-    cursor: pointer;
+
+    &:not([disabled]) {
+      cursor: pointer;
+    }
 
     &.center {
       display: flex;
