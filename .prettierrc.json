@@ -3,10 +3,10 @@
   "attributeGroups": [
     "^#",
     "^:?is$",
-    "^v-for$",
     "^v-(if|else-if|else)$",
     "^v-show$",
     "^v-cloak$",
+    "^v-for$",
     "^v-pre$",
     "^v-once$",
     "^:?id$",
