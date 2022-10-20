@@ -28,3 +28,7 @@ declare module "*.vue" {
   const comp: DefineComponent;
   export default comp;
 }
+
+declare interface ArrayConstructor {
+  isArray(arg: any): arg is readonly any[];
+}
