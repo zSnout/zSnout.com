@@ -7,7 +7,7 @@
 <style lang="scss" scoped>
   .sticky {
     position: sticky;
-    top: calc(3.5rem + 1px);
+    top: 3.5rem;
     z-index: 3;
     width: calc(100% + 2rem);
     margin-top: -2rem !important;
