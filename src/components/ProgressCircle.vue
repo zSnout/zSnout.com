@@ -33,12 +33,7 @@
     :aria-valuenow="progress"
     :style="{
       '--progress': `${progress * (max - min) + min}turn`,
-      'color':
-        progress * (max - min) + min <= 0
-          ? 'var(--bg)'
-          : isDark
-          ? '#066567'
-          : '#2c8d8d',
+      'color': isDark ? '#066567' : '#2c8d8d',
       '--bg': isDark ? 'black' : 'white',
     }"
     role="progressbar"
