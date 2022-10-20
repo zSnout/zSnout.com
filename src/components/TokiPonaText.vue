@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   const { content } = defineProps<{ content: string }>();
 
-  const matches = content.match(/_[^_]*_|[^_]*/);
+  const matches = content.match(/_[^_]*_|[^_]*/g);
 </script>
 
 <template>
