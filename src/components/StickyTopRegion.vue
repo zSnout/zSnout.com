@@ -22,7 +22,7 @@
     }
 
     @media (max-width: 400px) {
-      top: calc(2.5rem + 1px);
+      top: 2.5rem;
       margin-top: -1.5rem !important;
     }
 
