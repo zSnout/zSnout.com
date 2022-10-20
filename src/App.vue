@@ -207,6 +207,7 @@
     margin: 0;
     line-height: 1.5;
     background-color: #f0f0f0;
+    overscroll-behavior: none;
     --background-color: #f0f0f0;
 
     .dark & {
