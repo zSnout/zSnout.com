@@ -31,7 +31,23 @@
     <TokiPonaContent v-for="item in content" :content="item" :hidden="hidden" />
   </div>
 
-  <div v-else-if="content.type == 'nobreak'" style="margin-top: -1em">
+  <div v-else-if="content.type == 'nobreak'" class="nobreak">
     <TokiPonaContent :content="content.content" :hidden="hidden" />
   </div>
+
+  <p v-else />
 </template>
+
+<style lang="scss" scoped>
+  p {
+    margin: 0;
+  }
+
+  div {
+    margin: 0;
+
+    &.nobreak > p:first-child {
+      margin-top: -1em;
+    }
+  }
+</style>
