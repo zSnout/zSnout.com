@@ -38,13 +38,5 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "useTabs": false,
-  "vueIndentScriptAndStyle": true,
-  "overrides": [
-    {
-      "files": ["src/views/learn-toki-pona.vue"],
-      "options": {
-        "singleQuote": true
-      }
-    }
-  ]
+  "vueIndentScriptAndStyle": true
 }
