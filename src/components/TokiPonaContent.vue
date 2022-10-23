@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-  import { Prop, PropType } from "vue";
+  import { Prop } from "vue";
   import TokiPonaText from "./TokiPonaText.vue";
 
   export type Content = string | ContentArray | NoBreak;
@@ -45,9 +45,9 @@
 
   div {
     margin: 0;
+  }
 
-    &.nobreak > p:first-child {
-      margin-top: -1em;
-    }
+  .nobreak > p:first-child {
+    margin-top: -1em;
   }
 </style>
