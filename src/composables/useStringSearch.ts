@@ -34,3 +34,24 @@ export function hasGT(source: string, searchString: string, times: number) {
 export function hasLTE(source: string, searchString: string, times: number) {
   return !hasGT(source, searchString, times);
 }
+
+export function hasEQ(source: string, searchString: string, times: number) {
+  let start = 0;
+
+  for (let i = 0; i < times; i++) {
+    const nextStart = source.indexOf(searchString, start);
+    if (nextStart == -1) return false;
+
+    start = nextStart + searchString.length;
+  }
+
+  if (source.includes(searchString, start)) {
+    return false;
+  }
+
+  return true;
+}
+
+export function hasNEQ(source: string, searchString: string, times: number) {
+  return !hasEQ(source, searchString, times);
+}
