@@ -61,7 +61,7 @@
   }
 
   .large {
-    margin-top: -0.5em;
+    margin-top: -0.25rem;
     font-weight: bold;
     font-size: 1.5em;
     text-align: center;
