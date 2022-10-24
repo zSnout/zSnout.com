@@ -221,5 +221,3 @@ export function rpnToGLSL(rpn: (string | number)[]) {
 export function glsl(equation: string) {
   return rpnToGLSL(toReversePolish(equation));
 }
-
-Object.assign(window, { glsl });

@@ -12,8 +12,6 @@
   const lights = reactive<boolean[][]>([]);
   let solution: boolean[][] | undefined;
 
-  Object.assign(window, { s: () => solution });
-
   function isCellSolved(cell: boolean) {
     return cell;
   }

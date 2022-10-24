@@ -11,7 +11,6 @@
   const image = document.createElement("img");
   const canvasRef = ref<HTMLCanvasElement>();
   const pieces: Piece[][] = [];
-  Object.assign(window, { pieces });
 
   let emptyRow = 0;
   let emptyCol = 0;
