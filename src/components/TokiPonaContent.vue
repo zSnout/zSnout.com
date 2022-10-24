@@ -2,12 +2,17 @@
   import { Prop } from "vue";
   import TokiPonaText from "./TokiPonaText.vue";
 
-  export type Content = string | ContentArray | NoBreak;
+  export type Content = string | ContentArray | NoBreak | Large;
 
   export interface ContentArray extends ReadonlyArray<Content> {}
 
   export interface NoBreak {
     readonly type: "nobreak";
+    readonly content: Content;
+  }
+
+  export interface Large {
+    readonly type: "large";
     readonly content: Content;
   }
 
@@ -35,6 +40,10 @@
     <TokiPonaContent :content="content.content" :hidden="hidden" />
   </div>
 
+  <div v-else-if="content.type == 'large'" class="large">
+    <TokiPonaContent :content="content.content" :hidden="hidden" />
+  </div>
+
   <p v-else />
 </template>
 
@@ -49,5 +58,10 @@
 
   .nobreak > p:first-child {
     margin-top: -1em;
+  }
+
+  .large {
+    font-weight: bold;
+    font-size: 1.5em;
   }
 </style>
