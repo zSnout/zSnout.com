@@ -90,4 +90,15 @@ declare global {
   }
 }
 
+export type Primitive =
+  | string
+  | number
+  | bigint
+  | boolean
+  | symbol
+  | null
+  | undefined;
+
+export type Builtin = Primitive | Function | Date | Error | RegExp;
+
 export {};
