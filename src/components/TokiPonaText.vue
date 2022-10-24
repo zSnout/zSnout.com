@@ -10,13 +10,13 @@
 
     const withTags = matches.map<Match>((match) => {
       if (match.startsWith("|")) {
-        const [tag, content] = match.slice(1, -1).split(" ", 2);
-        return [tag, content];
+        const [tag, ...content] = match.slice(1, -1).split(" ");
+        return [tag, content.join(" ")];
       } else if (match.startsWith("~")) {
         if (match == "~?") {
-          return ["_?", "?"];
+          return ["?", "?"];
         } else {
-          return ["_" + match.slice(1), match.slice(1)];
+          return [match.slice(1), match.slice(1)];
         }
       } else {
         return [undefined, match];
@@ -24,7 +24,7 @@
     });
 
     return withTags.map(([tag, content], index) => {
-      if (tag == "_?") {
+      if (tag == "?") {
         const previous: Match | undefined = withTags[index - 1];
         if (!previous) return [tag, content];
         return [tag + " " + previous[0], content];
@@ -67,7 +67,7 @@
     font-weight: bold;
   }
 
-  ._li {
+  .li {
     color: #c040c0;
   }
 
@@ -76,7 +76,7 @@
     font-weight: bold;
   }
 
-  ._e {
+  .e {
     color: #ff9500;
   }
 
@@ -85,12 +85,12 @@
     font-weight: bold;
   }
 
-  ._\(,
-  ._\) {
+  .\(,
+  .\) {
     color: #606060;
   }
 
-  ._\? {
+  .\? {
     font-size: 0.6em;
   }
 </style>
