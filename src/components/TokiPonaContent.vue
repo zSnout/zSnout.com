@@ -56,12 +56,13 @@
     margin: 0;
   }
 
-  .nobreak > p:first-child {
+  .nobreak {
     margin-top: -1em;
   }
 
   .large {
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 2em;
+    text-align: center;
   }
 </style>
