@@ -111,7 +111,7 @@ export class WebGlCanvas extends GlslCanvas {
       const { value: v } = value;
 
       if (Array.isArray(v)) {
-        this.setUniformOfInt(key, v);
+        this.setUniformOfInt(key, v as any);
       } else {
         this.setUniformOfInt(key, [v]);
       }
