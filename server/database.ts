@@ -48,7 +48,8 @@ export interface Database {
     bookmarks: Bookmark[];
     notes: ObjectId[];
     chats: ObjectId[];
-    invites?: ObjectId[];
+    stories: ObjectId[];
+    invites: ObjectId[];
     willNotifyForBlog?: boolean;
   };
   notes: {
@@ -72,3 +73,19 @@ export interface Database {
     title: string;
   };
 }
+
+collection("accounts")
+  .then((accounts) => {
+    if (!accounts) return;
+
+    accounts.updateMany(
+      { invites: { $exists: false } },
+      { $set: { invites: [] } }
+    );
+
+    accounts.updateMany(
+      { stories: { $exists: false } },
+      { $set: { stories: [] } }
+    );
+  })
+  .catch(() => {});
