@@ -48,7 +48,8 @@ When you create an account with us, we store:
 - whether you've been verified,
 - your verification code (see below for more details),
 - a list of your bookmarks, and
-- an index of your notes.
+- an index of your notes
+- a list of your chats and their messages
 
 ### What is a session ID?
 
@@ -93,3 +94,13 @@ zSnout has a Notes application that allows users to store up to 100 notes, each
 with a 99 character title and 10kb body. These notes are only stored server
 side, and the Notes app itself is only accessible when you're online and logged
 in.
+
+## Chats
+
+zSnout has a Chats application that allows users to create chats with a
+100-character title and 1kb messages. The chats are only stored server side, and
+the Chats app itself is only accessible when you're logged in. The chats app
+stores: the creation time, the default permission level, a list of members and
+their permissions levels, a list of chat messages, and the chat title. Each chat
+message stores who the message was sent by, the 1kb body of the message, and the
+timestamp of when the message was sent.
