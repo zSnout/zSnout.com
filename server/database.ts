@@ -1,5 +1,11 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { Bookmark, ChatMessage, ChatPermissionLevel } from "../shared.server";
+import {
+  Bookmark,
+  ChatMessage,
+  ChatPermissionLevel,
+  StoryParagraph,
+  StoryPermissionLevel,
+} from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
   ? new MongoClient(process.env.ZSNOUT_DATABASE, { serverApi: "1" })
@@ -56,6 +62,13 @@ export interface Database {
     defaultLevel: Exclude<ChatPermissionLevel, "manage">;
     members: Record<string, ChatPermissionLevel | undefined>;
     messages: ChatMessage[];
+    title: string;
+  };
+  stories: {
+    creation: number;
+    members: Record<string, StoryPermissionLevel | undefined>;
+    stories: StoryParagraph[];
+    completed: Readonly<StoryParagraph>[];
     title: string;
   };
 }

@@ -1,3 +1,34 @@
+/** Stories two-way messaging
+ *
+ * CLIENT --> SERVER
+ * CLIENT <-- SERVER
+ *
+ * --> story:request:index(session)
+ * <-- story:index(session)
+ *
+ * --> story:create:story(session, title)
+ * <-- story:index(session)
+ *
+ * --> story:leave(session, storyId)
+ * <-- story:index(session)
+ *
+ * --> story:request:permission(session, storyId)
+ * <-- story:permission(session, storyId)
+ *
+ * --> story:update:members(session, storyId, members)
+ * <-- story:update:members(session, storyId, members)
+ *
+ * --> story:request:members(session, storyId)
+ * <-- story:update:members(session, storyId, members)
+ *
+ * --> story:request:paragraph(session, storyId)
+ * <-- story:paragraph(session, storyId)
+ *
+ * --> story:contribute(session, storyId, paragraphId, content)
+ * <-- story:done:contribute(session, storyId, paragraphId)
+ * <-- story:timeout:contribute(session, storyId, paragraphId)
+ */
+
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -54,6 +85,9 @@ export interface ClientToServer {
   "notes:update:note"(session: string, noteId: string, contents: string): void;
   "notes:update:title"(session: string, noteId: string, title: string): void;
 
+  "story:create"(session: string, title: string): void;
+  "story:request:index"(session: string): void;
+
   "youtube:request"(id: string): void;
 }
 
@@ -72,7 +106,7 @@ export interface ServerToClient {
   "bookmarks:list"(bookmarks: Bookmark[]): void;
 
   "chat:index"(chats: ChatPreview[]): void;
-  "chat:message:delete"(chatId: string, /** UUID */ messageId: string): void;
+  "chat:message:delete"(chatId: string, messageId: UUID): void;
   "chat:message:list"(chatId: string, messages: ChatMessage[]): void;
   "chat:message:update"(chatId: string, message: ChatMessage): void;
   "chat:permission"(chatId: string, level: ChatPermissionLevel): void;
@@ -87,6 +121,8 @@ export interface ServerToClient {
   "notes:index"(notes: NotePreview[]): void;
   "notes:note"(noteId: string, contents: string | false): void;
   "notes:details"(details: NoteDetails): void;
+
+  "story:index"(stories: StoryPreview[]): void;
 
   "youtube:results"(id: string, info: YouTubeResults): void;
 }
@@ -114,12 +150,12 @@ export interface Bookmark {
 }
 
 export interface NoteDetails {
-  id: string;
+  id: UUID;
   title: string;
 }
 
 export interface NotePreview {
-  id: string;
+  id: UUID;
   title: string;
   desc: string;
 }
@@ -128,15 +164,35 @@ export interface ChatMessage {
   /** from: Username */
   from: string;
   content: string;
-  /** id: UUID */
-  id: string;
+  id: UUID;
   timestamp: number;
 }
 
 export interface ChatPreview {
-  id: string;
+  id: UUID;
   title: string;
   level: ChatPermissionLevel;
 }
 
 export type ChatPermissionLevel = "none" | "view" | "comment" | "manage";
+
+export interface StoryPreview {
+  id: UUID;
+  title: string;
+  activeThreadCount: number;
+}
+
+export interface StoryParagraphSentence {
+  id: UUID;
+  from: UUID;
+  content: string;
+}
+
+export interface StoryParagraph {
+  id: UUID;
+  sentences: StoryParagraphSentence[];
+}
+
+export type StoryPermissionLevel = "none" | "view" | "write" | "manage";
+
+export type UUID = string & {};
