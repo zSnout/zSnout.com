@@ -180,17 +180,18 @@ export interface StoryPreview {
   id: UUID;
   title: string;
   activeThreadCount: number;
+  completedThreadCount: number;
 }
 
-export interface StoryParagraphSentence {
+export interface StorySentence {
   id: UUID;
   from: UUID;
   content: string;
 }
 
-export interface StoryParagraph {
+export interface StoryThread {
   id: UUID;
-  sentences: StoryParagraphSentence[];
+  sentences: StorySentence[];
 }
 
 export type StoryPermissionLevel = "none" | "view" | "write" | "manage";

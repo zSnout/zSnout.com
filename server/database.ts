@@ -3,7 +3,7 @@ import {
   Bookmark,
   ChatMessage,
   ChatPermissionLevel,
-  StoryParagraph,
+  StoryThread,
   StoryPermissionLevel,
 } from "../shared.server";
 
@@ -68,8 +68,8 @@ export interface Database {
   stories: {
     creation: number;
     members: Record<string, StoryPermissionLevel | undefined>;
-    stories: StoryParagraph[];
-    completed: Readonly<StoryParagraph>[];
+    threads: StoryThread[];
+    completed: Readonly<StoryThread>[];
     title: string;
   };
 }
