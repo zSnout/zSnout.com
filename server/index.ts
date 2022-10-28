@@ -39,6 +39,7 @@ import {
   setNoteContents,
   setNoteTitle,
 } from "./notes";
+import { createStory, getStoryIndex } from "./stories";
 
 interface SocketData {
   oldSession?: string;
@@ -438,6 +439,18 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
           title,
         });
       }
+    }
+  },
+  async "story:create"(session, title) {
+    if (await verify(this, session)) {
+      if (await createStory(session, title)) {
+        this.emit("story:index", await getStoryIndex(session));
+      }
+    }
+  },
+  async "story:request:index"(session) {
+    if (await verify(this, session)) {
+      this.emit("story:index", await getStoryIndex(session));
     }
   },
   async "youtube:request"(id) {
