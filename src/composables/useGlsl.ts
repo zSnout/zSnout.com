@@ -67,7 +67,9 @@ export function toReversePolish(equation: string): (string | number)[] {
 
       tokens.push(match[0]);
       equation = equation.slice(match[0].length);
-    } else if ((match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|m|t|fx|fy)/))) {
+    } else if (
+      (match = equation.match(/^(pi|pz|ppz|sz|e|i|c|z|p|m|t|fx|fy)/))
+    ) {
       if (wasLastTokenAValue) tokens.push("**");
       wasLastTokenAValue = true;
 
@@ -164,7 +166,7 @@ export function rpnToGLSL(rpn: (string | number)[]) {
         stack.push("vec2(2.718281828459045, 0)");
       } else if (token === "t") {
         stack.push("vec2(time, 0)");
-      } else if (token === "m") {
+      } else if (token === "m" || token === "p") {
         stack.push("mouse");
       } else if (token === "fx") {
         stack.push("vec2(1, -1)");

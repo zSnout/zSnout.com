@@ -694,8 +694,9 @@
           this video behind the Mandelbrot Set
         </a>
         for more information. Additionally, zSnout provides M (the current mouse
-        position), T (the time that the page has been loaded for), and e, i, and
-        pi. You may use the +, -, *, /, and ^ operators.
+        position), P (also the mouse position), T (the time that the page has
+        been loaded for), and e, i, and pi. You may use the +, -, *, /, and ^
+        operators.
       </p>
 
       <p>
@@ -706,7 +707,9 @@
 
       <p>
         If you have an equation with M and/or T, right-click the canvas to
-        replace the M and T variables with their values.
+        replace the M and T variables with their values. This does
+        <i>not</i>
+        affect the P variable.
       </p>
 
       <h1>Choosing a Theme</h1>
@@ -716,6 +719,11 @@
         via a dropdown. When using an equation without C or M (e.g. z - (z^3 -
         1) / 3z^2), it is recommended to use "Newton's Method" or check
         "Initialize Z".
+      </p>
+
+      <p>
+        If your equation has M, "Initialize Z" will automatically be checked and
+        hidden. This does not apply to P.
       </p>
 
       <h1>Theme Checkboxes</h1>
@@ -739,9 +747,9 @@
 
       <p>
         Right-clicking the canvas modifies your equation. It will primarily swap
-        M and T for your current mouse position and time. If the current
-        equation does not contain M or T, right-clicking will swap all instances
-        of C for M.
+        M and T for your current mouse position and time, while leaving P
+        unaffected. If the current equation does not contain M or T,
+        right-clicking will swap all instances of C for M.
       </p>
 
       <p>
