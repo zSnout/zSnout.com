@@ -68,6 +68,7 @@ export interface Database {
   stories: {
     creation: number;
     members: Record<string, StoryPermissionLevel | undefined>;
+    gems: Record<string, number | undefined>;
     threads: StoryThread[];
     completed: Readonly<StoryThread>[];
     title: string;
