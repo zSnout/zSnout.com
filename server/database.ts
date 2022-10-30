@@ -3,8 +3,8 @@ import {
   Bookmark,
   ChatMessage,
   ChatPermissionLevel,
-  StoryThread,
   StoryPermissionLevel,
+  StoryThread,
 } from "../shared.server";
 
 const client = process.env.ZSNOUT_DATABASE
