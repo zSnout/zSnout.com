@@ -406,7 +406,7 @@
     const gl = new MovableCanvas2d(canvas.value, {
       fragmentString: shader
         .replace("{{EQ}}", glsl(equation.value))
-        .replace("{{EQC}}", glsl(equation.value.replace(/m/g, "c"))),
+        .replace("{{EQC}}", glsl(equation.value.replace(/m|p/g, "c"))),
       saveBounds: save,
     });
 
@@ -471,16 +471,33 @@
     canvas.value.addEventListener("contextmenu", (event) => {
       event.preventDefault();
 
-      if (equation.value.includes("m") || equation.value.includes("t")) {
+      let initZValue = true;
+
+      if (
+        equation.value.includes("m") ||
+        equation.value.includes("p") ||
+        equation.value.includes("t")
+      ) {
+        if (equation.value.includes("p")) {
+          initZValue = false;
+        }
+
         const { x, y } = gl.mouseToCoords();
 
         equation.value = equation.value
-          .replace(/m/g, `$(${x}+${y}i)`)
+          .replace(/m|p/g, `$(${x}+${y}i)`)
           .replace(/t/g, `@(${gl.time})`);
       } else if (equation.value.includes("$") || equation.value.includes("@")) {
-        equation.value = equation.value
-          .replace(/\$\s*\([^)]*\)/g, "m")
-          .replace(/@\s*\([^)]*\)/g, "t");
+        if (initZ.value) {
+          equation.value = equation.value
+            .replace(/\$\s*\([^)]*\)/g, "m")
+            .replace(/@\s*\([^)]*\)/g, "t");
+        } else {
+          equation.value = equation.value
+            .replace(/\$\s*\([^)]*\)/g, "p")
+            .replace(/@\s*\([^)]*\)/g, "t");
+          initZValue = false;
+        }
       } else if (equation.value.includes("c")) {
         equation.value = equation.value.replace(/c/g, "m");
       } else {
@@ -488,7 +505,7 @@
       }
 
       if (theme.value !== "newton" && !equation.value.includes("m")) {
-        initZ.value = true;
+        initZ.value = initZValue;
       }
 
       setEquation.value?.();
@@ -521,7 +538,8 @@
         theme.value === "newton" || equation.value.includes("m") || initZ.value,
       ]);
       gl.setUniformOfInt("dualPlot", [
-        equation.value.includes("m") && dualPlot.value,
+        (equation.value.includes("m") || equation.value.includes("p")) &&
+          dualPlot.value,
       ]);
       sliders.setGlsl(gl);
 
@@ -636,7 +654,10 @@
         <InlineCheckboxField v-model="initZ" />
       </Labeled>
 
-      <Labeled v-if="equation.includes('m')" label="Dual Coloring?">
+      <Labeled
+        v-if="equation.includes('m') || equation.includes('p')"
+        label="Dual Coloring?"
+      >
         <InlineCheckboxField v-model="dualPlot" />
       </Labeled>
 
@@ -707,9 +728,7 @@
 
       <p>
         If you have an equation with M and/or T, right-click the canvas to
-        replace the M and T variables with their values. This does
-        <i>not</i>
-        affect the P variable.
+        replace the M and T variables with their values.
       </p>
 
       <h1>Choosing a Theme</h1>
