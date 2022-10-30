@@ -174,7 +174,7 @@
 
   useSocketListener("chat:update:members", (chatId, _members) => {
     if (chatId === id) {
-      for (let key in members) {
+      for (const key in members) {
         delete members[key];
       }
 
