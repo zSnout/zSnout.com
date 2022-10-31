@@ -297,6 +297,10 @@ export async function requestThread(
     withDistance = withDistance.filter(
       (thread) => thread.thread.sentences.length > 20
     );
+
+    if (withDistance.length <= 1) {
+      return RequestThreadError.NotLongEnough;
+    }
   }
 
   const thread =
@@ -380,7 +384,7 @@ export async function updateThread(
   if (willComplete) {
     const gems = story.gems[myId];
 
-    if (gems === undefined || gems < 10) {
+    if (gems === undefined || gems < 10 || story.threads.length <= 1) {
       return UpdateThreadResult.IgnoreRequest;
     }
 
