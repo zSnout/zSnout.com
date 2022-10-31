@@ -489,8 +489,16 @@ export async function changeIdsToUsername(
 export async function changeUsernamesToIds(
   members: Record<string, StoryPermissionLevel>
 ): Promise<Record<string, StoryPermissionLevel>> {
+  const next: typeof members = Object.create(null);
+
+  for (const key in members) {
+    next[key.toLowerCase()] = members[key];
+  }
+
   const accounts = (await _accounts)?.find({
-    username: { $in: Object.keys(members) },
+    username: {
+      $in: Object.keys(next).map((name) => new RegExp(`^${name}$`, "i")),
+    },
   });
   if (!accounts) return {};
 
@@ -498,8 +506,11 @@ export async function changeUsernamesToIds(
 
   return Object.fromEntries(
     values
-      .map(({ _id, username }) => [_id.toHexString(), members[username]!])
-      .filter((e) => e[1])
+      .map<[string, StoryPermissionLevel]>(({ _id, username }) => [
+        _id.toHexString(),
+        next[username.toLowerCase()],
+      ])
+      .filter((e) => e[1] && e[1] != "none")
   );
 }
 
