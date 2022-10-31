@@ -334,7 +334,7 @@
             "
           >
             {{
-              completableThreadCount <= 0
+              completableThreadCount <= 1 // We always need at least one available thread.
                 ? "No threads can be completed right now."
                 : gems < 10
                 ? "Earn at least 10 gems to complete a thread."
