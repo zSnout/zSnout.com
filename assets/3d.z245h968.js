@@ -1,4 +1,4 @@
-import{F as o}from"./FullscreenDisplay.hao6npqe.js";import{M as i}from"./MovableCanvas2d.41imxryi.js";import{d as a,q as n,Y as r,o as c,c as s,w as l,a as v}from"./index.3672xjxd.js";import"./BookmarkIcon.3wmuqdow.js";import"./VStack.xad5wxbj.js";import"./Field.2ydu2jt8.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.28xyli12.js";import"./CoordinateCanvas2d.ui5o1n16.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const k=a({__name:"3d",setup(p){const e=n(),t=`
+import{F as o}from"./FullscreenDisplay.hao6npqe.js";import{M as i}from"./MovableCanvas2d.41imxryi.js";import{d as a,q as n,Y as r,o as c,c as s,w as l,a as v}from"./index.65vfmhl3.js";import"./BookmarkIcon.3wmuqdow.js";import"./VStack.xad5wxbj.js";import"./Field.2ydu2jt8.js";import"./LogoLight.539ztpd2.js";import"./SharedNav.28xyli12.js";import"./CoordinateCanvas2d.ui5o1n16.js";import"./useOption.ujvp9hcq.js";import"./WebGlCanvas.1rb17qef.js";const k=a({__name:"3d",setup(p){const e=n(),t=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
