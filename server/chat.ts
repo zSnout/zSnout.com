@@ -238,14 +238,14 @@ export async function removeMember(chatId: string, userId: string) {
 
   const { members } =
     (await chats.findOne({
-      _id: ObjectId.createFromHexString(chatId),
+      _id: /** SAFE */ ObjectId.createFromHexString(chatId),
     })) || {};
   if (!members) return;
 
   delete members[userId];
 
   await chats.updateOne(
-    { _id: ObjectId.createFromHexString(chatId) },
+    { _id: /** SAFE */ ObjectId.createFromHexString(chatId) },
     { $set: { members } }
   );
 }
