@@ -63,6 +63,19 @@ export const homeIcons = computed(() => {
         }
       : undefined,
 
+    connected.value && session.value
+      ? {
+          alt: "Two chat bubbles with one over the other",
+          description:
+            "Make silly stories with your friends with some clever restrictions.",
+          group: ["account", "wireless"],
+          keywords: "online communication",
+          src: "/images/my-stories.webp",
+          title: "My Stories",
+          to: "/my-stories",
+        }
+      : undefined,
+
     connected.value && !session.value
       ? {
           alt: "Someone holding up a sign saying 'Sign Up'",
