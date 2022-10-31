@@ -3,7 +3,11 @@ import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
 import { Server, Socket as IOSocket } from "socket.io";
 import ytdl from "ytdl-core";
-import { ClientToServer, ServerToClient } from "../shared.server";
+import {
+  ClientToServer,
+  ServerToClient,
+  StorySentence,
+} from "../shared.server";
 import {
   AccountStatus,
   AuthStatus,
@@ -20,17 +24,17 @@ import {
   VerifyStatus,
 } from "./auth";
 import {
-  changeIdsToUsername,
-  changeUsernamesToIds,
+  changeIdsToUsername as changeIdsToUsernameInChat,
+  changeUsernamesToIds as changeUsernamesToIdsInChat,
   createChat,
   deleteChatMessage,
   getChatIndex,
   getChatInfo,
-  removeMember,
+  removeMember as removeMemberInChat,
   sendChatMessage,
   updateChatMessage,
   updateChatTitle,
-  updateMemberList,
+  updateMemberList as updateMemberListInChat,
 } from "./chat";
 import {
   allNotes,
@@ -39,7 +43,22 @@ import {
   setNoteContents,
   setNoteTitle,
 } from "./notes";
-import { createStory, getStoryIndex } from "./stories";
+import {
+  changeIdsToUsername as changeIdsToUsernameInStory,
+  changeUsernamesToIds as changeUsernamesToIdsInStory,
+  createStory,
+  createThread,
+  getStoryDetails,
+  getStoryIndex,
+  getStoryInfo,
+  removeMember as removeMemberInStory,
+  requestThread,
+  RequestThreadError,
+  updateMemberList as updateMemberListInStory,
+  updateStoryTitle,
+  updateThread,
+  UpdateThreadResult,
+} from "./stories";
 
 interface SocketData {
   oldSession?: string;
@@ -90,7 +109,7 @@ const badUsernameMessage =
 const badPasswordMessage =
   "Your password should contain a letter and number and be at least 8 characters long.";
 
-const events: Partial<ClientToServer> & ThisType<Socket> = {
+const events: ClientToServer & ThisType<Socket> = {
   "account:check-session"(session: string) {
     verify(this, session);
   },
@@ -271,7 +290,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       return;
     }
 
-    await removeMember(chatId, account._id.toHexString());
+    await removeMemberInChat(chatId, account._id.toHexString());
   },
   async "chat:message:delete"(session, chatId, messageId) {
     if (chatId.length !== 24) return;
@@ -332,7 +351,7 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       this.emit(
         "chat:update:members",
         chatId,
-        await changeIdsToUsername(members)
+        await changeIdsToUsernameInChat(members)
       );
     }
   },
@@ -346,12 +365,16 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
     if (permission !== "manage") return;
     if (members[account.username] !== "manage") return;
 
-    const result = await changeUsernamesToIds(members);
+    const result = await changeUsernamesToIdsInChat(members);
     if (result[account._id.toHexString()] !== "manage") return;
 
-    this.emit("chat:update:members", chatId, await changeIdsToUsername(result));
+    this.emit(
+      "chat:update:members",
+      chatId,
+      await changeIdsToUsernameInChat(result)
+    );
 
-    await updateMemberList(chatId, result);
+    await updateMemberListInChat(chatId, result);
   },
   async "chat:update:title"(session, chatId, title) {
     if (this.rooms.has(`chat-${chatId}`) || (await verify(this, session))) {
@@ -448,9 +471,160 @@ const events: Partial<ClientToServer> & ThisType<Socket> = {
       }
     }
   },
+  async "story:create:thread"(session, storyId, firstSentence) {
+    if (await verify(this, session)) {
+      const details = await createThread(session, storyId, firstSentence);
+
+      if (details) {
+        this.emit("story:details", details);
+        this.emit("story:update:permission", storyId, details.level);
+        this.emit("story:update:gems", storyId, details.gems);
+      }
+    }
+  },
+  async "story:leave"(session, storyId) {
+    const account = await verify(this, session);
+
+    if (account) {
+      await removeMemberInStory(storyId, account._id.toHexString());
+    }
+  },
+  async "story:request:completed"(session, storyId) {
+    if (await verify(this, session)) {
+      const info = await getStoryInfo(session, storyId);
+      const sentenceMapper = (sentence: StorySentence) => sentence.content;
+
+      if (info && info.permission !== "none") {
+        this.emit(
+          "story:completed",
+          storyId,
+          info.completed.map((thread) => ({
+            first: thread.sentences[0].content,
+            content: thread.sentences.map(sentenceMapper).join(" "),
+          }))
+        );
+
+        this.emit("story:update:permission", storyId, info.permission);
+        this.emit("story:update:gems", storyId, info.gems);
+      } else {
+        this.emit("story:update:permission", storyId, "none");
+      }
+    }
+  },
+  async "story:request:details"(session, storyId) {
+    if (await verify(this, session)) {
+      const details = await getStoryDetails(session, storyId);
+
+      if (details) {
+        this.emit("story:details", details);
+        this.emit("story:update:permission", storyId, details.level);
+        this.emit("story:update:gems", storyId, details.gems);
+      } else {
+        this.emit("story:update:permission", storyId, "none");
+      }
+    }
+  },
   async "story:request:index"(session) {
     if (await verify(this, session)) {
       this.emit("story:index", await getStoryIndex(session));
+    }
+  },
+  async "story:request:members"(session, storyId) {
+    if (await verify(this, session)) {
+      const { members, permission } = await getStoryInfo(session, storyId);
+
+      if (permission !== "manage") {
+        return;
+      }
+
+      this.emit(
+        "story:update:members",
+        storyId,
+        await changeIdsToUsernameInStory(members)
+      );
+    }
+  },
+  async "story:request:thread"(session, storyId, toComplete) {
+    if (await verify(this, session)) {
+      const prev = await requestThread(session, storyId, toComplete);
+
+      if (prev === RequestThreadError.IgnoreRequest) {
+        return;
+      }
+
+      if (prev === RequestThreadError.NotLongEnough) {
+        this.emit("story:fail", storyId);
+
+        this.emit(
+          "error",
+          "Other users need to contribute to this story's threads before you can add another sentence."
+        );
+
+        return;
+      }
+
+      this.emit("story:thread", storyId, prev);
+    }
+  },
+  async "story:update:members"(session, storyId, members) {
+    const account = await verify(this, session);
+    if (!account) return;
+
+    const { permission, userGems } = await getStoryInfo(session, storyId);
+
+    this.emit("story:update:permission", storyId, permission);
+    if (permission !== "manage") return;
+    if (members[account.username] !== "manage") return;
+
+    const result = await changeUsernamesToIdsInStory(members);
+    if (result[account._id.toHexString()] !== "manage") return;
+
+    this.emit(
+      "story:update:members",
+      storyId,
+      await changeIdsToUsernameInStory(result)
+    );
+
+    await updateMemberListInStory(storyId, result, { ...userGems });
+  },
+  async "story:update:thread"(
+    session,
+    storyId,
+    prevId,
+    nextSentence,
+    willComplete
+  ) {
+    if (await verify(this, session)) {
+      const state = await updateThread(
+        session,
+        storyId,
+        prevId,
+        nextSentence,
+        willComplete
+      );
+
+      if (state === UpdateThreadResult.IgnoreRequest) {
+        return;
+      }
+
+      if (state === UpdateThreadResult.AlreadyUpdated) {
+        this.emit("story:fail", storyId);
+
+        this.emit(
+          "error",
+          "Somebody updated this thread before you! You can always press 'Add to a Thread' again."
+        );
+
+        return;
+      }
+
+      this.emit("story:done:update:thread", storyId);
+      this.emit("story:update:gems", storyId, state.gems);
+    }
+  },
+  async "story:update:title"(session, storyId, title) {
+    if (await verify(this, session)) {
+      await updateStoryTitle(session, storyId, title);
     }
   },
   async "youtube:request"(id) {

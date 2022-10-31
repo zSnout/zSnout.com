@@ -1,34 +1,3 @@
-/** Stories two-way messaging
- *
- * CLIENT --> SERVER
- * CLIENT <-- SERVER
- *
- * --> story:request:index(session)
- * <-- story:index(session)
- *
- * --> story:create:story(session, title)
- * <-- story:index(session)
- *
- * --> story:leave(session, storyId)
- * <-- story:index(session)
- *
- * --> story:request:permission(session, storyId)
- * <-- story:permission(session, storyId)
- *
- * --> story:update:members(session, storyId, members)
- * <-- story:update:members(session, storyId, members)
- *
- * --> story:request:members(session, storyId)
- * <-- story:update:members(session, storyId, members)
- *
- * --> story:request:paragraph(session, storyId)
- * <-- story:paragraph(session, storyId)
- *
- * --> story:contribute(session, storyId, paragraphId, content)
- * <-- story:done:contribute(session, storyId, paragraphId)
- * <-- story:timeout:contribute(session, storyId, paragraphId)
- */
-
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -64,11 +33,6 @@ export interface ClientToServer {
   ): void;
   "chat:request:index"(session: string): void;
   "chat:request:members"(session: string, chatId: string): void;
-  "chat:update:defaultLevel"(
-    session: string,
-    chatId: string,
-    defaultLevel: string
-  ): void;
   "chat:update:members"(
     session: string,
     chatId: string,
@@ -86,7 +50,34 @@ export interface ClientToServer {
   "notes:update:title"(session: string, noteId: string, title: string): void;
 
   "story:create"(session: string, title: string): void;
+  "story:create:thread"(
+    session: string,
+    storyId: UUID,
+    firstSentence: string
+  ): void;
+  "story:leave"(session: string, storyId: UUID): void;
+  "story:request:completed"(session: string, storyId: UUID): void;
+  "story:request:details"(session: string, storyId: UUID): void;
   "story:request:index"(session: string): void;
+  "story:request:members"(session: string, storyId: UUID): void;
+  "story:request:thread"(
+    session: string,
+    storyId: UUID,
+    toComplete: boolean
+  ): void;
+  "story:update:members"(
+    session: string,
+    storyId: UUID,
+    members: Record</** username */ string, StoryPermissionLevel>
+  ): void;
+  "story:update:title"(session: string, storyId: UUID, title: string): void;
+  "story:update:thread"(
+    session: string,
+    storyId: UUID,
+    prevId: UUID,
+    nextSentence: string,
+    willComplete: boolean
+  ): void;
 
   "youtube:request"(id: string): void;
 }
@@ -122,7 +113,19 @@ export interface ServerToClient {
   "notes:note"(noteId: string, contents: string | false): void;
   "notes:details"(details: NoteDetails): void;
 
+  "story:completed"(storyId: UUID, threads: CompletedThread[]): void;
+  "story:details"(details: StoryDetails): void;
+  "story:done:update:thread"(storyId: UUID): void;
+  "story:fail"(storyId: UUID): void;
   "story:index"(stories: StoryPreview[]): void;
+  "story:thread"(storyId: UUID, prev: StorySentence): void;
+  "story:update:gems"(storyId: UUID, gems: number): void;
+  "story:update:members"(
+    storyId: string,
+    members: Record</** username */ string, StoryPermissionLevel>
+  ): void;
+  "story:update:permission"(storyId: UUID, level: StoryPermissionLevel): void;
+  "story:update:title"(storyId: UUID, title: string): void;
 
   "youtube:results"(id: string, info: YouTubeResults): void;
 }
@@ -183,15 +186,27 @@ export interface StoryPreview {
   completedThreadCount: number;
 }
 
+export interface StoryDetails extends StoryPreview {
+  completableThreadCount: number;
+  level: StoryPermissionLevel;
+  gems: number;
+}
+
 export interface StorySentence {
   id: UUID;
   from: UUID;
+  username: string;
   content: string;
 }
 
 export interface StoryThread {
   id: UUID;
   sentences: StorySentence[];
+}
+
+export interface CompletedThread {
+  first: string;
+  content: string;
 }
 
 export type StoryPermissionLevel = "none" | "view" | "write" | "manage";
