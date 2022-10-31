@@ -352,6 +352,11 @@
                 : "View Completed Threads"
             }}
           </Button>
+
+          <div>
+            Need help? Click the "?" icon in the navigation bar for more
+            information about this page.
+          </div>
         </VStack>
       </MiddleText>
 
@@ -359,6 +364,32 @@
     </HStack>
 
     <Spacer>{{ "" }}</Spacer>
+
+    <template #help>
+      <h1>Single Sentence Stories</h1>
+
+      <p>
+        This application lets you create silly stories with friends with a small
+        twist: you can only see the previous sentence of the story, instead of
+        the whole thing. When you create, add to, or complete a thread, you'll
+        only be able to see the last thing someone typed and
+        <em>not</em>
+        the entire previous story. This can make using context a bit more
+        difficult and makes stories much more interesting.
+      </p>
+
+      <h1>The Gem System</h1>
+
+      <p>
+        To prevent users from creating too many stories and not being able to
+        add to enough of them, zSnout puts a restriction on the amount of
+        stories you can create a complete through the gem system. It's a very
+        simple system. Each time you add to an existing thread, you earn 1 gem.
+        Creating or completing a thread costs 10 gems. This means that, on
+        average, users will create and complete one thread for every twenty they
+        add to.
+      </p>
+    </template>
   </DocumentDisplay>
 
   <Modal :open="isCreateThreadModalOpen">
