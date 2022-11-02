@@ -1,11 +1,11 @@
 <script lang="ts" setup>
   import { useEventListener, useRafFn } from "@vueuse/core";
   import generate, { MazeCell } from "generate-maze";
-  import { computed, ref } from "vue";
+  import { ref } from "vue";
   import FullscreenDisplay from "../components/FullscreenDisplay.vue";
-  import { useCanvas } from "../composables/useCanvas";
-  import VStack from "../components/VStack.vue";
   import HStack from "../components/HStack.vue";
+  import VStack from "../components/VStack.vue";
+  import { useCanvas } from "../composables/useCanvas";
 
   const canvas = ref<HTMLCanvasElement>();
   const mazeImage = ref<HTMLCanvasElement>();
@@ -178,10 +178,16 @@
 
 <style lang="scss" scoped>
   .maze-image {
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 1;
   }
 
   .main {
+    position: fixed;
+    top: 0;
+    left: 0;
     z-index: 2;
     background-color: transparent;
   }
