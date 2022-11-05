@@ -111,5 +111,15 @@
         <Incrementable v-model="shift" />
       </Labeled>
     </template>
+
+    <template #help>
+      <a
+        href="https://google.com/search?q=ulam+spiral"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Click for more information about the Ulam Spiral.
+      </a>
+    </template>
   </FullscreenDisplay>
 </template>
