@@ -60,6 +60,11 @@ export interface ClientToServer {
   "story:request:details"(session: string, storyId: UUID): void;
   "story:request:index"(session: string): void;
   "story:request:members"(session: string, storyId: UUID): void;
+  "story:request:stats"(
+    session: string,
+    storyId: UUID,
+    period: StoryStatPeriod
+  ): void;
   "story:request:thread"(
     session: string,
     storyId: UUID,
@@ -118,6 +123,7 @@ export interface ServerToClient {
   "story:done:update:thread"(storyId: UUID): void;
   "story:fail"(storyId: UUID): void;
   "story:index"(stories: StoryPreview[]): void;
+  "story:stats"(storyId: UUID, stats: StoryStats): void;
   "story:thread"(storyId: UUID, prev: StorySentence): void;
   "story:update:gems"(storyId: UUID, gems: number): void;
   "story:update:members"(
@@ -128,6 +134,14 @@ export interface ServerToClient {
   "story:update:title"(storyId: UUID, title: string): void;
 
   "youtube:results"(id: string, info: YouTubeResults): void;
+}
+
+export type StoryStatPeriod = "day" | "week" | "all";
+
+export interface StoryStats {
+  period: StoryStatPeriod;
+  contributions: [username: string, amount: number][];
+  total: number;
 }
 
 export interface YouTubeResults {
@@ -193,6 +207,7 @@ export interface StoryDetails extends StoryPreview {
 }
 
 export interface StorySentence {
+  creation: number;
   id: UUID;
   from: UUID;
   username: string;
@@ -200,6 +215,7 @@ export interface StorySentence {
 }
 
 export interface StoryThread {
+  creation: number;
   id: UUID;
   sentences: StorySentence[];
 }
