@@ -729,7 +729,7 @@ function split<T extends Element, U extends T>(
   const output: Exclude<T, U>[] = [];
 
   for (const element of input) {
-    if (!element) return;
+    if (!element) break;
   }
 
   return output;
