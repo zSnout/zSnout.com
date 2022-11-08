@@ -141,6 +141,7 @@ export type StoryStatPeriod = "day" | "week" | "all";
 export interface StoryStats {
   period: StoryStatPeriod;
   contributions: [username: string, amount: number][];
+  last: [username: string, lastTime: number][];
   total: number;
 }
 

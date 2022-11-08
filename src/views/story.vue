@@ -4,6 +4,7 @@
   import {
     CompletedThread,
     StoryPermissionLevel,
+    StoryStats,
     UUID,
   } from "../../shared.client";
   import Button from "../components/Button.vue";
@@ -28,6 +29,11 @@
     username,
     useSocketListener,
   } from "../main";
+  import TimeAgo from "javascript-time-ago";
+  import en from "javascript-time-ago/locale/en";
+
+  TimeAgo.addDefaultLocale(en);
+  const timeAgo = new TimeAgo("en-US");
 
   const title = ref("Loading title...");
   const isLogInOpen = ref(false);
@@ -37,6 +43,12 @@
   const completableThreadCount = ref(0);
   const completedThreadCount = ref(0);
   const activeThreadCount = ref(0);
+  const stats = ref<StoryStats>({
+    contributions: [],
+    period: "week",
+    total: 0,
+    last: [],
+  });
 
   useSocketListener("story:details", (details) => {
     if (details.id !== id) return;
@@ -213,6 +225,15 @@
     isCompletedOpen.value = true;
     picked.value = value;
   }
+
+  const isStatsOpen = ref(false);
+
+  useSocketListener("story:stats", (storyId, _stats) => {
+    if (storyId !== id) return;
+
+    stats.value = _stats;
+    isStatsOpen.value = true;
+  });
 </script>
 
 <template>
@@ -351,6 +372,12 @@
                 ? "No threads have been completed yet."
                 : "View Completed Threads"
             }}
+          </Button>
+
+          <Button
+            @click="socket.emit('story:request:stats', session, id, 'week')"
+          >
+            View Contribution Stats
           </Button>
 
           <div>
@@ -530,6 +557,80 @@
       <Button cancel @click="isCompletedOpen = false">OK</Button>
     </template>
   </Modal>
+
+  <Modal :open="isStatsOpen">
+    <HStack stretch>
+      <Button
+        :disabled="stats.period == 'day'"
+        @click="socket.emit('story:request:stats', session, id, 'day')"
+      >
+        Day
+      </Button>
+
+      <Button
+        :disabled="stats.period == 'week'"
+        @click="socket.emit('story:request:stats', session, id, 'week')"
+      >
+        Week
+      </Button>
+
+      <Button
+        :disabled="stats.period == 'all'"
+        @click="socket.emit('story:request:stats', session, id, 'all')"
+      >
+        All Time
+      </Button>
+    </HStack>
+
+    <h1 class="stats-title">
+      Showing stats for
+      {{ stats.period == "all" ? "all time" : "the last " + stats.period }}
+    </h1>
+
+    <VStack :space="0.25">
+      <HStack>
+        <p>Total contributions:</p>
+
+        <Spacer />
+
+        <p>{{ stats.total }}</p>
+      </HStack>
+
+      <HStack v-for="[username, amount] in stats.contributions">
+        <p>{{ username }}</p>
+
+        <Spacer />
+
+        <p>{{ amount }}</p>
+      </HStack>
+    </VStack>
+
+    <VStack :space="0.25">
+      <HStack>
+        <p>Most recent contribution:</p>
+
+        <Spacer />
+
+        <p>
+          {{
+            stats.last[0]?.[1] ? timeAgo.format(stats.last[0]?.[1]) : "unknown"
+          }}
+        </p>
+      </HStack>
+
+      <HStack v-for="[username, timestamp] in stats.last">
+        <p>{{ username }}</p>
+
+        <Spacer />
+
+        <p>{{ timeAgo.format(timestamp) }}</p>
+      </HStack>
+    </VStack>
+
+    <template #buttons>
+      <Button cancel @click="isStatsOpen = false">OK</Button>
+    </template>
+  </Modal>
 </template>
 
 <style scoped>
@@ -546,5 +647,10 @@
     width: 1.5em;
     height: 1.5em;
     color: var(--text-color);
+  }
+
+  .stats-title {
+    margin-top: 0.25rem !important;
+    font-size: 1.2em;
   }
 </style>

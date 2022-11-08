@@ -51,6 +51,7 @@ import {
   getStoryDetails,
   getStoryIndex,
   getStoryInfo,
+  getStoryStats,
   removeMember as removeMemberInStory,
   requestThread,
   RequestThreadError,
@@ -542,6 +543,15 @@ const events: ClientToServer & ThisType<Socket> = {
         storyId,
         await changeIdsToUsernameInStory(members)
       );
+    }
+  },
+  async "story:request:stats"(session, id, period) {
+    if (await verify(this, session)) {
+      const result = await getStoryStats(session, id, period);
+
+      if (result) {
+        this.emit("story:stats", id, result);
+      }
     }
   },
   async "story:request:thread"(session, storyId, toComplete) {

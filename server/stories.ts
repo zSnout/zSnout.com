@@ -5,6 +5,8 @@ import {
   StoryPermissionLevel,
   StoryPreview,
   StorySentence,
+  StoryStatPeriod,
+  StoryStats,
   UUID,
 } from "../shared.server";
 import { getAccount, updateAtomic } from "./auth";
@@ -13,8 +15,8 @@ import { collection } from "./database";
 const _accounts = collection("accounts");
 const _stories = collection("stories");
 
-export async function getStoryInfo(userId: UUID, storyId: UUID) {
-  const [stories, account] = await Promise.all([_stories, getAccount(userId)]);
+export async function getStoryInfo(session: UUID, storyId: UUID) {
+  const [stories, account] = await Promise.all([_stories, getAccount(session)]);
 
   if (!stories || !account || storyId.length !== 24) {
     return { permission: "none" as const };
@@ -202,12 +204,14 @@ export async function createThread(
       $push: {
         threads: {
           id: randomUUID(),
+          creation: Date.now(),
           sentences: [
             {
               id: randomUUID(),
               from: userId,
               content: firstSentence,
               username: account.username,
+              creation: Date.now(),
             },
           ],
         },
@@ -377,6 +381,7 @@ export async function updateThread(
     from: myId,
     username: account.username,
     content: nextSentence,
+    creation: Date.now(),
   };
 
   let acknowledged: boolean;
@@ -585,4 +590,52 @@ export async function removeMember(storyId: UUID, userId: UUID) {
     { _id: /** SAFE */ ObjectId.createFromHexString(storyId) },
     { $set: { members } }
   );
+}
+
+export async function getStoryStats(
+  session: UUID,
+  storyId: UUID,
+  period: StoryStatPeriod
+): Promise<StoryStats | undefined> {
+  const info = await getStoryInfo(session, storyId);
+
+  if (info.permission == "none") {
+    return;
+  }
+
+  const cutoff =
+    Date.now() -
+    {
+      day: 24 * 60 * 60 * 1000,
+      week: 7 * 24 * 60 * 60 * 1000,
+      all: Date.now(),
+    }[period];
+
+  const sentences = info.threads
+    .flatMap((e) => e.sentences)
+    .filter((e) => e.creation >= cutoff);
+
+  const output: Record<string, number> = Object.create(null);
+  const last: Record<string, number> = Object.create(null);
+
+  for (const { username, creation } of sentences) {
+    if (username in output) {
+      output[username]++;
+    } else {
+      output[username] = 1;
+    }
+
+    if (username in last) {
+      last[username] = Math.max(last[username], creation);
+    } else {
+      last[username] = creation;
+    }
+  }
+
+  return {
+    period,
+    contributions: Object.entries(output).sort(([_, a], [_2, b]) => b - a),
+    last: Object.entries(last).sort(([_, a], [_2, b]) => b - a),
+    total: sentences.length,
+  };
 }
