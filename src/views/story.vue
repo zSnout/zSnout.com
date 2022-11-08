@@ -607,15 +607,7 @@
 
     <VStack :space="0.25">
       <HStack>
-        <p>Most recent contribution:</p>
-
-        <Spacer />
-
-        <p>
-          {{
-            stats.last[0]?.[1] ? timeAgo.format(stats.last[0]?.[1]) : "unknown"
-          }}
-        </p>
+        <p>Most recent contributions:</p>
       </HStack>
 
       <HStack v-for="[username, timestamp] in stats.last">
