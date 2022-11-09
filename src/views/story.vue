@@ -345,7 +345,7 @@
           <Button
             :disabled="
               gems < 10 ||
-              completableThreadCount <= 0 ||
+              completableThreadCount <= 1 ||
               permission == 'none' ||
               permission == 'view'
             "
