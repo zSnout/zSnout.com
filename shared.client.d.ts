@@ -63,7 +63,8 @@ export interface ClientToServer {
   "story:request:stats"(
     session: string,
     storyId: UUID,
-    period: StoryStatPeriod
+    period: StoryStatPeriod,
+    type: StoryStatType
   ): void;
   "story:request:thread"(
     session: string,
@@ -137,12 +138,15 @@ export interface ServerToClient {
 }
 
 export type StoryStatPeriod = "day" | "week" | "all";
+export type StoryStatType = "contributions" | "threads";
 
 export interface StoryStats {
+  type: StoryStatType;
   period: StoryStatPeriod;
   contributions: [username: string, amount: number][];
   last: [username: string, lastTime: number][];
   total: number;
+  messageCounts?: number[];
 }
 
 export interface YouTubeResults {

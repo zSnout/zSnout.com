@@ -545,9 +545,9 @@ const events: ClientToServer & ThisType<Socket> = {
       );
     }
   },
-  async "story:request:stats"(session, id, period) {
+  async "story:request:stats"(session, id, period, type) {
     if (await verify(this, session)) {
-      const result = await getStoryStats(session, id, period);
+      const result = await getStoryStats(session, id, period, type);
 
       if (result) {
         this.emit("story:stats", id, result);

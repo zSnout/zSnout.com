@@ -7,6 +7,7 @@ import {
   StorySentence,
   StoryStatPeriod,
   StoryStats,
+  StoryStatType,
   UUID,
 } from "../shared.server";
 import { getAccount, updateAtomic } from "./auth";
@@ -152,7 +153,7 @@ export async function getStoryDetails(
     activeThreadCount: story.threads.length,
     completedThreadCount: story.completed.length,
     completableThreadCount: story.threads.filter(
-      (thread) => thread.sentences.length > 20
+      (thread) => thread.sentences.length >= 20
     ).length,
     gems: story.gems[myId] || 0,
     title: story.title,
@@ -233,7 +234,7 @@ export async function createThread(
     id: storyId,
     activeThreadCount: story.threads.length + 1,
     completableThreadCount: story.threads.filter(
-      (thread) => thread.sentences.length > 20
+      (thread) => thread.sentences.length >= 20
     ).length,
     completedThreadCount: story.completed.length,
     gems: gems - 10,
@@ -299,7 +300,7 @@ export async function requestThread(
 
   if (toComplete) {
     withDistance = withDistance.filter(
-      (thread) => thread.thread.sentences.length > 20
+      (thread) => thread.thread.sentences.length >= 20
     );
 
     if (withDistance.length <= 1) {
@@ -595,7 +596,8 @@ export async function removeMember(storyId: UUID, userId: UUID) {
 export async function getStoryStats(
   session: UUID,
   storyId: UUID,
-  period: StoryStatPeriod
+  period: StoryStatPeriod,
+  type: StoryStatType
 ): Promise<StoryStats | undefined> {
   const info = await getStoryInfo(session, storyId);
 
@@ -611,31 +613,63 @@ export async function getStoryStats(
       all: Date.now(),
     }[period];
 
-  const sentences = info.threads
-    .flatMap((e) => e.sentences)
-    .filter((e) => e.creation >= cutoff);
-
   const output: Record<string, number> = Object.create(null);
   const last: Record<string, number> = Object.create(null);
+  let messageCounts: number[] | undefined;
+  let total = 0;
 
-  for (const { username, creation } of sentences) {
-    if (username in output) {
-      output[username]++;
-    } else {
-      output[username] = 1;
+  if (type == "contributions") {
+    const sentences = info.threads
+      .flatMap((e) => e.sentences)
+      .filter((e) => e.creation >= cutoff);
+
+    for (const { username, creation } of sentences) {
+      if (username in output) {
+        output[username]++;
+      } else {
+        output[username] = 1;
+      }
+
+      if (username in last) {
+        last[username] = Math.max(last[username], creation);
+      } else {
+        last[username] = creation;
+      }
     }
 
-    if (username in last) {
-      last[username] = Math.max(last[username], creation);
-    } else {
-      last[username] = creation;
+    total = sentences.length;
+  } else if (type == "threads") {
+    const threads = info.threads.filter((e) => e.creation >= cutoff);
+    messageCounts = [];
+
+    for (const { creation, sentences } of threads) {
+      const username = sentences[0].username;
+
+      if (username in output) {
+        output[username]++;
+      } else {
+        output[username] = 1;
+      }
+
+      if (username in last) {
+        last[username] = Math.max(last[username], creation);
+      } else {
+        last[username] = creation;
+      }
+
+      messageCounts.push(sentences.length);
     }
+
+    total = threads.length;
+    messageCounts.sort((a, b) => b - a);
   }
 
   return {
     period,
+    total,
+    type,
+    messageCounts,
     contributions: Object.entries(output).sort(([_, a], [_2, b]) => b - a),
     last: Object.entries(last).sort(([_, a], [_2, b]) => b - a),
-    total: sentences.length,
   };
 }

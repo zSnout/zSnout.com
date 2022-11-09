@@ -31,6 +31,7 @@
   } from "../main";
   import TimeAgo from "javascript-time-ago";
   import en from "javascript-time-ago/locale/en";
+  import { useIntervalFn } from "@vueuse/shared";
 
   TimeAgo.addDefaultLocale(en);
   const timeAgo = new TimeAgo("en-US");
@@ -48,6 +49,7 @@
     period: "week",
     total: 0,
     last: [],
+    type: "contributions",
   });
 
   useSocketListener("story:details", (details) => {
@@ -74,7 +76,9 @@
     title.value = _title;
   });
 
-  socket.emit("story:request:details", session.value, id);
+  const request = () => socket.emit("story:request:details", session.value, id);
+  request();
+  useIntervalFn(request, 60 * 1000);
 
   const isCreateThreadModalOpen = ref(false);
   const createdThreadFirstSentence = ref("");
@@ -375,9 +379,17 @@
           </Button>
 
           <Button
-            @click="socket.emit('story:request:stats', session, id, 'week')"
+            @click="
+              socket.emit(
+                'story:request:stats',
+                session,
+                id,
+                stats.period,
+                stats.type
+              )
+            "
           >
-            View Contribution Stats
+            View Statistics
           </Button>
 
           <div>
@@ -562,34 +574,72 @@
     <HStack stretch>
       <Button
         :disabled="stats.period == 'day'"
-        @click="socket.emit('story:request:stats', session, id, 'day')"
+        @click="
+          socket.emit('story:request:stats', session, id, 'day', stats.type)
+        "
       >
         Day
       </Button>
 
       <Button
         :disabled="stats.period == 'week'"
-        @click="socket.emit('story:request:stats', session, id, 'week')"
+        @click="
+          socket.emit('story:request:stats', session, id, 'week', stats.type)
+        "
       >
         Week
       </Button>
 
       <Button
         :disabled="stats.period == 'all'"
-        @click="socket.emit('story:request:stats', session, id, 'all')"
+        @click="
+          socket.emit('story:request:stats', session, id, 'all', stats.type)
+        "
       >
         All Time
       </Button>
     </HStack>
 
+    <HStack stretch>
+      <Button
+        :disabled="stats.type == 'contributions'"
+        @click="
+          socket.emit(
+            'story:request:stats',
+            session,
+            id,
+            stats.period,
+            'contributions'
+          )
+        "
+      >
+        Contributions
+      </Button>
+
+      <Button
+        :disabled="stats.type == 'threads'"
+        @click="
+          socket.emit(
+            'story:request:stats',
+            session,
+            id,
+            stats.period,
+            'threads'
+          )
+        "
+      >
+        Threads
+      </Button>
+    </HStack>
+
     <h1 class="stats-title">
-      Showing stats for
+      Showing {{ stats.type.slice(0, -1) }} stats for
       {{ stats.period == "all" ? "all time" : "the last " + stats.period }}
     </h1>
 
     <VStack :space="0.25">
       <HStack>
-        <p>Total contributions:</p>
+        <p>Total {{ stats.type }}:</p>
 
         <Spacer />
 
@@ -607,7 +657,7 @@
 
     <VStack :space="0.25">
       <HStack>
-        <p>Most recent contributions:</p>
+        <p>Most recent {{ stats.type }}:</p>
       </HStack>
 
       <HStack v-for="[username, timestamp] in stats.last">
@@ -616,6 +666,16 @@
         <Spacer />
 
         <p>{{ timeAgo.format(timestamp) }}</p>
+      </HStack>
+    </VStack>
+
+    <VStack v-if="stats.messageCounts" :space="0.25">
+      <p>Number of sentences in each thread:</p>
+
+      <HStack v-if="stats.messageCounts">
+        <p v-for="(count, index) in stats.messageCounts">
+          {{ count }}{{ index + 1 == stats.messageCounts.length ? "" : "," }}
+        </p>
       </HStack>
     </VStack>
 
