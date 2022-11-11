@@ -202,6 +202,17 @@ export const homeIcons = computed(() => {
     },
 
     {
+      alt: "An example game of Tick-oaT-Two",
+      description:
+        "Play the amazing redesign of TicTacToe by Oats Jenkins on zSnout.",
+      group: ["game"],
+      keywords: "tic tac toe tictactoe",
+      src: "/images/tick-oat-two.webp",
+      title: "Tick-oaT-Two",
+      to: "/tick-oat-two",
+    },
+
+    {
       alt: "zSnout's bingo master board",
       description: "Call out bingo cards with zSnout's simple interface.",
       group: ["game"],

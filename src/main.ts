@@ -81,6 +81,7 @@ function simpleTitle(path: string) {
     .replace(/\bGithub\b/g, "GitHub")
     .replace(/\bLets\b/g, "Let's")
     .replace(/\bOs\b/g, "Operating System")
+    .replace(/Tick Oat Two/g, "Tick-oaT-Two")
     .replace(/\bWebgl\b/g, "WebGL")
     .replace(/\bYoutube\b/g, "YouTube")
     .replace(/\bZsnout\b/g, "zSnout")
