@@ -1,1 +1,1 @@
-import{_ as t,o as _,h as d,r as s}from"./index.3ew7bob1.js";const c={},o={class:"middle"};function a(e,n){return _(),d("div",o,[s(e.$slots,"default",{},void 0,!0)])}const l=t(c,[["render",a],["__scopeId","data-v-daa69c8b"]]);export{l as M};
+import{_ as t,o as _,h as d,r as s}from"./index.1f86lsdq.js";const c={},o={class:"middle"};function a(e,n){return _(),d("div",o,[s(e.$slots,"default",{},void 0,!0)])}const l=t(c,[["render",a],["__scopeId","data-v-daa69c8b"]]);export{l as M};
