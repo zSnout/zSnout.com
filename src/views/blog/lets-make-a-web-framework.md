@@ -29,18 +29,18 @@ to store our effects. We'll also create a variable that stores the current
 effect scope.
 
 ```ts
-let currentScope;
+let currentScope
 
 class EffectScope {
   constructor(effect) {
-    this.effect = effect;
+    this.effect = effect
   }
 
   run() {
-    const parent = currentScope;
-    currentScope = this;
-    this.effect();
-    currentScope = parent;
+    const parent = currentScope
+    currentScope = this
+    this.effect()
+    currentScope = parent
   }
 }
 ```
@@ -56,8 +56,8 @@ signals.
 
 ```ts
 function createEffect(effect) {
-  const scope = new EffectScope(effect);
-  scope.run();
+  const scope = new EffectScope(effect)
+  scope.run()
 }
 ```
 
@@ -68,15 +68,15 @@ setter.
 ```ts
 function createSignal(value) {
   function get() {
-    return value;
+    return value
   }
 
   function set(newValue) {
-    value = newValue;
+    value = newValue
   }
 
   // A tuple of the getter and the setter.
-  return [get, set];
+  return [get, set]
 }
 ```
 
@@ -86,24 +86,24 @@ effect scopes that have called the signal getter.
 ```ts
 function createSignal(value) {
   // This Set contains every EffectScope that calls `get`.
-  const tracked = new Set();
+  const tracked = new Set()
 
   function get() {
     // Only call this if we're inside an EffectScope.
     if (currentScope) {
       // We add the current effect scope to the `tracked` list.
-      tracked.add(currentScope);
+      tracked.add(currentScope)
     }
 
-    return value;
+    return value
   }
 
   function set(newValue) {
-    value = newValue;
+    value = newValue
   }
 
   // A tuple of the getter and the setter.
-  return [get, set];
+  return [get, set]
 }
 ```
 
@@ -113,27 +113,27 @@ whenever the setter is called.
 ```ts
 function createSignal(value) {
   // This Set contains every EffectScope that calls `get`.
-  const tracked = new Set();
+  const tracked = new Set()
 
   function get() {
     // Only call this if we're inside an EffectScope.
     if (currentScope) {
       // We add the current effect scope to the `tracked` list.
-      tracked.add(currentScope);
+      tracked.add(currentScope)
     }
 
-    return value;
+    return value
   }
 
   function set(newValue) {
-    value = newValue;
+    value = newValue
 
     // We rerun every tracked effect.
-    tracked.forEach((scope) => scope.run());
+    tracked.forEach((scope) => scope.run())
   }
 
   // A tuple of the getter and the setter.
-  return [get, set];
+  return [get, set]
 }
 ```
 
@@ -144,13 +144,13 @@ returns a value.
 ```ts
 function createMemo(accessor) {
   // We initialize a signal with no value.
-  const [get, set] = createSignal();
+  const [get, set] = createSignal()
 
   // We then create an effect that sets the signal to the accessor's value.
   // This allows the accessor to call signals.
-  createEffect(() => set(accessor()));
+  createEffect(() => set(accessor()))
 
-  return get;
+  return get
 }
 ```
 
@@ -162,60 +162,60 @@ Here's our entire reactive system. It may look like a lot, but it's only 35
 lines of code.
 
 ```ts
-let currentScope;
+let currentScope
 
 class EffectScope {
   constructor(effect) {
-    this.effect = effect;
+    this.effect = effect
   }
 
   run() {
-    const parent = currentScope;
-    currentScope = this;
-    this.effect();
-    currentScope = parent;
+    const parent = currentScope
+    currentScope = this
+    this.effect()
+    currentScope = parent
   }
 }
 
 function createEffect(effect) {
-  const scope = new EffectScope(effect);
-  scope.run();
+  const scope = new EffectScope(effect)
+  scope.run()
 }
 
 function createSignal(value) {
   // This Set contains every EffectScope that calls `get`.
-  const tracked = new Set();
+  const tracked = new Set()
 
   function get() {
     // Only call this if we're inside an EffectScope.
     if (currentScope) {
       // We add the current effect scope to the `tracked` list.
-      tracked.add(currentScope);
+      tracked.add(currentScope)
     }
 
-    return value;
+    return value
   }
 
   function set(newValue) {
-    value = newValue;
+    value = newValue
 
     // We rerun every tracked effect.
-    tracked.forEach((scope) => scope.run());
+    tracked.forEach((scope) => scope.run())
   }
 
   // A tuple of the getter and the setter.
-  return [get, set];
+  return [get, set]
 }
 
 function createMemo(accessor) {
   // We initialize a signal with no value.
-  const [get, set] = createSignal();
+  const [get, set] = createSignal()
 
   // We then create an effect that sets the signal to the accessor's value.
   // This allows the accessor to call signals.
-  createEffect(() => set(accessor()));
+  createEffect(() => set(accessor()))
 
-  return get;
+  return get
 }
 ```
 
@@ -237,18 +237,18 @@ I encourage readers using a desktop to copy the examples and try them in a
 browser.
 
 ```ts
-const [number, setNumber] = createSignal(7);
+const [number, setNumber] = createSignal(7)
 // number() is now 7.
 
-const doubled = createMemo(() => 2 * number());
+const doubled = createMemo(() => 2 * number())
 // This tracks `number`.
 // doubled() is now 14.
 
-createEffect(() => console.log(doubled()));
+createEffect(() => console.log(doubled()))
 // This tracks `doubled`.
 // It logs 14.
 
-setNumber(3);
+setNumber(3)
 // number() is now 3.
 // This activates doubled, which is now 6.
 // This activates the effect, which now logs 6.
@@ -262,22 +262,22 @@ property to set the content. We'll wrap this in a function so we can reuse it.
 
 ```ts
 function createTextNode(accessor) {
-  const node = document.createTextNode("");
+  const node = document.createTextNode("")
 
   // We'll add a check to make sure we have an accessor and not a plain value.
   if (typeof accessor === "function") {
     // We have a proper accessor and can set up an effect.
 
     createEffect(() => {
-      node.data = accessor();
-    });
+      node.data = accessor()
+    })
   } else {
     // Since we have a plain value, we'll just set the node data once.
 
-    node.data = accessor;
+    node.data = accessor
   }
 
-  return node;
+  return node
 }
 ```
 
@@ -286,19 +286,19 @@ that displays the value of `name`. We'll also create an input field where you
 can type your name.
 
 ```ts
-const [name, setName] = createSignal("Zachary");
-const node = createTextNode(name);
+const [name, setName] = createSignal("Zachary")
+const node = createTextNode(name)
 
-const element = document.createElement("h1");
-element.append(node);
+const element = document.createElement("h1")
+element.append(node)
 
-const field = document.createElement("input");
-field.value = name();
+const field = document.createElement("input")
+field.value = name()
 field.addEventListener("input", () => {
-  setName(field.value);
-});
+  setName(field.value)
+})
 
-document.body.append(element, field);
+document.body.append(element, field)
 ```
 
 We can extend this to work for DOM properties. Let's make a `createProperty`
@@ -319,12 +319,12 @@ function createProperty(node, name, accessor) {
 
     createEffect(() => {
       // We use an index because we're setting a property, not an attribute.
-      node[name] = accessor();
-    });
+      node[name] = accessor()
+    })
   } else {
     // If the accessor isn't a function, we'll just set it once.
 
-    node[name] = accessor;
+    node[name] = accessor
   }
 }
 ```
@@ -337,31 +337,31 @@ name starts with `B`. By now, you can probably guess that we'll need a memo for
 the class name. Other than that, we'll copy and paste our earlier code.
 
 ```ts
-const [name, setName] = createSignal("Zachary");
-const node = createTextNode(name);
+const [name, setName] = createSignal("Zachary")
+const node = createTextNode(name)
 
-const element = document.createElement("h1");
-element.append(node);
+const element = document.createElement("h1")
+element.append(node)
 
 const styles = createMemo(() => {
   if (name().startsWith("R")) {
-    return "color: red";
+    return "color: red"
   } else if (name().startsWith("B")) {
-    return "color: blue";
+    return "color: blue"
   } else {
-    return "";
+    return ""
   }
-});
+})
 
-createProperty(element, "style", styles);
+createProperty(element, "style", styles)
 
-const field = document.createElement("input");
-field.value = name();
+const field = document.createElement("input")
+field.value = name()
 field.addEventListener("input", () => {
-  setName(field.value);
-});
+  setName(field.value)
+})
 
-document.body.append(element, field);
+document.body.append(element, field)
 ```
 
 Again, you should try this example if possible. Notice how starting the input
@@ -377,13 +377,13 @@ function appendChild(parent, child) {
   if (child instanceof Node) {
     // We were passed a DOM node, so we'll append it normally.
 
-    parent.append(child);
+    parent.append(child)
   } else {
     // Anything other than a DOM node will be passed through `createTextNode`.
     // That will set up reactive text nodes if we were passed an accessor and
     // a plain text node if we were passed a non-accessor.
 
-    parent.append(createTextNode(child));
+    parent.append(createTextNode(child))
   }
 }
 ```
@@ -395,7 +395,7 @@ and add children.
 // We'll use ...rest parameter syntax to capture any children passed.
 function createElement(tag, props, ...children) {
   // Initialize a DOM element with the given tag.
-  const node = document.createElement(tag);
+  const node = document.createElement(tag)
 
   // We only want to set properties if we're passed an actual object.
   // We have to do the extra check for props != null because in JavaScript,
@@ -408,11 +408,11 @@ function createElement(tag, props, ...children) {
         node.addEventListener(
           /* We slice the on: away. */ key.slice(3),
           props[key]
-        );
+        )
       } else {
         // We'll create a property with the given key and value.
         // `createProperty` will handle reactive properties for us.
-        createProperty(node, key, props[key]);
+        createProperty(node, key, props[key])
       }
     }
   }
@@ -420,11 +420,11 @@ function createElement(tag, props, ...children) {
   // This syntax iterates over each element of the `children` array.
   for (const child of children) {
     // `appendChild` already does the logic to check for nodes vs. accessors.
-    appendChild(node, child);
+    appendChild(node, child)
   }
 
   // Of course, we have to return the output node.
-  return node;
+  return node
 }
 ```
 
@@ -435,22 +435,22 @@ Here's all of our DOM code so far (not including the reactive primitives).
 
 ```ts
 function createTextNode(accessor) {
-  const node = document.createTextNode("");
+  const node = document.createTextNode("")
 
   // We'll add a check to make sure we have an accessor and not a plain value.
   if (typeof accessor === "function") {
     // We have a proper accessor and can set up an effect.
 
     createEffect(() => {
-      node.data = accessor();
-    });
+      node.data = accessor()
+    })
   } else {
     // Since we have a plain value, we'll just set the node data once.
 
-    node.data = accessor;
+    node.data = accessor
   }
 
-  return node;
+  return node
 }
 
 function createProperty(node, name, accessor) {
@@ -460,12 +460,12 @@ function createProperty(node, name, accessor) {
 
     createEffect(() => {
       // We use an index because we're setting a property, not an attribute.
-      node[name] = accessor();
-    });
+      node[name] = accessor()
+    })
   } else {
     // If the accessor isn't a function, we'll just set it once.
 
-    node[name] = accessor;
+    node[name] = accessor
   }
 }
 
@@ -473,20 +473,20 @@ function appendChild(parent, child) {
   if (child instanceof Node) {
     // We were passed a DOM node, so we'll append it normally.
 
-    parent.append(child);
+    parent.append(child)
   } else {
     // Anything other than a DOM node will be passed through `createTextNode`.
     // That will set up reactive text nodes if we were passed an accessor and
     // a plain text node if we were passed a non-accessor.
 
-    parent.append(createTextNode(child));
+    parent.append(createTextNode(child))
   }
 }
 
 // We'll use ...rest parameter syntax to capture any children passed.
 function createElement(tag, props, ...children) {
   // Initialize a DOM element with the given tag.
-  const node = document.createElement(tag);
+  const node = document.createElement(tag)
 
   // We only want to set properties if we're passed an actual object.
   // We have to do the extra check for props != null because in JavaScript,
@@ -499,11 +499,11 @@ function createElement(tag, props, ...children) {
         node.addEventListener(
           /* We slice the on: away. */ key.slice(3),
           props[key]
-        );
+        )
       } else {
         // We'll create a property with the given key and value.
         // `createProperty` will handle reactive properties for us.
-        createProperty(node, key, props[key]);
+        createProperty(node, key, props[key])
       }
     }
   }
@@ -511,11 +511,11 @@ function createElement(tag, props, ...children) {
   // This syntax iterates over each element of the `children` array.
   for (const child of children) {
     // `appendChild` already does the logic to check for nodes vs. accessors.
-    appendChild(node, child);
+    appendChild(node, child)
   }
 
   // Of course, we have to return the output node.
-  return node;
+  return node
 }
 ```
 
@@ -531,33 +531,33 @@ Okay, time for the example. Let's rewrite our previous code using the new
 `createElement` function.
 
 ```ts
-const [name, setName] = createSignal("Zachary");
+const [name, setName] = createSignal("Zachary")
 
 const element = createElement(
   "h1",
   {
     style: createMemo(() => {
       if (name().startsWith("R")) {
-        return "color: red";
+        return "color: red"
       } else if (name().startsWith("B")) {
-        return "color: blue";
+        return "color: blue"
       } else {
-        return "";
+        return ""
       }
     }),
   },
   name
-);
+)
 
 const field = createElement("input", {
   // We call `name` because we only want `value` to be set once.
   "value": name(),
   "on:input"() {
-    setName(field.value);
+    setName(field.value)
   },
-});
+})
 
-document.body.append(element, field);
+document.body.append(element, field)
 ```
 
 I encourage you to try out this example in a real browser if you can.
@@ -610,27 +610,27 @@ Then paste the minified code into `src/library.js` and this into
 // We changed `name` to `myName` because TypeScript complains about re-declaring
 // a block-scope `name` variable.
 
-const [myName, setName] = createSignal("Zachary");
+const [myName, setName] = createSignal("Zachary")
 
 const element = (
   <h1
     style={createMemo(() => {
       if (myName().startsWith("R")) {
-        return "color: red";
+        return "color: red"
       } else if (myName().startsWith("B")) {
-        return "color: blue";
+        return "color: blue"
       } else {
-        return "";
+        return ""
       }
     })}
   >
     {myName}
   </h1>
-);
+)
 
-const field = <input value={myName()} on:input={() => setName(field.value)} />;
+const field = <input value={myName()} on:input={() => setName(field.value)} />
 
-document.body.append(element, field);
+document.body.append(element, field)
 ```
 
 Compile the JSX code by running `npx tsc -b`. Then run `npm serve` to start a
