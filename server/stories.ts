@@ -620,6 +620,7 @@ export async function getStoryStats(
 
   if (type == "contributions") {
     const sentences = info.threads
+      .concat(info.completed)
       .flatMap((e) => e.sentences)
       .filter((e) => e.creation >= cutoff);
 
@@ -639,10 +640,14 @@ export async function getStoryStats(
 
     total = sentences.length;
   } else if (type == "threads") {
-    const threads = info.threads.filter((e) => e.creation >= cutoff);
+    const threads = info.threads
+      .map((e) => ({ ...e, completed: false }))
+      .concat(info.completed.map((e) => ({ ...e, completed: true })))
+      .filter((e) => e.creation >= cutoff);
+
     messageCounts = [];
 
-    for (const { creation, sentences } of threads) {
+    for (const { creation, sentences, completed } of threads) {
       const username = sentences[0].username;
 
       if (username in output) {
@@ -657,7 +662,9 @@ export async function getStoryStats(
         last[username] = creation;
       }
 
-      messageCounts.push(sentences.length);
+      if (!completed) {
+        messageCounts.push(sentences.length);
+      }
     }
 
     total = threads.length;
