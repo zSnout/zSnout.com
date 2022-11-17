@@ -1,13 +1,36 @@
 ---
 author: Zachary Sakowitz
 category: code
-date: 2022-11-13
+date: 2022-11-16
 ---
 
 About 3 months ago, I published an article titled
 [Let's Make A Web Framework](/blog/lets-make-a-web-framework). While it was a
-fun article to write, I've been working on another reactive system that I think
-is better, and I want to share it with you. Let's dive in!
+fun article to write, I've been working on another reactivity system for
+JavaScript that I think is better, and I want to share it with you. Let's dive
+in!
+
+## Prerequisites
+
+Before you read this article, you should be comfortable with some elements of
+JavaScript. If you don't know any JavaScript, this article may not be good for
+you. You should also catch up on ES6 constructs, as we'll use them frequently.
+Specifically, we'll use the following concepts in our code:
+
+- destructuring
+- arrow functions
+- `let` and `const` variables
+- passing functions as parameters
+- `Set`s
+- instanceof
+- typeof
+- `== null` to check for `null` and `undefined`
+- spread and rest syntax
+- shorthand object methods
+
+If you don't know all of these, don't worry. Just Google them and you'll get the
+hang of the concepts behind them pretty quickly. Now, let's get on to the actual
+article!
 
 ## The reactive primitives
 
@@ -381,9 +404,13 @@ function fragment(parent) {
       node.remove()
     })
 
+    // Confused about this syntax? We're just setting an array's length to 0 to
+    // delete all its elements without using `.splice`.
     appendedNodes.length = 0
 
     render(items, {
+      // This is object method shorthand. It saves us from typing
+      // `append: (node) => ...`.
       append(node) {
         appendedNodes.push(node)
         comment.after(node)
@@ -950,7 +977,5 @@ still need work on.
   convert Svelte or Vue syntax (or another template language) into our code,
   once you've finished the challenges above.
 
-Thanks for reading this edition of Advanced JavaScript with zSnout! Stay tuned
-for our next article, where we'll be exploring how to implement math, boolean
-logic, strings, and function operations inside of TypeScript's type syntax,
-without any runtime JavaScript.
+Thanks for reading this blog article on zSnout! Stay tuned for next time, where
+we'll be extending Pascal's Triangle into negative and complex numbers.
