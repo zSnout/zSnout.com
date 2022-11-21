@@ -169,7 +169,7 @@
   input,
   select,
   .text-color.text-color,
-  .prose :not(a):not(pre *),
+  .prose :where(:not(a):not(pre *):not(.katex *):not(.katex)),
   aside.aside * {
     color: black;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
