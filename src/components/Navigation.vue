@@ -15,7 +15,7 @@
 </script>
 
 <template>
-  <Navbar :aside="!!$slots.aside">
+  <Navbar :aside="!!$slots.aside" :small="small">
     <RouterLink class="logo-outer" to="/home">
       <LogoWithName class="logo" invert />
     </RouterLink>
