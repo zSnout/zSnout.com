@@ -205,6 +205,7 @@
 
   body {
     margin: 0;
+    overflow-x: hidden;
     line-height: 1.5;
     background-color: #f0f0f0;
     overscroll-behavior: none;

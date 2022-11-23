@@ -92,6 +92,11 @@
       margin: 1em 2.5em;
     }
 
+    figcaption {
+      width: fit-content;
+      margin: 0 auto;
+    }
+
     img {
       display: block;
       width: 100%;
@@ -101,7 +106,7 @@
 
       @media (max-width: 1079px) {
         position: relative;
-        left: -2rem;
+        left: min(-2rem, (800px - var(--app-width)) / 2);
         width: var(--app-width);
       }
 
@@ -109,19 +114,40 @@
         left: -1.5rem;
         max-height: calc(var(--app-height) - /* navbar height */ 2.5rem - 1px);
       }
-
-      ::after {
-        content: attr("alt");
-      }
     }
 
     figure img {
       @media (max-width: 1079px) {
-        left: -4.5rem;
+        left: min(-4.5rem, (800px - var(--app-width)) / 2 - 2.5rem);
       }
 
       @media (max-width: 400px) {
         left: -4rem;
+      }
+    }
+
+    compare {
+      display: block;
+
+      @media (min-width: 1080px) {
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+        margin-bottom: 1rem;
+
+        figure {
+          margin: 0;
+        }
+      }
+
+      @media (max-width: 1079px) {
+        figure {
+          max-height: calc((var(--app-height) - 3.5rem - 1px) / 2 - 1rem);
+
+          img {
+            max-height: calc((var(--app-height) - 3.5rem - 1px) / 2 - 2rem);
+          }
+        }
       }
     }
 
@@ -186,7 +212,10 @@
         }
 
         &::before {
+          display: inline-block;
           margin-right: 0.25em;
+          transform: rotate(0);
+          transition: var(--transitions), transform 0.3s;
           content: "\25BA";
         }
       }
@@ -198,8 +227,9 @@
 
     details[open] > summary:first-child {
       margin-bottom: 0.5em;
+
       &::before {
-        content: "\25BC";
+        transform: rotate(90deg);
       }
     }
 
@@ -300,6 +330,10 @@
         padding: 0.5em;
         border: 1px solid #404040;
       }
+    }
+
+    .katex-block {
+      overflow-x: auto;
     }
 
     > :first-child,
