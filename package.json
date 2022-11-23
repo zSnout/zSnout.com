@@ -70,7 +70,7 @@
     "markdown-it-anchor": "^8.6.5",
     "markdown-it-prism": "^2.3.0",
     "postcss-scss": "^4.0.5",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.0",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
     "rollup": "^2.79.1",
