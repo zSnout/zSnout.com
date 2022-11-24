@@ -1,1 +1,1 @@
-import{_ as o,o as t,h as c,r as s}from"./index.e8mnt7cd.js";const _={},n={class:"sticky"};function r(e,d){return t(),c("div",n,[s(e.$slots,"default",{},void 0,!0)])}const i=o(_,[["render",r],["__scopeId","data-v-dbf4c392"]]);export{i as S};
+import{_ as o,o as t,h as c,r as s}from"./index.v5ospewp.js";const _={},n={class:"sticky"};function r(e,d){return t(),c("div",n,[s(e.$slots,"default",{},void 0,!0)])}const i=o(_,[["render",r],["__scopeId","data-v-dbf4c392"]]);export{i as S};
