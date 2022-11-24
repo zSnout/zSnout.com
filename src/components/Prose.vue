@@ -336,6 +336,18 @@
       overflow-x: auto;
     }
 
+    :where(#references) ~ {
+      p {
+        margin-bottom: 0.5em;
+        margin-left: 2em;
+        text-indent: -2em;
+      }
+
+      ul {
+        margin-bottom: 2em;
+      }
+    }
+
     > :first-child,
     > .markdown-body > :first-child {
       margin-top: 0;
