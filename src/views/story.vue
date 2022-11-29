@@ -345,7 +345,7 @@
           <Button
             :disabled="
               gems < 10 ||
-              completableThreadCount <= 1 ||
+              completableThreadCount == 0 ||
               permission == 'none' ||
               permission == 'view'
             "
@@ -359,7 +359,7 @@
             "
           >
             {{
-              completableThreadCount <= 1 // We always need at least one available thread.
+              completableThreadCount == 0
                 ? "No threads can be completed right now."
                 : gems < 10
                 ? "Earn at least 10 gems to complete a thread."
