@@ -227,7 +227,11 @@
   function pick(value: string) {
     isCompletedPickerOpen.value = false;
     isCompletedOpen.value = true;
-    picked.value = value;
+    picked.value = capitalize(value);
+  }
+
+  function capitalize(text: string) {
+    return text.replace(/[.!?]\s*\w/g, (text) => text.toUpperCase());
   }
 
   const isStatsOpen = ref(false);
