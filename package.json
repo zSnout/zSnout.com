@@ -67,7 +67,7 @@
     "esbuild": "^0.16.7",
     "gray-matter": "^4.0.3",
     "happy-dom": "^8.1.0",
-    "markdown-it-anchor": "^8.6.5",
+    "markdown-it-anchor": "^8.6.6",
     "markdown-it-prism": "^2.3.0",
     "postcss-scss": "^4.0.6",
     "prettier": "^2.8.1",
