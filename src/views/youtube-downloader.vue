@@ -25,8 +25,8 @@
     return 2 * +format.hasVideo + +format.hasAudio;
   }
 
-  function onSubmit(event: Event) {
-    event.preventDefault();
+  function onSubmit(event?: Event) {
+    event?.preventDefault();
 
     let videoID = url.value;
     try {
@@ -64,6 +64,14 @@
           .sort((a, b) => score(b) - score(a))
       );
     });
+  }
+
+  const href = new URL(location.href);
+  const queryUrl = href.searchParams.get("url");
+
+  if (queryUrl) {
+    url.value = queryUrl;
+    setTimeout(onSubmit, 100);
   }
 </script>
 
