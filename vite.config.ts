@@ -1,8 +1,8 @@
 import Katex from "@traptitech/markdown-it-katex";
 import vue from "@vitejs/plugin-vue";
 import { createBuilder } from "@yankeeinlondon/builder-api";
-import { sync } from "fast-glob";
-import { read } from "gray-matter";
+import glob from "fast-glob";
+import gray from "gray-matter";
 import anchor from "markdown-it-anchor";
 import Prism from "markdown-it-prism";
 import TOC from "markdown-it-toc-done-right";
@@ -13,7 +13,7 @@ import Markdown from "vite-plugin-md";
 import { VitePWA } from "vite-plugin-pwa";
 
 const jsFile = /\.(tsx?|vue|md)($|\?)/;
-const images = sync("./public/images/**/*.webp");
+const images = glob.sync("./public/images/**/*.webp");
 
 // There's some weird things going on with YAML dates so I'll just offset them...
 function offsetDate(dateStr: any) {
@@ -21,10 +21,10 @@ function offsetDate(dateStr: any) {
   return date.getTime() + 24 * 60 * 60 * 1000;
 }
 
-const articles = sync("./src/views/blog/**/*.md").map((src) => {
+const articles = glob.sync("./src/views/blog/**/*.md").map((src) => {
   const path = src.slice("./src/views".length);
 
-  const { data, excerpt } = read(src, {
+  const { data, excerpt } = gray.read(src, {
     excerpt: true,
     excerpt_separator: "\n\n",
   });
@@ -92,8 +92,12 @@ function generateHash(source: {}) {
 function getHashOf(chunkInfo: PreRenderedChunk) {
   const hash = createHash("sha256");
 
-  for (let key of Object.keys(chunkInfo.modules).sort()) {
-    hash.update(chunkInfo.modules[key].code || "");
+  for (const key of chunkInfo.moduleIds.sort()) {
+    hash.update(key || "");
+  }
+
+  for (const exported of chunkInfo.exports.sort()) {
+    hash.update(exported || "");
   }
 
   return parseInt(hash.digest("hex"), 16).toString(36).slice(0, 8);
