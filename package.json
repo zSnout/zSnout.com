@@ -54,7 +54,7 @@
     "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
-    "@rollup/pluginutils": "^4.2.1",
+    "@rollup/pluginutils": "^5.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/chess.js": "^0.13.4",
     "@types/express": "^4.17.15",
