@@ -63,7 +63,7 @@
     "@types/nodemailer": "^6.4.7",
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^3.2.0",
-    "@yankeeinlondon/builder-api": "^0.5.5",
+    "@yankeeinlondon/builder-api": "^1.4.1",
     "esbuild": "^0.16.10",
     "gray-matter": "^4.0.3",
     "happy-dom": "^8.1.0",
