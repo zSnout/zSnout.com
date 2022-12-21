@@ -1,1 +1,0 @@
-import{_ as t,o as _,h as d,r as s}from"./index.v5ospewp.js";const c={},o={class:"middle"};function a(e,n){return _(),d("div",o,[s(e.$slots,"default",{},void 0,!0)])}const l=t(c,[["render",a],["__scopeId","data-v-daa69c8b"]]);export{l as M};

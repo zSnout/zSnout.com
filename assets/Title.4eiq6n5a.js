@@ -1,0 +1,1 @@
+import{a as t}from"./_plugin-vue_export-helper.4yxwi37t.js";import{x as s,y as _,z as o}from"./runtime-core.esm-bundler.55v0mz3f.js";const c={},n={class:"title"};function r(e,a){return s(),_("h1",n,[o(e.$slots,"default",{},void 0,!0)])}const i=t(c,[["render",r],["__scopeId","data-v-ce305be4"]]);export{i as T};
