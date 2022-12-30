@@ -22,9 +22,9 @@
   const open = ref(false);
   const isFieldShown = ref(false);
   const message = ref("");
-  const field = ref("");
-  const field2 = ref("");
-  const field3 = ref("");
+  const oldPassword = ref("");
+  const newPassword = ref("");
+  const verifyNewPassword = ref("");
   const type = ref<"username" | "password">("username");
 
   socket.on("account:done:reset-session", () => {
@@ -48,13 +48,13 @@
     message.value = `Pick a new ${(type.value = _type)} below.`;
 
     if (_type === "username") {
-      field.value = username.value;
+      oldPassword.value = username.value;
     } else {
-      field.value = "";
+      oldPassword.value = "";
     }
 
-    field2.value = "";
-    field3.value = "";
+    newPassword.value = "";
+    verifyNewPassword.value = "";
   }
 
   function confirmSet() {
@@ -62,13 +62,13 @@
 
     if (mode === "password") {
       socket.emit(
-        `account:update:password`,
+        "account:update:password",
         session.value,
-        field.value,
-        field2.value
+        oldPassword.value,
+        newPassword.value
       );
     } else if (mode === "username") {
-      socket.emit("account:update:username", session.value, field.value);
+      socket.emit("account:update:username", session.value, oldPassword.value);
     }
 
     isFieldShown.value = false;
@@ -150,7 +150,7 @@
 
     <Field
       v-if="isFieldShown"
-      v-model="field"
+      v-model="oldPassword"
       :autocomplete="type"
       :placeholder="type === 'password' ? 'Old Password' : 'New Username'"
       :type="type === 'password' ? 'password' : 'text'"
@@ -159,7 +159,7 @@
 
     <template v-if="type === 'password' && isFieldShown">
       <Field
-        v-model="field2"
+        v-model="newPassword"
         autocomplete="new-password"
         placeholder="New Password"
         type="password"
@@ -167,7 +167,7 @@
       />
 
       <Field
-        v-model="field3"
+        v-model="verifyNewPassword"
         autocomplete="new-password"
         placeholder="Verify Password"
         type="password"
@@ -175,9 +175,11 @@
       />
     </template>
 
-    <p v-if="(type === 'password' && field2 !== field3) || error">
+    <p
+      v-if="(type === 'password' && newPassword !== verifyNewPassword) || error"
+    >
       {{
-        type === "password" && field2 !== field3
+        type === "password" && newPassword !== verifyNewPassword
           ? "Your passwords should match."
           : error
       }}

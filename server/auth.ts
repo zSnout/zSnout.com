@@ -110,6 +110,7 @@ export async function createAccount(
     notes: [],
     chats: [],
     invites: [],
+    stories: [],
     willNotifyForBlog: true,
   };
 
