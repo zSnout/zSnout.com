@@ -10,7 +10,7 @@
   <DocumentDisplay>
     <Title>Storymatic</Title>
 
-    <SearchableCardGrid :sizes="['normal', 'small']">
+    <SearchableCardGrid :sizes="['normal']">
       <Card
         description="Use our custom programming language to create your own text adventures."
         title="V1 Editor"
