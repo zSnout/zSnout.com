@@ -256,6 +256,8 @@ export function useSocketListener(event: any, callback: any) {
 }
 
 if (new URL(location.href).searchParams.has("rr")) {
-  // Everyone should have memorized this URL by now.
-  location.href = "https://youtube.com/watch?v=dQw4w9WgXcQ";
+  setTimeout(() => {
+    // Everyone should have memorized this URL by now.
+    location.href = "https://youtube.com/watch?v=dQw4w9WgXcQ";
+  }, 5000);
 }
