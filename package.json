@@ -64,7 +64,7 @@
     "@rollup/pluginutils": "^5.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/chess.js": "^0.13.4",
-    "@types/express": "^4.17.15",
+    "@types/express": "^4.17.16",
     "@types/js-yaml": "^4.0.5",
     "@types/markdown-it": "^12.2.3",
     "@types/nodemailer": "^6.4.7",
