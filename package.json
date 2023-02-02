@@ -54,7 +54,7 @@
     "storymatic": "^2.0.85",
     "tabbable": "^6.0.1",
     "typescript": "^4.9.5",
-    "vue": "^3.2.45",
+    "vue": "^3.2.47",
     "vue-router": "^4.1.6",
     "vue3-ace-editor": "^2.2.2",
     "yjs": "^13.5.45",
