@@ -1,4 +1,4 @@
-var Dt=Object.defineProperty;var Pt=(r,t,e)=>t in r?Dt(r,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):r[t]=e;var et=(r,t,e)=>(Pt(r,typeof t!="symbol"?t+"":t,e),e);import{f as Ot,a as It,t as Gt}from"./main.200onzgm.js";import{f as lt}from"./runtime-core.esm-bundler.55v0mz3f.js";const gt=`
+var Dt=Object.defineProperty;var Pt=(r,t,e)=>t in r?Dt(r,t,{enumerable:!0,configurable:!0,writable:!0,value:e}):r[t]=e;var et=(r,t,e)=>(Pt(r,typeof t!="symbol"?t+"":t,e),e);import{f as Ot,a as It,t as Gt}from"./main.200onzgm.js";import{h as lt}from"./runtime-core.esm-bundler.47vl3tei.js";const gt=`
 #ifdef GL_ES
 precision mediump float;
 #endif
