@@ -408,6 +408,7 @@
         .replace("{{EQ}}", glsl(equation.value))
         .replace("{{EQC}}", glsl(equation.value.replace(/m|p/g, "c"))),
       saveBounds: save,
+      preserveDrawingBuffer: true,
     });
 
     const themes = [
@@ -469,6 +470,10 @@
     });
 
     canvas.value.addEventListener("contextmenu", (event) => {
+      if (event.metaKey) {
+        return;
+      }
+
       event.preventDefault();
 
       let initZValue = true;
