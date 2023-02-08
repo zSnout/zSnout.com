@@ -37,6 +37,16 @@ export const homeIcons = computed(() => {
   session.value;
 
   const els: (Icon | undefined)[] = [
+    {
+      alt: "A shirt with a zSnout fractal on it",
+      description: "Buy a fractal shirt on the zSnout store.",
+      group: ["art", "generators", "math"],
+      src: "/images/store.webp",
+      title: "Store",
+      to: "https://store.zsnout.com",
+      keywords: "stores fractalicious tshirts fractals buy purchase support",
+    },
+
     connected.value && session.value
       ? {
           alt: "An outline of a person's head and upper body",
