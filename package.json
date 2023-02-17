@@ -76,7 +76,7 @@
     "gray-matter": "^4.0.3",
     "happy-dom": "^8.4.2",
     "inferred-types": "^0.37.6",
-    "markdown-it-anchor": "^8.6.6",
+    "markdown-it-anchor": "^8.6.7",
     "markdown-it-prism": "^2.3.0",
     "postcss-scss": "^4.0.6",
     "prettier": "^2.8.4",
