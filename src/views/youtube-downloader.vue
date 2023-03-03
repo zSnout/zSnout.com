@@ -88,6 +88,19 @@
         </VStack>
       </form>
 
+      <!-- prettier-ignore -->
+      <p v-if="showForm" style="text-align: center; margin-bottom: -0.5rem">
+        Check out our
+        <a href="https://yt.zsnout.com/">new YouTube downloader</a>! It has
+      </p>
+
+      <ul v-if="showForm">
+        <li>a built-in video player,</li>
+        <li>video descriptions,</li>
+        <li>channel links, and</li>
+        <li>a cleaner and more modern interface.</li>
+      </ul>
+
       <div v-if="waiting">Downloading your video...</div>
 
       <template v-if="!showForm && !waiting">
