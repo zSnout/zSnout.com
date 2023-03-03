@@ -1,1 +1,1 @@
-import{a as o}from"./_plugin-vue_export-helper.4yxwi37t.js";import{x as t,y as c,z as s}from"./runtime-core.esm-bundler.47vl3tei.js";const _={},n={class:"sticky"};function r(e,a){return t(),c("div",n,[s(e.$slots,"default",{},void 0,!0)])}const f=o(_,[["render",r],["__scopeId","data-v-dbf4c392"]]);export{f as S};
+import{_ as o,o as s,f as t,s as c}from"./index.4z0bzixf.js";const _={},n={class:"sticky"};function d(e,r){return s(),t("div",n,[c(e.$slots,"default",{},void 0,!0)])}const i=o(_,[["render",d],["__scopeId","data-v-dbf4c392"]]);export{i as S};

@@ -1,4 +1,4 @@
-import{F as o}from"./FullscreenDisplay.od9apf4f.js";import{M as i}from"./MovableCanvas2d.4z89ub4m.js";import{l as a,r as n,o as r,x as c,C as s,D as l,a9 as v}from"./runtime-core.esm-bundler.47vl3tei.js";import"./main.200onzgm.js";import"./_plugin-vue_export-helper.4yxwi37t.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const E=a({__name:"3d",setup(p){const e=n(),t=`
+import{F as o}from"./FullscreenDisplay.od9apf4f.js";import{M as i}from"./MovableCanvas2d.4z89ub4m.js";import{d as a,r as n,j as r,o as c,c as s,w as l,a as v}from"./index.4z0bzixf.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const k=a({__name:"3d",setup(p){const e=n(),t=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
@@ -169,4 +169,4 @@ import{F as o}from"./FullscreenDisplay.od9apf4f.js";import{M as i}from"./Movable
 
     vec3 color = phongIllumination(K_a, K_d, K_s, shininess, point, camera);
     gl_FragColor = vec4(color, 1.0);
-  }`;return r(()=>{e.value&&new i(e.value,{fragmentString:t,bounds:{xStart:2.1,xEnd:3,yStart:2.5,yEnd:3.5}})}),(d,m)=>(c(),s(o,null,{default:l(()=>[v("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{E as default};
+  }`;return r(()=>{e.value&&new i(e.value,{fragmentString:t,bounds:{xStart:2.1,xEnd:3,yStart:2.5,yEnd:3.5}})}),(d,m)=>(c(),s(o,null,{default:l(()=>[v("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{k as default};

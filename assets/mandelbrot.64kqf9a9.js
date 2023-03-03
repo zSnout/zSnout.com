@@ -1,4 +1,4 @@
-import{F as r}from"./FullscreenDisplay.od9apf4f.js";import{M as s}from"./MovableCanvas2d.4z89ub4m.js";import{l as i,r as n,o as l,x as f,C as u,D as t,a9 as o}from"./runtime-core.esm-bundler.47vl3tei.js";import"./main.200onzgm.js";import"./_plugin-vue_export-helper.4yxwi37t.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const p=o("h1",null,"What is this?",-1),c=o("p",null," This is a WebGL debug page. It should contain a simple rendition of the Mandelbrot Set. This is used for testing purposes and helps demonstrate different features of the MovableCanvas mixin. ",-1),D=i({__name:"mandelbrot",setup(m){const e=n(),a=`
+import{F as r}from"./FullscreenDisplay.od9apf4f.js";import{M as s}from"./MovableCanvas2d.4z89ub4m.js";import{d as i,r as n,j as l,o as f,c as u,w as t,a as o}from"./index.4z0bzixf.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const c=o("h1",null,"What is this?",-1),p=o("p",null," This is a WebGL debug page. It should contain a simple rendition of the Mandelbrot Set. This is used for testing purposes and helps demonstrate different features of the MovableCanvas mixin. ",-1),w=i({__name:"mandelbrot",setup(m){const e=n(),a=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;
@@ -16,4 +16,4 @@ import{F as r}from"./FullscreenDisplay.od9apf4f.js";import{M as s}from"./Movable
         break;
       }
     }
-  }`;return l(()=>{e.value&&new s(e.value,{fragmentString:a})}),(_,d)=>(f(),u(r,null,{help:t(()=>[p,c]),default:t(()=>[o("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{D as default};
+  }`;return l(()=>{e.value&&new s(e.value,{fragmentString:a})}),(_,d)=>(f(),u(r,null,{help:t(()=>[c,p]),default:t(()=>[o("canvas",{ref_key:"canvas",ref:e},null,512)]),_:1}))}});export{w as default};

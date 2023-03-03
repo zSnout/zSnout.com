@@ -1,1 +1,1 @@
-import{g as u,r as e}from"./main.200onzgm.js";import{r as l,b as p}from"./runtime-core.esm-bundler.47vl3tei.js";function n(o,a,t){const r=l(o);return p({get(){return r.value=u(r.value,e(a),e(t))},set(s){r.value=u(s,e(a),e(t))}})}export{n as u};
+import{ac as c,ad as f,V as u,ae as o,af as e,r as l}from"./index.4z0bzixf.js";function i(a,r,s){if(c(a)||f(a))return u(()=>o(e(a),e(r),e(s)));const t=l(a);return u({get(){return t.value=o(t.value,e(r),e(s))},set(n){t.value=o(n,e(r),e(s))}})}export{i as u};
