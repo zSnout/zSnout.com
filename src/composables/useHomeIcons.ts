@@ -362,7 +362,7 @@ export const homeIcons = computed(() => {
       keywords: "videos",
       src: "/images/youtube-downloader.webp",
       title: "YouTube Downloader",
-      to: "/youtube-downloader",
+      to: "https://yt.zsnout.com/",
     },
 
     {
