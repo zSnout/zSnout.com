@@ -21,5 +21,9 @@
     "src/**/*.vue",
     "./shared.client.d.ts"
   ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
