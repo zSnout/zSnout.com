@@ -576,9 +576,9 @@
     resetPosition.value = () => {
       gl.setBounds({
         xStart: -2,
-        xEnd: 2,
-        yStart: -2,
-        yEnd: 2,
+        xEnd: 0.5,
+        yStart: -1.25,
+        yEnd: 1.25,
       });
     };
   });

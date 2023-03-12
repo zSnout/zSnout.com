@@ -36,9 +36,9 @@ export class CoordinateCanvas2d extends WebGlCanvas {
 
     this.setBounds({
       xStart: bounds?.xStart ?? -2,
-      xEnd: bounds?.xEnd ?? 2,
-      yStart: bounds?.yStart ?? -2,
-      yEnd: bounds?.yEnd ?? 2,
+      xEnd: bounds?.xEnd ?? 0.5,
+      yStart: bounds?.yStart ?? -1.25,
+      yEnd: bounds?.yEnd ?? 1.25,
     });
 
     useResizeObserver(this.canvas, () => this.setBounds(this.bounds));
