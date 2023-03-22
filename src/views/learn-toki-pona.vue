@@ -159,7 +159,7 @@
     "wile",
   ] as const;
 
-  type TokiPonaWord = typeof allWords[number];
+  type TokiPonaWord = (typeof allWords)[number];
 
   type Display =
     | {
