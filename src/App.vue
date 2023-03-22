@@ -109,6 +109,9 @@
       download(url, `${name}.png`);
     }, "image/png");
   }
+
+  const hideOfflineNotification =
+    import.meta.env.VITE_HIDE_OFFLINE_NOTIFICATION == "true";
 </script>
 
 <template>
@@ -140,7 +143,7 @@
     </MenuEntry>
   </ContextMenu>
 
-  <Notification :open="online && !connected">
+  <Notification :open="!hideOfflineNotification && online && !connected">
     Connecting to zServer...
   </Notification>
 </template>
