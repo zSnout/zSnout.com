@@ -79,7 +79,7 @@
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-prism": "^2.3.0",
     "postcss-scss": "^4.0.6",
-    "prettier": "^2.8.6",
+    "prettier": "^2.8.7",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
     "rollup": "^3.20.1",
