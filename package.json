@@ -72,7 +72,7 @@
     "@types/random-seed": "^0.3.3",
     "@vitejs/plugin-vue": "^4.1.0",
     "@yankeeinlondon/builder-api": "^1.4.1",
-    "esbuild": "^0.17.15",
+    "esbuild": "^0.17.16",
     "gray-matter": "^4.0.3",
     "happy-dom": "^8.9.0",
     "inferred-types": "^0.37.6",
