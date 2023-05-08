@@ -53,7 +53,7 @@
     "socket.io-client": "^4.6.1",
     "stockfish.js": "^10.0.2",
     "storymatic": "^2.0.85",
-    "tabbable": "^6.1.1",
+    "tabbable": "^6.1.2",
     "typescript": "^5.0.4",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
