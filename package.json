@@ -38,7 +38,7 @@
     "katex": "^0.16.7",
     "markdown-it-toc-done-right": "^4.2.0",
     "mix-css-color": "^0.2.0",
-    "mongodb": "^5.2.0",
+    "mongodb": "^5.4.0",
     "nodemailer": "^6.9.1",
     "prismjs": "^1.29.0",
     "prosemirror-commands": "^1.5.1",
