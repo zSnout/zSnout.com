@@ -70,7 +70,7 @@
     "@types/markdown-it": "^12.2.3",
     "@types/nodemailer": "^6.4.7",
     "@types/random-seed": "^0.3.3",
-    "@vitejs/plugin-vue": "^4.2.1",
+    "@vitejs/plugin-vue": "^4.2.2",
     "@yankeeinlondon/builder-api": "^1.4.1",
     "esbuild": "^0.17.18",
     "gray-matter": "^4.0.3",
