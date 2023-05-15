@@ -74,7 +74,7 @@
     "@yankeeinlondon/builder-api": "^1.4.1",
     "esbuild": "^0.17.19",
     "gray-matter": "^4.0.3",
-    "happy-dom": "^9.17.0",
+    "happy-dom": "^9.18.3",
     "inferred-types": "^0.37.6",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-prism": "^2.3.0",
