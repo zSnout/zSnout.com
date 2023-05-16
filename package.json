@@ -82,7 +82,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-organize-attributes": "^0.0.5",
     "prettier-plugin-style-order": "^0.2.2",
-    "rollup": "^3.21.7",
+    "rollup": "^3.21.8",
     "sass": "^1.62.1",
     "vite": "^4.3.6",
     "vite-plugin-md": "^0.22.5",
