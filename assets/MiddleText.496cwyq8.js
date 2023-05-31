@@ -1,1 +1,1 @@
-import{_ as s,o as t,f as _,s as d}from"./index.4z0bzixf.js";const c={},o={class:"middle"};function a(e,n){return t(),_("div",o,[d(e.$slots,"default",{},void 0,!0)])}const l=s(c,[["render",a],["__scopeId","data-v-daa69c8b"]]);export{l as M};
+import{_ as s,f as t,s as _,o as d}from"./index.4z0bzixf.js";const c={},o={class:"middle"};function a(e,n){return d(),t("div",o,[_(e.$slots,"default",{},void 0,!0)])}const l=s(c,[["render",a],["__scopeId","data-v-daa69c8b"]]);export{l as M};
