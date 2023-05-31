@@ -799,6 +799,16 @@ wanol:
   similar: wan
   translation: ten
 
+weta:
+  category: content
+  similar: wetali
+  translation: an arrival, a finishing point
+
+wetali:
+  category: verb
+  similar: weta
+  translation: to arrive, to reach, to finish
+
 wile:
   category: content
   translation: strange, weird
