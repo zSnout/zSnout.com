@@ -35,7 +35,7 @@
     "hoodmane-pyodide": "^0.20.0-m",
     "javascript-time-ago": "^2.5.9",
     "js-yaml": "^4.1.0",
-    "katex": "^0.16.7",
+    "katex": "^0.16.8",
     "markdown-it-toc-done-right": "^4.2.0",
     "mix-css-color": "^0.2.0",
     "mongodb": "^5.6.0",
