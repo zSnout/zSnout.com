@@ -58,7 +58,7 @@
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",
     "vue3-ace-editor": "^2.2.2",
-    "yjs": "^13.6.5",
+    "yjs": "^13.6.6",
     "ytdl-core": "^4.11.4"
   },
   "devDependencies": {
