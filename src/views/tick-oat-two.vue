@@ -125,7 +125,7 @@
       return;
     }
 
-    if (last.value[0] == row && last.value[1] == col) {
+    if (last.value && last.value[0] == row && last.value[1] == col) {
       return;
     }
 
