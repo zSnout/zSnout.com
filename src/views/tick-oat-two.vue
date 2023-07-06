@@ -125,6 +125,10 @@
       return;
     }
 
+    if (last.value[0] == row && last.value[1] == col) {
+      return;
+    }
+
     last.value = [row, col];
     board[row][col] |= human.value;
     ai();
