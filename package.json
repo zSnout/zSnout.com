@@ -54,7 +54,7 @@
     "stockfish.js": "^10.0.2",
     "storymatic": "^2.0.85",
     "tabbable": "^6.1.2",
-    "typescript": "^5.1.3",
+    "typescript": "^5.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.2",
     "vue3-ace-editor": "^2.2.2",
