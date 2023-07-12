@@ -27,7 +27,7 @@
     "@vueuse/shared": "^9.13.0",
     "bcrypt": "^5.1.0",
     "chess.js": "^0.13.4",
-    "chessground": "^8.3.10",
+    "chessground": "^8.3.12",
     "error-stack-parser": "^2.1.4",
     "fast-glob": "^3.2.12",
     "generate-maze": "^1.1.0",
