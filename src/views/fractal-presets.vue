@@ -111,10 +111,10 @@
 
       <ImageCard
         alt="A spike of multicolored circles shooting into the top right corner"
-        description="A fractal based off of the Chinese Lantern flower with concentric circles."
+        description="A fractal known as the Lantern."
         force-reload
-        src="/images/fractal-presets/chinese-lantern.webp"
-        title="Chinese Lantern"
+        src="/images/fractal-presets/lantern.webp"
+        title="Lantern"
         to="/fractal-explorer?equation=1%2F%28z%5E4%2Bc%2B1%29"
       />
     </SearchableCardGrid>
