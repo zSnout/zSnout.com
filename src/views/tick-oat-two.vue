@@ -145,6 +145,7 @@
         return;
       }
 
+      last.value = [best[0], best[1]];
       board[best[0]][best[1]] |= 3 - human.value;
       turn.value = human.value;
     }, 1000);
