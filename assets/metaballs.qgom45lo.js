@@ -1,4 +1,4 @@
-import{F as c}from"./FullscreenDisplay.od9apf4f.js";import{W as d}from"./WebGlCanvas.5wwm3cvm.js";import{d as f,r as m,j as x,c as y,w as p,o as g,a as u}from"./index.4z0bzixf.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";const h=`
+import{F as c}from"./FullscreenDisplay.75rpamat.js";import{W as d}from"./WebGlCanvas.5wwm3cvm.js";import{d as f,r as m,j as x,c as y,w as p,o as g,a as u}from"./index.xh0zaea0.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";const h=`
   uniform float scale;
   uniform vec3 metaballs[50];
 
