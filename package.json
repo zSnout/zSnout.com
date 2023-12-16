@@ -11,8 +11,8 @@
     "preview": "npx vite preview"
   },
   "engines": {
-    "node": ">=v16.14.2",
-    "npm": ">=8.5.0"
+    "node": "~18.19.0",
+    "npm": "~10.2.3"
   },
   "dependencies": {
     "@tiptap/extension-collaboration": "^2.0.3",
