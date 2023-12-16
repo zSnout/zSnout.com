@@ -120,3 +120,4 @@
     </SearchableCardGrid>
   </DocumentDisplay>
 </template>
+~/.zshrc

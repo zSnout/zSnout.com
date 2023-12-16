@@ -12,7 +12,7 @@
   <UseScreenSafeArea class="nav fullscreen" top>
     <SafeArea>
       <HStack class="padding">
-        <RouterLink to="/home">
+        <RouterLink to="/">
           <LogoLight class="logo" invert />
         </RouterLink>
 

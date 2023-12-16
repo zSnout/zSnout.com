@@ -16,7 +16,7 @@
 
 <template>
   <Navbar :aside="!!$slots.aside" :small="small">
-    <RouterLink class="logo-outer" to="/home">
+    <RouterLink class="logo-outer" to="/">
       <LogoWithName class="logo" invert />
     </RouterLink>
 
