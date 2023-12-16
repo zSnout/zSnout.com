@@ -2,9 +2,9 @@
   import { useEventListener } from "@vueuse/core";
   import { Chessground } from "chessground";
   import { Api } from "chessground/api";
-  import "chessground/assets/chessground.base.css";
-  import "chessground/assets/chessground.brown.css";
-  import "chessground/assets/chessground.cburnett.css";
+  import "../../node_modules/chessground/assets/chessground.base.css";
+  import "../../node_modules/chessground/assets/chessground.brown.css";
+  import "../../node_modules/chessground/assets/chessground.cburnett.css";
   import { Config } from "chessground/config";
   import { onMounted, ref } from "vue";
 
