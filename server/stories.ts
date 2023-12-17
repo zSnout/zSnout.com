@@ -242,24 +242,26 @@ export async function createThread(
   };
 }
 
-export const enum RequestThreadError {
-  IgnoreRequest,
-  NotLongEnough,
-}
+export type RequestThreadResult =
+  | { type: "ok"; sentence: StorySentence }
+  | { type: "ignore" }
+  | { type: "not-long-enough"; minimumDistance: number; distanceLeft: number }
+  | { type: "need-more-threads" }
+  | { type: "need-more-completed" };
 
 export async function requestThread(
   session: string,
   storyId: UUID,
   toComplete: boolean
-): Promise<StorySentence | RequestThreadError> {
+): Promise<RequestThreadResult> {
   if (storyId.length !== 24) {
-    return RequestThreadError.IgnoreRequest;
+    return { type: "ignore" };
   }
 
   const [stories, account] = await Promise.all([_stories, getAccount(session)]);
 
   if (!stories || !account) {
-    return RequestThreadError.IgnoreRequest;
+    return { type: "ignore" };
   }
 
   const myId = account._id.toHexString();
@@ -269,13 +271,13 @@ export async function requestThread(
   });
 
   if (!story) {
-    return RequestThreadError.IgnoreRequest;
+    return { type: "ignore" };
   }
 
   const level = story.members[myId];
 
   if (level === undefined || level == "none") {
-    return RequestThreadError.IgnoreRequest;
+    return { type: "ignore" };
   }
 
   const minimumDistance = Math.min(
@@ -283,20 +285,36 @@ export async function requestThread(
     5
   );
 
-  let withDistance = story.threads
-    .map((thread) => {
-      let distance = Infinity;
+  let withDistanceUnchecked = story.threads.map((thread) => {
+    let distance = Infinity;
 
-      for (let index = thread.sentences.length - 1; index >= 0; index--) {
-        if (thread.sentences[index].from == myId) {
-          distance = thread.sentences.length - index;
-          break;
-        }
+    for (let index = thread.sentences.length - 1; index >= 0; index--) {
+      if (thread.sentences[index].from == myId) {
+        distance = thread.sentences.length - index;
+        break;
       }
+    }
 
-      return { thread, distance };
-    })
-    .filter(({ distance }) => distance >= minimumDistance);
+    return { thread, distance };
+  });
+
+  if (withDistanceUnchecked.length == 0) {
+    return { type: "need-more-threads" };
+  }
+
+  let withDistance = withDistanceUnchecked.filter(
+    ({ distance }) => distance >= minimumDistance
+  );
+
+  if (withDistance.length == 0) {
+    return {
+      type: "not-long-enough",
+      minimumDistance,
+      distanceLeft:
+        minimumDistance -
+        Math.max(...withDistanceUnchecked.map((story) => story.distance)),
+    };
+  }
 
   if (toComplete) {
     withDistance = withDistance.filter(
@@ -304,18 +322,18 @@ export async function requestThread(
     );
 
     if (withDistance.length <= 1) {
-      return RequestThreadError.NotLongEnough;
+      return { type: "need-more-completed" };
     }
   }
 
   const thread =
-    withDistance[Math.floor(withDistance.length * Math.random())]?.thread;
+    // SAFETY: We already performed checks that this isn't empty.
+    withDistance[Math.floor(withDistance.length * Math.random())]!.thread;
 
-  if (!thread) {
-    return RequestThreadError.NotLongEnough;
-  }
-
-  return thread.sentences[thread.sentences.length - 1];
+  return {
+    type: "ok",
+    sentence: thread.sentences[thread.sentences.length - 1],
+  };
 }
 
 export const enum UpdateThreadResult {

@@ -54,7 +54,6 @@ import {
   getStoryStats,
   removeMember as removeMemberInStory,
   requestThread,
-  RequestThreadError,
   updateMemberList as updateMemberListInStory,
   updateStoryTitle,
   updateThread,
@@ -555,25 +554,45 @@ const events: ClientToServer & ThisType<Socket> = {
     }
   },
   async "story:request:thread"(session, storyId, toComplete) {
-    if (await verify(this, session)) {
-      const prev = await requestThread(session, storyId, toComplete);
+    if (!(await verify(this, session))) {
+      return;
+    }
 
-      if (prev === RequestThreadError.IgnoreRequest) {
+    const thread = await requestThread(session, storyId, toComplete);
+
+    switch (thread.type) {
+      case "ignore":
         return;
-      }
 
-      if (prev === RequestThreadError.NotLongEnough) {
+      case "need-more-threads":
         this.emit("story:fail", storyId);
+        this.emit("error", "There aren't any threads that you can post to.");
+        return;
 
+      case "need-more-completed":
+        this.emit("story:fail", storyId);
         this.emit(
           "error",
-          "Other users need to contribute to this story's threads before you can add another sentence."
+          "Two threads need to have at least 20 sentences before either can be completed."
         );
-
         return;
-      }
 
-      this.emit("story:thread", storyId, prev);
+      case "not-long-enough":
+        this.emit("story:fail", storyId);
+        this.emit(
+          "error",
+          `At least ${thread.minimumDistance} sentence${
+            thread.minimumDistance == 1 ? "" : "s"
+          } need to be written before you can contribute again; ask ${
+            thread.distanceLeft
+          } more user${
+            thread.distanceLeft == 1 ? "" : "s"
+          } to max out their contributions.`
+        );
+        return;
+
+      case "ok":
+        this.emit("story:thread", storyId, thread.sentence);
     }
   },
   async "story:update:members"(session, storyId, members) {
