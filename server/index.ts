@@ -59,6 +59,7 @@ import {
   updateThread,
   UpdateThreadResult,
 } from "./stories";
+import { collection } from "./database";
 
 interface SocketData {
   oldSession?: string;
@@ -509,6 +510,11 @@ const events: ClientToServer & ThisType<Socket> = {
       } else {
         this.emit("story:update:permission", storyId, "none");
       }
+    }
+  },
+  async "story:request:contributables"(session, storyId) {
+    if (!(await verify(this, session))) {
+      return;
     }
   },
   async "story:request:details"(session, storyId) {

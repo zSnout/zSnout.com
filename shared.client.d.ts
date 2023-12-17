@@ -57,6 +57,7 @@ export interface ClientToServer {
   ): void;
   "story:leave"(session: string, storyId: UUID): void;
   "story:request:completed"(session: string, storyId: UUID): void;
+  "story:request:contributables"(session: string, storyId: UUID): void;
   "story:request:details"(session: string, storyId: UUID): void;
   "story:request:index"(session: string): void;
   "story:request:members"(session: string, storyId: UUID): void;
@@ -120,6 +121,10 @@ export interface ServerToClient {
   "notes:details"(details: NoteDetails): void;
 
   "story:completed"(storyId: UUID, threads: CompletedThread[]): void;
+  "story:contributables"(
+    storyId: UUID,
+    contributables: Record</** username */ string, number>
+  ): void;
   "story:details"(details: StoryDetails): void;
   "story:done:update:thread"(storyId: UUID): void;
   "story:fail"(storyId: UUID): void;
@@ -138,7 +143,7 @@ export interface ServerToClient {
 }
 
 export type StoryStatPeriod = "day" | "week" | "all";
-export type StoryStatType = "contributions" | "threads";
+export type StoryStatType = "contributable" | "contributions" | "threads";
 
 export interface StoryStats {
   type: StoryStatType;

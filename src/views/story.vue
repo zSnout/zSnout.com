@@ -33,6 +33,14 @@
   import en from "javascript-time-ago/locale/en";
   import { useIntervalFn } from "@vueuse/shared";
 
+  Object.assign(globalThis, {
+    socket,
+    get() {
+      socket.emit("story:request:contributables", session.value, id);
+    },
+  });
+  socket.on("story:contributables", console.log);
+
   TimeAgo.addDefaultLocale(en);
   const timeAgo = new TimeAgo("en-US");
 
@@ -577,7 +585,7 @@
   <Modal :open="isStatsOpen">
     <HStack stretch>
       <Button
-        :disabled="stats.period == 'day'"
+        :disabled="stats.type == 'contributable' || stats.period == 'day'"
         @click="
           socket.emit('story:request:stats', session, id, 'day', stats.type)
         "
@@ -586,7 +594,7 @@
       </Button>
 
       <Button
-        :disabled="stats.period == 'week'"
+        :disabled="stats.type == 'contributable' || stats.period == 'week'"
         @click="
           socket.emit('story:request:stats', session, id, 'week', stats.type)
         "
@@ -595,7 +603,7 @@
       </Button>
 
       <Button
-        :disabled="stats.period == 'all'"
+        :disabled="stats.type == 'contributable' || stats.period == 'all'"
         @click="
           socket.emit('story:request:stats', session, id, 'all', stats.type)
         "
@@ -634,15 +642,35 @@
       >
         Threads
       </Button>
+
+      <Button
+        :disabled="stats.type == 'contributable'"
+        @click="
+          socket.emit(
+            'story:request:stats',
+            session,
+            id,
+            stats.period,
+            'contributable'
+          )
+        "
+      >
+        Contributable
+      </Button>
     </HStack>
 
     <h1 class="stats-title">
-      Showing {{ stats.type.slice(0, -1) }} stats for
-      {{ stats.period == "all" ? "all time" : "the last " + stats.period }}
+      {{
+        stats.type == "contributable"
+          ? "Showing possible contributions per person"
+          : `Showing ${stats.type.slice(0, -1)} stats for ${
+              stats.period == "all" ? "all time" : "the last " + stats.period
+            }`
+      }}
     </h1>
 
     <VStack :space="0.25">
-      <HStack>
+      <HStack v-if="stats.type != 'contributable'">
         <p>Total {{ stats.type }}:</p>
 
         <Spacer />
@@ -659,7 +687,7 @@
       </HStack>
     </VStack>
 
-    <VStack :space="0.25">
+    <VStack v-if="stats.type != 'contributable'" :space="0.25">
       <HStack>
         <p>Most recent {{ stats.type }}:</p>
       </HStack>

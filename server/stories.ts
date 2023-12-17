@@ -280,10 +280,11 @@ export async function requestThread(
     return { type: "ignore" };
   }
 
-  const minimumDistance = Math.min(
-    Math.ceil(Object.keys(story.members).length / 2),
-    5
-  );
+  const members = Object.entries(story.members)
+    .filter(([, level]) => level == "manage" || level == "write")
+    .map(([member]) => member);
+
+  const minimumDistance = Math.min(Math.ceil(members.length / 2), 5);
 
   let withDistanceUnchecked = story.threads.map((thread) => {
     let distance = Infinity;
@@ -636,7 +637,52 @@ export async function getStoryStats(
   let messageCounts: number[] | undefined;
   let total = 0;
 
-  if (type == "contributions") {
+  if (type == "contributable") {
+    const members = Object.entries(info.members)
+      .filter(([, level]) => level == "manage" || level == "write")
+      .map(([member]) => member);
+
+    const minimumDistance = Math.min(Math.ceil(members.length / 2), 5);
+
+    const users: Record<string, number> = Object.create(null);
+
+    for (const member of members) {
+      users[member] = info.threads.length;
+    }
+
+    for (const thread of info.threads) {
+      for (const { from } of thread.sentences.slice(-minimumDistance)) {
+        users[from] -= 1;
+      }
+    }
+
+    const accounts = await collection("accounts");
+
+    if (!accounts) {
+      return;
+    }
+
+    const usernames = await accounts
+      .find({
+        _id: {
+          $in: Object.keys(users).map((id) =>
+            // SAFETY: We're making this from a valid ID.
+            ObjectId.createFromHexString(id)
+          ),
+        },
+      })
+      .map((x) => ({ id: x._id, username: x.username }))
+      .toArray();
+
+    for (const id in users) {
+      const value = users[id]!;
+      const username = usernames.find((x) => x.id.equals(id))?.username;
+
+      if (username) {
+        output[username] = value;
+      }
+    }
+  } else if (type == "contributions") {
     const sentences = info.threads
       .concat(info.completed)
       .flatMap((e) => e.sentences)
