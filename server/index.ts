@@ -577,10 +577,7 @@ const events: ClientToServer & ThisType<Socket> = {
 
       case "need-more-completed":
         this.emit("story:fail", storyId);
-        this.emit(
-          "error",
-          "Two threads need to have at least 20 sentences before either can be completed."
-        );
+        this.emit("error", thread.message);
         return;
 
       case "not-long-enough":
@@ -598,7 +595,12 @@ const events: ClientToServer & ThisType<Socket> = {
         return;
 
       case "ok":
-        this.emit("story:thread", storyId, thread.sentence);
+        this.emit(
+          "story:thread",
+          storyId,
+          thread.sentence,
+          thread.completability
+        );
     }
   },
   async "story:update:members"(session, storyId, members) {

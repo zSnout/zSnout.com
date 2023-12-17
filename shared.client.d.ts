@@ -1,3 +1,5 @@
+export type Completability = "no" | "more-gems" | "yes";
+
 export interface ClientToServer {
   "account:check-session"(session: string): void;
   "account:create"(username: string, password: string, email: string): void;
@@ -130,7 +132,11 @@ export interface ServerToClient {
   "story:fail"(storyId: UUID): void;
   "story:index"(stories: StoryPreview[]): void;
   "story:stats"(storyId: UUID, stats: StoryStats): void;
-  "story:thread"(storyId: UUID, prev: StorySentence): void;
+  "story:thread"(
+    storyId: UUID,
+    prev: StorySentence,
+    completability: Completability
+  ): void;
   "story:update:gems"(storyId: UUID, gems: number): void;
   "story:update:members"(
     storyId: string,

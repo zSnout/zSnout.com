@@ -243,11 +243,15 @@ export async function createThread(
 }
 
 export type RequestThreadResult =
-  | { type: "ok"; sentence: StorySentence }
+  | {
+      type: "ok";
+      sentence: StorySentence;
+      completability: "no" | "more-gems" | "yes";
+    }
   | { type: "ignore" }
   | { type: "not-long-enough"; minimumDistance: number; distanceLeft: number }
   | { type: "need-more-threads" }
-  | { type: "need-more-completed" };
+  | { type: "need-more-completed"; message: string };
 
 export async function requestThread(
   session: string,
@@ -276,7 +280,7 @@ export async function requestThread(
 
   const level = story.members[myId];
 
-  if (level === undefined || level == "none") {
+  if (level === undefined || level == "none" || level == "view") {
     return { type: "ignore" };
   }
 
@@ -318,12 +322,34 @@ export async function requestThread(
   }
 
   if (toComplete) {
+    const completedThreads = withDistanceUnchecked.filter(
+      (x) => x.thread.sentences.length >= 20
+    );
+
+    if (completedThreads.length == 0) {
+      return {
+        type: "need-more-completed",
+        message: "No threads have more than 20 messages yet.",
+      };
+    }
+
+    if (withDistanceUnchecked.length == 1) {
+      return {
+        type: "need-more-completed",
+        message: "Two threads need to exist before one can be completed.",
+      };
+    }
+
     withDistance = withDistance.filter(
       (thread) => thread.thread.sentences.length >= 20
     );
 
-    if (withDistance.length <= 1) {
-      return { type: "need-more-completed" };
+    if (withDistance.length == 0) {
+      return {
+        type: "need-more-completed",
+        message:
+          "Even though a thread has 20 messages on it, you've commented on it too recently to be allowed to complete it.",
+      };
     }
   }
 
@@ -334,6 +360,12 @@ export async function requestThread(
   return {
     type: "ok",
     sentence: thread.sentences[thread.sentences.length - 1],
+    completability:
+      thread.sentences.length >= 20
+        ? (story.gems[myId] || 0) >= 10
+          ? "yes"
+          : "more-gems"
+        : "no",
   };
 }
 
@@ -651,8 +683,15 @@ export async function getStoryStats(
     }
 
     for (const thread of info.threads) {
-      for (const { from } of thread.sentences.slice(-minimumDistance)) {
-        users[from] -= 1;
+      const checkedUsers = Object.create(null);
+
+      for (const { from } of minimumDistance == 1
+        ? thread.sentences
+        : thread.sentences.slice(-minimumDistance + 1)) {
+        if (!checkedUsers[from]) {
+          users[from] -= 1;
+          checkedUsers[from] = true;
+        }
       }
     }
 

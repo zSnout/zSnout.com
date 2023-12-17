@@ -6,6 +6,7 @@
     StoryPermissionLevel,
     StoryStats,
     UUID,
+    Completability,
   } from "../../shared.client";
   import Button from "../components/Button.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
@@ -112,15 +113,17 @@
   const isAddToThreadOpen = ref(false);
   let prevId: UUID | undefined;
   const prevSentence = ref("");
+  const completability = ref<Completability>("no");
   const nextSentence = ref("");
 
-  useSocketListener("story:thread", (storyId, prev) => {
+  useSocketListener("story:thread", (storyId, prev, canComplete) => {
     if (storyId != id) {
       return;
     }
 
     nextSentence.value = "";
     prevSentence.value = prev.content;
+    completability.value = canComplete;
     prevId = prev.id;
 
     isAddToThreadOpen.value = true;
@@ -482,8 +485,16 @@
       />
     </form>
 
+    <p v-if="nextSentence.length < 20">Make your sentence longer.</p>
+
     <p>
-      {{ nextSentence.length < 20 ? "Make your sentence longer." : "" }}
+      {{
+        completability == "yes"
+          ? "If you want, you can complete this thread by hitting 'Complete a Thread'. If you continue here, you'll be creating one instead."
+          : completability == "more-gems"
+          ? "You can complete this thread once you get 10 gems."
+          : ""
+      }}
     </p>
 
     <template #buttons>

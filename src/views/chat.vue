@@ -295,7 +295,6 @@
             (event) => (event.preventDefault(), openCtxMenu(message))
           "
           @contextmenu="$event.preventDefault(), openCtxMenu(message)"
-          @mousedown="$event.preventDefault()"
         >
           {{ message.content }}
         </div>
