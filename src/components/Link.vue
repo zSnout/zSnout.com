@@ -6,7 +6,7 @@
     to: string;
   }>();
 
-  const isRelative = /^\/(?!\/)|\.\.?\//.test(to);
+  const isRelative = /^\.{0,2}\/(?!\/)/.test(to);
 </script>
 
 <template>
