@@ -20,7 +20,7 @@
     "@tiptap/starter-kit": "^2.0.3",
     "@tiptap/vue-3": "^2.0.3",
     "@traptitech/markdown-it-katex": "^3.6.0",
-    "@vueuse/components": "^9.13.0",
+    "@vueuse/components": "^10.7.1",
     "@vueuse/core": "^9.13.0",
     "@vueuse/integrations": "^10.2.0",
     "@vueuse/math": "^9.13.0",
