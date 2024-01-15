@@ -1,4 +1,4 @@
-import{F as t}from"./FullscreenDisplay.75rpamat.js";import{M as o}from"./MovableCanvas2d.4z89ub4m.js";import{d as i,r as a,j as n,c as r,w as c,o as s,a as l}from"./index.xh0zaea0.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const v=`
+import{F as t}from"./FullscreenDisplay.75rpamat.js";import{M as o}from"./MovableCanvas2d.4z89ub4m.js";import{d as i,r as a,j as n,c as r,w as c,o as s,a as l}from"./index.xh0zaea0.js";import"./BookmarkIcon.1ijfs95x.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";import"./CoordinateCanvas2d.4rt8wdf9.js";import"./useOption.1pf10ib0.js";import"./WebGlCanvas.5wwm3cvm.js";const v=`
   uniform vec2 u_resolution;
   uniform vec2 u_scale;
   uniform vec2 u_offset;

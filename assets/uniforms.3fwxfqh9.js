@@ -1,4 +1,4 @@
-import{F as s}from"./FullscreenDisplay.75rpamat.js";import{W as t}from"./WebGlCanvas.5wwm3cvm.js";import{d as l,r as n,j as c,$ as i,V as f,c as u,w as p,o as m,a as v}from"./index.xh0zaea0.js";import"./BookmarkIcon.46krkaf8.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";const _=`
+import{F as s}from"./FullscreenDisplay.75rpamat.js";import{W as t}from"./WebGlCanvas.5wwm3cvm.js";import{d as l,r as n,j as c,$ as i,V as f,c as u,w as p,o as m,a as v}from"./index.xh0zaea0.js";import"./BookmarkIcon.1ijfs95x.js";import"./VStack.3evi6szx.js";import"./Field.5c7fkv56.js";import"./LogoLight.3fmf1259.js";import"./SharedNav.4z4l3m5g.js";const _=`
   uniform vec2 u_resolution;
   uniform float left;
 
