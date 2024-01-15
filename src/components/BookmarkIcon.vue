@@ -23,15 +23,13 @@
     } catch {}
   }
 
-  export function addThis(
-    url = location.pathname + location.search + location.href
-  ) {
-    url = new URL(url, location.href).href;
+  export function addThis(url: string) {
     if (bookmarks.some((e) => e.url === url)) return;
-
     bookmarks.push({ name: document.title.slice(0, -9) || "zSnout", url });
     socket.emit("bookmarks:update", session.value, bookmarks);
   }
+
+  const getLocation = () => window.location;
 
   const bookmarks = reactive<Bookmark[]>([]);
   getBookmarks();
@@ -207,7 +205,7 @@
         </template>
 
         <HStack stretch>
-          <Button @click="addThis">Add this page</Button>
+          <Button @click="addThis(getLocation().href)">Add this page</Button>
 
           <Button @click="editing = !editing">
             {{ editing ? "Save" : "Edit" }}
@@ -243,7 +241,7 @@
             </div>
           </HStack>
 
-          <a
+          <!-- <a
             v-else-if="bookmark.url.includes('?') || bookmark.url.includes('#')"
             class="bookmark second-layer hoverline focusline"
             :href="bookmark.url"
@@ -259,7 +257,16 @@
             style="text-decoration: none; color: inherit"
           >
             {{ bookmark.name }}
-          </RouterLink>
+          </RouterLink> -->
+
+          <a
+            v-else
+            class="bookmark second-layer hoverline focusline"
+            :href="bookmark.url"
+            style="text-decoration: none; color: inherit"
+          >
+            {{ bookmark.name }}
+          </a>
         </template>
       </VStack>
     </div>

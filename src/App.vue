@@ -9,7 +9,7 @@
   import Notification from "./components/Notification.vue";
 
   const online = useOnline();
-  const addThis = ref<(url?: string) => void>();
+  const addThis = ref<(url: string) => void>();
 
   import("./components/BookmarkIcon.vue").then((module) => {
     addThis.value = module.addThis;
@@ -101,8 +101,8 @@
     cv.toBlob((blob) => {
       if (!blob) return;
 
-      const url = URL.createObjectURL(blob);
-      const path = location.pathname.split("/");
+      const url = UrlClass.createObjectURL(blob);
+      const path = getLocation().pathname.split("/");
       const name = path[path.length - 1] || path[path.length - 2] || "picture";
       // If we're in an index file, the path ends with `/` so we default to the segment before it.
 
@@ -112,17 +112,28 @@
 
   const hideOfflineNotification =
     import.meta.env.VITE_HIDE_OFFLINE_NOTIFICATION == "true";
+
+  const UrlClass = globalThis.URL;
+  const getLocation = () => globalThis.location;
 </script>
 
 <template>
   <RouterView />
 
   <ContextMenu v-model:open="isCtxOpen">
-    <MenuEntry @click="hide(), addThis?.()">Bookmark Page</MenuEntry>
+    <MenuEntry @click="hide(), addThis?.(getLocation().href)">
+      Bookmark Page
+    </MenuEntry>
 
     <MenuEntry
       v-if="is(link, HTMLAnchorElement)"
-      @click="addThis?.((link as HTMLAnchorElement).href), hide()"
+      @click="
+        addThis?.(
+          new UrlClass((link as HTMLAnchorElement).href, getLocation().href)
+            .href
+        ),
+          hide()
+      "
     >
       Bookmark Link
     </MenuEntry>
