@@ -1,5 +1,5 @@
 ---
-author: Zachary Sakowitz
+author: sakawi
 category: math
 date: 2022-04-03
 ---

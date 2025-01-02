@@ -1,5 +1,5 @@
 ---
-author: Zachary Sakowitz
+author: sakawi
 category: math
 date: 2022-11-21
 ---
@@ -1457,17 +1457,17 @@ https://www.wolframalpha.com/.
 - I used Wolfram|Alpha to evaluate the limits after manually adding $.9999\dots$
   to evaluate limits in Desmos got tiring.
 
-Zachary Sakowitz. "Extended Factorial Function." _Desmos_, 23 Nov. 2022,
+sakawi. "Extended Factorial Function." _Desmos_, 23 Nov. 2022,
 https://www.desmos.com/calculator/pd4wbpvxfc.
 
 - I used this Desmos graph as an image in this article.
 
-Zachary Sakowitz. "Pascal's Pyramid." _Desmos_, 23 Nov. 2022,
+sakawi. "Pascal's Pyramid." _Desmos_, 23 Nov. 2022,
 https://www.desmos.com/calculator/qwl9nfuw5k.
 
 - This graph is the remnants of my brief exploration of Pascal's Pyramid.
 
-Zachary Sakowitz. "Pascal's Triangle." _Desmos_, 23 Nov. 2022,
+sakawi. "Pascal's Triangle." _Desmos_, 23 Nov. 2022,
 https://www.desmos.com/calculator/xk1nk7ewrx.
 
 - This graph helped me to first see the patterns in the negative regions of

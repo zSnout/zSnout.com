@@ -120,7 +120,7 @@
           :space="0"
           :style="gradientFor(isDark, article.frontmatter.category)"
           :data-keywords="`${
-            article.frontmatter.author !== 'Zachary Sakowitz'
+            article.frontmatter.author !== 'sakawi'
               ? article.frontmatter.author
               : ''
           } ${article.frontmatter.keywords || ''} ${dateOf(
@@ -138,7 +138,7 @@
           <p
             v-if="
               article.frontmatter.author &&
-              article.frontmatter.author !== 'Zachary Sakowitz'
+              article.frontmatter.author !== 'sakawi'
             "
             class="intro"
           >

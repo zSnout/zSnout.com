@@ -1,5 +1,5 @@
 ---
-author: Zachary Sakowitz
+author: sakawi
 date: 2022-10-17
 category: language
 ---
@@ -73,4 +73,4 @@ can open up new paths in language for everyone. Personally, toki pona has
 inspired me to learn more languages and explore creating my own.
 
 _tawa pona_,  
-Zachary Sakowitz
+sakawi

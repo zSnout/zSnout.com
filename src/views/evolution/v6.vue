@@ -47,8 +47,8 @@
         <Title>Welcome to zSnout!</Title>
 
         <p>
-          zSnout is collection of different projects created for fun by Zachary
-          Sakowitz during COVID-19. Our source code is publicly available on our
+          zSnout is collection of different projects created for fun by
+          sakawi during COVID-19. Our source code is publicly available on our
           <a href="https://github.com/zSnout/zsnout.com">GitHub page,</a>
           meaning that anybody can help out by contributing code or reporting an
           <a href="https://github.com/zSnout/zsnout.com/issues/new/choose">

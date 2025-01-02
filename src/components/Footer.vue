@@ -23,7 +23,7 @@
 
           <HStack no-center stretch wraps="250px">
             <VStack>
-              <p>&copy; {{ new Date().getFullYear() }} Zachary Sakowitz</p>
+              <p>&copy; {{ new Date().getFullYear() }} sakawi</p>
 
               <RouterLink class="no-color" to="/privacy-policy">
                 Privacy Policy

@@ -1,5 +1,5 @@
 ---
-author: Zachary Sakowitz
+author: sakawi
 category: meta
 date: 2022-10-03
 ---
