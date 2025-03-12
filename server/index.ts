@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import { randomUUID } from "node:crypto";
 import { Server as HTTPServer } from "node:http";
-import { Server, Socket as IOSocket } from "socket.io";
+import { Socket as IOSocket, Server } from "socket.io";
 import ytdl from "ytdl-core";
 import {
   ClientToServer,
@@ -11,17 +11,17 @@ import {
 import {
   AccountStatus,
   AuthStatus,
+  ReAuthStatus,
+  VerifyStatus,
   checkSession,
   createAccount,
   getAccount,
   logInUser,
-  ReAuthStatus,
   updateAccount,
   updateAtomic as updateAccountAtomic,
   updatePassword,
   updateUsername,
   verifyAccount,
-  VerifyStatus,
 } from "./auth";
 import {
   changeIdsToUsername as changeIdsToUsernameInChat,
@@ -36,6 +36,7 @@ import {
   updateChatTitle,
   updateMemberList as updateMemberListInChat,
 } from "./chat";
+import { getDataExport } from "./export";
 import {
   allNotes,
   createNote,
@@ -44,6 +45,7 @@ import {
   setNoteTitle,
 } from "./notes";
 import {
+  UpdateThreadResult,
   changeIdsToUsername as changeIdsToUsernameInStory,
   changeUsernamesToIds as changeUsernamesToIdsInStory,
   createStory,
@@ -57,9 +59,7 @@ import {
   updateMemberList as updateMemberListInStory,
   updateStoryTitle,
   updateThread,
-  UpdateThreadResult,
 } from "./stories";
-import { collection } from "./database";
 
 interface SocketData {
   oldSession?: string;
@@ -213,6 +213,14 @@ const events: ClientToServer & ThisType<Socket> = {
         );
       }
     }
+  },
+  async "account:request:dump"(session) {
+    if (!(await verify(this, session))) {
+      return;
+    }
+
+    const dump = await getDataExport(session);
+    this.emit("account:dump", dump);
   },
   async "account:verify"(verifyCode) {
     const { status, account } = await verifyAccount(verifyCode);

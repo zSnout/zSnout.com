@@ -12,6 +12,7 @@ export interface ClientToServer {
   ): void;
   "account:update:username"(session: string, username: string): void;
   "account:verify"(verifyCode: string): void;
+  "account:request:dump"(session: string): void;
 
   "blog:request:will-notify"(session: string): void;
   "blog:update:will-notify"(session: string, willNotify: boolean): void;
@@ -99,6 +100,7 @@ export interface ServerToClient {
   "account:done:update:username"(): void;
   "account:done:verify"(): void;
   "account:needs-verification"(timeLeft: false | number): void;
+  "account:dump"(dump: DataDump): void;
 
   "blog:done:update:will-notify"(): void;
   "blog:update:will-notify"(willNotify: boolean): void;
@@ -244,3 +246,49 @@ export interface CompletedThread {
 export type StoryPermissionLevel = "none" | "view" | "write" | "manage";
 
 export type UUID = string & {};
+
+interface DataDump {
+  account: {
+    username: string;
+    email: string;
+    verified: boolean;
+    creation: Date;
+    willNotifyForBlog: boolean | undefined;
+  };
+  bookmarks: Bookmark[];
+  chats: {
+    id: string;
+    creation: Date;
+    title: string;
+    levels: {
+      default: "none" | "view" | "comment";
+      members: Record<string, ChatPermissionLevel | undefined>;
+    };
+    messages: { creation: Date; from: string; content: string }[];
+  }[];
+  notes: {
+    id: string;
+    creation: Date;
+    title: string;
+    contents: string;
+  }[];
+  stories: {
+    id: string;
+    creation: Date;
+    title: string;
+    members: Record<
+      string,
+      {
+        gems: number | null;
+        level: StoryPermissionLevel | null;
+        threads: { started: number; completed: number };
+        sentences: number;
+      }
+    >;
+    threads: {
+      creation: Date;
+      completed: boolean;
+      sentences: string[];
+    }[];
+  }[];
+}
