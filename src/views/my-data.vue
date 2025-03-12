@@ -1,15 +1,11 @@
 <script lang="ts" setup>
   import { ref } from "vue";
-  import { DataDump } from "../../shared.client";
   import Button from "../components/Button.vue";
-  import CardGrid from "../components/CardGrid.vue";
   import DocumentDisplay from "../components/DocumentDisplay.vue";
   import Title from "../components/Title.vue";
   import { session, socket, username } from "../main";
 
-  const dump = ref<DataDump | null>(null);
-  const html = ref<string>("");
-  const file = ref<File>();
+  const url = ref("");
 
   function escape(text: string) {
     return text
@@ -52,10 +48,7 @@
       .join("")}</tbody></table>`;
   }
 
-  socket.emit("account:request:dump", session.value);
-
   socket.on("account:dump", (data) => {
-    dump.value = data;
     const secAccount = `<section>
   <h2>Account</h2>
   ${props(data.account)}
@@ -195,24 +188,31 @@ ${allThreads
 </section>`;
     const rawHtml = `<!DOCTYPE html>
 <meta charset="utf-8" />
-<style>section{border-left:1px solid currentcolor;padding-left:1.5rem;margin:2rem 0}
+<style>section{border-left:1px solid #ccc;padding-left:1.5rem;margin:2rem 0}
 td,th{padding:0.069px 0.25rem}
 details[open]+details{padding-top:2rem}
 input+span{display:none}
 input:checked+span{display:inline}
 input+span[data-complete]{overflow: hidden;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1;}
 input:checked+span[data-complete]{display:inline}
+:root{font-family:sans-serif}
+body{padding:2rem 1.5rem}
+h1{margin:0}
+h2{margin:0;margin-bottom:1rem}
 </style>
+<h1>Data Export for ${data.account.username} (zSnout 7)</h1>
 ${secAccount}
 ${secBookmarks}
 ${secNotes}
 ${secChats}
 ${secStories}
 ${secRawJson}`;
-    html.value = rawHtml;
-    file.value = new File([JSON.stringify(data, undefined, 2)], "dump.json", {
-      type: "application/json",
-    });
+    const file = new File(
+      [rawHtml],
+      `zsnout-data-${data.account.username}.html`,
+      { type: "text/html" }
+    );
+    open((url.value = URL.createObjectURL(file)));
   });
 </script>
 
@@ -220,24 +220,19 @@ ${secRawJson}`;
   <DocumentDisplay>
     <Title>Export Data for {{ username }}</Title>
 
-    <CardGrid v-if="!dump">
-      <Button @click="socket.emit('account:request:dump', session)">
-        Request Dump
-      </Button>
-    </CardGrid>
+    <Button @click="socket.emit('account:request:dump', session)">
+      Download Data
+    </Button>
 
-    <div v-if="file">
-      <p>Dump is {{ file.size }} bytes long.</p>
-    </div>
+    <p>
+      Downloading will open your data in a separate tab, so make sure popups are
+      enabled for this site.
+    </p>
 
-    <div v-html="html"></div>
+    <p v-if="url">
+      Your data dump is available at
+      <a :href="url" download>{{ url }}</a>
+      .
+    </p>
   </DocumentDisplay>
 </template>
-
-<style lang="css">
-  pre {
-    width: 100%;
-    white-space: pre-wrap;
-    word-break: break-all;
-  }
-</style>
